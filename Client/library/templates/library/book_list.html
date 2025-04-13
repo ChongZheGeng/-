@@ -1,0 +1,66 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Book List{% endblock %}
+
+{% block content %}
+<h1>Book List</h1>
+<form action="{% url 'library:book-list' %}" method="get">
+    {{ form }}
+    <button type="submit">Search</button>
+</form>
+{% if user.is_admin %}
+    <a href="{% url 'library:add-book' %}">Add Book</a>
+{% endif %}
+
+{% if book_list %}
+	<table>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Publisher</th>
+        <th>Quantity</th>
+        <th>Operations</th>
+    </tr>
+    {% for book in book_list %}
+    <tr>
+        <td><a href="{% url 'library:book-detail' book.id %}">{{ book.title }}</a></td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.publisher }}</td>
+        <td>{{ book.quantity }}</td>
+        <td>
+            {% if user.is_admin %}
+            	<a href="{% url 'library:edit-book' book.id %}">Edit</a>
+                <a href="{% url 'library:delete-book' book.id %}">Delete</a>
+            {% else %}
+                {% if book.quantity > 0 %}
+                    <a href="{% url 'library:borrow-book' book.id %}">Borrow</a>
+                {% else %}
+                    (Out of Stock)
+                {% endif %}
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p>No results found.</p>
+{% endif %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?{{ querystring }}&page=1">&laquo; first</a>
+            <a href="?{{ querystring }}&page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?{{ querystring }}&page={{ page_obj.next_page_number }}">next</a>
+            <a href="?{{ querystring }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

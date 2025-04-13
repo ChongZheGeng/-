@@ -1,0 +1,34 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Borrowed Books{% endblock %}
+
+{% block content %}
+<h1>Borrowed Books</h1>
+{% if borrow_record_list %}
+	<table>
+    <tr>
+        <th>Book</th>
+        <th>Borrow date</th>
+        <th>Due date</th>
+        <th>Return date</th>
+        <th>Operations</th>
+    </tr>
+    {% for record in borrow_record_list %}
+    <tr>
+        <td>{{ record.book.title }}</td>
+        <td>{{ record.borrow_date|date:"Y-m-d" }}</td>
+        <td>{{ record.due_date|date:"Y-m-d" }}</td>
+        <td>{{ record.return_date|date:"Y-m-d" }}</td>
+        <td>
+            {% if not record.return_date %}
+                <a href="{% url 'library:return-book' record.id %}">Return</a>
+                <a href="{% url 'library:renew-book' record.id %}">Renew</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p>You have not borrowed any books.</p>
+{% endif %}
+{% endblock %}
