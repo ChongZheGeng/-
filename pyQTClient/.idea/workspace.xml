@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4cb5530c-7515-4dd5-8b7d-0bf533be358b" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.vscode/settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/.idea/DjangoService.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/DjangoService/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/DjangoService/asgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/DjangoService/settings.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/DjangoService/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/DjangoService/wsgi.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/logs/django.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/manage.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/process_data/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/process_data/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/process_data/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/process_data/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/process_data/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/process_data/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/process_data/serializers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/process_data/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/process_data/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/process_data/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../DjangoService/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/pyQTClient.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/api_client.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/signal_bus.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/style_sheet.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/view/home_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/view/main_window.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/view/material_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/view/quality_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/view/setting_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/view/task_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/view/tool_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/basic_input/button/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/basic_input/check_box/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/basic_input/combo_box/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/basic_input/radio_button/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/basic_input/slider/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/basic_input/switch_button/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/date_time/calendar_picker/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/date_time/fast_calendar_picker/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/date_time/time_picker/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/dialog_flyout/color_dialog/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/dialog_flyout/custom_message_box/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/dialog_flyout/dialog/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/dialog_flyout/flyout/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/dialog_flyout/flyout/resource/SBR.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/dialog_flyout/flyout/resource/yiku.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/dialog_flyout/folder_list_dialog/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/dialog_flyout/message_dialog/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/dialog_flyout/teaching_tip/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/dialog_flyout/teaching_tip/resource/Gyro.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/dialog_flyout/teaching_tip/resource/boqi.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/common/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/common/icon.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/common/resource.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/common/signal_bus.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/common/style_sheet.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/common/translator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/common/trie.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/components/link_card.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/components/sample_card.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/i18n/gallery.zh_CN.qm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/i18n/gallery.zh_CN.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/i18n/gallery.zh_HK.qm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/i18n/gallery.zh_HK.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/Dvd.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/Gyro.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/MusicNote.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/SBR.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/Shoko1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/Shoko2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/Shoko3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/Shoko4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/Singer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/Smiling_with_heart.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/chidanta.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/chidanta2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/chidanta3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/chidanta4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/chidanta5.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Acrylic.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/AnimatedIcon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/AnimatedVisualPlayer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/AnimationInterop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/AppBarButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/AppBarSeparator.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/AppBarToggleButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/AutoSuggestBox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/AutomationProperties.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Border.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/BreadcrumbBar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/CalendarDatePicker.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/CalendarView.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Canvas.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Checkbox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Clipboard.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ColorPaletteResources.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ColorPicker.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ComboBox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/CommandBar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/CommandBarFlyout.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/CompactSizing.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ConnectedAnimation.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ContentDialog.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/CreateMultipleWindows.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/DataGrid.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/DatePicker.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/DropDownButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/EasingFunction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Expander.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/FilePicker.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/FlipView.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Flyout.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Grid.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/GridView.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/HyperlinkButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/IconElement.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Image.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ImplicitTransition.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/InfoBadge.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/InfoBar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/InkCanvas.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/InkToolbar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/InputValidation.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ItemsRepeater.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Line.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ListBox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ListView.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/MediaPlayerElement.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/MenuBar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/MenuFlyout.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/NavigationView.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/NumberBox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/PageTransition.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ParallaxView.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/PasswordBox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/PersonPicture.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/PipsPager.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Pivot.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ProgressBar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ProgressRing.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/PullToRefresh.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/RadialGradientBrush.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/RadioButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/RadioButtons.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/RatingControl.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/RelativePanel.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/RepeatButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/RevealFocus.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/RichEditBox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/RichTextBlock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ScrollViewer.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/SemanticZoom.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Shape.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Slider.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Sound.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/SplitButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/SplitView.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/StackPanel.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/StandardUICommand.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/SwipeControl.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/TabView.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/TeachingTip.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/TextBlock.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/TextBox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ThemeTransition.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/TimePicker.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/TitleBar.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ToggleButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ToggleSplitButton.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ToggleSwitch.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/ToolTip.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/TreeView.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/VariableSizedWrapGrid.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/Viewbox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/WebView.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/controls/XamlUICommand.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/header.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/header1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/icons/EmojiTabSymbols_black.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/icons/EmojiTabSymbols_white.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/icons/Grid_black.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/icons/Grid_white.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/icons/Menu_black.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/icons/Menu_white.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/icons/Price_black.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/icons/Price_white.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/icons/Text_black.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/icons/Text_white.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/kunkun.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/images/shoko.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/dark/gallery_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/dark/home_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/dark/icon_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/dark/link_card.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/dark/navigation_view_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/dark/sample_card.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/dark/setting_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/dark/view_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/light/gallery_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/light/home_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/light/icon_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/light/link_card.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/light/navigation_view_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/light/sample_card.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/light/setting_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/qss/light/view_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/resource/resource.qrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/basic_input_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/date_time_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/dialog_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/gallery_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/home_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/icon_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/layout_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/main_window.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/material_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/menu_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/navigation_view_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/scroll_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/setting_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/status_info_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/text_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/app/view/view_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/gallery/gallery.pro" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/layout/flow_layout/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/material/acrylic_brush/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/material/acrylic_brush/resource/shoko.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/material/acrylic_combo_box/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/material/acrylic_flyout/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/material/acrylic_label/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/material/acrylic_label/resource/埃罗芒阿老师.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/material/acrylic_line_edit/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/material/acrylic_menu/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/material/acrylic_menu/resource/chidanta.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/material/acrylic_tool_tip/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/material/acrylic_widget_menu/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/material/acrylic_widget_menu/resource/shoko.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/media/avatar_widget/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/media/avatar_widget/resource/boqi.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/media/avatar_widget/resource/shoko.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/media/media_player/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/media/media_player/resource/aiko - シアワセ.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/menu/command_bar/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/menu/command_bar/resource/pink_memory.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/menu/menu/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/menu/system_tray_menu/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/menu/widget_menu/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/menu/widget_menu/resource/shoko.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/breadcrumb_bar/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation1/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation1/resource/dark/demo.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation1/resource/light/demo.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation1/resource/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation1/resource/shoko.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation2/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation2/resource/dark/demo.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation2/resource/light/demo.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation2/resource/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation2/resource/shoko.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation3/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation3/resource/dark/demo.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation3/resource/light/demo.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation3/resource/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation3/resource/shoko.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation_bar/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation_bar/resource/dark/demo.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation_bar/resource/light/demo.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/navigation_bar/resource/shoko.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/pivot/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/segmented_tool_widget/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/segmented_widget/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/tab_view/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/tab_view/resource/Heart.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/tab_view/resource/Smiling_with_heart.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/navigation/tab_view/resource/shoko.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/scroll/pips_pager/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/scroll/scroll_area/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/scroll/scroll_area/resource/demo.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/scroll/scroll_area/resource/shoko.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/status_info/info_badge/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/status_info/info_bar/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/status_info/progress_bar/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/status_info/progress_ring/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/status_info/state_tool_tip/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/status_info/tool_tip/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/text/font_icon/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/text/font_icon/font/MediaPlayerIcons.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/text/font_icon/font/PhotoIcons.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/text/font_icon/font/PhotosIcons.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/text/image_label/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/text/image_label/resource/Gyro.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/text/image_label/resource/boqi.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/text/label/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/text/line_edit/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/text/spin_box/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/text/text_browser/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/Basketball.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/Chicken.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/Clown face.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/Drooling face.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/Face savoring food.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/Grinning face with sweat.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/Hot face.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/Joystick.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/Partying face.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/Python.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/Rocket.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/Smiling face with hearts.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/shoko1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/shoko2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/shoko3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/card_widget/resource/shoko4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/flip_view/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/flip_view/resource/1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/flip_view/resource/2.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/flip_view/resource/3.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/flip_view/resource/4.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/flip_view/resource/5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/flip_view/resource/6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/list_view/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/table_view/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/view/tree_view/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/clock/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/clock/resource/images/alarms.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/clock/resource/images/shoko.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/clock/resource/images/tips.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/clock/resource/images/todo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/clock/resource/resource.qrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/clock/resource/ui/FocusInterface.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/clock/resource/ui/StopWatchInterface.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/clock/resource_rc.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/clock/view/Ui_FocusInterface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/clock/view/Ui_StopWatchInterface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/clock/view/focus_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/clock/view/stop_watch_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/fluent_window/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/fluent_window/resource/shoko.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/login/Ui_LoginWindow.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/login/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/login/resource/images/background.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/login/resource/images/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/login/resource/resource.qrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/login/resource/ui/LoginWindow.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/login/resource_rc.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/ms_fluent_window/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/settings/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/settings/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/settings/resource/i18n/settings.zh_CN.qm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/settings/resource/i18n/settings.zh_CN.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/settings/resource/i18n/settings.zh_HK.qm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/settings/resource/i18n/settings.zh_HK.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/settings/resource/qss/dark/demo.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/settings/resource/qss/dark/setting_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/settings/resource/qss/light/demo.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/settings/resource/qss/light/setting_interface.qss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/settings/setting_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/splash_screen/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/split_fluent_window/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/split_fluent_window/resource/shoko.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/window/web_engine/demo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/-.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/-.iml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "z1097955019"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/ChongZheGeng/-.git",
+    "accountId": "c28024b9-1792-4c93-9076-e89574277070"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="2x4JnHmoQzpBghVwwNWeuYIGYV0" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.app.executor": "Run",
+    "Python.fluent_test.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.main_window.executor": "Run",
+    "Python.minimal_test.executor": "Run",
+    "Python.tool_interface.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-PY-251.23774.444" />
+        <option value="bundled-python-sdk-890ed5b35930-d9c5bdb153f4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.23774.444" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="4cb5530c-7515-4dd5-8b7d-0bf533be358b" name="更改" comment="" />
+      <created>1747191577614</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1747191577614</updated>
+      <workItem from="1747191578614" duration="7985000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/pyQTClient$fluent_test.coverage" NAME="fluent_test 覆盖结果" MODIFIED="1747193692902" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pyQTClient$minimal_test.coverage" NAME="minimal_test 覆盖结果" MODIFIED="1747193142639" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pyQTClient$main.coverage" NAME="main 覆盖结果" MODIFIED="1747206275673" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pyQTClient$app.coverage" NAME="app 覆盖结果" MODIFIED="1747207897150" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pyQTClient$tool_interface.coverage" NAME="tool_interface 覆盖结果" MODIFIED="1747205529202" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/view/interfaces" />
+    <SUITE FILE_PATH="coverage/pyQTClient$main_window.coverage" NAME="main_window 覆盖结果" MODIFIED="1747193974448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app/views" />
+  </component>
+</project>
