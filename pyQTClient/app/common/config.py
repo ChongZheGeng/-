@@ -53,6 +53,13 @@ class Config(QConfig):
     # software update
     checkUpdateAtStartUp = ConfigItem("Update", "CheckUpdateAtStartUp", True, BoolValidator())
 
+    #
+    # Login
+    #
+    rememberMe = ConfigItem("Login", "rememberMe", False)
+    username = ConfigItem("Login", "username", "")
+    password = ConfigItem("Login", "password", "")
+
 
 YEAR = 2023
 AUTHOR = "zhiyiYo"

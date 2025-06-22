@@ -288,10 +288,10 @@ class ProcessingTaskViewSet(viewsets.ModelViewSet):
     ordering_fields = ['processing_time', 'status']
     
     def get_serializer_class(self):
-        if self.action == 'retrieve':
-            return ProcessingTaskDetailSerializer
-        elif self.action == 'create' or self.action == 'update' or self.action == 'partial_update':
+        if self.action == 'create':
             return ProcessingTaskCreateSerializer
+        elif self.action == 'retrieve':
+            return ProcessingTaskDetailSerializer
         return ProcessingTaskListSerializer
     
     def perform_destroy(self, instance):

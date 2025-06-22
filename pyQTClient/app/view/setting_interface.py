@@ -3,9 +3,11 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QFrame
 
 from qfluentwidgets import (StrongBodyLabel, BodyLabel, ComboBox, PrimaryPushButton, 
-                           InfoBar, CardWidget, FluentIcon as FIF, IconWidget, SubtitleLabel)
+                           InfoBar, CardWidget, FluentIcon as FIF, IconWidget, SubtitleLabel,
+                           qconfig, Theme, OptionsSettingCard, SettingCardGroup, setTheme)
 
 from ..api.api_client import api_client
+from ..common.config import cfg
 
 
 class LogoutCard(CardWidget):
@@ -187,6 +189,21 @@ class SettingInterface(QWidget):
         # 标题
         self.main_layout.addWidget(SubtitleLabel("设置"))
         
+        # --- 个性化设置 ---
+        self.personalGroup = SettingCardGroup("个性化", self)
+        
+        # 主题设置
+        self.themeCard = OptionsSettingCard(
+            cfg.themeMode,
+            FIF.BRUSH,
+            '应用主题',
+            "改变应用的外观",
+            texts=['亮色', '暗色', '跟随系统'],
+            parent=self.personalGroup
+        )
+        self.personalGroup.addSettingCard(self.themeCard)
+        self.main_layout.addWidget(self.personalGroup)
+        
         # 用户信息卡片
         self.userInfoCard = UserInfoCard(self)
         self.main_layout.addWidget(self.userInfoCard)
@@ -200,6 +217,7 @@ class SettingInterface(QWidget):
         
         # 连接信号
         self.logoutCard.logoutButton.clicked.connect(self.logoutSignal.emit)
+        cfg.themeChanged.connect(setTheme)
         
         # 加载当前用户信息
         self.load_user_info()

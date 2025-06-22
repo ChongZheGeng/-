@@ -144,6 +144,10 @@ class ApiClient:
         """ 删除加工任务 """
         return self._request('delete', f'processing-tasks/{task_id}')
 
+    def get_processing_task_detail(self, task_id):
+        """ 获取单个加工任务的详细信息 """
+        return self._request('get', f'processing-tasks/{task_id}')
+
     def get_current_user_info(self):
         """ 获取当前登录用户信息 """
         try:

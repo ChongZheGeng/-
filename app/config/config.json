@@ -1,0 +1,26 @@
+{
+    "Material": {
+        "AcrylicBlurRadius": 15
+    },
+    "Update": {
+        "CheckUpdateAtStartUp": true
+    },
+    "Folders": {
+        "Download": "F:/python/-/app/download",
+        "LocalMusic": []
+    },
+    "MainWindow": {
+        "DpiScale": "Auto",
+        "Language": "Auto",
+        "MicaEnabled": true
+    },
+    "Login": {
+        "password": "MjIyMDQwMTYu",
+        "rememberMe": true,
+        "username": "hedgehog"
+    },
+    "QFluentWidgets": {
+        "ThemeColor": "#ff28afe9",
+        "ThemeMode": "Auto"
+    }
+}
