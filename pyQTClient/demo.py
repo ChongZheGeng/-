@@ -31,6 +31,7 @@ from app.common import resource # 导入资源文件
 from app.view.tool_interface import ToolInterface
 from app.view.composite_material_interface import CompositeMaterialInterface
 from app.view.processing_task_interface import ProcessingTaskInterface
+from app.view.task_group_interface import TaskGroupInterface
 from app.view.setting_interface import SettingInterface
 from app.view.user_interface import UserInterface
 from app.common.signal_bus import signalBus
@@ -267,6 +268,7 @@ class MainWindow(FluentWindow):
         self.tool_interface = ToolInterface(self)
         self.material_interface = CompositeMaterialInterface(self)
         self.task_interface = ProcessingTaskInterface(self)
+        self.task_group_interface = TaskGroupInterface(self)
         self.setting_interface = SettingInterface(self)
 
         # 根据用户权限决定是否添加用户管理界面
@@ -283,44 +285,41 @@ class MainWindow(FluentWindow):
         self.initNavigation()
 
     def initNavigation(self):
-        self.addSubInterface(
-            interface=self.task_interface,
-            icon=FIF.ROBOT,
-            text='加工任务管理',
-            position=NavigationItemPosition.TOP
-        )
- 
+        # --- 主导航 ---
+        self.addSubInterface(self.task_interface, FIF.EDIT, "加工任务")
+        self.addSubInterface(self.task_group_interface, FIF.TAG, "任务分组")
+        self.navigationInterface.addSeparator(35)
+        
+        # --- 二级导航 ---
         self.addSubInterface(
             interface=self.tool_interface,
-            icon=FIF.CODE,
+            icon=FIF.DEVELOPER_TOOLS,
             text='刀具管理',
-            position=NavigationItemPosition.TOP
+            position=NavigationItemPosition.SCROLL
         )
-
         self.addSubInterface(
             interface=self.material_interface,
             icon=FIF.CONSTRACT,
-            text='复合材料管理',
-            position=NavigationItemPosition.TOP
+            text='构件管理',
+            position=NavigationItemPosition.SCROLL
         )
 
-        # 如果用户管理界面存在，则添加到导航
         if self.user_interface:
             self.addSubInterface(
                 interface=self.user_interface,
                 icon=FIF.PEOPLE,
                 text='用户管理',
-                position=NavigationItemPosition.TOP
+                position=NavigationItemPosition.SCROLL
             )
 
-        # add setting interface
+        # --- 设置页面 ---
         self.addSubInterface(
             interface=self.setting_interface,
             icon=FIF.SETTING,
             text='设置',
             position=NavigationItemPosition.BOTTOM
         )
-
+        
         self.navigationInterface.setCurrentItem(self.task_interface.objectName())
 
     def initWindow(self):

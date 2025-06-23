@@ -46,9 +46,9 @@ class ApiClient:
         """ 使用会话封装请求逻辑 """
         url = f"{API_BASE_URL}/{endpoint}/"
         
-        # 添加CSRF令牌到请求头（如果有）
+        # 添加CSRF令牌到所有请求的头部
         headers = kwargs.pop('headers', {})
-        if method in ['post', 'put', 'patch', 'delete'] and self.csrf_token:
+        if self.csrf_token:
             headers['X-CSRFToken'] = self.csrf_token
         
         if headers:
@@ -128,9 +128,9 @@ class ApiClient:
 
     # --- Processing Task Management ---
 
-    def get_processing_tasks(self):
+    def get_processing_tasks(self, params=None):
         """ 获取所有加工任务 """
-        return self._request('get', 'processing-tasks')
+        return self._request('get', 'processing-tasks', params=params)
 
     def add_processing_task(self, data):
         """ 新增加工任务 """
@@ -147,6 +147,28 @@ class ApiClient:
     def get_processing_task_detail(self, task_id):
         """ 获取单个加工任务的详细信息 """
         return self._request('get', f'processing-tasks/{task_id}')
+
+    def clone_processing_task(self, task_id):
+        """ 克隆加工任务 """
+        return self._request('post', f'processing-tasks/{task_id}/clone')
+
+    # --- Task Group Management ---
+
+    def get_task_groups(self):
+        """ 获取所有任务组 """
+        return self._request('get', 'task-groups')
+
+    def add_task_group(self, data):
+        """ 新增任务组 """
+        return self._request('post', 'task-groups', json=data)
+
+    def update_task_group(self, group_id, data):
+        """ 更新任务组 """
+        return self._request('put', f'task-groups/{group_id}', json=data)
+
+    def delete_task_group(self, group_id):
+        """ 删除任务组 """
+        return self._request('delete', f'task-groups/{group_id}')
 
     def get_current_user_info(self):
         """ 获取当前登录用户信息 """

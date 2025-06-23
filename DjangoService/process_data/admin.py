@@ -34,13 +34,6 @@ class ProcessCategoryAdmin(admin.ModelAdmin):
     list_filter = ('created_at',)
 
 
-@admin.register(ProcessParameter)
-class ProcessParameterAdmin(admin.ModelAdmin):
-    list_display = ('name', 'code', 'parameter_type', 'unit', 'is_required')
-    search_fields = ('name', 'code')
-    list_filter = ('parameter_type', 'is_required')
-
-
 @admin.register(ProcessTemplate)
 class ProcessTemplateAdmin(admin.ModelAdmin):
     list_display = ('name', 'code', 'version', 'category', 'is_active', 'created_at')
@@ -113,9 +106,9 @@ class ProcessingTaskAdmin(admin.ModelAdmin):
 
 @admin.register(ProcessingParameter)
 class ProcessingParameterAdmin(admin.ModelAdmin):
-    list_display = ('processing_task', 'spindle_speed', 'feed_rate', 'cutting_depth', 'coolant_type')
-    search_fields = ('processing_task__task_code',)
-    list_filter = ('coolant_type',)
+    list_display = ('task', 'parameter_name', 'parameter_value', 'unit', 'created_at')
+    search_fields = ('task__task_code', 'parameter_name')
+    list_filter = ('created_at',)
 
 
 @admin.register(SensorData)

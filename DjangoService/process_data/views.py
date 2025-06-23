@@ -23,7 +23,8 @@ from .models import (
     ProcessingParameter,
     SensorData,
     ProcessingQuality,
-    ToolWearRecord
+    ToolWearRecord,
+    TaskGroup
 )
 from .serializers import (
     ProcessCategorySerializer,
@@ -40,11 +41,12 @@ from .serializers import (
     CompositeMaterialSerializer,
     ProcessingTaskListSerializer,
     ProcessingTaskDetailSerializer,
-    ProcessingTaskCreateSerializer,
+    ProcessingTaskCreateUpdateSerializer,
     ProcessingParameterSerializer,
     SensorDataSerializer,
     ProcessingQualitySerializer,
-    ToolWearRecordSerializer
+    ToolWearRecordSerializer,
+    TaskGroupSerializer
 )
 
 
@@ -283,21 +285,44 @@ class ProcessingTaskViewSet(viewsets.ModelViewSet):
     queryset = ProcessingTask.objects.filter(is_deleted=False).order_by('-processing_time')
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['processing_type', 'status', 'tool', 'composite_material']
+    filterset_fields = ['processing_type', 'status', 'tool', 'composite_material', 'group']
     search_fields = ['task_code', 'operator__username', 'notes']
     ordering_fields = ['processing_time', 'status']
     
     def get_serializer_class(self):
-        if self.action == 'create':
-            return ProcessingTaskCreateSerializer
-        elif self.action == 'retrieve':
-            return ProcessingTaskDetailSerializer
-        return ProcessingTaskListSerializer
+        if self.action == 'list':
+            return ProcessingTaskListSerializer
+        elif self.action in ['create', 'update', 'partial_update']:
+            return ProcessingTaskCreateUpdateSerializer
+        return ProcessingTaskDetailSerializer
     
     def perform_destroy(self, instance):
         """软删除"""
         instance.is_deleted = True
         instance.save()
+    
+    @action(detail=True, methods=['post'])
+    def clone(self, request, pk=None):
+        """克隆一个加工任务及其所有关联参数"""
+        original_task = self.get_object()
+        
+        # 复制任务主体
+        cloned_task = original_task
+        cloned_task.pk = None
+        cloned_task.id = None
+        cloned_task.task_code = f"{original_task.task_code} (复制)"
+        cloned_task.status = 'planned' # 克隆出的任务默认为计划中
+        cloned_task.save()
+        
+        # 复制关联的加工参数
+        for param in original_task.parameters.all():
+            param.pk = None
+            param.id = None
+            param.task = cloned_task
+            param.save()
+            
+        serializer = self.get_serializer(cloned_task)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     @action(detail=True, methods=['get'])
     def parameters(self, request, pk=None):
@@ -459,3 +484,25 @@ class UserInfoView(views.APIView):
             return Response({"error": "指定的人员不存在"}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({"error": f"设置人员关联失败: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class TaskGroupViewSet(viewsets.ModelViewSet):
+    """任务组视图集"""
+    queryset = TaskGroup.objects.all().order_by('-created_at')
+    serializer_class = TaskGroupSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'description']
+
+    def get_queryset(self):
+        # 普通用户只能看到自己创建的组
+        if not self.request.user.is_staff:
+            return self.queryset.filter(created_by=self.request.user)
+        return self.queryset
+
+    def perform_destroy(self, instance):
+        # 检查组内是否有任务
+        if instance.tasks.exists():
+            from rest_framework.exceptions import ValidationError
+            raise ValidationError("无法删除：任务组内尚有关联的加工任务。")
+        super().perform_destroy(instance)

@@ -14,6 +14,7 @@ from .views import (
     SensorDataViewSet,
     ProcessingQualityViewSet,
     ToolWearRecordViewSet,
+    TaskGroupViewSet,
     UserInfoView
 )
 
@@ -34,6 +35,7 @@ router.register(r'processing-tasks', ProcessingTaskViewSet)
 router.register(r'sensor-data', SensorDataViewSet)
 router.register(r'quality-records', ProcessingQualityViewSet)
 router.register(r'tool-wear-records', ToolWearRecordViewSet)
+router.register(r'task-groups', TaskGroupViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

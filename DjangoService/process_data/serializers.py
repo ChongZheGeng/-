@@ -15,7 +15,8 @@ from .models import (
     ProcessingParameter,
     SensorData,
     ProcessingQuality,
-    ToolWearRecord
+    ToolWearRecord,
+    TaskGroup
 )
 
 
@@ -181,11 +182,9 @@ class CompositeMaterialSerializer(serializers.ModelSerializer):
 
 class ProcessingParameterSerializer(serializers.ModelSerializer):
     """加工参数序列化器"""
-    coolant_type_display = serializers.CharField(source='get_coolant_type_display', read_only=True)
-    
     class Meta:
         model = ProcessingParameter
-        fields = '__all__'
+        exclude = ['task']
 
 
 class SensorDataSerializer(serializers.ModelSerializer):
@@ -227,30 +226,48 @@ class ToolWearRecordSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TaskGroupSerializer(serializers.ModelSerializer):
+    """任务组序列化器"""
+    created_by = UserSerializer(read_only=True)
+    task_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = TaskGroup
+        fields = ['id', 'name', 'description', 'created_by', 'created_at', 'task_count']
+
+    def get_task_count(self, obj):
+        return obj.tasks.count()
+
+    def create(self, validated_data):
+        # 自动设置创建者
+        validated_data['created_by'] = self.context['request'].user
+        return super().create(validated_data)
+
+
 class ProcessingTaskListSerializer(serializers.ModelSerializer):
-    """加工任务列表序列化器"""
-    tool_code = serializers.CharField(source='tool.code', read_only=True)
-    tool_type = serializers.CharField(source='tool.tool_type', read_only=True)
-    material_part_number = serializers.CharField(source='composite_material.part_number', read_only=True)
-    material_type = serializers.CharField(source='composite_material.get_material_type_display', read_only=True)
+    """加工任务列表序列化器 - 使用嵌套序列化器返回完整对象"""
+    tool_info = ToolSerializer(source='tool', read_only=True)
+    material_info = CompositeMaterialSerializer(source='composite_material', read_only=True)
+    operator_info = UserSerializer(source='operator', read_only=True)
+    parameters = ProcessingParameterSerializer(many=True, read_only=True)
     processing_type_display = serializers.CharField(source='get_processing_type_display', read_only=True)
     status_display = serializers.CharField(source='get_status_display', read_only=True)
-    operator_info = UserSerializer(source='operator', read_only=True)
-    operator_name = serializers.SerializerMethodField()
-    
+    group_name = serializers.SerializerMethodField()
+
     class Meta:
         model = ProcessingTask
         fields = [
-            'id', 'task_code', 'processing_time', 'processing_type', 'processing_type_display',
-            'status', 'status_display', 'tool', 'tool_code', 'tool_type',
-            'composite_material', 'material_part_number', 'material_type',
-            'operator', 'operator_info', 'operator_name', 'duration', 'actual_duration', 'created_at', 'updated_at'
+            'id', 'task_code', 'processing_type', 'processing_type_display', 
+            'status', 'status_display', 'tool', 'tool_info', 
+            'composite_material', 'material_info', 'operator', 'operator_info', 
+            'processing_time', 'duration', 'notes', 'parameters',
+            'group', 'group_name'
         ]
-    
-    def get_operator_name(self, obj):
-        if obj.operator:
-            return obj.operator.get_full_name() or obj.operator.username
-        return None
+        
+    def get_group_name(self, obj):
+        if obj.group:
+            return obj.group.name
+        return "未分配"
 
 
 class ProcessingTaskDetailSerializer(serializers.ModelSerializer):
@@ -270,22 +287,39 @@ class ProcessingTaskDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ProcessingTaskCreateSerializer(serializers.ModelSerializer):
-    """创建加工任务序列化器"""
+class ProcessingTaskCreateUpdateSerializer(serializers.ModelSerializer):
+    """创建和更新加工任务的序列化器"""
     parameters = ProcessingParameterSerializer(many=True, required=False)
-    
+
     class Meta:
         model = ProcessingTask
         fields = [
-            'task_code', 'processing_time', 'processing_type', 'tool', 'composite_material',
-            'status', 'duration', 'operator', 'notes', 'parameters'
+            'task_code', 'processing_time', 'processing_type', 'tool',
+            'composite_material', 'status', 'duration', 'operator',
+            'notes', 'parameters', 'group'
         ]
-    
+
     def create(self, validated_data):
+        """创建任务并关联参数"""
         parameters_data = validated_data.pop('parameters', [])
-        processing_task = ProcessingTask.objects.create(**validated_data)
-        
+        task = ProcessingTask.objects.create(**validated_data)
         for param_data in parameters_data:
-            ProcessingParameter.objects.create(processing_task=processing_task, **param_data)
+            ProcessingParameter.objects.create(task=task, **param_data)
+        return task
+
+    def update(self, instance, validated_data):
+        """更新任务并同步参数"""
+        parameters_data = validated_data.pop('parameters', None)
         
-        return processing_task 
+        # 更新任务实例本身
+        instance = super().update(instance, validated_data)
+
+        # 如果提交了参数数据，则进行同步
+        if parameters_data is not None:
+            # 先删除旧的参数
+            instance.parameters.all().delete()
+            # 再创建新的参数
+            for param_data in parameters_data:
+                ProcessingParameter.objects.create(task=instance, **param_data)
+        
+        return instance 

@@ -1,13 +1,124 @@
 # coding:utf-8
-from PyQt5.QtCore import Qt, QDateTime, pyqtSignal
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QTableWidgetItem, QHeaderView, QAbstractItemView, QStackedWidget
+from PyQt5.QtCore import Qt, QDateTime, pyqtSignal, QModelIndex
+from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QTableWidgetItem, QHeaderView, QAbstractItemView, QStackedWidget, QGridLayout,
+                             QAction, QSplitter)
 
 from qfluentwidgets import (TableWidget, PushButton, StrongBodyLabel, LineEdit, ComboBox,
                             TextEdit, PrimaryPushButton, MessageBox, InfoBar, MessageBoxBase, SubtitleLabel,
-                            DateTimeEdit, FluentIcon as FIF)
+                            DateTimeEdit, FluentIcon as FIF, CardWidget, BodyLabel, TransparentPushButton,
+                            ScrollArea, TreeView, RoundMenu)
 
 from ..api.api_client import api_client
 from .task_detail_interface import TaskDetailInterface
+
+
+class GroupNameDialog(MessageBoxBase):
+    """ 用于输入任务组名称的对话框 """
+    def __init__(self, title, initial_text="", parent=None):
+        super().__init__(parent)
+        self.titleLabel = SubtitleLabel(title, self)
+        self.lineEdit = LineEdit(self)
+        self.lineEdit.setText(initial_text)
+        self.lineEdit.setPlaceholderText("请输入名称...")
+        
+        self.viewLayout.addWidget(self.titleLabel)
+        self.viewLayout.addWidget(self.lineEdit)
+        
+        self.widget.setMinimumWidth(350)
+        self.yesButton.setText("确定")
+        self.cancelButton.setText("取消")
+
+    def getName(self):
+        return self.lineEdit.text().strip()
+
+
+class ParameterWidget(QWidget):
+    """用于动态管理加工参数的独立小部件"""
+    def __init__(self, parameters=None, parent=None):
+        super().__init__(parent)
+        self.main_layout = QVBoxLayout(self)
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+        self.main_layout.setSpacing(10)
+        
+        # --- 参数滚动区域 ---
+        self.scroll_area = ScrollArea(self)
+        self.scroll_widget = QWidget()
+        self.scroll_area.setWidget(self.scroll_widget)
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setFixedHeight(150)
+        self.scroll_area.setStyleSheet("QScrollArea { background-color: transparent; border: 1px solid #444; }")
+        self.scroll_widget.setStyleSheet("QWidget { background-color: transparent; }")
+        
+        self.param_layout = QVBoxLayout(self.scroll_widget)
+        self.param_layout.setSpacing(10)
+        self.param_layout.setAlignment(Qt.AlignTop)
+
+        # --- 添加按钮 ---
+        self.add_param_button = PushButton("添加参数")
+        self.add_param_button.setIcon(FIF.ADD)
+        self.add_param_button.clicked.connect(self.add_parameter_row)
+        
+        # --- 主布局装配 ---
+        self.main_layout.addWidget(self.scroll_area)
+        self.main_layout.addWidget(self.add_param_button)
+        
+        if parameters:
+            for param in parameters:
+                self.add_parameter_row(param)
+
+    def add_parameter_row(self, param_data=None):
+        row_widget = QWidget()
+        row_layout = QHBoxLayout(row_widget)
+        row_layout.setContentsMargins(0, 5, 0, 5)
+
+        name_edit = LineEdit(self)
+        name_edit.setPlaceholderText("参数名称 (如: 主轴转速)")
+        
+        value_edit = LineEdit(self)
+        value_edit.setPlaceholderText("参数值 (如: 3000)")
+        
+        unit_edit = LineEdit(self)
+        unit_edit.setPlaceholderText("单位 (如: rpm)")
+
+        remove_button = TransparentPushButton(parent=row_widget)
+        remove_button.setIcon(FIF.REMOVE)
+        
+        if param_data:
+            name_edit.setText(param_data.get('parameter_name', ''))
+            value_edit.setText(str(param_data.get('parameter_value', '')))
+            unit_edit.setText(param_data.get('unit', ''))
+
+        remove_button.clicked.connect(lambda: self.remove_parameter_row(row_widget))
+
+        row_layout.addWidget(name_edit)
+        row_layout.addWidget(value_edit)
+        row_layout.addWidget(unit_edit)
+        row_layout.addWidget(remove_button)
+        
+        self.param_layout.addWidget(row_widget)
+
+    def remove_parameter_row(self, row_widget):
+        self.param_layout.removeWidget(row_widget)
+        row_widget.deleteLater()
+
+    def get_parameters(self):
+        params = []
+        for i in range(self.param_layout.count()):
+            row_widget = self.param_layout.itemAt(i).widget()
+            if row_widget:
+                layout = row_widget.layout()
+                name = layout.itemAt(0).widget().text().strip()
+                value = layout.itemAt(1).widget().text().strip()
+                unit = layout.itemAt(2).widget().text().strip()
+                
+                if name and value:
+                    params.append({
+                        "parameter_name": name,
+                        "parameter_value": value,
+                        "unit": unit
+                    })
+        return params
 
 
 class ProcessingTaskEditDialog(MessageBoxBase):
@@ -21,14 +132,13 @@ class ProcessingTaskEditDialog(MessageBoxBase):
         ('paused', '已暂停'), ('aborted', '已中止'),
     ]
 
-    def __init__(self, parent=None, task_data=None):
+    def __init__(self, parent=None, task_data=None, group_to_select=None):
         super().__init__(parent)
         self.task_data = task_data
         is_edit_mode = task_data is not None
 
         # 设置标题
         self.titleLabel = SubtitleLabel("编辑任务" if is_edit_mode else "新增任务", self)
-        self.viewLayout.addWidget(self.titleLabel)
 
         # --- 创建输入字段 ---
         self.task_code_edit = LineEdit(self)
@@ -42,6 +152,7 @@ class ProcessingTaskEditDialog(MessageBoxBase):
         self.operator_combo = ComboBox(self)
         self.notes_edit = TextEdit(self)
         self.notes_edit.setMinimumHeight(60)
+        self.group_combo = ComboBox(self)
 
         # --- 填充下拉框 ---
         for _, display in self.TASK_TYPE_CHOICES: self.processing_type_combo.addItem(display)
@@ -51,65 +162,82 @@ class ProcessingTaskEditDialog(MessageBoxBase):
         self.load_tools()
         self.load_materials()
         self.load_operators()
+        self.load_groups()
 
         # --- 如果是编辑模式，则填充现有数据 ---
+        parameters = []
         if is_edit_mode:
             self.task_code_edit.setText(task_data.get('task_code', ''))
             proc_time = QDateTime.fromString(task_data.get('processing_time', ''), Qt.ISODate)
-            self.processing_time_edit.setDateTime(proc_time)
+            if proc_time.isValid():
+                self.processing_time_edit.setDateTime(proc_time)
             
             # 设置下拉框的选中项
             self.set_combo_by_value(self.processing_type_combo, self.TASK_TYPE_CHOICES, task_data.get('processing_type'))
-            self.set_combo_by_data(self.tool_combo, task_data.get('tool'))
-            self.set_combo_by_data(self.material_combo, task_data.get('composite_material'))
-            self.set_combo_by_value(self.status_combo, self.TASK_STATUS_CHOICES, task_data.get('status'))
-            self.set_combo_by_data(self.operator_combo, task_data.get('operator'))
+            self.set_combo_by_data(self.tool_combo, task_data.get('tool_info', {}).get('id'))
+            self.set_combo_by_data(self.material_combo, task_data.get('material_info', {}).get('id'))
+            self.set_combo_by_data(self.operator_combo, task_data.get('operator_info', {}).get('id'))
+            self.set_combo_by_data(self.group_combo, task_data.get('group'))
             
             self.duration_edit.setText(str(task_data.get('duration', '')))
             self.notes_edit.setText(task_data.get('notes', ''))
+            parameters = task_data.get('parameters', [])
+        elif group_to_select:
+            self.set_combo_by_data(self.group_combo, group_to_select)
 
-        # --- 将控件添加到布局中 (新布局) ---
-        form_layout = QVBoxLayout()
-        form_layout.setSpacing(15)
+        # --- 优化后的紧凑布局 ---
+        content_layout = QVBoxLayout()
+        content_layout.setSpacing(15)
 
-        def create_field_row(label1_text, widget1, label2_text, widget2):
-            row_layout = QHBoxLayout()
-            row_layout.addWidget(StrongBodyLabel(label1_text))
-            row_layout.addWidget(widget1)
-            row_layout.addSpacing(20)
-            row_layout.addWidget(StrongBodyLabel(label2_text))
-            row_layout.addWidget(widget2)
-            return row_layout
+        # 网格布局用于顶部字段
+        grid_layout = QGridLayout()
+        grid_layout.setSpacing(10)
+        grid_layout.setColumnStretch(1, 1)
+        grid_layout.setColumnStretch(3, 1)
 
-        # 第1行：任务编码 和 操作员
-        form_layout.addLayout(create_field_row("任务编码:", self.task_code_edit, "操作员:", self.operator_combo))
+        grid_layout.addWidget(StrongBodyLabel("任务编码:"), 0, 0)
+        grid_layout.addWidget(self.task_code_edit, 0, 1)
+        grid_layout.addWidget(StrongBodyLabel("操作员:"), 0, 2)
+        grid_layout.addWidget(self.operator_combo, 0, 3)
+
+        grid_layout.addWidget(StrongBodyLabel("加工时间:"), 1, 0)
+        grid_layout.addWidget(self.processing_time_edit, 1, 1)
+        grid_layout.addWidget(StrongBodyLabel("预计耗时(分钟):"), 1, 2)
+        grid_layout.addWidget(self.duration_edit, 1, 3)
+
+        grid_layout.addWidget(StrongBodyLabel("加工类型:"), 2, 0)
+        grid_layout.addWidget(self.processing_type_combo, 2, 1)
+        grid_layout.addWidget(StrongBodyLabel("任务状态:"), 2, 2)
+        grid_layout.addWidget(self.status_combo, 2, 3)
+
+        grid_layout.addWidget(StrongBodyLabel("所属分组:"), 3, 0)
+        grid_layout.addWidget(self.group_combo, 3, 1)
         
-        # 第2行：加工时间 和 预计耗时
-        form_layout.addLayout(create_field_row("加工时间:", self.processing_time_edit, "预计耗时(分钟):", self.duration_edit))
+        content_layout.addLayout(grid_layout)
 
-        # 第3行：加工类型 和 任务状态
-        form_layout.addLayout(create_field_row("加工类型:", self.processing_type_combo, "任务状态:", self.status_combo))
+        # 单独一行的字段
+        content_layout.addWidget(StrongBodyLabel("选用刀具:"))
+        content_layout.addWidget(self.tool_combo)
+        content_layout.addWidget(StrongBodyLabel("加工构件:"))
+        content_layout.addWidget(self.material_combo)
         
-        # 第4行：选用刀具
-        self.tool_combo.setMinimumWidth(300)
-        form_layout.addWidget(StrongBodyLabel("选用刀具:", self))
-        form_layout.addWidget(self.tool_combo)
+        # 加工参数
+        content_layout.addWidget(StrongBodyLabel("加工参数:"))
+        self.parameter_widget = ParameterWidget(parameters, self)
+        content_layout.addWidget(self.parameter_widget)
         
-        # 第5行：加工构件
-        self.material_combo.setMinimumWidth(300)
-        form_layout.addWidget(StrongBodyLabel("加工构件:", self))
-        form_layout.addWidget(self.material_combo)
-        
-        # 第6行：备注
-        form_layout.addWidget(StrongBodyLabel("备注:", self))
-        form_layout.addWidget(self.notes_edit)
+        # 备注
+        content_layout.addWidget(StrongBodyLabel("备注:"))
+        content_layout.addWidget(self.notes_edit)
 
-        self.viewLayout.addLayout(form_layout)
+        # 将内容布局添加到对话框的主视图中
+        self.viewLayout.addWidget(self.titleLabel)
+        self.viewLayout.addLayout(content_layout)
 
         # --- 按钮和尺寸 ---
         self.yesButton.setText("确定")
         self.cancelButton.setText("取消")
-        self.widget.setMinimumWidth(600)
+        self.widget.setMinimumWidth(750)
 
     def add_widget_pair(self, label_text, widget):
         self.viewLayout.addWidget(StrongBodyLabel(label_text, self))
@@ -137,6 +265,14 @@ class ProcessingTaskEditDialog(MessageBoxBase):
                 if display_name:
                     self.operator_combo.addItem(display_name, userData=user['id'])
 
+    def load_groups(self):
+        self.group_combo.clear()
+        self.group_combo.addItem("无分组", userData=None)
+        response = api_client.get_task_groups()
+        if response and 'results' in response:
+            for group in response['results']:
+                self.group_combo.addItem(group['name'], userData=group['id'])
+
     def set_combo_by_value(self, combo, choices, value_to_find):
         for index, (val, _) in enumerate(choices):
             if val == value_to_find:
@@ -144,6 +280,7 @@ class ProcessingTaskEditDialog(MessageBoxBase):
                 return
     
     def set_combo_by_data(self, combo, data_to_find):
+        """ 根据 a-zA-Z0-9_  找到并选中 combox 里的项目 """
         for i in range(combo.count()):
             if combo.itemData(i) == data_to_find:
                 combo.setCurrentIndex(i)
@@ -164,12 +301,17 @@ class ProcessingTaskEditDialog(MessageBoxBase):
             tool_id = self.tool_combo.currentData()
             material_id = self.material_combo.currentData()
             operator_id = self.operator_combo.currentData()
+            group_id = self.group_combo.currentData()
             
             duration = self.duration_edit.text().strip()
             if duration and not duration.isdigit():
                 return None, "预计耗时必须是整数"
 
-            return {
+            # 获取加工参数
+            params = self.parameter_widget.get_parameters()
+
+            # 构建任务数据
+            task_data = {
                 "task_code": self.task_code_edit.text().strip(),
                 "processing_time": self.processing_time_edit.dateTime().toString(Qt.ISODate),
                 "processing_type": proc_type,
@@ -179,7 +321,16 @@ class ProcessingTaskEditDialog(MessageBoxBase):
                 "duration": int(duration) if duration else None,
                 "operator": operator_id,
                 "notes": self.notes_edit.toPlainText().strip(),
-            }, None
+                "parameters": params,
+            }
+            
+            # 仅在选择了有效分组时才添加 group 字段
+            if group_id is not None:
+                task_data['group'] = group_id
+            else: # 如果选择的是"无分组", 则发送 null
+                task_data['group'] = None
+
+            return task_data, None
 
         except (ValueError, IndexError) as e:
             return None, f"数据格式错误: {str(e)}"
@@ -195,7 +346,7 @@ class ProcessingTaskEditDialog(MessageBoxBase):
 class TaskListWidget(QWidget):
     """ 显示任务列表的专用小部件 """
     viewDetailSignal = pyqtSignal(int)
-    
+
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         
@@ -215,32 +366,28 @@ class TaskListWidget(QWidget):
         # --- 数据表格 ---
         self.table = TableWidget(self)
         layout.addWidget(self.table)
-        self.table.setColumnCount(8)
-        headers = ["任务编码", "加工类型", "状态", "刀具", "构件", "操作员", "加工时间", "操作"]
+        self.table.setColumnCount(9)
+        headers = ["任务编码", "加工类型", "状态", "刀具", "构件", "任务分组", "操作员", "加工时间", "操作"]
         self.table.setHorizontalHeaderLabels(headers)
         self.table.verticalHeader().hide()
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.table.horizontalHeader().setSectionResizeMode(7, QHeaderView.ResizeToContents)
+        self.table.horizontalHeader().setSectionResizeMode(8, QHeaderView.ResizeToContents)
         self.table.setAlternatingRowColors(True)
 
         # --- 信号与槽连接 ---
         self.refresh_button.clicked.connect(self.populate_table)
         self.add_button.clicked.connect(self.add_task)
-
-        # --- 初始加载数据 ---
-        self.populate_table()
-
+        
     def populate_table(self):
         """ 从API获取数据并填充表格 """
         response_data = api_client.get_processing_tasks()
+        
+        self.table.setRowCount(0)
         if response_data is None:
-            InfoBar.error("错误", "无法从服务器获取数据。", duration=3000, parent=self.window())
             return
 
         tasks_data = response_data.get('results', [])
-        
-        self.table.setRowCount(0)
         for task in tasks_data:
             row = self.table.rowCount()
             self.table.insertRow(row)
@@ -249,11 +396,11 @@ class TaskListWidget(QWidget):
             self.table.setItem(row, 2, QTableWidgetItem(task.get('status_display', 'N/A')))
             self.table.setItem(row, 3, QTableWidgetItem(task.get('tool_info', {}).get('code', 'N/A')))
             self.table.setItem(row, 4, QTableWidgetItem(task.get('material_info', {}).get('part_number', 'N/A')))
-            self.table.setItem(row, 5, QTableWidgetItem(task.get('operator_info', {}).get('full_name', 'N/A')))
+            self.table.setItem(row, 5, QTableWidgetItem(task.get('group_name', '未分配')))
+            self.table.setItem(row, 6, QTableWidgetItem(task.get('operator_info', {}).get('full_name', 'N/A')))
             
-            # 格式化时间
             proc_time_str = task.get('processing_time', '').replace('T', ' ').split('.')[0]
-            self.table.setItem(row, 6, QTableWidgetItem(proc_time_str))
+            self.table.setItem(row, 7, QTableWidgetItem(proc_time_str))
 
             # --- 操作按钮 ---
             buttons_widget = QWidget()
@@ -263,43 +410,58 @@ class TaskListWidget(QWidget):
             
             view_button = PushButton("查看详情")
             edit_button = PushButton("编辑")
+            clone_button = PushButton("复制")
             delete_button = PrimaryPushButton("删除")
-            delete_button.setStyleSheet("background-color: #d63031;") # 红色背景
+            delete_button.setStyleSheet("background-color: #d63031;")
 
             view_button.clicked.connect(lambda _, t=task['id']: self.viewDetailSignal.emit(t))
             edit_button.clicked.connect(lambda _, t=task: self.edit_task(t))
-            delete_button.clicked.connect(lambda _, t=task['id']: self.delete_task(t))
+            clone_button.clicked.connect(lambda _, t_id=task['id']: self.clone_task(t_id))
+            delete_button.clicked.connect(lambda _, t_id=task['id']: self.delete_task(t_id))
             
             buttons_layout.addWidget(view_button)
             buttons_layout.addWidget(edit_button)
+            buttons_layout.addWidget(clone_button)
             buttons_layout.addWidget(delete_button)
-            self.table.setCellWidget(row, 7, buttons_widget)
+            self.table.setCellWidget(row, 8, buttons_widget)
 
     def add_task(self):
+        """ 新增任务 """
         dialog = ProcessingTaskEditDialog(self.window())
         if dialog.exec():
             data, error_msg = dialog.get_data()
             if data:
-                success, response = api_client.create_processing_task(data)
-                if success:
+                response = api_client.add_processing_task(data)
+                if response:
                     InfoBar.success("成功", "新任务已添加。", duration=3000, parent=self)
                     self.populate_table()
                 else:
                     InfoBar.error("失败", f"添加任务失败: {response}", duration=5000, parent=self)
 
     def edit_task(self, task_data):
+        """ 编辑任务 """
         dialog = ProcessingTaskEditDialog(self.window(), task_data)
         if dialog.exec():
             data, error_msg = dialog.get_data()
             if data:
-                success, response = api_client.update_processing_task(task_data['id'], data)
-                if success:
+                response = api_client.update_processing_task(task_data['id'], data)
+                if response:
                     InfoBar.success("成功", "任务已更新。", duration=3000, parent=self)
                     self.populate_table()
                 else:
                     InfoBar.error("失败", f"更新任务失败: {response}", duration=5000, parent=self)
 
+    def clone_task(self, task_id):
+        """ 克隆任务 """
+        response = api_client.clone_processing_task(task_id)
+        if response:
+            InfoBar.success("成功", "任务已复制。", parent=self.window())
+            self.populate_table()
+        else:
+            InfoBar.error("失败", "复制任务失败。", parent=self.window())
+
     def delete_task(self, task_id):
+        """ 删除任务 """
         title = "确认删除"
         content = f"您确定要删除ID为 {task_id} 的任务吗？此操作不可撤销。"
         w = MessageBox(title, content, self.window())
@@ -312,6 +474,9 @@ class TaskListWidget(QWidget):
             else:
                 InfoBar.error("失败", f"删除失败: {message}", duration=5000, parent=self)
 
+    def clear_table(self):
+        self.table.setRowCount(0)
+
 
 class ProcessingTaskInterface(QWidget):
     """ 加工任务管理主界面 """
@@ -320,53 +485,32 @@ class ProcessingTaskInterface(QWidget):
         super().__init__(parent=parent)
         self.setObjectName("ProcessingTaskInterface")
 
-        # --- 主布局和标题 ---
         self.main_layout = QVBoxLayout(self)
-        self.main_layout.setContentsMargins(30, 30, 30, 30)
-        self.main_layout.setSpacing(20)
+        self.main_layout.setContentsMargins(10, 10, 10, 10)
+        self.main_layout.setSpacing(10)
+        
         self.title_label = SubtitleLabel("加工任务管理")
         self.main_layout.addWidget(self.title_label)
         
-        # --- 返回按钮 (默认隐藏) ---
-        self.back_button = PushButton("返回列表", self)
-        self.back_button.setIcon(FIF.RETURN)
-        self.back_button.clicked.connect(self.show_task_list)
-        self.back_button.hide()
-        
-        # 将标题和返回按钮放在同一行
-        title_bar_layout = QHBoxLayout()
-        title_bar_layout.addWidget(self.title_label)
-        title_bar_layout.addStretch(1)
-        title_bar_layout.addWidget(self.back_button)
-        self.main_layout.addLayout(title_bar_layout)
-
-
-        # --- 堆叠窗口用于切换列表和详情 ---
         self.stackWidget = QStackedWidget(self)
-        self.main_layout.addWidget(self.stackWidget)
-        
-        # --- 创建子界面 ---
         self.task_list_widget = TaskListWidget(self)
         self.task_detail_interface = TaskDetailInterface(self)
         
-        # --- 添加到堆叠窗口 ---
         self.stackWidget.addWidget(self.task_list_widget)
         self.stackWidget.addWidget(self.task_detail_interface)
+        self.main_layout.addWidget(self.stackWidget)
         
         # --- 信号连接 ---
         self.task_list_widget.viewDetailSignal.connect(self.show_task_detail)
 
+        # --- 初始化 ---
+        self.task_list_widget.populate_table()
+
     def show_task_detail(self, task_id: int):
         """ 切换到任务详情页 """
-        self.title_label.setText("任务详情")
-        self.back_button.show()
-        self.task_list_widget.hide() # 隐藏工具栏
         self.task_detail_interface.load_task_details(task_id)
         self.stackWidget.setCurrentWidget(self.task_detail_interface)
 
     def show_task_list(self):
         """ 切换回任务列表页 """
-        self.title_label.setText("加工任务管理")
-        self.back_button.hide()
-        self.task_list_widget.show() # 显示工具栏
         self.stackWidget.setCurrentWidget(self.task_list_widget) 

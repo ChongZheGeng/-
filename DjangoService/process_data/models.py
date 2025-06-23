@@ -217,6 +217,8 @@ class ProcessingTask(BaseModel):
     actual_duration = models.IntegerField('实际持续时间(分钟)', null=True, blank=True)
     operator = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='操作员')
     notes = models.TextField('备注', blank=True, null=True)
+    group = models.ForeignKey('TaskGroup', on_delete=models.SET_NULL, null=True, blank=True,
+                              related_name='tasks', verbose_name="所属任务组")
     
     class Meta:
         verbose_name = '加工任务'
@@ -227,34 +229,25 @@ class ProcessingTask(BaseModel):
         return f"{self.task_code} - {self.get_processing_type_display()} ({self.get_status_display()})"
 
 
-class ProcessingParameter(BaseModel):
-    """加工参数"""
-    COOLANT_TYPE_CHOICES = (
-        ('water', '水基冷却液'),
-        ('oil', '油基冷却液'),
-        ('air', '空气冷却'),
-        ('mist', '油雾冷却'),
-        ('none', '无冷却'),
-    )
-    
-    spindle_speed = models.IntegerField('主轴转速(rpm)')
-    feed_rate = models.FloatField('进给速度(mm/min)')
-    cutting_depth = models.FloatField('切削深度(mm)')
-    coolant_type = models.CharField('冷却液类型', max_length=20, choices=COOLANT_TYPE_CHOICES)
-    processing_task = models.ForeignKey(ProcessingTask, on_delete=models.CASCADE, 
-                                       verbose_name='加工任务', related_name='parameters')
-    additional_params = models.JSONField('附加参数', blank=True, null=True)
-    
-    class Meta:
-        verbose_name = '加工参数'
-        verbose_name_plural = verbose_name
-    
+class ProcessingParameter(models.Model):
+    """加工参数模型"""
+    task = models.ForeignKey(ProcessingTask, on_delete=models.CASCADE, related_name='parameters', verbose_name="关联任务")
+    parameter_name = models.CharField(max_length=100, verbose_name="参数名称")
+    parameter_value = models.CharField(max_length=100, verbose_name="参数值")
+    unit = models.CharField(max_length=50, blank=True, null=True, verbose_name="单位")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+
     def __str__(self):
-        return f"参数 - {self.processing_task.task_code}"
+        return f"{self.parameter_name}: {self.parameter_value} {self.unit or ''}"
+
+    class Meta:
+        verbose_name = "加工参数"
+        verbose_name_plural = verbose_name
+        ordering = ['created_at']
 
 
 class SensorData(BaseModel):
-    """传感器数据"""
+    """传感器数据模型"""
     SENSOR_TYPE_CHOICES = (
         ('temperature', '温度'),
         ('vibration', '振动'),
@@ -327,7 +320,23 @@ class ToolWearRecord(BaseModel):
     class Meta:
         verbose_name = '刀具磨损记录'
         verbose_name_plural = verbose_name
-        ordering = ['record_time']
+        ordering = ['-record_time']
     
     def __str__(self):
         return f"磨损 - {self.tool.code} ({self.record_time})"
+
+
+class TaskGroup(BaseModel):
+    """加工任务组模型"""
+    name = models.CharField(max_length=200, unique=True, verbose_name="组名称")
+    description = models.TextField(blank=True, null=True, verbose_name="描述")
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, 
+                                 related_name='task_groups', verbose_name="创建者")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "加工任务组"
+        verbose_name_plural = verbose_name
+        ordering = ['-created_at']
