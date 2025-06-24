@@ -1,13 +1,177 @@
 # coding:utf-8
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QFrame
+from PyQt5.QtGui import QColor
 
 from qfluentwidgets import (StrongBodyLabel, BodyLabel, ComboBox, PrimaryPushButton, 
                            InfoBar, CardWidget, FluentIcon as FIF, IconWidget, SubtitleLabel,
-                           qconfig, Theme, OptionsSettingCard, SettingCardGroup, setTheme)
+                           qconfig, Theme, OptionsSettingCard, SettingCardGroup, setTheme,
+                           LineEdit, PasswordLineEdit, SwitchButton, CaptionLabel)
 
 from ..api.api_client import api_client
-from ..common.config import cfg
+from ..common.config import cfg, save_webdav_credentials, get_webdav_credentials, test_webdav_connection
+
+
+class WebDAVCard(CardWidget):
+    """WebDAV设置卡片"""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.vBoxLayout = QVBoxLayout(self)
+        self.vBoxLayout.setContentsMargins(20, 20, 20, 20)
+        self.vBoxLayout.setSpacing(15)
+
+        # 标题
+        title_layout = QHBoxLayout()
+        self.iconWidget = IconWidget(FIF.SYNC, self)
+        self.titleLabel = SubtitleLabel("WebDAV 连接", self)
+        title_layout.addWidget(self.iconWidget)
+        title_layout.addWidget(self.titleLabel)
+        title_layout.addStretch(1)
+        
+        # 启用/禁用 WebDAV 开关
+        self.enableSwitch = SwitchButton(self)
+        title_layout.addWidget(self.enableSwitch)
+        
+        self.vBoxLayout.addLayout(title_layout)
+
+        # 分隔线
+        self.separator = QFrame(self)
+        self.separator.setFrameShape(QFrame.HLine)
+        self.separator.setFrameShadow(QFrame.Sunken)
+        self.vBoxLayout.addWidget(self.separator)
+
+        # 描述
+        self.descriptionLabel = BodyLabel("配置 WebDAV 连接，以便上传传感器数据到云存储。", self)
+        self.vBoxLayout.addWidget(self.descriptionLabel)
+
+        # 服务器地址
+        self.vBoxLayout.addWidget(StrongBodyLabel("服务器地址:"))
+        self.urlEdit = LineEdit(self)
+        self.urlEdit.setPlaceholderText("例如：https://dav.example.com")
+        self.vBoxLayout.addWidget(self.urlEdit)
+
+        # 用户名
+        self.vBoxLayout.addWidget(StrongBodyLabel("用户名:"))
+        self.usernameEdit = LineEdit(self)
+        self.vBoxLayout.addWidget(self.usernameEdit)
+
+        # 密码
+        self.vBoxLayout.addWidget(StrongBodyLabel("密码:"))
+        self.passwordEdit = PasswordLineEdit(self)
+        self.vBoxLayout.addWidget(self.passwordEdit)
+
+        # 状态提示
+        self.statusLabel = CaptionLabel("", self)
+        self.statusLabel.setHidden(True)
+        self.vBoxLayout.addWidget(self.statusLabel)
+
+        # 测试连接按钮
+        buttons_layout = QHBoxLayout()
+        buttons_layout.addStretch(1)
+        self.testButton = PrimaryPushButton("测试连接", self)
+        self.saveButton = PrimaryPushButton("保存凭据", self)
+        buttons_layout.addWidget(self.testButton)
+        buttons_layout.addWidget(self.saveButton)
+        self.vBoxLayout.addLayout(buttons_layout)
+
+        # 连接信号
+        self.testButton.clicked.connect(self.test_connection)
+        self.saveButton.clicked.connect(self.save_credentials)
+        self.enableSwitch.checkedChanged.connect(self.on_enable_switch)
+
+        # 加载保存的凭据
+        self.load_saved_credentials()
+
+    def load_saved_credentials(self):
+        """加载保存的WebDAV凭据"""
+        credentials = get_webdav_credentials()
+        if credentials:
+            self.enableSwitch.setChecked(credentials['enabled'])
+            self.urlEdit.setText(credentials['url'])
+            self.usernameEdit.setText(credentials['username'])
+            self.passwordEdit.setText(credentials['password'])
+            
+            # 启用或禁用输入字段
+            self.set_fields_enabled(credentials['enabled'])
+        else:
+            self.enableSwitch.setChecked(False)
+            self.set_fields_enabled(False)
+
+    def save_credentials(self):
+        """保存WebDAV凭据"""
+        url = self.urlEdit.text().strip()
+        username = self.usernameEdit.text().strip()
+        password = self.passwordEdit.text()
+        
+        if not url:
+            self.show_status(False, "服务器地址不能为空")
+            return
+            
+        if not username:
+            self.show_status(False, "用户名不能为空")
+            return
+            
+        if not password:
+            self.show_status(False, "密码不能为空")
+            return
+        
+        # 保存凭据
+        save_webdav_credentials(url, username, password, self.enableSwitch.isChecked())
+        self.show_status(True, "凭据已保存")
+        
+    def test_connection(self):
+        """测试WebDAV连接"""
+        url = self.urlEdit.text().strip()
+        username = self.usernameEdit.text().strip()
+        password = self.passwordEdit.text()
+        
+        if not url:
+            self.show_status(False, "服务器地址不能为空")
+            return
+            
+        if not username:
+            self.show_status(False, "用户名不能为空")
+            return
+            
+        if not password:
+            self.show_status(False, "密码不能为空")
+            return
+        
+        # 显示测试中状态
+        self.statusLabel.setText("正在测试连接...")
+        self.statusLabel.setHidden(False)
+        self.statusLabel.setTextColor("#808080")
+        
+        # 测试连接
+        success, message = test_webdav_connection(url, username, password)
+        self.show_status(success, message)
+        
+    def show_status(self, success, message):
+        """显示状态信息"""
+        self.statusLabel.setText(message)
+        self.statusLabel.setHidden(False)
+        
+        if success:
+            self.statusLabel.setTextColor("#0a805e")  # 绿色
+        else:
+            self.statusLabel.setTextColor("#cf1010")  # 红色
+    
+    def on_enable_switch(self, enabled):
+        """启用/禁用 WebDAV 时的回调"""
+        self.set_fields_enabled(enabled)
+        if enabled:
+            self.statusLabel.setHidden(True)
+        else:
+            self.show_status(False, "WebDAV 已禁用")
+    
+    def set_fields_enabled(self, enabled):
+        """设置所有输入字段的启用状态"""
+        self.urlEdit.setEnabled(enabled)
+        self.usernameEdit.setEnabled(enabled)
+        self.passwordEdit.setEnabled(enabled)
+        self.testButton.setEnabled(enabled)
+        self.saveButton.setEnabled(enabled)
 
 
 class LogoutCard(CardWidget):
@@ -203,6 +367,10 @@ class SettingInterface(QWidget):
         )
         self.personalGroup.addSettingCard(self.themeCard)
         self.main_layout.addWidget(self.personalGroup)
+        
+        # WebDAV 设置卡片
+        self.webdavCard = WebDAVCard(self)
+        self.main_layout.addWidget(self.webdavCard)
         
         # 用户信息卡片
         self.userInfoCard = UserInfoCard(self)

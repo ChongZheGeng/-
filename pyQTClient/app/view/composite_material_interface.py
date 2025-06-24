@@ -6,6 +6,20 @@ from qfluentwidgets import (TableWidget, PushButton, StrongBodyLabel, LineEdit, 
                             TextEdit, PrimaryPushButton, MessageBox, InfoBar, MessageBoxBase, SubtitleLabel)
 
 from ..api.api_client import api_client
+import logging
+
+# 设置logger
+logger = logging.getLogger(__name__)
+
+# 安全导入异步API
+try:
+    from ..api.async_api import async_api
+    ASYNC_API_AVAILABLE = True
+    logger.debug("异步API模块导入成功")
+except ImportError as e:
+    logger.warning(f"异步API模块导入失败: {e}")
+    async_api = None
+    ASYNC_API_AVAILABLE = False
 
 
 class CompositeMaterialEditDialog(MessageBoxBase):
@@ -129,6 +143,7 @@ class CompositeMaterialInterface(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.setObjectName("CompositeMaterialInterface")
+        self.worker = None
 
         self.main_layout = QVBoxLayout(self)
         self.main_layout.setContentsMargins(30, 30, 30, 30)
@@ -148,54 +163,117 @@ class CompositeMaterialInterface(QWidget):
         # --- 数据表格 ---
         self.table = TableWidget(self)
         self.main_layout.addWidget(self.table)
+        
+        # --- 应用官方示例样式 ---
+        self.table.setBorderVisible(True)
+        self.table.setBorderRadius(8)
+        self.table.setWordWrap(False)
+        # --- 样式应用结束 ---
+        
         self.table.setColumnCount(7)
         self.table.setHorizontalHeaderLabels(["ID", "构件编号", "材料类型", "厚度(mm)", "创建时间", "更新时间", "操作"])
         self.table.verticalHeader().hide()
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # 列宽设置：数据列可调整，操作列固定宽度，倒数第二列拉伸
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)  # 数据列可调整
+        self.table.horizontalHeader().setSectionResizeMode(5, QHeaderView.Stretch)  # 更新时间列拉伸以铺满
+        self.table.horizontalHeader().setSectionResizeMode(6, QHeaderView.Fixed)  # 操作列固定宽度
+        # 初始设置操作列宽度（数据加载后会重新计算）
+        self.table.horizontalHeader().resizeSection(6, 160)
         self.table.setAlternatingRowColors(True)
 
         # --- 信号与槽连接 ---
         self.refresh_button.clicked.connect(self.populate_table)
         self.add_button.clicked.connect(self.add_material)
 
-        # --- 初始加载数据 ---
-        self.populate_table()
+        # --- 初始化时不自动加载数据，改为按需加载 ---
+        # self.populate_table()  # 注释掉自动加载
 
     def populate_table(self):
-        """ 从API获取数据并填充表格 """
-        response_data = api_client.get_composite_materials()
-        if response_data is None:
-            InfoBar.error("错误", "无法从服务器获取数据，请确保后端服务已运行。", duration=3000, parent=self)
-            return
+        """ 异步从API获取数据并填充表格 """
+        if self.worker and self.worker.isRunning():
+            logger.debug("取消之前的构件数据加载")
+            self.worker.cancel()
 
-        materials_data = response_data.get('results', [])
-        
-        self.table.setRowCount(0)
-        for material in materials_data:
-            row = self.table.rowCount()
-            self.table.insertRow(row)
-            self.table.setItem(row, 0, QTableWidgetItem(str(material['id'])))
-            self.table.setItem(row, 1, QTableWidgetItem(material['part_number']))
-            self.table.setItem(row, 2, QTableWidgetItem(material.get('material_type_display', material['material_type'])))
-            self.table.setItem(row, 3, QTableWidgetItem(str(material['thickness'])))
-            self.table.setItem(row, 4, QTableWidgetItem(material.get('created_at', 'N/A').split('T')[0]))
-            self.table.setItem(row, 5, QTableWidgetItem(material.get('updated_at', 'N/A').split('T')[0]))
+        try:
+            if ASYNC_API_AVAILABLE and async_api:
+                logger.debug("开始异步加载构件数据")
+                self.table.setRowCount(0)
+                
+                # 异步获取构件数据
+                self.worker = async_api.get_composite_materials_async(
+                    success_callback=self.on_materials_data_received,
+                    error_callback=self.on_materials_data_error
+                )
+            else:
+                logger.warning("异步API不可用，回退到同步加载")
+                self.table.setRowCount(0)
+                try:
+                    response_data = api_client.get_composite_materials()
+                    self.on_materials_data_received(response_data)
+                except Exception as e:
+                    self.on_materials_data_error(str(e))
+        except Exception as e:
+            logger.error(f"加载构件数据时出错: {e}")
+            self.on_materials_data_error(str(e))
+    
+    def on_materials_data_received(self, response_data):
+        """处理接收到的构件数据"""
+        try:
+            if not self or not hasattr(self, 'table') or not self.table:
+                logger.warning("构件数据回调时界面已销毁")
+                return
+                
+            if response_data is None:
+                return
 
-            # 操作按钮
-            edit_button = PushButton("编辑")
-            delete_button = PushButton("删除")
-            edit_button.clicked.connect(lambda _, m=material: self.edit_material(m))
-            delete_button.clicked.connect(lambda _, m_id=material['id']: self.delete_material(m_id))
+            materials_data = response_data.get('results', [])
+            logger.debug(f"接收到 {len(materials_data)} 个构件数据")
             
-            action_widget = QWidget()
-            action_layout = QHBoxLayout(action_widget)
-            action_layout.addWidget(edit_button)
-            action_layout.addWidget(delete_button)
-            action_layout.setContentsMargins(5, 2, 5, 2)
-            self.table.setCellWidget(row, 6, action_widget)
+            self.table.setRowCount(0)
+            for material in materials_data:
+                row = self.table.rowCount()
+                self.table.insertRow(row)
+                self.table.setItem(row, 0, QTableWidgetItem(str(material['id'])))
+                self.table.setItem(row, 1, QTableWidgetItem(material['part_number']))
+                self.table.setItem(row, 2, QTableWidgetItem(material.get('material_type_display', material['material_type'])))
+                self.table.setItem(row, 3, QTableWidgetItem(str(material['thickness'])))
+                self.table.setItem(row, 4, QTableWidgetItem(material.get('created_at', 'N/A').split('T')[0]))
+                self.table.setItem(row, 5, QTableWidgetItem(material.get('updated_at', 'N/A').split('T')[0]))
+
+                # 操作按钮
+                edit_button = PrimaryPushButton("编辑")
+                delete_button = PushButton("删除")
+                edit_button.clicked.connect(lambda _, m=material: self.edit_material(m))
+                delete_button.clicked.connect(lambda _, m_id=material['id']: self.delete_material(m_id))
+                
+                action_widget = QWidget()
+                action_layout = QHBoxLayout(action_widget)
+                action_layout.setContentsMargins(2, 2, 2, 2)
+                action_layout.setSpacing(8)
+                action_layout.addWidget(edit_button)
+                action_layout.addWidget(delete_button)
+                self.table.setCellWidget(row, 6, action_widget)
             
-        InfoBar.success("成功", "数据已刷新", duration=1500, parent=self)
+            # 根据按钮数量动态调整操作列宽度 (2个按钮)
+            button_width = 75  # 每个按钮约75px
+            spacing = 8  # 按钮间距
+            margin = 6  # 边距
+            total_width = 2 * button_width + spacing + 2 * margin
+            self.table.horizontalHeader().resizeSection(6, total_width)
+            
+            InfoBar.success("成功", "数据已刷新", duration=1500, parent=self)
+        except Exception as e:
+            logger.error(f"处理构件数据时出错: {e}")
+    
+    def on_materials_data_error(self, error_message):
+        """处理构件数据加载错误"""
+        try:
+            logger.error(f"构件数据加载失败: {error_message}")
+            if self and hasattr(self, 'parent') and self.parent():
+                InfoBar.error("加载失败", f"构件数据加载失败: {error_message}", parent=self)
+        except Exception as e:
+            logger.error(f"处理构件数据错误时出错: {e}")
 
     def add_material(self):
         """ 弹出新增对话框 """
@@ -227,4 +305,13 @@ class CompositeMaterialInterface(QWidget):
                 InfoBar.success("成功", "删除成功", duration=2000, parent=self)
                 self.populate_table()
             else:
-                InfoBar.error("失败", "删除失败", duration=3000, parent=self) 
+                InfoBar.error("失败", "删除失败", duration=3000, parent=self)
+
+    def __del__(self):
+        """ 确保在销毁时取消工作线程 """
+        if hasattr(self, 'worker') and self.worker:
+            self.worker.cancel()
+
+    # ... (rest of the existing methods remain unchanged)
+
+    # ... (rest of the existing methods remain unchanged) 

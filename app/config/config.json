@@ -21,6 +21,12 @@
     },
     "QFluentWidgets": {
         "ThemeColor": "#ff28afe9",
-        "ThemeMode": "Auto"
+        "ThemeMode": "Light"
+    },
+    "WebDAV": {
+        "Enabled": true,
+        "Password": "jUx7xBXweG//WVGIyuhZtQ==",
+        "Url": "http://mainnas.mildhedgehog.com:5005",
+        "Username": "Hedgehog"
     }
 }

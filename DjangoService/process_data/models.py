@@ -258,20 +258,22 @@ class SensorData(BaseModel):
     )
     
     sensor_type = models.CharField('传感器类型', max_length=20, choices=SENSOR_TYPE_CHOICES)
-    timestamp = models.DateTimeField('时间戳')
-    value = models.FloatField('数值')
+    file_name = models.CharField('文件名', max_length=255, default='legacy_data.txt')
+    file_url = models.URLField('文件链接', max_length=500, default='')
+    file_size = models.BigIntegerField('文件大小(字节)', null=True, blank=True, default=0)
+    upload_time = models.DateTimeField('上传时间', default=timezone.now)
     processing_task = models.ForeignKey(ProcessingTask, on_delete=models.CASCADE, 
                                        verbose_name='加工任务', related_name='sensor_data')
-    unit = models.CharField('单位', max_length=20, blank=True, null=True)
     sensor_id = models.CharField('传感器ID', max_length=50, blank=True, null=True)
+    description = models.TextField('描述', blank=True, null=True)
     
     class Meta:
         verbose_name = '传感器数据'
         verbose_name_plural = verbose_name
-        ordering = ['timestamp']
+        ordering = ['-upload_time']
     
     def __str__(self):
-        return f"{self.get_sensor_type_display()} - {self.timestamp}"
+        return f"{self.get_sensor_type_display()} - {self.file_name}"
 
 
 class ProcessingQuality(BaseModel):

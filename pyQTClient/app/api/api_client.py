@@ -12,6 +12,32 @@ class ApiClient:
         self.session = requests.Session()
         self.csrf_token = None
         self.current_user = None
+        
+        # 性能优化配置
+        self.session.headers.update({
+            'Connection': 'keep-alive',  # 保持连接
+            'Accept-Encoding': 'gzip, deflate',  # 启用压缩
+        })
+        
+        # 设置适配器以支持连接池
+        from requests.adapters import HTTPAdapter
+        from urllib3.util.retry import Retry
+        
+        # 配置重试策略
+        retry_strategy = Retry(
+            total=3,
+            backoff_factor=0.1,
+            status_forcelist=[500, 502, 503, 504]
+        )
+        
+        adapter = HTTPAdapter(
+            max_retries=retry_strategy,
+            pool_connections=10,  # 连接池大小
+            pool_maxsize=10       # 最大连接数
+        )
+        
+        self.session.mount("http://", adapter)
+        self.session.mount("https://", adapter)
 
     def login(self, username, password):
         """ 调用新的JSON登录接口 """
@@ -57,12 +83,6 @@ class ApiClient:
         try:
             # session对象会自动发送cookies
             response = self.session.request(method, url, **kwargs)
-            
-            # 打印请求和响应信息，用于调试
-            print(f"Request: {method.upper()} {url}")
-            print(f"Headers: {kwargs.get('headers', {})}")
-            print(f"Response Status: {response.status_code}")
-            print(f"Response Content: {response.content[:200]}...")
             
             response.raise_for_status()
             if response.status_code == 204:  # No Content for DELETE
@@ -169,6 +189,83 @@ class ApiClient:
     def delete_task_group(self, group_id):
         """ 删除任务组 """
         return self._request('delete', f'task-groups/{group_id}')
+
+    # --- Sensor Data Management ---
+
+    def get_sensor_data(self, params=None):
+        """ 获取所有传感器数据 """
+        return self._request('get', 'sensor-data', params=params)
+
+    def add_sensor_data(self, data):
+        """ 新增传感器数据 """
+        return self._request('post', 'sensor-data', json=data)
+
+    def update_sensor_data(self, data_id, data):
+        """ 更新传感器数据 """
+        return self._request('put', f'sensor-data/{data_id}', json=data)
+
+    def delete_sensor_data(self, data_id):
+        """ 删除传感器数据 """
+        return self._request('delete', f'sensor-data/{data_id}')
+
+    def upload_sensor_file_to_webdav(self, file_path, task_id, sensor_type, sensor_id=None, description=None):
+        """ 上传传感器数据文件到WebDAV并创建数据库记录 """
+        from ..common.config import get_webdav_credentials
+        from webdav4.client import Client
+        from datetime import datetime
+        import os
+        
+        # 检查WebDAV配置
+        credentials = get_webdav_credentials()
+        if not credentials or not credentials['enabled']:
+            return False, "WebDAV未配置或未启用"
+        
+        try:
+            # 准备WebDAV客户端
+            client = Client(
+                base_url=credentials['url'],
+                auth=(credentials['username'], credentials['password'])
+            )
+            
+            # 检查或创建目标目录
+            remote_dir = 'sensor_data'
+            if not client.exists(remote_dir):
+                client.mkdir(remote_dir)
+            
+            # 生成文件名
+            file_name = os.path.basename(file_path)
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            remote_filename = f"{timestamp}_{file_name}"
+            remote_path = f"{remote_dir}/{remote_filename}"
+            
+            # 上传文件
+            client.upload_file(from_path=file_path, to_path=remote_path, overwrite=True)
+            
+            # 构建文件URL
+            file_url = f"{credentials['url'].rstrip('/')}/{remote_path}"
+            
+            # 获取文件大小
+            file_size = os.path.getsize(file_path)
+            
+            # 创建数据库记录
+            sensor_data = {
+                'sensor_type': sensor_type,
+                'file_name': remote_filename,
+                'file_url': file_url,
+                'file_size': file_size,
+                'processing_task': task_id,
+                'sensor_id': sensor_id or '',
+                'description': description or ''
+            }
+            
+            result = self.add_sensor_data(sensor_data)
+            if result:
+                return True, f"文件上传成功: {remote_filename}"
+            else:
+                return False, "文件上传成功但数据库记录创建失败"
+                
+        except Exception as e:
+            return False, f"上传失败: {str(e)}"
 
     def get_current_user_info(self):
         """ 获取当前登录用户信息 """

@@ -190,10 +190,27 @@ class ProcessingParameterSerializer(serializers.ModelSerializer):
 class SensorDataSerializer(serializers.ModelSerializer):
     """传感器数据序列化器"""
     sensor_type_display = serializers.CharField(source='get_sensor_type_display', read_only=True)
+    processing_task_code = serializers.CharField(source='processing_task.task_code', read_only=True)
+    file_size_mb = serializers.SerializerMethodField()
     
     class Meta:
         model = SensorData
         fields = '__all__'
+    
+    def get_file_size_mb(self, obj):
+        """将文件大小转换为MB"""
+        if obj.file_size:
+            return round(obj.file_size / (1024 * 1024), 2)
+        return None
+
+
+class SensorDataCreateSerializer(serializers.ModelSerializer):
+    """创建传感器数据的序列化器"""
+    
+    class Meta:
+        model = SensorData
+        fields = ['sensor_type', 'file_name', 'file_url', 'file_size', 
+                 'processing_task', 'sensor_id', 'description']
 
 
 class ProcessingQualitySerializer(serializers.ModelSerializer):
@@ -276,7 +293,7 @@ class ProcessingTaskDetailSerializer(serializers.ModelSerializer):
     composite_material = CompositeMaterialSerializer(read_only=True)
     operator = UserSerializer(read_only=True)
     parameters = ProcessingParameterSerializer(source='processingparameter_set', many=True, read_only=True)
-    sensor_data = SensorDataSerializer(source='sensordata_set', many=True, read_only=True)
+    sensor_data = SensorDataSerializer(many=True, read_only=True)
     quality_records = ProcessingQualitySerializer(source='processingquality_set', many=True, read_only=True)
     tool_wear_records = ToolWearRecordSerializer(source='toolwearrecord_set', many=True, read_only=True)
     processing_type_display = serializers.CharField(source='get_processing_type_display', read_only=True)

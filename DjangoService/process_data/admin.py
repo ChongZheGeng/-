@@ -113,10 +113,10 @@ class ProcessingParameterAdmin(admin.ModelAdmin):
 
 @admin.register(SensorData)
 class SensorDataAdmin(admin.ModelAdmin):
-    list_display = ('processing_task', 'sensor_type', 'timestamp', 'value', 'unit')
-    search_fields = ('processing_task__task_code', 'sensor_id')
-    list_filter = ('sensor_type', 'timestamp')
-    date_hierarchy = 'timestamp'
+    list_display = ('processing_task', 'sensor_type', 'file_name', 'file_size', 'upload_time', 'sensor_id')
+    search_fields = ('processing_task__task_code', 'sensor_id', 'file_name')
+    list_filter = ('sensor_type', 'upload_time')
+    date_hierarchy = 'upload_time'
 
 
 @admin.register(ProcessingQuality)

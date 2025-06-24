@@ -336,7 +336,7 @@ class ProcessingTaskViewSet(viewsets.ModelViewSet):
     def sensor_data(self, request, pk=None):
         """获取加工任务传感器数据"""
         task = self.get_object()
-        sensor_data = SensorData.objects.filter(processing_task=task).order_by('timestamp')
+        sensor_data = SensorData.objects.filter(processing_task=task).order_by('upload_time')
         
         # 支持按传感器类型过滤
         sensor_type = request.query_params.get('sensor_type', None)
@@ -347,9 +347,9 @@ class ProcessingTaskViewSet(viewsets.ModelViewSet):
         start_time = request.query_params.get('start_time', None)
         end_time = request.query_params.get('end_time', None)
         if start_time:
-            sensor_data = sensor_data.filter(timestamp__gte=start_time)
+            sensor_data = sensor_data.filter(upload_time__gte=start_time)
         if end_time:
-            sensor_data = sensor_data.filter(timestamp__lte=end_time)
+            sensor_data = sensor_data.filter(upload_time__lte=end_time)
         
         page = self.paginate_queryset(sensor_data)
         if page is not None:
@@ -378,13 +378,13 @@ class ProcessingTaskViewSet(viewsets.ModelViewSet):
 
 class SensorDataViewSet(viewsets.ModelViewSet):
     """传感器数据视图集"""
-    queryset = SensorData.objects.filter(is_deleted=False).order_by('-timestamp')
+    queryset = SensorData.objects.filter(is_deleted=False).order_by('-upload_time')
     serializer_class = SensorDataSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['sensor_type', 'processing_task']
-    search_fields = ['sensor_id', 'processing_task__task_code']
-    ordering_fields = ['timestamp', 'value']
+    search_fields = ['sensor_id', 'processing_task__task_code', 'file_name']
+    ordering_fields = ['upload_time', 'file_size']
 
 
 class ProcessingQualityViewSet(viewsets.ModelViewSet):
