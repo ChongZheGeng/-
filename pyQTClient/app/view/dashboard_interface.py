@@ -13,15 +13,23 @@ import logging
 # 设置logger
 logger = logging.getLogger(__name__)
 
-# 安全导入异步API
+# 导入数据管理器
 try:
-    from ..api.async_api import async_api
-    ASYNC_API_AVAILABLE = True
-    logger.debug("异步API模块导入成功")
+    from ..api.data_manager import data_manager
+    DATA_MANAGER_AVAILABLE = True
+    logger.debug("数据管理器导入成功")
 except ImportError as e:
-    logger.warning(f"异步API模块导入失败: {e}")
-    async_api = None
-    ASYNC_API_AVAILABLE = False
+    logger.warning(f"数据管理器导入失败，回退到原始异步API: {e}")
+    # 安全导入异步API作为回退
+    try:
+        from ..api.async_api import async_api
+        ASYNC_API_AVAILABLE = True
+        logger.debug("异步API模块导入成功")
+    except ImportError as e2:
+        logger.warning(f"异步API模块导入失败: {e2}")
+        async_api = None
+        ASYNC_API_AVAILABLE = False
+    DATA_MANAGER_AVAILABLE = False
 
 
 class StatCard(CardWidget):
@@ -311,8 +319,37 @@ class DashboardInterface(QWidget):
             # 取消之前的异步任务
             self.cancel_active_workers()
             
-            if ASYNC_API_AVAILABLE and async_api:
-                logger.debug("开始异步刷新看板数据")
+            if DATA_MANAGER_AVAILABLE:
+                logger.debug("使用数据管理器刷新看板数据")
+                
+                # 使用数据管理器异步获取用户统计
+                worker1 = data_manager.get_data_async(
+                    data_type='users',
+                    success_callback=self.on_users_data_received,
+                    error_callback=self.on_api_error
+                )
+                if worker1:
+                    self.active_workers.append(worker1)
+                
+                # 使用数据管理器异步获取任务统计
+                worker2 = data_manager.get_data_async(
+                    data_type='processing_tasks',
+                    success_callback=self.on_tasks_data_received,
+                    error_callback=self.on_api_error
+                )
+                if worker2:
+                    self.active_workers.append(worker2)
+                
+                # 使用数据管理器异步获取传感器数据统计
+                worker3 = data_manager.get_data_async(
+                    data_type='sensor_data',
+                    success_callback=self.on_sensor_data_received,
+                    error_callback=self.on_api_error
+                )
+                if worker3:
+                    self.active_workers.append(worker3)
+            elif ASYNC_API_AVAILABLE and async_api:
+                logger.debug("回退到原始异步API刷新看板数据")
                 
                 # 异步获取用户统计
                 worker1 = async_api.get_users_async(

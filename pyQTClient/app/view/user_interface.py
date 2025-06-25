@@ -12,15 +12,23 @@ import logging
 # 设置logger
 logger = logging.getLogger(__name__)
 
-# 安全导入异步API
+# 导入数据管理器
 try:
-    from ..api.async_api import async_api
-    ASYNC_API_AVAILABLE = True
-    logger.debug("异步API模块导入成功")
+    from ..api.data_manager import interface_loader
+    DATA_MANAGER_AVAILABLE = True
+    logger.debug("数据管理器导入成功")
 except ImportError as e:
-    logger.warning(f"异步API模块导入失败: {e}")
-    async_api = None
-    ASYNC_API_AVAILABLE = False
+    logger.warning(f"数据管理器导入失败，回退到原始异步API: {e}")
+    # 安全导入异步API作为回退
+    try:
+        from ..api.async_api import async_api
+        ASYNC_API_AVAILABLE = True
+        logger.debug("异步API模块导入成功")
+    except ImportError as e2:
+        logger.warning(f"异步API模块导入失败: {e2}")
+        async_api = None
+        ASYNC_API_AVAILABLE = False
+    DATA_MANAGER_AVAILABLE = False
 
 
 class UserEditDialog(MessageBoxBase):
@@ -173,25 +181,36 @@ class UserInterface(QWidget):
         # --- 初始化时不自动加载数据，改为按需加载 ---
         # self.populate_table()  # 注释掉自动加载
 
-    def populate_table(self):
+    def populate_table(self, preserve_old_data=True):
         """ 异步从API获取数据并填充表格 """
-        if self.worker and self.worker.isRunning():
-            logger.debug("取消之前的用户数据加载")
-            self.worker.cancel()
-
         try:
-            if ASYNC_API_AVAILABLE and async_api:
-                logger.debug("开始异步加载用户数据")
-                self.table.setRowCount(0)
+            if DATA_MANAGER_AVAILABLE:
+                logger.debug("使用数据管理器加载用户数据")
+                # 使用新的数据管理器
+                interface_loader.load_for_interface(
+                    interface=self,
+                    data_type='users',
+                    table_widget=self.table,
+                    force_refresh=True,
+                    preserve_old_data=preserve_old_data
+                )
+            elif ASYNC_API_AVAILABLE and async_api:
+                # 回退到原始异步API
+                logger.debug("回退到原始异步API加载用户数据")
+                if self.worker and self.worker.isRunning():
+                    self.worker.cancel()
                 
-                # 异步获取用户数据
+                if not preserve_old_data:
+                    self.table.setRowCount(0)
                 self.worker = async_api.get_users_async(
                     success_callback=self.on_users_data_received,
                     error_callback=self.on_users_data_error
                 )
             else:
+                # 最终回退到同步加载
                 logger.warning("异步API不可用，回退到同步加载")
-                self.table.setRowCount(0)
+                if not preserve_old_data:
+                    self.table.setRowCount(0)
                 try:
                     response_data = api_client.get_users()
                     self.on_users_data_received(response_data)
@@ -274,7 +293,7 @@ class UserInterface(QWidget):
             result = api_client.add_user(data)
             if result:
                 InfoBar.success("成功", "新增用户成功", duration=2000, parent=self)
-                self.populate_table()
+                self.populate_table(preserve_old_data=False)
             else:
                 InfoBar.error("失败", "新增用户失败，请检查控制台输出。", duration=3000, parent=self)
 
@@ -285,7 +304,7 @@ class UserInterface(QWidget):
             result = api_client.update_user(user_data['id'], data)
             if result:
                 InfoBar.success("成功", "更新用户成功", duration=2000, parent=self)
-                self.populate_table()
+                self.populate_table(preserve_old_data=False)
             else:
                 InfoBar.error("失败", "更新用户失败，请查看控制台输出。", duration=3000, parent=self)
 
@@ -298,7 +317,7 @@ class UserInterface(QWidget):
         if msg_box.exec():
             if api_client.delete_user(user_id):
                 InfoBar.success("成功", "删除用户成功", duration=2000, parent=self)
-                self.populate_table()
+                self.populate_table(preserve_old_data=False)
             else:
                 InfoBar.error("失败", "删除用户失败", duration=3000, parent=self)
 

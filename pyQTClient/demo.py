@@ -101,8 +101,8 @@ class ApplicationManager:
         # Connect the logout signal after showing the main window
         self.main_window.setting_interface.logoutSignal.connect(self.show_login_window)
         
-        # 看板界面会在初始化时自动加载数据，标记为已加载
-        self.main_window.loaded_interfaces.add("DashboardInterface")
+        # 看板界面会在初始化时自动加载数据（现在改为每次切换都自动刷新，不需要标记）
+        # 移除了 loaded_interfaces 的使用，因为现在每次切换导航都会自动刷新数据
         
         self.main_window.show()
 

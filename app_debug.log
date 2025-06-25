@@ -686,3 +686,1857 @@ NotImplementedError: QAbstractButton.paintEvent() is abstract and must be overri
 2025-06-25 00:08:37,659 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
 2025-06-25 00:08:37,659 - DEBUG - 异步API调用成功: get_sensor_data
 2025-06-25 00:08:37,659 - DEBUG - 传感器数据更新: 6
+2025-06-25 00:15:51,512 - INFO - 应用程序启动
+2025-06-25 00:15:52,348 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 00:15:52,351 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 00:15:52,353 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 00:15:52,355 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 00:15:52,998 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 00:15:53,308 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 00:15:53,401 - DEBUG - 看板定时刷新已启动
+2025-06-25 00:15:54,023 - DEBUG - 延迟刷新数据被触发
+2025-06-25 00:15:54,023 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 00:15:54,023 - DEBUG - 开始异步刷新看板数据
+2025-06-25 00:15:54,023 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 00:15:54,023 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 00:15:54,023 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 00:15:54,025 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 00:15:54,026 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-25 00:15:54,286 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 00:15:54,286 - DEBUG - 异步API调用成功: get_users
+2025-06-25 00:15:54,324 - DEBUG - 用户数据更新: 1
+2025-06-25 00:15:54,433 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 00:15:54,434 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 00:15:54,435 - DEBUG - 传感器数据更新: 6
+2025-06-25 00:15:54,739 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 00:15:54,739 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 00:15:54,742 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 00:15:57,839 - DEBUG - 看板定时刷新已停止
+2025-06-25 00:15:57,839 - DEBUG - 取消异步API调用: get_users
+2025-06-25 00:15:57,839 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 00:15:57,839 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 00:15:57,839 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 00:16:03,979 - INFO - 应用程序启动
+2025-06-25 00:16:04,881 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 00:16:04,885 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 00:16:04,885 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 00:16:04,887 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 00:16:05,521 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 00:16:05,829 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 00:16:05,900 - DEBUG - 看板定时刷新已启动
+2025-06-25 00:16:06,553 - DEBUG - 延迟刷新数据被触发
+2025-06-25 00:16:06,553 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 00:16:06,553 - DEBUG - 开始异步刷新看板数据
+2025-06-25 00:16:06,553 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 00:16:06,554 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 00:16:06,554 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 00:16:06,555 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 00:16:06,555 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-25 00:16:06,804 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 00:16:06,805 - DEBUG - 异步API调用成功: get_users
+2025-06-25 00:16:06,806 - DEBUG - 用户数据更新: 1
+2025-06-25 00:16:06,971 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 00:16:06,971 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 00:16:06,972 - DEBUG - 传感器数据更新: 6
+2025-06-25 00:16:07,283 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 00:16:07,285 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 00:16:07,302 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 00:16:28,398 - DEBUG - 看板定时刷新已停止
+2025-06-25 00:16:28,398 - DEBUG - 取消异步API调用: get_users
+2025-06-25 00:16:28,398 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 00:16:28,398 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 00:16:28,398 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 00:16:28,398 - DEBUG - 开始异步加载加工任务数据
+2025-06-25 00:16:28,399 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 00:16:29,095 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 00:16:29,095 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 00:16:29,099 - DEBUG - 接收到 4 个加工任务数据
+2025-06-25 10:26:18,601 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-06-25 10:26:18,601 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-06-25 14:53:28,456 - INFO - 应用程序启动
+2025-06-25 14:53:29,662 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 14:53:29,706 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 14:53:29,707 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 14:53:29,719 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 14:53:30,554 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 14:53:30,859 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 14:53:30,913 - DEBUG - 看板定时刷新已启动
+2025-06-25 14:53:31,580 - DEBUG - 延迟刷新数据被触发
+2025-06-25 14:53:31,580 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 14:53:31,580 - DEBUG - 开始异步刷新看板数据
+2025-06-25 14:53:31,580 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 14:53:31,580 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 14:53:31,580 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 14:53:31,583 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 14:53:31,583 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-25 14:53:31,832 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 14:53:31,832 - DEBUG - 异步API调用成功: get_users
+2025-06-25 14:53:31,832 - DEBUG - 用户数据更新: 1
+2025-06-25 14:53:31,993 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 14:53:31,993 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 14:53:31,993 - DEBUG - 传感器数据更新: 6
+2025-06-25 14:53:32,290 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 14:53:32,290 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 14:53:32,295 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 14:54:00,914 - DEBUG - 取消异步API调用: get_users
+2025-06-25 14:54:00,914 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 14:54:00,914 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 14:54:00,914 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 14:54:00,914 - DEBUG - 开始异步刷新看板数据
+2025-06-25 14:54:00,915 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 14:54:00,915 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 14:54:00,915 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 14:54:01,173 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 14:54:01,173 - DEBUG - 异步API调用成功: get_users
+2025-06-25 14:54:01,173 - DEBUG - 用户数据更新: 1
+2025-06-25 14:54:01,314 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 14:54:01,314 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 14:54:01,315 - DEBUG - 传感器数据更新: 6
+2025-06-25 14:54:01,606 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 14:54:01,606 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 14:54:01,609 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 14:54:02,676 - DEBUG - 看板定时刷新已停止
+2025-06-25 14:54:02,676 - DEBUG - 取消异步API调用: get_users
+2025-06-25 14:54:02,676 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 14:54:02,676 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 14:54:02,677 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:44:37,396 - INFO - 应用程序启动
+2025-06-25 15:44:38,038 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 15:44:38,043 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 15:44:38,044 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 15:44:38,046 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 15:44:38,862 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 15:44:39,197 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 15:44:39,252 - DEBUG - 看板定时刷新已启动
+2025-06-25 15:44:39,919 - DEBUG - 延迟刷新数据被触发
+2025-06-25 15:44:39,919 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:44:39,921 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:44:39,921 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:44:39,921 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:44:39,922 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 15:44:39,922 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:44:39,922 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:44:39,922 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 15:44:39,924 - ERROR - 异步API调用失败 get_users: ApiClient.get_users() got an unexpected keyword argument 'params'
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\async_api.py", line 38, in run
+    result = self.api_method(*self.args, **self.kwargs)
+TypeError: ApiClient.get_users() got an unexpected keyword argument 'params'
+
+2025-06-25 15:44:39,925 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 15:44:39,926 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:44:39,926 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:44:40,339 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 15:44:40,339 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 15:44:40,339 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 15:44:40,339 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:44:40,339 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:44:40,628 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 15:44:40,628 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:44:40,629 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:44:40,637 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:44:40,641 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:44:43,266 - DEBUG - 看板定时刷新已停止
+2025-06-25 15:44:43,266 - DEBUG - 取消异步API调用: get_users
+2025-06-25 15:44:43,266 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 15:44:43,266 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 15:44:43,266 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:44:43,266 - DEBUG - 使用数据管理器加载加工任务数据
+2025-06-25 15:44:43,266 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:44:43,266 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:44:43,975 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 15:44:43,976 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:44:43,978 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:44:43,979 - DEBUG - 接收到 4 个加工任务数据
+2025-06-25 15:44:44,061 - DEBUG - 接收到 4 个加工任务数据
+2025-06-25 15:44:44,858 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:44:44,858 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 15:44:44,859 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 15:44:44,859 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 15:44:44,859 - ERROR - 异步API调用失败 get_task_groups: ApiClient.get_task_groups() got an unexpected keyword argument 'params'
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\async_api.py", line 38, in run
+    result = self.api_method(*self.args, **self.kwargs)
+TypeError: ApiClient.get_task_groups() got an unexpected keyword argument 'params'
+
+2025-06-25 15:44:44,867 - ERROR - 任务分组数据加载失败: ApiClient.get_task_groups() got an unexpected keyword argument 'params'
+2025-06-25 15:44:44,870 - ERROR - 任务分组数据加载失败: ApiClient.get_task_groups() got an unexpected keyword argument 'params'
+2025-06-25 15:44:47,932 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:44:52,532 - DEBUG - 看板定时刷新已启动
+2025-06-25 15:44:53,406 - DEBUG - 看板定时刷新已停止
+2025-06-25 15:44:53,406 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:44:54,068 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:44:55,376 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:44:55,377 - DEBUG - 使用数据管理器加载刀具数据
+2025-06-25 15:44:55,377 - DEBUG - 创建新的异步请求: tools
+2025-06-25 15:44:55,377 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 15:44:55,377 - ERROR - 异步API调用失败 get_tools: ApiClient.get_tools() got an unexpected keyword argument 'params'
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\async_api.py", line 38, in run
+    result = self.api_method(*self.args, **self.kwargs)
+TypeError: ApiClient.get_tools() got an unexpected keyword argument 'params'
+
+2025-06-25 15:44:55,388 - ERROR - 刀具数据加载失败: ApiClient.get_tools() got an unexpected keyword argument 'params'
+2025-06-25 15:44:55,391 - ERROR - 刀具数据加载失败: ApiClient.get_tools() got an unexpected keyword argument 'params'
+2025-06-25 15:44:57,811 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:44:57,811 - DEBUG - 使用数据管理器加载构件数据
+2025-06-25 15:44:57,811 - DEBUG - 创建新的异步请求: composite_materials
+2025-06-25 15:44:57,812 - DEBUG - 开始执行异步API调用: get_composite_materials
+2025-06-25 15:44:57,812 - ERROR - 异步API调用失败 get_composite_materials: ApiClient.get_composite_materials() got an unexpected keyword argument 'params'
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\async_api.py", line 38, in run
+    result = self.api_method(*self.args, **self.kwargs)
+TypeError: ApiClient.get_composite_materials() got an unexpected keyword argument 'params'
+
+2025-06-25 15:44:57,841 - ERROR - 构件数据加载失败: ApiClient.get_composite_materials() got an unexpected keyword argument 'params'
+2025-06-25 15:44:57,843 - ERROR - 构件数据加载失败: ApiClient.get_composite_materials() got an unexpected keyword argument 'params'
+2025-06-25 15:44:59,367 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:44:59,987 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:45:00,622 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:45:01,699 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:45:01,700 - DEBUG - 使用数据管理器加载传感器数据
+2025-06-25 15:45:01,700 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 15:45:01,700 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 15:45:02,077 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 15:45:02,077 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 15:45:02,077 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 15:45:02,077 - DEBUG - 接收到 6 个传感器数据
+2025-06-25 15:45:02,099 - DEBUG - 接收到 6 个传感器数据
+2025-06-25 15:45:02,167 - DEBUG - 看板定时刷新已启动
+2025-06-25 15:45:32,167 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:45:32,167 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:45:32,167 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:45:32,168 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:45:32,168 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 15:45:32,168 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:45:32,169 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:45:32,170 - ERROR - 异步API调用失败 get_users: ApiClient.get_users() got an unexpected keyword argument 'params'
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\async_api.py", line 38, in run
+    result = self.api_method(*self.args, **self.kwargs)
+TypeError: ApiClient.get_users() got an unexpected keyword argument 'params'
+
+2025-06-25 15:45:32,170 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 15:45:32,172 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:45:32,174 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:45:32,595 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 15:45:32,596 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 15:45:32,598 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 15:45:32,598 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:45:32,598 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:45:32,900 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 15:45:32,903 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:45:32,903 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:45:32,909 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:45:32,922 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:46:02,168 - DEBUG - 取消异步API调用: get_users
+2025-06-25 15:46:02,168 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 15:46:02,168 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 15:46:02,168 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:46:02,168 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:46:02,168 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:46:02,168 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-25 15:46:02,169 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:46:02,169 - ERROR - 异步API调用失败 get_users: ApiClient.get_users() got an unexpected keyword argument 'params'
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\async_api.py", line 38, in run
+    result = self.api_method(*self.args, **self.kwargs)
+TypeError: ApiClient.get_users() got an unexpected keyword argument 'params'
+
+2025-06-25 15:46:02,181 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:46:02,181 - DEBUG - 使用缓存数据: sensor_data
+2025-06-25 15:46:02,181 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:46:02,185 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:46:02,185 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:46:32,173 - DEBUG - 取消异步API调用: get_users
+2025-06-25 15:46:32,174 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:46:32,174 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:46:32,175 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:46:32,175 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:46:32,176 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 15:46:32,177 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:46:32,179 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:46:32,179 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 15:46:32,179 - ERROR - 异步API调用失败 get_users: ApiClient.get_users() got an unexpected keyword argument 'params'
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\async_api.py", line 38, in run
+    result = self.api_method(*self.args, **self.kwargs)
+TypeError: ApiClient.get_users() got an unexpected keyword argument 'params'
+
+2025-06-25 15:46:32,181 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:46:32,184 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:46:32,590 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 15:46:32,590 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 15:46:32,590 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 15:46:32,590 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:46:32,590 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:46:32,895 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 15:46:32,895 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:46:32,896 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:46:32,904 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:46:32,909 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:47:02,170 - DEBUG - 取消异步API调用: get_users
+2025-06-25 15:47:02,170 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 15:47:02,170 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 15:47:02,170 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:47:02,170 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:47:02,170 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:47:02,170 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-25 15:47:02,170 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:47:02,172 - ERROR - 异步API调用失败 get_users: ApiClient.get_users() got an unexpected keyword argument 'params'
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\async_api.py", line 38, in run
+    result = self.api_method(*self.args, **self.kwargs)
+TypeError: ApiClient.get_users() got an unexpected keyword argument 'params'
+
+2025-06-25 15:47:02,179 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:47:02,180 - DEBUG - 使用缓存数据: sensor_data
+2025-06-25 15:47:02,180 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:47:02,181 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:47:02,181 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:47:32,164 - DEBUG - 取消异步API调用: get_users
+2025-06-25 15:47:32,164 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:47:32,164 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:47:32,164 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:47:32,165 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:47:32,165 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 15:47:32,165 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:47:32,165 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:47:32,165 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 15:47:32,166 - ERROR - 异步API调用失败 get_users: ApiClient.get_users() got an unexpected keyword argument 'params'
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\async_api.py", line 38, in run
+    result = self.api_method(*self.args, **self.kwargs)
+TypeError: ApiClient.get_users() got an unexpected keyword argument 'params'
+
+2025-06-25 15:47:32,167 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:47:32,167 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:47:32,582 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 15:47:32,583 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 15:47:32,588 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 15:47:32,589 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:47:32,589 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:47:32,895 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 15:47:32,895 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:47:32,896 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:47:32,902 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:47:32,913 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:48:02,172 - DEBUG - 取消异步API调用: get_users
+2025-06-25 15:48:02,172 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 15:48:02,172 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 15:48:02,173 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:48:02,173 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:48:02,173 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:48:02,173 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-25 15:48:02,177 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:48:02,179 - ERROR - 异步API调用失败 get_users: ApiClient.get_users() got an unexpected keyword argument 'params'
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\async_api.py", line 38, in run
+    result = self.api_method(*self.args, **self.kwargs)
+TypeError: ApiClient.get_users() got an unexpected keyword argument 'params'
+
+2025-06-25 15:48:02,211 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:48:02,211 - DEBUG - 使用缓存数据: sensor_data
+2025-06-25 15:48:02,211 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:48:02,212 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:48:02,212 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:48:32,170 - DEBUG - 取消异步API调用: get_users
+2025-06-25 15:48:32,171 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:48:32,171 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:48:32,172 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:48:32,172 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:48:32,172 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 15:48:32,173 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:48:32,173 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:48:32,174 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 15:48:32,174 - ERROR - 异步API调用失败 get_users: ApiClient.get_users() got an unexpected keyword argument 'params'
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\async_api.py", line 38, in run
+    result = self.api_method(*self.args, **self.kwargs)
+TypeError: ApiClient.get_users() got an unexpected keyword argument 'params'
+
+2025-06-25 15:48:32,181 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:48:32,182 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:48:32,581 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 15:48:32,582 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 15:48:32,587 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 15:48:32,588 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:48:32,588 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:48:32,911 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 15:48:32,911 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:48:32,913 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:48:32,920 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:48:32,926 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:49:02,164 - DEBUG - 取消异步API调用: get_users
+2025-06-25 15:49:02,164 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 15:49:02,164 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 15:49:02,165 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:49:02,165 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:49:02,165 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:49:02,165 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-25 15:49:02,169 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:49:02,170 - ERROR - 异步API调用失败 get_users: ApiClient.get_users() got an unexpected keyword argument 'params'
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\async_api.py", line 38, in run
+    result = self.api_method(*self.args, **self.kwargs)
+TypeError: ApiClient.get_users() got an unexpected keyword argument 'params'
+
+2025-06-25 15:49:02,207 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:49:02,207 - DEBUG - 使用缓存数据: sensor_data
+2025-06-25 15:49:02,208 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:49:02,215 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:49:02,215 - ERROR - 看板数据加载失败: ApiClient.get_users() got an unexpected keyword argument 'params'
+2025-06-25 15:49:10,792 - INFO - 应用程序启动
+2025-06-25 15:49:11,412 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 15:49:11,417 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 15:49:11,418 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 15:49:11,421 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 15:49:12,277 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 15:49:12,656 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 15:49:12,788 - DEBUG - 看板定时刷新已启动
+2025-06-25 15:49:13,339 - DEBUG - 延迟刷新数据被触发
+2025-06-25 15:49:13,339 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:49:13,339 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:49:13,339 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:49:13,340 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:49:13,340 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 15:49:13,340 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:49:13,341 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 15:49:13,341 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:49:13,348 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 15:49:13,349 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-25 15:49:13,624 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 15:49:13,624 - DEBUG - 异步API调用成功: get_users
+2025-06-25 15:49:13,624 - DEBUG - 已更新缓存: users
+2025-06-25 15:49:13,624 - DEBUG - 用户数据更新: 1
+2025-06-25 15:49:13,624 - DEBUG - 用户数据更新: 1
+2025-06-25 15:49:13,727 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 15:49:13,727 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 15:49:13,730 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 15:49:13,730 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:49:13,730 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:49:14,048 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 15:49:14,049 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:49:14,050 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:49:14,065 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:49:14,069 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:49:15,394 - DEBUG - 看板定时刷新已停止
+2025-06-25 15:49:15,394 - DEBUG - 取消异步API调用: get_users
+2025-06-25 15:49:15,394 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 15:49:15,394 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 15:49:15,394 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:49:15,394 - DEBUG - 使用数据管理器加载加工任务数据
+2025-06-25 15:49:15,394 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:49:15,394 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:49:16,111 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 15:49:16,111 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:49:16,112 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:49:16,112 - DEBUG - 接收到 4 个加工任务数据
+2025-06-25 15:49:16,149 - DEBUG - 接收到 4 个加工任务数据
+2025-06-25 15:49:18,145 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:49:18,145 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 15:49:18,145 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 15:49:18,146 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 15:49:18,455 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 15:49:18,455 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 15:49:18,456 - DEBUG - 已更新缓存: task_groups
+2025-06-25 15:49:18,456 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 15:49:18,456 - DEBUG - 处理 1 个任务分组
+2025-06-25 15:49:18,456 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:49:18,456 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 15:49:18,456 - DEBUG - 处理 1 个任务分组
+2025-06-25 15:49:18,456 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 15:49:18,456 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:49:19,162 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 15:49:19,163 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:49:19,169 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:49:19,169 - DEBUG - 接收到 4 个任务数据
+2025-06-25 15:49:19,170 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 15:49:19,170 - DEBUG - 接收到 4 个任务数据
+2025-06-25 15:49:19,172 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 15:49:19,173 - DEBUG - 接收到 4 个任务数据
+2025-06-25 15:49:19,175 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 15:49:28,776 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:49:30,839 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:49:32,102 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:49:33,000 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:54:39,935 - INFO - 应用程序启动
+2025-06-25 15:54:40,565 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 15:54:40,585 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 15:54:40,589 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 15:54:40,598 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 15:54:41,486 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 15:54:41,836 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 15:54:41,947 - DEBUG - 看板定时刷新已启动
+2025-06-25 15:54:42,515 - DEBUG - 延迟刷新数据被触发
+2025-06-25 15:54:42,515 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:54:42,515 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:54:42,515 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:54:42,515 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:54:42,515 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 15:54:42,516 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:54:42,516 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:54:42,516 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 15:54:42,518 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 15:54:42,518 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-25 15:54:42,765 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 15:54:42,765 - DEBUG - 异步API调用成功: get_users
+2025-06-25 15:54:42,767 - DEBUG - 已更新缓存: users
+2025-06-25 15:54:42,768 - DEBUG - 用户数据更新: 1
+2025-06-25 15:54:42,768 - DEBUG - 用户数据更新: 1
+2025-06-25 15:54:42,923 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 15:54:42,924 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 15:54:42,924 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 15:54:42,925 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:54:42,925 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:54:43,225 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 15:54:43,226 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:54:43,255 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:54:43,262 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:54:43,267 - DEBUG - 任务数据更新: 总数=4, 待处理=4
+2025-06-25 15:54:44,733 - DEBUG - 看板定时刷新已停止
+2025-06-25 15:54:44,733 - DEBUG - 取消异步API调用: get_users
+2025-06-25 15:54:44,733 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 15:54:44,733 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 15:54:44,733 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:54:44,733 - DEBUG - 使用数据管理器加载加工任务数据
+2025-06-25 15:54:44,733 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:54:44,733 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:54:45,452 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 15:54:45,452 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:54:45,453 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:54:45,453 - DEBUG - 接收到 4 个加工任务数据
+2025-06-25 15:54:45,481 - DEBUG - 接收到 4 个加工任务数据
+2025-06-25 15:54:46,855 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:54:46,855 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 15:54:46,856 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 15:54:46,856 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 15:54:47,163 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 15:54:47,163 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 15:54:47,164 - DEBUG - 已更新缓存: task_groups
+2025-06-25 15:54:47,165 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 15:54:47,165 - DEBUG - 处理 1 个任务分组
+2025-06-25 15:54:47,165 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:54:47,166 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 15:54:47,166 - DEBUG - 处理 1 个任务分组
+2025-06-25 15:54:47,166 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 15:54:47,167 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:54:47,870 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 4108
+2025-06-25 15:54:47,871 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:54:47,872 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:54:47,872 - DEBUG - 接收到 4 个任务数据
+2025-06-25 15:54:47,874 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 15:54:47,875 - DEBUG - 跳过重复的任务数据处理
+2025-06-25 15:54:47,875 - DEBUG - 跳过重复的任务数据处理
+2025-06-25 15:54:52,538 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/1/ HTTP/1.1" 200 4124
+2025-06-25 15:54:52,885 - DEBUG - http://127.0.0.1:8000 "POST /api/processing-tasks/ HTTP/1.1" 201 227
+2025-06-25 15:54:52,887 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 15:54:52,888 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 15:54:52,888 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 15:54:53,194 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 15:54:53,196 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 15:54:53,198 - DEBUG - 已更新缓存: task_groups
+2025-06-25 15:54:53,198 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 15:54:53,199 - DEBUG - 处理 1 个任务分组
+2025-06-25 15:54:53,199 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:54:53,199 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 15:54:53,200 - DEBUG - 处理 1 个任务分组
+2025-06-25 15:54:53,200 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:54:53,200 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 15:54:53,993 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 15:54:53,994 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:54:53,994 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:54:53,994 - DEBUG - 接收到 5 个任务数据
+2025-06-25 15:54:53,995 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 15:54:53,995 - DEBUG - 跳过重复的任务数据处理
+2025-06-25 15:54:53,995 - DEBUG - 跳过重复的任务数据处理
+2025-06-25 15:54:55,948 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:54:56,547 - DEBUG - 看板定时刷新已启动
+2025-06-25 15:54:57,251 - DEBUG - 看板定时刷新已停止
+2025-06-25 15:54:57,251 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:54:58,393 - DEBUG - 使用数据管理器加载加工任务数据
+2025-06-25 15:54:58,393 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 15:54:58,393 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:54:58,394 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:54:59,198 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 15:54:59,199 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:54:59,199 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:54:59,199 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 15:54:59,236 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 15:55:00,599 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:55:01,620 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:55:01,620 - DEBUG - 使用数据管理器加载刀具数据
+2025-06-25 15:55:01,620 - DEBUG - 创建新的异步请求: tools
+2025-06-25 15:55:01,620 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 15:55:01,873 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 15:55:01,874 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 15:55:01,876 - DEBUG - 已更新缓存: tools
+2025-06-25 15:55:01,877 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 15:55:01,900 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 15:55:03,648 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:55:04,473 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:55:04,952 - DEBUG - 看板定时刷新已启动
+2025-06-25 15:55:34,951 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:55:34,952 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:55:34,953 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:55:34,954 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:55:34,954 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 15:55:34,955 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:55:34,956 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:55:34,960 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 15:55:35,239 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 15:55:35,240 - DEBUG - 异步API调用成功: get_users
+2025-06-25 15:55:35,243 - DEBUG - 已更新缓存: users
+2025-06-25 15:55:35,243 - DEBUG - 用户数据更新: 1
+2025-06-25 15:55:35,243 - DEBUG - 用户数据更新: 1
+2025-06-25 15:55:35,418 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 15:55:35,419 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 15:55:35,421 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 15:55:35,422 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:55:35,422 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:55:35,769 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 15:55:35,769 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:55:35,769 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:55:35,791 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 15:55:35,814 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 15:56:04,957 - DEBUG - 取消异步API调用: get_users
+2025-06-25 15:56:04,958 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 15:56:04,958 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 15:56:04,959 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:56:04,959 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:56:04,960 - DEBUG - 使用缓存数据: users
+2025-06-25 15:56:04,961 - DEBUG - 用户数据更新: 1
+2025-06-25 15:56:04,961 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-25 15:56:04,970 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 15:56:04,970 - DEBUG - 使用缓存数据: sensor_data
+2025-06-25 15:56:04,970 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:56:34,956 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:56:34,957 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:56:34,957 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:56:34,957 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:56:34,957 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 15:56:34,957 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:56:34,958 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:56:34,958 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 15:56:35,254 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 15:56:35,255 - DEBUG - 异步API调用成功: get_users
+2025-06-25 15:56:35,258 - DEBUG - 已更新缓存: users
+2025-06-25 15:56:35,258 - DEBUG - 用户数据更新: 1
+2025-06-25 15:56:35,258 - DEBUG - 用户数据更新: 1
+2025-06-25 15:56:35,378 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 15:56:35,378 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 15:56:35,378 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 15:56:35,378 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:56:35,379 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:56:35,807 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 15:56:35,808 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:56:35,810 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:56:35,823 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 15:56:35,855 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 15:57:04,945 - DEBUG - 取消异步API调用: get_users
+2025-06-25 15:57:04,945 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 15:57:04,946 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 15:57:04,946 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:57:04,946 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:57:04,947 - DEBUG - 使用缓存数据: users
+2025-06-25 15:57:04,947 - DEBUG - 用户数据更新: 1
+2025-06-25 15:57:04,947 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-25 15:57:04,979 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 15:57:04,979 - DEBUG - 使用缓存数据: sensor_data
+2025-06-25 15:57:04,980 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:57:34,957 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:57:34,957 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:57:34,958 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:57:34,958 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:57:34,958 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 15:57:34,958 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:57:34,958 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 15:57:34,958 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:57:35,221 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 15:57:35,221 - DEBUG - 异步API调用成功: get_users
+2025-06-25 15:57:35,222 - DEBUG - 已更新缓存: users
+2025-06-25 15:57:35,222 - DEBUG - 用户数据更新: 1
+2025-06-25 15:57:35,222 - DEBUG - 用户数据更新: 1
+2025-06-25 15:57:35,372 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 15:57:35,373 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 15:57:35,377 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 15:57:35,378 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:57:35,378 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:57:35,802 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 15:57:35,803 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:57:35,806 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:57:35,850 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 15:57:35,892 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 15:58:04,957 - DEBUG - 取消异步API调用: get_users
+2025-06-25 15:58:04,957 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 15:58:04,958 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 15:58:04,958 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:58:04,958 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:58:04,958 - DEBUG - 使用缓存数据: users
+2025-06-25 15:58:04,958 - DEBUG - 用户数据更新: 1
+2025-06-25 15:58:04,959 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-25 15:58:04,974 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 15:58:04,974 - DEBUG - 使用缓存数据: sensor_data
+2025-06-25 15:58:04,974 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:58:34,949 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 15:58:34,949 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 15:58:34,949 - DEBUG - 创建新的异步请求: users
+2025-06-25 15:58:34,950 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 15:58:34,950 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 15:58:34,950 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 15:58:34,950 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 15:58:34,951 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 15:58:35,231 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 15:58:35,231 - DEBUG - 异步API调用成功: get_users
+2025-06-25 15:58:35,232 - DEBUG - 已更新缓存: users
+2025-06-25 15:58:35,232 - DEBUG - 用户数据更新: 1
+2025-06-25 15:58:35,232 - DEBUG - 用户数据更新: 1
+2025-06-25 15:58:35,344 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 15:58:35,344 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 15:58:35,344 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 15:58:35,344 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:58:35,344 - DEBUG - 传感器数据更新: 6
+2025-06-25 15:58:35,762 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 15:58:35,763 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 15:58:35,765 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 15:58:35,800 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 15:58:35,845 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 15:58:51,895 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-06-25 15:58:51,895 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-06-25 15:58:54,559 - INFO - 应用程序启动
+2025-06-25 15:58:55,123 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 15:58:55,129 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 15:58:55,130 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 15:58:55,132 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 15:58:55,873 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 15:58:56,551 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 15:58:56,624 - DEBUG - 看板定时刷新已启动
+2025-06-25 15:58:57,259 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\dashboard_interface.py", line 507, in delayed_refresh_data
+    def delayed_refresh_data(self):
+KeyboardInterrupt
+
+2025-06-25 15:58:57,259 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\dashboard_interface.py", line 507, in delayed_refresh_data
+    def delayed_refresh_data(self):
+KeyboardInterrupt
+
+2025-06-25 18:32:28,235 - INFO - 应用程序启动
+2025-06-25 18:32:28,842 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 18:32:28,852 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 18:32:28,853 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 18:32:28,856 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 18:32:29,679 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 18:32:29,995 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 18:32:30,075 - DEBUG - 看板定时刷新已启动
+2025-06-25 18:32:30,075 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 105, in show_main_window
+    self.main_window.loaded_interfaces.add("DashboardInterface")
+AttributeError: 'MainWindow' object has no attribute 'loaded_interfaces'
+
+2025-06-25 18:32:30,075 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 105, in show_main_window
+    self.main_window.loaded_interfaces.add("DashboardInterface")
+AttributeError: 'MainWindow' object has no attribute 'loaded_interfaces'
+
+2025-06-25 18:32:30,695 - DEBUG - 延迟刷新数据被触发
+2025-06-25 18:32:30,695 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:32:30,695 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:32:30,695 - DEBUG - 创建新的异步请求: users
+2025-06-25 18:32:30,696 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:32:30,696 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 18:32:30,696 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 18:32:30,696 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:32:30,696 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 18:32:30,700 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 18:32:30,701 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-25 18:32:30,969 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 18:32:30,970 - DEBUG - 异步API调用成功: get_users
+2025-06-25 18:32:30,970 - DEBUG - 已更新缓存: users
+2025-06-25 18:32:30,971 - DEBUG - 用户数据更新: 1
+2025-06-25 18:32:30,971 - DEBUG - 用户数据更新: 1
+2025-06-25 18:32:31,128 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 18:32:31,129 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 18:32:31,129 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 18:32:31,130 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:32:31,130 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:32:31,528 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:32:31,529 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:32:31,530 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:32:31,553 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:32:31,567 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:32:54,954 - INFO - 应用程序启动
+2025-06-25 18:32:55,508 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 18:32:55,514 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 18:32:55,515 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 18:32:55,517 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 18:32:56,230 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 18:32:56,603 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 18:32:56,687 - DEBUG - 看板定时刷新已启动
+2025-06-25 18:32:56,687 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 105, in show_main_window
+    self.main_window.loaded_interfaces.add("DashboardInterface")
+AttributeError: 'MainWindow' object has no attribute 'loaded_interfaces'
+
+2025-06-25 18:32:56,687 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 105, in show_main_window
+    self.main_window.loaded_interfaces.add("DashboardInterface")
+AttributeError: 'MainWindow' object has no attribute 'loaded_interfaces'
+
+2025-06-25 18:32:57,320 - DEBUG - 延迟刷新数据被触发
+2025-06-25 18:32:57,320 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:32:57,320 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:32:57,320 - DEBUG - 创建新的异步请求: users
+2025-06-25 18:32:57,320 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:32:57,320 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 18:32:57,320 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 18:32:57,320 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:32:57,321 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 18:32:57,323 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 18:32:57,323 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-25 18:32:57,593 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 18:32:57,594 - DEBUG - 异步API调用成功: get_users
+2025-06-25 18:32:57,594 - DEBUG - 已更新缓存: users
+2025-06-25 18:32:57,596 - DEBUG - 用户数据更新: 1
+2025-06-25 18:32:57,596 - DEBUG - 用户数据更新: 1
+2025-06-25 18:32:57,762 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 18:32:57,762 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 18:32:57,763 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 18:32:57,763 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:32:57,763 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:32:58,137 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:32:58,137 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:32:58,138 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:32:58,142 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:32:58,146 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:33:26,684 - DEBUG - 取消异步API调用: get_users
+2025-06-25 18:33:26,685 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 18:33:26,685 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 18:33:26,685 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:33:26,686 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:33:26,686 - DEBUG - 使用缓存数据: users
+2025-06-25 18:33:26,686 - DEBUG - 用户数据更新: 1
+2025-06-25 18:33:26,686 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-25 18:33:26,718 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:33:26,719 - DEBUG - 使用缓存数据: sensor_data
+2025-06-25 18:33:26,719 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:33:56,687 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:33:56,688 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:33:56,689 - DEBUG - 创建新的异步请求: users
+2025-06-25 18:33:56,689 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:33:56,690 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 18:33:56,690 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 18:33:56,692 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 18:33:56,694 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:33:56,979 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 18:33:56,981 - DEBUG - 异步API调用成功: get_users
+2025-06-25 18:33:56,982 - DEBUG - 已更新缓存: users
+2025-06-25 18:33:56,982 - DEBUG - 用户数据更新: 1
+2025-06-25 18:33:56,983 - DEBUG - 用户数据更新: 1
+2025-06-25 18:33:57,130 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 18:33:57,131 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 18:33:57,133 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 18:33:57,133 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:33:57,133 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:33:57,553 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:33:57,554 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:33:57,554 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:33:57,578 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:33:57,604 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:34:26,691 - DEBUG - 取消异步API调用: get_users
+2025-06-25 18:34:26,691 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 18:34:26,691 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 18:34:26,691 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:34:26,691 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:34:26,692 - DEBUG - 使用缓存数据: users
+2025-06-25 18:34:26,692 - DEBUG - 用户数据更新: 1
+2025-06-25 18:34:26,692 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-25 18:34:26,702 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:34:26,702 - DEBUG - 使用缓存数据: sensor_data
+2025-06-25 18:34:26,702 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:34:56,692 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:34:56,692 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:34:56,692 - DEBUG - 创建新的异步请求: users
+2025-06-25 18:34:56,692 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:34:56,692 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 18:34:56,693 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 18:34:56,693 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:34:56,693 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 18:34:56,955 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 18:34:56,956 - DEBUG - 异步API调用成功: get_users
+2025-06-25 18:34:56,962 - DEBUG - 已更新缓存: users
+2025-06-25 18:34:56,963 - DEBUG - 用户数据更新: 1
+2025-06-25 18:34:56,963 - DEBUG - 用户数据更新: 1
+2025-06-25 18:34:57,101 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 18:34:57,102 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 18:34:57,107 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 18:34:57,108 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:34:57,108 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:34:57,501 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:34:57,502 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:34:57,502 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:34:57,531 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:34:57,551 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:35:08,896 - INFO - 应用程序启动
+2025-06-25 18:35:09,501 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 18:35:09,512 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 18:35:09,514 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 18:35:09,518 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 18:35:10,416 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 18:35:10,786 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 18:35:10,867 - DEBUG - 看板定时刷新已启动
+2025-06-25 18:35:11,496 - DEBUG - 延迟刷新数据被触发
+2025-06-25 18:35:11,496 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:35:11,496 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:35:11,496 - DEBUG - 创建新的异步请求: users
+2025-06-25 18:35:11,496 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:35:11,496 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 18:35:11,498 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 18:35:11,498 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:35:11,498 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 18:35:11,506 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 18:35:11,506 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-25 18:35:11,766 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 18:35:11,767 - DEBUG - 异步API调用成功: get_users
+2025-06-25 18:35:11,767 - DEBUG - 已更新缓存: users
+2025-06-25 18:35:11,767 - DEBUG - 用户数据更新: 1
+2025-06-25 18:35:11,767 - DEBUG - 用户数据更新: 1
+2025-06-25 18:35:11,920 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 18:35:11,921 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 18:35:11,922 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 18:35:11,923 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:35:11,923 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:35:12,315 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:35:12,316 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:35:12,318 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:35:12,331 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:35:12,347 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:35:40,868 - DEBUG - 取消异步API调用: get_users
+2025-06-25 18:35:40,869 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 18:35:40,869 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 18:35:40,869 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:35:40,869 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:35:40,869 - DEBUG - 使用缓存数据: users
+2025-06-25 18:35:40,870 - DEBUG - 用户数据更新: 1
+2025-06-25 18:35:40,870 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-25 18:35:40,888 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:35:40,889 - DEBUG - 使用缓存数据: sensor_data
+2025-06-25 18:35:40,889 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:36:10,881 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:36:10,882 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:36:10,882 - DEBUG - 创建新的异步请求: users
+2025-06-25 18:36:10,883 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:36:10,883 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 18:36:10,883 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 18:36:10,884 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 18:36:10,886 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:36:11,147 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 18:36:11,148 - DEBUG - 异步API调用成功: get_users
+2025-06-25 18:36:11,148 - DEBUG - 已更新缓存: users
+2025-06-25 18:36:11,148 - DEBUG - 用户数据更新: 1
+2025-06-25 18:36:11,148 - DEBUG - 用户数据更新: 1
+2025-06-25 18:36:11,284 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 18:36:11,284 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 18:36:11,285 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 18:36:11,285 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:36:11,286 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:36:11,656 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:36:11,657 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:36:11,657 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:36:11,670 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:36:11,685 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:36:40,879 - DEBUG - 取消异步API调用: get_users
+2025-06-25 18:36:40,879 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 18:36:40,879 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 18:36:40,879 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:36:40,879 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:36:40,879 - DEBUG - 使用缓存数据: users
+2025-06-25 18:36:40,879 - DEBUG - 用户数据更新: 1
+2025-06-25 18:36:40,880 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-25 18:36:40,885 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:36:40,885 - DEBUG - 使用缓存数据: sensor_data
+2025-06-25 18:36:40,885 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:37:10,869 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:37:10,869 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:37:10,870 - DEBUG - 创建新的异步请求: users
+2025-06-25 18:37:10,870 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:37:10,870 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 18:37:10,871 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 18:37:10,872 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:37:10,872 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 18:37:11,162 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 18:37:11,163 - DEBUG - 异步API调用成功: get_users
+2025-06-25 18:37:11,164 - DEBUG - 已更新缓存: users
+2025-06-25 18:37:11,164 - DEBUG - 用户数据更新: 1
+2025-06-25 18:37:11,164 - DEBUG - 用户数据更新: 1
+2025-06-25 18:37:11,290 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 18:37:11,291 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 18:37:11,291 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 18:37:11,292 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:37:11,292 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:37:11,700 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:37:11,701 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:37:11,702 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:37:11,712 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:37:11,716 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:37:40,870 - DEBUG - 取消异步API调用: get_users
+2025-06-25 18:37:40,870 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 18:37:40,870 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 18:37:40,870 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:37:40,870 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:37:40,870 - DEBUG - 使用缓存数据: users
+2025-06-25 18:37:40,870 - DEBUG - 用户数据更新: 1
+2025-06-25 18:37:40,870 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-25 18:37:40,886 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:37:40,886 - DEBUG - 使用缓存数据: sensor_data
+2025-06-25 18:37:40,886 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:38:10,875 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:38:10,876 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:38:10,876 - DEBUG - 创建新的异步请求: users
+2025-06-25 18:38:10,877 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:38:10,877 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 18:38:10,877 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 18:38:10,878 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:38:10,878 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 18:38:11,145 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 18:38:11,146 - DEBUG - 异步API调用成功: get_users
+2025-06-25 18:38:11,146 - DEBUG - 已更新缓存: users
+2025-06-25 18:38:11,146 - DEBUG - 用户数据更新: 1
+2025-06-25 18:38:11,146 - DEBUG - 用户数据更新: 1
+2025-06-25 18:38:11,287 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 18:38:11,287 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 18:38:11,289 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 18:38:11,289 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:38:11,289 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:38:11,708 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:38:11,708 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:38:11,708 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:38:11,713 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:38:11,716 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:38:40,874 - DEBUG - 取消异步API调用: get_users
+2025-06-25 18:38:40,875 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 18:38:40,875 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 18:38:40,876 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:38:40,876 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:38:40,876 - DEBUG - 使用缓存数据: users
+2025-06-25 18:38:40,876 - DEBUG - 用户数据更新: 1
+2025-06-25 18:38:40,876 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-25 18:38:40,882 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:38:40,882 - DEBUG - 使用缓存数据: sensor_data
+2025-06-25 18:38:40,882 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:38:40,887 - DEBUG - 看板定时刷新已停止
+2025-06-25 18:38:40,887 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:38:40,887 - DEBUG - 使用数据管理器加载加工任务数据
+2025-06-25 18:38:40,887 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:38:40,888 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:38:41,688 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:38:41,689 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:38:41,690 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:38:41,691 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 18:38:41,761 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 18:38:42,815 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:38:42,816 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 18:38:42,816 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 18:38:42,816 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 18:38:43,118 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 18:38:43,119 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 18:38:43,121 - DEBUG - 已更新缓存: task_groups
+2025-06-25 18:38:43,121 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:38:43,122 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:38:43,122 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:38:43,122 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:38:43,123 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:38:43,123 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 18:38:43,123 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:38:43,927 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:38:43,929 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:38:43,930 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:38:43,930 - DEBUG - 接收到 5 个任务数据
+2025-06-25 18:38:43,933 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 18:38:43,933 - DEBUG - 跳过重复的任务数据处理
+2025-06-25 18:38:43,933 - DEBUG - 跳过重复的任务数据处理
+2025-06-25 18:38:44,646 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:38:44,646 - DEBUG - 使用数据管理器加载加工任务数据
+2025-06-25 18:38:44,646 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 18:38:44,646 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:38:44,646 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:38:45,491 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:38:45,493 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:38:45,493 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:38:45,494 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 18:38:45,552 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 18:46:53,117 - INFO - 应用程序启动
+2025-06-25 18:46:53,685 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 18:46:53,689 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 18:46:53,690 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 18:46:53,691 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 18:46:54,353 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 18:46:54,661 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 18:46:54,751 - DEBUG - 看板定时刷新已启动
+2025-06-25 18:46:55,367 - DEBUG - 延迟刷新数据被触发
+2025-06-25 18:46:55,367 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:46:55,367 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 18:46:55,367 - DEBUG - 创建新的异步请求: users
+2025-06-25 18:46:55,367 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:46:55,367 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 18:46:55,368 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 18:46:55,368 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:46:55,368 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 18:46:55,370 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 18:46:55,370 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-25 18:46:55,623 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 18:46:55,623 - DEBUG - 异步API调用成功: get_users
+2025-06-25 18:46:55,623 - DEBUG - 已更新缓存: users
+2025-06-25 18:46:55,624 - DEBUG - 用户数据更新: 1
+2025-06-25 18:46:55,624 - DEBUG - 用户数据更新: 1
+2025-06-25 18:46:55,777 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 18:46:55,778 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 18:46:55,778 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 18:46:55,779 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:46:55,779 - DEBUG - 传感器数据更新: 6
+2025-06-25 18:46:56,192 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:46:56,192 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:46:56,199 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:46:56,205 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:46:56,209 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 18:46:56,873 - DEBUG - 看板定时刷新已停止
+2025-06-25 18:46:56,873 - DEBUG - 取消异步API调用: get_users
+2025-06-25 18:46:56,873 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 18:46:56,873 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 18:46:56,873 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:46:56,873 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:46:56,874 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:46:57,672 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:46:57,673 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:46:57,673 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:46:57,673 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 18:46:57,707 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 18:46:58,636 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:46:58,636 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 18:46:58,636 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 18:46:58,636 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 18:46:58,930 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 18:46:58,931 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 18:46:58,932 - DEBUG - 已更新缓存: task_groups
+2025-06-25 18:46:58,932 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:46:58,932 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:46:58,932 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:46:58,932 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:46:58,932 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:46:58,933 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 18:46:58,933 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:46:59,699 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:46:59,699 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:46:59,701 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:46:59,701 - DEBUG - 接收到 5 个任务数据
+2025-06-25 18:46:59,701 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 18:46:59,701 - DEBUG - 跳过重复的任务数据处理
+2025-06-25 18:46:59,701 - DEBUG - 跳过重复的任务数据处理
+2025-06-25 18:47:00,164 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:00,165 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 18:47:00,165 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:47:00,165 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:47:00,924 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:47:00,924 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:47:00,924 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:47:00,925 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 18:47:00,958 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 18:47:01,721 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:01,721 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 18:47:01,721 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 18:47:01,721 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 18:47:02,013 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 18:47:02,013 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 18:47:02,013 - DEBUG - 已更新缓存: task_groups
+2025-06-25 18:47:02,013 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:47:02,013 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:47:02,013 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:47:02,013 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:47:02,013 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:47:02,013 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:47:02,014 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 18:47:02,726 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:02,726 - DEBUG - 创建新的异步请求: tools
+2025-06-25 18:47:02,726 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 18:47:02,773 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:47:02,773 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 18:47:02,784 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 18:47:02,784 - DEBUG - 接收到 5 个任务数据
+2025-06-25 18:47:02,784 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 18:47:02,784 - DEBUG - 跳过重复的任务数据处理
+2025-06-25 18:47:02,784 - DEBUG - 跳过重复的任务数据处理
+2025-06-25 18:47:02,976 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 18:47:02,976 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 18:47:02,976 - DEBUG - 已更新缓存: tools
+2025-06-25 18:47:02,976 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 18:47:02,982 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 18:47:03,149 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:03,149 - DEBUG - 创建新的异步请求: composite_materials
+2025-06-25 18:47:03,149 - DEBUG - 开始执行异步API调用: get_composite_materials
+2025-06-25 18:47:03,402 - DEBUG - http://127.0.0.1:8000 "GET /api/composite-materials/ HTTP/1.1" 200 324
+2025-06-25 18:47:03,402 - DEBUG - 异步API调用成功: get_composite_materials
+2025-06-25 18:47:03,402 - DEBUG - 已更新缓存: composite_materials
+2025-06-25 18:47:03,402 - DEBUG - 接收到 1 个构件数据
+2025-06-25 18:47:03,408 - DEBUG - 接收到 1 个构件数据
+2025-06-25 18:47:04,236 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:04,236 - DEBUG - 取消异步API调用: get_tools
+2025-06-25 18:47:04,236 - DEBUG - 创建新的异步请求: tools
+2025-06-25 18:47:04,237 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 18:47:04,489 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 18:47:04,489 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 18:47:04,489 - DEBUG - 已更新缓存: tools
+2025-06-25 18:47:04,489 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 18:47:04,495 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 18:47:06,271 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:06,271 - DEBUG - 取消异步API调用: get_composite_materials
+2025-06-25 18:47:06,271 - DEBUG - 创建新的异步请求: composite_materials
+2025-06-25 18:47:06,272 - DEBUG - 开始执行异步API调用: get_composite_materials
+2025-06-25 18:47:06,525 - DEBUG - http://127.0.0.1:8000 "GET /api/composite-materials/ HTTP/1.1" 200 324
+2025-06-25 18:47:06,525 - DEBUG - 异步API调用成功: get_composite_materials
+2025-06-25 18:47:06,561 - DEBUG - 已更新缓存: composite_materials
+2025-06-25 18:47:06,561 - DEBUG - 接收到 1 个构件数据
+2025-06-25 18:47:06,567 - DEBUG - 接收到 1 个构件数据
+2025-06-25 18:47:06,572 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:06,572 - DEBUG - 取消异步API调用: get_tools
+2025-06-25 18:47:06,572 - DEBUG - 创建新的异步请求: tools
+2025-06-25 18:47:06,572 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 18:47:06,834 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 18:47:06,835 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 18:47:06,835 - DEBUG - 已更新缓存: tools
+2025-06-25 18:47:06,836 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 18:47:06,861 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 18:47:07,742 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:07,795 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 18:47:07,796 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 18:47:07,796 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 18:47:08,002 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:08,003 - DEBUG - 取消异步API调用: get_tools
+2025-06-25 18:47:08,003 - DEBUG - 创建新的异步请求: tools
+2025-06-25 18:47:08,003 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 18:47:08,095 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 18:47:08,096 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 18:47:08,096 - DEBUG - 已更新缓存: task_groups
+2025-06-25 18:47:08,096 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:47:08,096 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:47:08,096 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 18:47:08,096 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:47:08,096 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:47:08,096 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 18:47:08,096 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 18:47:08,255 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 18:47:08,255 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 18:47:08,256 - DEBUG - 已更新缓存: tools
+2025-06-25 18:47:08,256 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 18:47:08,262 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 18:47:08,624 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:08,624 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 18:47:08,624 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 18:47:08,624 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 18:47:08,624 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 18:47:08,864 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 18:47:08,864 - DEBUG - 异步API调用在完成后被取消: get_processing_tasks
+2025-06-25 18:47:08,917 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:08,917 - DEBUG - 取消异步API调用: get_tools
+2025-06-25 18:47:08,917 - DEBUG - 创建新的异步请求: tools
+2025-06-25 18:47:08,917 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 18:47:08,921 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 18:47:08,921 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 18:47:08,926 - DEBUG - 已更新缓存: task_groups
+2025-06-25 18:47:08,926 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:47:08,926 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:47:08,926 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 18:47:08,926 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:47:08,927 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:47:08,927 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 18:47:09,168 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 18:47:09,169 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 18:47:09,169 - DEBUG - 已更新缓存: tools
+2025-06-25 18:47:09,169 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 18:47:09,175 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 18:47:09,188 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:09,189 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 18:47:09,189 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 18:47:09,189 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 18:47:09,483 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 18:47:09,483 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 18:47:09,483 - DEBUG - 已更新缓存: task_groups
+2025-06-25 18:47:09,483 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:47:09,483 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:47:09,483 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 18:47:09,483 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:47:09,483 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:47:09,483 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 18:47:16,622 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:16,622 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 18:47:16,622 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 18:47:17,358 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:17,359 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 18:47:17,359 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 18:47:17,359 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 18:47:17,669 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 18:47:17,670 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 18:47:17,670 - DEBUG - 已更新缓存: task_groups
+2025-06-25 18:47:17,670 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:47:17,671 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:47:17,671 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 18:47:17,671 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:47:17,671 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:47:17,671 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 18:47:23,991 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:23,992 - DEBUG - 取消异步API调用: get_tools
+2025-06-25 18:47:23,992 - DEBUG - 创建新的异步请求: tools
+2025-06-25 18:47:23,992 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 18:47:24,254 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 18:47:24,255 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 18:47:24,255 - DEBUG - 已更新缓存: tools
+2025-06-25 18:47:24,256 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 18:47:24,272 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 18:47:26,934 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 18:47:26,934 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 18:47:26,934 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 18:47:26,934 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 18:47:27,236 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 18:47:27,237 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 18:47:27,237 - DEBUG - 已更新缓存: task_groups
+2025-06-25 18:47:27,237 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:47:27,237 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:47:27,237 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 18:47:27,237 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 18:47:27,237 - DEBUG - 处理 1 个任务分组
+2025-06-25 18:47:27,237 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:09:41,743 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-06-25 19:09:41,743 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-06-25 19:09:42,571 - INFO - 应用程序启动
+2025-06-25 19:09:43,169 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 19:09:43,175 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 19:09:43,177 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 19:09:43,180 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 19:09:44,086 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 19:09:44,399 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 19:09:44,464 - DEBUG - 看板定时刷新已启动
+2025-06-25 19:09:45,130 - DEBUG - 延迟刷新数据被触发
+2025-06-25 19:09:45,132 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:09:45,132 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 19:09:45,132 - DEBUG - 创建新的异步请求: users
+2025-06-25 19:09:45,133 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:09:45,133 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 19:09:45,133 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 19:09:45,134 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 19:09:45,134 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:09:45,145 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 19:09:45,146 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-25 19:09:45,453 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 19:09:45,454 - DEBUG - 异步API调用成功: get_users
+2025-06-25 19:09:45,457 - DEBUG - 已更新缓存: users
+2025-06-25 19:09:45,458 - DEBUG - 用户数据更新: 1
+2025-06-25 19:09:45,458 - DEBUG - 用户数据更新: 1
+2025-06-25 19:09:45,583 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 19:09:45,583 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 19:09:45,584 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 19:09:45,586 - DEBUG - 传感器数据更新: 6
+2025-06-25 19:09:45,586 - DEBUG - 传感器数据更新: 6
+2025-06-25 19:09:46,003 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:09:46,004 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:09:46,004 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:09:46,023 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 19:09:46,030 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 19:09:47,912 - DEBUG - 看板定时刷新已停止
+2025-06-25 19:09:47,912 - DEBUG - 取消异步API调用: get_users
+2025-06-25 19:09:47,912 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 19:09:47,912 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 19:09:47,912 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:09:47,912 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:09:47,913 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:09:48,699 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:09:48,700 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:09:48,700 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:09:48,701 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 19:09:48,750 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 19:09:49,908 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:09:49,908 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 19:09:49,908 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 19:09:49,908 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 19:09:50,205 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 19:09:50,205 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 19:09:50,205 - DEBUG - 已更新缓存: task_groups
+2025-06-25 19:09:50,205 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:09:50,205 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:09:50,205 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:09:50,207 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:09:50,207 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:09:50,207 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:09:50,207 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:09:51,015 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:09:51,016 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:09:51,017 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:09:51,017 - DEBUG - 跳过过期的任务数据请求: task_groups_2796315186432_1750849790.2055469
+2025-06-25 19:09:51,018 - DEBUG - 接收到 5 个任务数据
+2025-06-25 19:09:51,019 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 19:09:51,019 - DEBUG - 跳过过期的任务数据请求: task_groups_2796315186432_1750849790.2055469
+2025-06-25 19:09:51,906 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:09:51,906 - DEBUG - 创建新的异步请求: tools
+2025-06-25 19:09:51,906 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 19:09:52,160 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 19:09:52,161 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 19:09:52,162 - DEBUG - 已更新缓存: tools
+2025-06-25 19:09:52,162 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:09:52,170 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:09:52,221 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:09:52,221 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 19:09:52,221 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 19:09:52,221 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 19:09:52,505 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 19:09:52,506 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 19:09:52,506 - DEBUG - 已更新缓存: task_groups
+2025-06-25 19:09:52,507 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:09:52,507 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:09:52,507 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:09:52,507 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:09:52,507 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:09:52,507 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:09:52,507 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:09:53,294 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:09:53,295 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:09:53,295 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:09:53,295 - DEBUG - 接收到 5 个任务数据
+2025-06-25 19:10:05,564 - INFO - 应用程序启动
+2025-06-25 19:10:06,121 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 19:10:06,127 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 19:10:06,130 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 19:10:06,132 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 19:10:06,850 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 19:10:07,195 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 19:10:07,360 - DEBUG - 看板定时刷新已启动
+2025-06-25 19:10:07,894 - DEBUG - 延迟刷新数据被触发
+2025-06-25 19:10:07,894 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:10:07,895 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 19:10:07,895 - DEBUG - 创建新的异步请求: users
+2025-06-25 19:10:07,895 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:10:07,896 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 19:10:07,897 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:10:07,898 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 19:10:07,901 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 19:10:07,921 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 19:10:07,929 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-25 19:10:08,177 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 19:10:08,178 - DEBUG - 异步API调用成功: get_users
+2025-06-25 19:10:08,178 - DEBUG - 已更新缓存: users
+2025-06-25 19:10:08,179 - DEBUG - 用户数据更新: 1
+2025-06-25 19:10:08,179 - DEBUG - 用户数据更新: 1
+2025-06-25 19:10:08,331 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 19:10:08,331 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 19:10:08,345 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 19:10:08,345 - DEBUG - 传感器数据更新: 6
+2025-06-25 19:10:08,345 - DEBUG - 传感器数据更新: 6
+2025-06-25 19:10:08,735 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:10:08,735 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:10:08,736 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:10:08,743 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 19:10:08,758 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 19:10:11,712 - DEBUG - 看板定时刷新已停止
+2025-06-25 19:10:11,712 - DEBUG - 取消异步API调用: get_users
+2025-06-25 19:10:11,712 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 19:10:11,712 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 19:10:11,712 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:10:11,712 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 19:10:11,712 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 19:10:11,712 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 19:10:12,006 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 19:10:12,006 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 19:10:12,006 - DEBUG - 已更新缓存: task_groups
+2025-06-25 19:10:12,007 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:10:12,007 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:10:12,007 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:10:12,007 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:10:12,007 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:10:12,007 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:10:12,007 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:10:12,801 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:10:12,802 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:10:12,807 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:10:12,808 - DEBUG - 接收到 5 个任务数据
+2025-06-25 19:10:12,809 - ERROR - 处理任务数据时出错: wrapped C/C++ object of type QStandardItem has been deleted
+2025-06-25 19:10:12,810 - DEBUG - 接收到 5 个任务数据
+2025-06-25 19:10:12,813 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 19:10:12,814 - DEBUG - 接收到 5 个任务数据
+2025-06-25 19:10:12,816 - ERROR - 处理任务数据时出错: wrapped C/C++ object of type QStandardItem has been deleted
+2025-06-25 19:10:13,533 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:10:13,534 - DEBUG - 创建新的异步请求: tools
+2025-06-25 19:10:13,534 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 19:10:13,801 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 19:10:13,803 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 19:10:13,804 - DEBUG - 已更新缓存: tools
+2025-06-25 19:10:13,805 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:10:13,836 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:10:17,111 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:10:17,111 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 19:10:17,111 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 19:10:17,113 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 19:10:17,417 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:10:17,418 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 19:10:17,418 - DEBUG - 取消异步API调用: get_tools
+2025-06-25 19:10:17,419 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 19:10:17,419 - DEBUG - 创建新的异步请求: tools
+2025-06-25 19:10:17,419 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 19:10:17,419 - DEBUG - 已更新缓存: task_groups
+2025-06-25 19:10:17,421 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:10:17,423 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:10:17,424 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:10:17,424 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:10:17,424 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:10:17,424 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:10:17,424 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:10:17,688 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 19:10:17,689 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 19:10:17,703 - DEBUG - 已更新缓存: tools
+2025-06-25 19:10:17,704 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:10:17,711 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:10:17,763 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:10:17,763 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 19:10:17,763 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 19:10:17,763 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 19:10:17,764 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 19:10:18,057 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 19:10:18,058 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 19:10:18,058 - DEBUG - 已更新缓存: task_groups
+2025-06-25 19:10:18,058 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:10:18,058 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:10:18,058 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:10:18,058 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:10:18,058 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:10:18,060 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:10:18,226 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:10:18,227 - DEBUG - 异步API调用在完成后被取消: get_processing_tasks
+2025-06-25 19:10:21,083 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:10:21,083 - DEBUG - 取消异步API调用: get_tools
+2025-06-25 19:10:21,083 - DEBUG - 创建新的异步请求: tools
+2025-06-25 19:10:21,084 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 19:10:21,347 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 19:10:21,350 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 19:10:21,351 - DEBUG - 已更新缓存: tools
+2025-06-25 19:10:21,353 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:10:21,373 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:10:21,702 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:10:21,720 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 19:10:21,720 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 19:10:21,721 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 19:10:22,044 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 19:10:22,046 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 19:10:22,049 - DEBUG - 已更新缓存: task_groups
+2025-06-25 19:10:22,051 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:10:22,051 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:10:22,052 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:10:22,053 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:10:22,053 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:10:22,054 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:10:25,240 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:13:47,097 - INFO - 应用程序启动
+2025-06-25 19:13:47,741 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 19:13:47,747 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 19:13:47,748 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 19:13:47,751 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 19:13:48,454 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 19:13:48,800 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 19:13:48,891 - DEBUG - 看板定时刷新已启动
+2025-06-25 19:13:49,487 - DEBUG - 延迟刷新数据被触发
+2025-06-25 19:13:49,488 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:13:49,488 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 19:13:49,488 - DEBUG - 创建新的异步请求: users
+2025-06-25 19:13:49,488 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:13:49,488 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 19:13:49,488 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 19:13:49,489 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:13:49,489 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 19:13:49,501 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 19:13:49,502 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-25 19:13:49,775 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 19:13:49,776 - DEBUG - 异步API调用成功: get_users
+2025-06-25 19:13:49,778 - DEBUG - 已更新缓存: users
+2025-06-25 19:13:49,781 - DEBUG - 用户数据更新: 1
+2025-06-25 19:13:49,782 - DEBUG - 用户数据更新: 1
+2025-06-25 19:13:49,931 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 19:13:49,931 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 19:13:49,942 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 19:13:49,942 - DEBUG - 传感器数据更新: 6
+2025-06-25 19:13:49,942 - DEBUG - 传感器数据更新: 6
+2025-06-25 19:13:50,321 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:13:50,321 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:13:50,334 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:13:50,338 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 19:13:50,343 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 19:13:51,340 - DEBUG - 看板定时刷新已停止
+2025-06-25 19:13:51,340 - DEBUG - 取消异步API调用: get_users
+2025-06-25 19:13:51,340 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 19:13:51,340 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 19:13:51,341 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:13:51,341 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 19:13:51,341 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 19:13:51,341 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 19:13:51,639 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 19:13:51,640 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 19:13:51,644 - DEBUG - 已更新缓存: task_groups
+2025-06-25 19:13:51,646 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:13:51,646 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:13:51,646 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:13:51,647 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:13:51,647 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:13:51,647 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:13:51,648 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:13:52,430 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:13:52,430 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:13:52,431 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:13:52,431 - DEBUG - 接收到 5 个任务数据
+2025-06-25 19:13:52,433 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 19:13:52,433 - DEBUG - 没有当前分组状态，跳过任务数据处理
+2025-06-25 19:13:52,433 - DEBUG - 没有当前分组状态，跳过任务数据处理
+2025-06-25 19:13:53,110 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:13:53,110 - DEBUG - 创建新的异步请求: tools
+2025-06-25 19:13:53,111 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 19:13:53,378 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 19:13:53,380 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 19:13:53,396 - DEBUG - 已更新缓存: tools
+2025-06-25 19:13:53,397 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:13:53,426 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:13:53,458 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:13:53,458 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 19:13:53,458 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 19:13:53,458 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 19:13:53,759 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 19:13:53,760 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 19:13:53,761 - DEBUG - 已更新缓存: task_groups
+2025-06-25 19:13:53,763 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:13:53,763 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:13:53,763 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:13:53,765 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:13:53,765 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:13:53,766 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:13:53,766 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:13:54,551 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:13:54,552 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:13:54,556 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:13:54,556 - DEBUG - 接收到 5 个任务数据
+2025-06-25 19:13:54,559 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 19:13:54,560 - DEBUG - 没有当前分组状态，跳过任务数据处理
+2025-06-25 19:13:54,560 - DEBUG - 没有当前分组状态，跳过任务数据处理
+2025-06-25 19:13:55,254 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:13:55,254 - DEBUG - 取消异步API调用: get_tools
+2025-06-25 19:13:55,254 - DEBUG - 创建新的异步请求: tools
+2025-06-25 19:13:55,254 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 19:13:55,514 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 19:13:55,514 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 19:13:55,525 - DEBUG - 已更新缓存: tools
+2025-06-25 19:13:55,525 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:13:55,531 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:13:56,104 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:13:56,104 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 19:13:56,104 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 19:13:56,105 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 19:13:56,403 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 19:13:56,404 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 19:13:56,406 - DEBUG - 已更新缓存: task_groups
+2025-06-25 19:13:56,408 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:13:56,408 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:13:56,408 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:13:56,409 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:13:56,409 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:13:56,410 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:13:56,411 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:13:57,210 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:13:57,211 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:13:57,212 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:13:57,212 - DEBUG - 接收到 5 个任务数据
+2025-06-25 19:13:57,214 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 19:13:57,214 - DEBUG - 没有当前分组状态，跳过任务数据处理
+2025-06-25 19:13:57,214 - DEBUG - 没有当前分组状态，跳过任务数据处理
+2025-06-25 19:14:02,065 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:14:02,065 - DEBUG - 取消异步API调用: get_tools
+2025-06-25 19:14:02,065 - DEBUG - 创建新的异步请求: tools
+2025-06-25 19:14:02,066 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-25 19:14:02,329 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 290
+2025-06-25 19:14:02,331 - DEBUG - 异步API调用成功: get_tools
+2025-06-25 19:14:02,347 - DEBUG - 已更新缓存: tools
+2025-06-25 19:14:02,347 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:14:02,361 - DEBUG - 接收到 1 个刀具数据
+2025-06-25 19:14:02,409 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:14:02,409 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 19:14:02,409 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 19:14:02,409 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 19:14:02,713 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 19:14:02,714 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 19:14:02,714 - DEBUG - 已更新缓存: task_groups
+2025-06-25 19:14:02,716 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:14:02,716 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:14:02,716 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:14:02,718 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:14:02,718 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:14:02,719 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:14:02,719 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:14:03,496 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:14:03,497 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:14:03,498 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:14:03,498 - DEBUG - 接收到 5 个任务数据
+2025-06-25 19:14:03,499 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 19:14:03,499 - DEBUG - 没有当前分组状态，跳过任务数据处理
+2025-06-25 19:14:03,499 - DEBUG - 没有当前分组状态，跳过任务数据处理
+2025-06-25 19:16:31,822 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-06-25 19:16:31,823 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-06-25 19:16:32,560 - INFO - 应用程序启动
+2025-06-25 19:16:33,116 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-25 19:16:33,120 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-25 19:16:33,121 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-25 19:16:33,122 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-25 19:16:33,768 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-25 19:16:34,110 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-06-25 19:16:34,267 - DEBUG - 看板定时刷新已启动
+2025-06-25 19:16:34,819 - DEBUG - 延迟刷新数据被触发
+2025-06-25 19:16:34,819 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:16:34,819 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-25 19:16:34,820 - DEBUG - 创建新的异步请求: users
+2025-06-25 19:16:34,820 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:16:34,820 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-25 19:16:34,820 - DEBUG - 开始执行异步API调用: get_users
+2025-06-25 19:16:34,820 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-25 19:16:34,821 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:16:34,825 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-25 19:16:34,826 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-25 19:16:35,083 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-25 19:16:35,083 - DEBUG - 异步API调用成功: get_users
+2025-06-25 19:16:35,086 - DEBUG - 已更新缓存: users
+2025-06-25 19:16:35,086 - DEBUG - 用户数据更新: 1
+2025-06-25 19:16:35,086 - DEBUG - 用户数据更新: 1
+2025-06-25 19:16:35,249 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-25 19:16:35,250 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-25 19:16:35,259 - DEBUG - 已更新缓存: sensor_data
+2025-06-25 19:16:35,260 - DEBUG - 传感器数据更新: 6
+2025-06-25 19:16:35,260 - DEBUG - 传感器数据更新: 6
+2025-06-25 19:16:35,634 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:16:35,635 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:16:35,636 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:16:35,656 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 19:16:35,671 - DEBUG - 任务数据更新: 总数=5, 待处理=5
+2025-06-25 19:16:35,820 - DEBUG - 看板定时刷新已停止
+2025-06-25 19:16:35,820 - DEBUG - 取消异步API调用: get_users
+2025-06-25 19:16:35,820 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 19:16:35,820 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-25 19:16:35,820 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:16:35,820 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 19:16:35,820 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 19:16:35,821 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 19:16:36,129 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 19:16:36,130 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 19:16:36,134 - DEBUG - 已更新缓存: task_groups
+2025-06-25 19:16:36,137 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:16:36,138 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:16:36,138 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:16:36,139 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:16:36,140 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:16:36,140 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:16:36,140 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:16:36,995 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:16:36,996 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:16:36,997 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:16:36,997 - DEBUG - 接收到 5 个任务数据
+2025-06-25 19:16:36,999 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 19:16:36,999 - DEBUG - 不在加载状态或没有分组状态，跳过任务数据处理
+2025-06-25 19:16:37,000 - DEBUG - 不在加载状态或没有分组状态，跳过任务数据处理
+2025-06-25 19:16:41,020 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:16:41,020 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:16:41,020 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:16:41,422 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:16:41,422 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 19:16:41,422 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 19:16:41,423 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 19:16:41,735 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 19:16:41,736 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 19:16:41,737 - DEBUG - 已更新缓存: task_groups
+2025-06-25 19:16:41,738 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:16:41,739 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:16:41,739 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:16:41,739 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:16:41,739 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:16:41,739 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:16:41,829 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:16:41,829 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:16:41,829 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:16:41,829 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 19:16:41,873 - DEBUG - 接收到 5 个任务数据
+2025-06-25 19:16:41,873 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 19:16:41,873 - DEBUG - 不在加载状态或没有分组状态，跳过任务数据处理
+2025-06-25 19:16:41,873 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 19:16:42,816 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:16:42,816 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-25 19:16:42,816 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:16:42,816 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:16:43,616 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:16:43,617 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:16:43,618 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:16:43,620 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 19:16:43,669 - DEBUG - 接收到 5 个加工任务数据
+2025-06-25 19:16:44,095 - DEBUG - 已取消所有活跃的异步任务
+2025-06-25 19:16:44,095 - DEBUG - 使用数据管理器加载任务分组数据
+2025-06-25 19:16:44,095 - DEBUG - 创建新的异步请求: task_groups
+2025-06-25 19:16:44,095 - DEBUG - 开始执行异步API调用: get_task_groups
+2025-06-25 19:16:44,391 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/ HTTP/1.1" 200 318
+2025-06-25 19:16:44,392 - DEBUG - 异步API调用成功: get_task_groups
+2025-06-25 19:16:44,393 - DEBUG - 已更新缓存: task_groups
+2025-06-25 19:16:44,394 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:16:44,394 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:16:44,394 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-25 19:16:44,395 - DEBUG - 接收到 1 个任务分组数据
+2025-06-25 19:16:44,395 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-25 19:16:44,396 - DEBUG - 处理 1 个任务分组
+2025-06-25 19:16:44,396 - DEBUG - 合并到现有请求: processing_tasks
+2025-06-25 19:16:45,166 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 5137
+2025-06-25 19:16:45,167 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-25 19:16:45,171 - DEBUG - 已更新缓存: processing_tasks
+2025-06-25 19:16:45,171 - DEBUG - 接收到 5 个任务数据
+2025-06-25 19:16:45,172 - DEBUG - 任务分组树状结构构建完成
+2025-06-25 19:16:45,172 - DEBUG - 不在加载状态或没有分组状态，跳过任务数据处理
+2025-06-25 19:16:45,172 - DEBUG - 不在加载状态或没有分组状态，跳过任务数据处理
+2025-06-25 19:16:46,971 - DEBUG - 已取消所有活跃的异步任务

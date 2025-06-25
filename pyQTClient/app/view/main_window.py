@@ -25,7 +25,6 @@ class MainWindow(FluentWindow):
     def __init__(self):
         super().__init__()
         self.is_logout = False
-        self.loaded_interfaces = set()  # 记录已加载数据的界面
         self.initWindow()
 
         # create sub interface
@@ -46,9 +45,10 @@ class MainWindow(FluentWindow):
 
         # 添加文件传输按钮到标题栏
         self.download_button = FileTransferButton(self)
+        # self.download_button.bor
         
         # 设置按钮大小与标题栏系统按钮一致
-        self.download_button.setFixedSize(46, 32)
+        # self.download_button.setFixedSize(16, 16)
 
         
         # 插入到标题栏右侧，在系统按钮之前
@@ -163,7 +163,7 @@ class MainWindow(FluentWindow):
         super().closeEvent(event)
 
     def on_interface_changed(self, index):
-        """界面切换时的处理，实现按需加载"""
+        """界面切换时的处理，每次切换都自动刷新数据"""
         current_widget = self.stackedWidget.widget(index)
         if current_widget is None:
             return
@@ -181,56 +181,102 @@ class MainWindow(FluentWindow):
             if hasattr(self.dashboard_interface, 'stop_refresh_timer'):
                 self.dashboard_interface.stop_refresh_timer()
 
-        # 如果该界面已经加载过数据，则不重复加载
-        if interface_name in self.loaded_interfaces:
-            return
-
-        # 根据界面类型加载对应数据
+        # 每次切换都自动刷新数据（移除了只加载一次的限制）
+        # 根据界面类型加载对应数据，使用preserve_old_data=True避免用户看到空白界面
         try:
             if interface_name == "DashboardInterface":
-                # 看板界面 - 已在初始化时自动加载数据
-                self.loaded_interfaces.add(interface_name)
+                # 看板界面 - 定时器会自动刷新数据，这里不需要额外操作
+                pass
 
             elif interface_name == "ProcessingTaskInterface":
-                # 加工任务界面
-                current_widget.task_list_widget.populate_table()
-                self.loaded_interfaces.add(interface_name)
+                # 加工任务界面 - 使用数据管理器自动刷新数据
+                try:
+                    from ..api.data_manager import interface_loader
+                    interface_loader.load_for_interface(
+                        interface=current_widget.task_list_widget,
+                        data_type='processing_tasks',
+                        table_widget=current_widget.task_list_widget.table,
+                        force_refresh=True,
+                        preserve_old_data=True  # 保留旧数据直到新数据加载完成
+                    )
+                except ImportError:
+                    # 回退到原始方法
+                    current_widget.task_list_widget.populate_table()
 
             elif interface_name == "TaskGroupInterface":
-                # 任务分组界面
+                # 任务分组界面 - 自动刷新数据，使用preserve_old_data避免空白
                 if hasattr(current_widget, 'populate_group_tree'):
-                    current_widget.populate_group_tree()
-                self.loaded_interfaces.add(interface_name)
+                    current_widget.populate_group_tree(preserve_old_data=True)
 
             elif interface_name == "ToolInterface":
-                # 刀具管理界面
-                if hasattr(current_widget, 'populate_table'):
-                    current_widget.populate_table()
-                self.loaded_interfaces.add(interface_name)
+                # 刀具管理界面 - 使用数据管理器自动刷新数据
+                try:
+                    from ..api.data_manager import interface_loader
+                    interface_loader.load_for_interface(
+                        interface=current_widget,
+                        data_type='tools',
+                        table_widget=current_widget.table,
+                        force_refresh=True,
+                        preserve_old_data=True  # 保留旧数据直到新数据加载完成
+                    )
+                except ImportError:
+                    # 回退到原始方法
+                    if hasattr(current_widget, 'populate_table'):
+                        current_widget.populate_table()
 
             elif interface_name == "CompositeMaterialInterface":
-                # 构件管理界面
-                if hasattr(current_widget, 'populate_table'):
-                    current_widget.populate_table()
-                self.loaded_interfaces.add(interface_name)
+                # 构件管理界面 - 使用数据管理器自动刷新数据
+                try:
+                    from ..api.data_manager import interface_loader
+                    interface_loader.load_for_interface(
+                        interface=current_widget,
+                        data_type='composite_materials',
+                        table_widget=current_widget.table,
+                        force_refresh=True,
+                        preserve_old_data=True  # 保留旧数据直到新数据加载完成
+                    )
+                except ImportError:
+                    # 回退到原始方法
+                    if hasattr(current_widget, 'populate_table'):
+                        current_widget.populate_table()
 
             elif interface_name == "SensorDataInterface":
-                # 传感器数据界面
-                if hasattr(current_widget, 'populate_table'):
-                    current_widget.populate_table()
-                self.loaded_interfaces.add(interface_name)
+                # 传感器数据界面 - 使用数据管理器自动刷新数据
+                try:
+                    from ..api.data_manager import interface_loader
+                    interface_loader.load_for_interface(
+                        interface=current_widget,
+                        data_type='sensor_data',
+                        table_widget=current_widget.table,
+                        force_refresh=True,
+                        preserve_old_data=True  # 保留旧数据直到新数据加载完成
+                    )
+                except ImportError:
+                    # 回退到原始方法
+                    if hasattr(current_widget, 'populate_table'):
+                        current_widget.populate_table()
 
             elif interface_name == "UserInterface":
-                # 用户管理界面
-                if hasattr(current_widget, 'populate_table'):
-                    current_widget.populate_table()
-                self.loaded_interfaces.add(interface_name)
+                # 用户管理界面 - 使用数据管理器自动刷新数据
+                try:
+                    from ..api.data_manager import interface_loader
+                    interface_loader.load_for_interface(
+                        interface=current_widget,
+                        data_type='users',
+                        table_widget=current_widget.table,
+                        force_refresh=True,
+                        preserve_old_data=True  # 保留旧数据直到新数据加载完成
+                    )
+                except ImportError:
+                    # 回退到原始方法
+                    if hasattr(current_widget, 'populate_table'):
+                        current_widget.populate_table()
 
             elif interface_name == "SettingInterface":
-                # 设置界面 - 已在初始化时加载用户信息
-                self.loaded_interfaces.add(interface_name)
+                # 设置界面 - 不需要刷新数据
+                pass
 
         except Exception as e:
             import logging
             logger = logging.getLogger(__name__)
-            logger.error(f"加载界面数据时出错 ({interface_name}): {e}") 
+            logger.error(f"自动刷新界面数据时出错 ({interface_name}): {e}") 

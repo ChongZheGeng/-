@@ -11,15 +11,23 @@ import logging
 # 设置logger
 logger = logging.getLogger(__name__)
 
-# 安全导入异步API
+# 导入数据管理器
 try:
-    from ..api.async_api import async_api
-    ASYNC_API_AVAILABLE = True
-    logger.debug("异步API模块导入成功")
+    from ..api.data_manager import interface_loader
+    DATA_MANAGER_AVAILABLE = True
+    logger.debug("数据管理器导入成功")
 except ImportError as e:
-    logger.warning(f"异步API模块导入失败: {e}")
-    async_api = None
-    ASYNC_API_AVAILABLE = False
+    logger.warning(f"数据管理器导入失败，回退到原始异步API: {e}")
+    # 安全导入异步API作为回退
+    try:
+        from ..api.async_api import async_api
+        ASYNC_API_AVAILABLE = True
+        logger.debug("异步API模块导入成功")
+    except ImportError as e2:
+        logger.warning(f"异步API模块导入失败: {e2}")
+        async_api = None
+        ASYNC_API_AVAILABLE = False
+    DATA_MANAGER_AVAILABLE = False
 
 
 class ToolEditDialog(MessageBoxBase):
@@ -203,25 +211,36 @@ class ToolInterface(QWidget):
         # --- 初始化时不自动加载数据，改为按需加载 ---
         # self.populate_table()  # 注释掉自动加载
 
-    def populate_table(self):
+    def populate_table(self, preserve_old_data=True):
         """ 异步从API获取数据并填充表格 """
-        if self.worker and self.worker.isRunning():
-            logger.debug("取消之前的刀具数据加载")
-            self.worker.cancel()
-
         try:
-            if ASYNC_API_AVAILABLE and async_api:
-                logger.debug("开始异步加载刀具数据")
-                self.table.setRowCount(0)
+            if DATA_MANAGER_AVAILABLE:
+                logger.debug("使用数据管理器加载刀具数据")
+                # 使用新的数据管理器
+                interface_loader.load_for_interface(
+                    interface=self,
+                    data_type='tools',
+                    table_widget=self.table,
+                    force_refresh=True,
+                    preserve_old_data=preserve_old_data
+                )
+            elif ASYNC_API_AVAILABLE and async_api:
+                # 回退到原始异步API
+                logger.debug("回退到原始异步API加载刀具数据")
+                if self.worker and self.worker.isRunning():
+                    self.worker.cancel()
                 
-                # 异步获取刀具数据
+                if not preserve_old_data:
+                    self.table.setRowCount(0)
                 self.worker = async_api.get_tools_async(
                     success_callback=self.on_tools_data_received,
                     error_callback=self.on_tools_data_error
                 )
             else:
+                # 最终回退到同步加载
                 logger.warning("异步API不可用，回退到同步加载")
-                self.table.setRowCount(0)
+                if not preserve_old_data:
+                    self.table.setRowCount(0)
                 try:
                     response_data = api_client.get_tools()
                     self.on_tools_data_received(response_data)
@@ -299,7 +318,7 @@ class ToolInterface(QWidget):
             result = api_client.add_tool(data)
             if result:
                 InfoBar.success("成功", "新增成功", duration=2000, parent=self)
-                self.populate_table()
+                self.populate_table(preserve_old_data=False)
             else:
                 InfoBar.error("失败", "新增失败，请查看控制台输出。", duration=3000, parent=self)
 
@@ -311,7 +330,7 @@ class ToolInterface(QWidget):
             result = api_client.update_tool(tool_data['id'], data)
             if result:
                 InfoBar.success("成功", "更新成功", duration=2000, parent=self)
-                self.populate_table()
+                self.populate_table(preserve_old_data=False)
             else:
                 InfoBar.error("失败", "更新失败，请查看控制台输出。", duration=3000, parent=self)
 
@@ -321,7 +340,7 @@ class ToolInterface(QWidget):
         if msg_box.exec():
             if api_client.delete_tool(tool_id):
                 InfoBar.success("成功", "删除成功", duration=2000, parent=self)
-                self.populate_table()
+                self.populate_table(preserve_old_data=False)
             else:
                 InfoBar.error("失败", "删除失败", duration=3000, parent=self)
 
@@ -329,35 +348,6 @@ class ToolInterface(QWidget):
         """ 确保在销毁时取消工作线程 """
         if hasattr(self, 'worker') and self.worker:
             self.worker.cancel()
-
-
-    def populate_table(self):
-        """ 异步从API获取数据并填充表格 """
-        if self.worker and self.worker.isRunning():
-            logger.debug("取消之前的刀具数据加载")
-            self.worker.cancel()
-
-        try:
-            if ASYNC_API_AVAILABLE and async_api:
-                logger.debug("开始异步加载刀具数据")
-                self.table.setRowCount(0)
-                
-                # 异步获取刀具数据
-                self.worker = async_api.get_tools_async(
-                    success_callback=self.on_tools_data_received,
-                    error_callback=self.on_tools_data_error
-                )
-            else:
-                logger.warning("异步API不可用，回退到同步加载")
-                self.table.setRowCount(0)
-                try:
-                    response_data = api_client.get_tools()
-                    self.on_tools_data_received(response_data)
-                except Exception as e:
-                    self.on_tools_data_error(str(e))
-        except Exception as e:
-            logger.error(f"加载刀具数据时出错: {e}")
-            self.on_tools_data_error(str(e))
     
     def on_tools_data_received(self, response_data):
         """处理接收到的刀具数据"""

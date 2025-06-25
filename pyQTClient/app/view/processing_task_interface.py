@@ -15,15 +15,23 @@ import logging
 # 设置logger
 logger = logging.getLogger(__name__)
 
-# 安全导入异步API
+# 导入数据管理器
 try:
-    from ..api.async_api import async_api
-    ASYNC_API_AVAILABLE = True
-    logger.debug("异步API模块导入成功")
+    from ..api.data_manager import interface_loader
+    DATA_MANAGER_AVAILABLE = True
+    logger.debug("数据管理器导入成功")
 except ImportError as e:
-    logger.warning(f"异步API模块导入失败: {e}")
-    async_api = None
-    ASYNC_API_AVAILABLE = False
+    logger.warning(f"数据管理器导入失败，回退到原始异步API: {e}")
+    # 安全导入异步API作为回退
+    try:
+        from ..api.async_api import async_api
+        ASYNC_API_AVAILABLE = True
+        logger.debug("异步API模块导入成功")
+    except ImportError as e2:
+        logger.warning(f"异步API模块导入失败: {e2}")
+        async_api = None
+        ASYNC_API_AVAILABLE = False
+    DATA_MANAGER_AVAILABLE = False
 
 from .task_detail_interface import TaskDetailInterface
 
@@ -406,25 +414,36 @@ class TaskListWidget(QWidget):
         self.refresh_button.clicked.connect(self.populate_table)
         self.add_button.clicked.connect(self.add_task)
         
-    def populate_table(self):
+    def populate_table(self, preserve_old_data=True):
         """ 异步从API获取数据并填充表格 """
-        if self.worker and self.worker.isRunning():
-            logger.debug("取消之前的加工任务加载")
-            self.worker.cancel()
-
         try:
-            if ASYNC_API_AVAILABLE and async_api:
-                logger.debug("开始异步加载加工任务数据")
-                self.table.setRowCount(0)
+            if DATA_MANAGER_AVAILABLE:
+                logger.debug("使用数据管理器加载加工任务数据")
+                # 使用新的数据管理器
+                interface_loader.load_for_interface(
+                    interface=self,
+                    data_type='processing_tasks',
+                    table_widget=self.table,
+                    force_refresh=True,
+                    preserve_old_data=preserve_old_data
+                )
+            elif ASYNC_API_AVAILABLE and async_api:
+                # 回退到原始异步API
+                logger.debug("回退到原始异步API加载加工任务数据")
+                if self.worker and self.worker.isRunning():
+                    self.worker.cancel()
                 
-                # 异步获取加工任务数据
+                if not preserve_old_data:
+                    self.table.setRowCount(0)
                 self.worker = async_api.get_processing_tasks_async(
                     success_callback=self.on_tasks_data_received,
                     error_callback=self.on_tasks_data_error
                 )
             else:
+                # 最终回退到同步加载
                 logger.warning("异步API不可用，回退到同步加载")
-                self.table.setRowCount(0)
+                if not preserve_old_data:
+                    self.table.setRowCount(0)
                 try:
                     response_data = api_client.get_processing_tasks()
                     self.on_tasks_data_received(response_data)
@@ -433,6 +452,14 @@ class TaskListWidget(QWidget):
         except Exception as e:
             logger.error(f"加载加工任务数据时出错: {e}")
             self.on_tasks_data_error(str(e))
+    
+    def on_processing_tasks_data_received(self, response_data):
+        """数据管理器使用的标准回调方法"""
+        self.on_tasks_data_received(response_data)
+    
+    def on_processing_tasks_data_error(self, error):
+        """数据管理器使用的标准错误回调方法"""
+        self.on_tasks_data_error(error)
     
     def on_tasks_data_received(self, response_data):
         """处理接收到的加工任务数据"""
@@ -446,6 +473,9 @@ class TaskListWidget(QWidget):
 
             tasks_data = response_data.get('results', [])
             logger.debug(f"接收到 {len(tasks_data)} 个加工任务数据")
+            
+            # 清空表格以避免重复数据
+            self.table.setRowCount(0)
             
             for task in tasks_data:
                 row = self.table.rowCount()
@@ -512,7 +542,7 @@ class TaskListWidget(QWidget):
                 response = api_client.add_processing_task(data)
                 if response:
                     InfoBar.success("成功", "新任务已添加。", duration=3000, parent=self)
-                    self.populate_table()
+                    self.populate_table(preserve_old_data=False)
                 else:
                     InfoBar.error("失败", f"添加任务失败: {response}", duration=5000, parent=self)
 
@@ -525,7 +555,7 @@ class TaskListWidget(QWidget):
                 response = api_client.update_processing_task(task_data['id'], data)
                 if response:
                     InfoBar.success("成功", "任务已更新。", duration=3000, parent=self)
-                    self.populate_table()
+                    self.populate_table(preserve_old_data=False)
                 else:
                     InfoBar.error("失败", f"更新任务失败: {response}", duration=5000, parent=self)
 
@@ -534,7 +564,7 @@ class TaskListWidget(QWidget):
         response = api_client.clone_processing_task(task_id)
         if response:
             InfoBar.success("成功", "任务已复制。", parent=self.window())
-            self.populate_table()
+            self.populate_table(preserve_old_data=False)
         else:
             InfoBar.error("失败", "复制任务失败。", parent=self.window())
 
@@ -548,7 +578,7 @@ class TaskListWidget(QWidget):
             success, message = api_client.delete_processing_task(task_id)
             if success:
                 InfoBar.success("成功", "任务已删除。", duration=3000, parent=self)
-                self.populate_table()
+                self.populate_table(preserve_old_data=False)
             else:
                 InfoBar.error("失败", f"删除失败: {message}", duration=5000, parent=self)
 

@@ -12,15 +12,23 @@ import logging
 # 设置logger
 logger = logging.getLogger(__name__)
 
-# 安全导入异步API
+# 导入数据管理器
 try:
-    from ..api.async_api import async_api
-    ASYNC_API_AVAILABLE = True
-    logger.debug("异步API模块导入成功")
+    from ..api.data_manager import interface_loader
+    DATA_MANAGER_AVAILABLE = True
+    logger.debug("数据管理器导入成功")
 except ImportError as e:
-    logger.warning(f"异步API模块导入失败: {e}")
-    async_api = None
-    ASYNC_API_AVAILABLE = False
+    logger.warning(f"数据管理器导入失败，回退到原始异步API: {e}")
+    # 安全导入异步API作为回退
+    try:
+        from ..api.async_api import async_api
+        ASYNC_API_AVAILABLE = True
+        logger.debug("异步API模块导入成功")
+    except ImportError as e2:
+        logger.warning(f"异步API模块导入失败: {e2}")
+        async_api = None
+        ASYNC_API_AVAILABLE = False
+    DATA_MANAGER_AVAILABLE = False
 
 from ..common.config import get_webdav_credentials, cfg
 
@@ -198,25 +206,36 @@ class SensorDataInterface(QWidget):
         # --- 初始化时不自动加载数据，改为按需加载 ---
         # self.populate_table()  # 注释掉自动加载
 
-    def populate_table(self):
+    def populate_table(self, preserve_old_data=True):
         """ 异步从API获取数据并填充表格 """
-        if self.worker and self.worker.isRunning():
-            logger.debug("取消之前的传感器数据加载")
-            self.worker.cancel()
-
         try:
-            if ASYNC_API_AVAILABLE and async_api:
-                logger.debug("开始异步加载传感器数据")
-                self.table.setRowCount(0)
+            if DATA_MANAGER_AVAILABLE:
+                logger.debug("使用数据管理器加载传感器数据")
+                # 使用新的数据管理器
+                interface_loader.load_for_interface(
+                    interface=self,
+                    data_type='sensor_data',
+                    table_widget=self.table,
+                    force_refresh=True,
+                    preserve_old_data=preserve_old_data
+                )
+            elif ASYNC_API_AVAILABLE and async_api:
+                # 回退到原始异步API
+                logger.debug("回退到原始异步API加载传感器数据")
+                if self.worker and self.worker.isRunning():
+                    self.worker.cancel()
                 
-                # 异步获取传感器数据
+                if not preserve_old_data:
+                    self.table.setRowCount(0)
                 self.worker = async_api.get_sensor_data_async(
                     success_callback=self.on_data_received,
                     error_callback=self.on_data_error
                 )
             else:
+                # 最终回退到同步加载
                 logger.warning("异步API不可用，回退到同步加载")
-                self.table.setRowCount(0)
+                if not preserve_old_data:
+                    self.table.setRowCount(0)
                 try:
                     response_data = api_client.get_sensor_data()
                     self.on_data_received(response_data)
@@ -225,6 +244,14 @@ class SensorDataInterface(QWidget):
         except Exception as e:
             logger.error(f"加载传感器数据时出错: {e}")
             self.on_data_error(str(e))
+    
+    def on_sensor_data_data_received(self, response):
+        """数据管理器使用的标准回调方法"""
+        self.on_data_received(response)
+    
+    def on_sensor_data_data_error(self, error):
+        """数据管理器使用的标准错误回调方法"""
+        self.on_data_error(error)
     
     def on_data_received(self, response):
         """处理接收到的数据"""
@@ -337,7 +364,7 @@ class SensorDataInterface(QWidget):
                     if upload_task:
                         # 连接上传完成信号到刷新表格
                         upload_task.transfer_finished.connect(
-                            lambda success, message: self.populate_table() if success else None
+                            lambda success, message: self.populate_table(preserve_old_data=False) if success else None
                         )
                 else:
                     InfoBar.error("错误", "文件传输功能不可用", parent=self)
@@ -358,7 +385,7 @@ class SensorDataInterface(QWidget):
             success = api_client.delete_sensor_data(data_id)
             if success:
                 InfoBar.success("成功", "数据已删除。", parent=self)
-                self.populate_table()
+                self.populate_table(preserve_old_data=False)
             else:
                 InfoBar.error("失败", "删除失败。", parent=self)
 
