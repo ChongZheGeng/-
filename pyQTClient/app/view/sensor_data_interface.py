@@ -7,28 +7,12 @@ from qfluentwidgets import (TableWidget, StrongBodyLabel, LineEdit, ComboBox,
                             DateTimeEdit, FluentIcon as FIF, CaptionLabel, TextEdit, ProgressBar)
 
 from ..api.api_client import api_client
+from ..api.data_manager import interface_loader
+from .nav_interface import NavInterface
 import logging
 
 # 设置logger
 logger = logging.getLogger(__name__)
-
-# 导入数据管理器
-try:
-    from ..api.data_manager import interface_loader
-    DATA_MANAGER_AVAILABLE = True
-    logger.debug("数据管理器导入成功")
-except ImportError as e:
-    logger.warning(f"数据管理器导入失败，回退到原始异步API: {e}")
-    # 安全导入异步API作为回退
-    try:
-        from ..api.async_api import async_api
-        ASYNC_API_AVAILABLE = True
-        logger.debug("异步API模块导入成功")
-    except ImportError as e2:
-        logger.warning(f"异步API模块导入失败: {e2}")
-        async_api = None
-        ASYNC_API_AVAILABLE = False
-    DATA_MANAGER_AVAILABLE = False
 
 from ..common.config import get_webdav_credentials, cfg
 
@@ -156,7 +140,7 @@ class SensorDataUploadDialog(MessageBoxBase):
         }
 
 
-class SensorDataInterface(QWidget):
+class SensorDataInterface(NavInterface):
     """ 传感器数据管理界面 """
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -187,60 +171,96 @@ class SensorDataInterface(QWidget):
         self.table.setWordWrap(False)
         # --- 样式应用结束 ---
         
-        self.table.setColumnCount(7)
-        headers = ["传感器类型", "文件名", "文件大小", "关联任务", "上传时间", "传感器ID", "操作"]
-        self.table.setHorizontalHeaderLabels(headers)
         self.table.verticalHeader().hide()
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        # 列宽设置：数据列可调整，操作列固定宽度，倒数第二列拉伸
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)  # 数据列可调整
-        self.table.horizontalHeader().setSectionResizeMode(5, QHeaderView.Stretch)  # 传感器ID列拉伸以铺满
-        self.table.horizontalHeader().setSectionResizeMode(6, QHeaderView.Fixed)  # 操作列固定宽度
-        # 初始设置操作列宽度（数据加载后会重新计算）
-        self.table.horizontalHeader().resizeSection(6, 160)
+        self.table.setAlternatingRowColors(True)
+        
+        self._define_column_mapping()
+        
         self.main_layout.addWidget(self.table)
         
         # --- 信号连接 ---
         self.add_button.clicked.connect(self.upload_data_file)
         
-        # --- 初始化时不自动加载数据，改为按需加载 ---
-        # self.populate_table()  # 注释掉自动加载
+        # --- 移除初始化时的数据加载调用，改为在on_activated中加载 ---
+
+    def _define_column_mapping(self):
+        """定义表格的列映射关系"""
+        self.column_mapping = [
+            {
+                'key': 'sensor_type', 
+                'header': '传感器类型',
+                'formatter': lambda sensor_type: dict(SensorDataUploadDialog.SENSOR_TYPE_CHOICES).get(sensor_type, sensor_type)
+            },
+            {
+                'key': 'file_url', 
+                'header': '文件名',
+                'formatter': lambda file_url: os.path.basename(file_url) if file_url else 'N/A'
+            },
+            {
+                'key': 'file_size', 
+                'header': '文件大小',
+                'formatter': lambda file_size: f"{file_size / 1024:.1f} KB" if file_size and file_size < 1024*1024 else f"{file_size / (1024*1024):.1f} MB" if file_size else "未知"
+            },
+            {
+                'key': 'task_info', 
+                'header': '关联任务',
+                'formatter': lambda task_info: task_info.get('task_code', 'N/A') if task_info else 'N/A'
+            },
+            {
+                'key': 'upload_time', 
+                'header': '上传时间',
+                'formatter': lambda upload_time: datetime.fromisoformat(upload_time.replace('Z', '+00:00')).strftime('%Y-%m-%d %H:%M') if upload_time else 'N/A'
+            },
+            {'key': 'sensor_id', 'header': '传感器ID'},
+            {
+                'type': 'buttons',
+                'header': '操作',
+                'width': 170,
+                'buttons': [
+                    {'text': '下载', 'style': 'primary', 'callback': lambda data: self.download_file(data.get('file_url', ''), os.path.basename(data.get('file_url', '')) if data.get('file_url') else 'unknown')},
+                    {'text': '删除', 'style': 'default', 'callback': lambda data: self.delete_data(data['id'])}
+                ]
+            }
+        ]
+
+    def on_activated(self):
+        """界面激活时的回调方法 - 按需加载数据"""
+        try:
+            interface_loader.load_for_interface(
+                interface=self,
+                data_type='sensor_data',
+                table_widget=self.table,
+                force_refresh=True,
+                preserve_old_data=True,
+                column_mapping=self.column_mapping
+            )
+        except Exception as e:
+            logger.error(f"激活传感器数据界面时加载数据出错: {e}")
+            self.on_data_error(str(e))
+
+    def on_deactivated(self):
+        """
+        当界面被切换离开时调用。
+        可以在此处进行一些清理工作，如取消正在进行的请求。
+        """
+        if hasattr(self, 'worker') and self.worker:
+            self.worker.cancel()
+            logger.debug("SensorDataInterface 被切换离开，已取消数据加载请求")
 
     def populate_table(self, preserve_old_data=True):
         """ 异步从API获取数据并填充表格 """
         try:
-            if DATA_MANAGER_AVAILABLE:
-                logger.debug("使用数据管理器加载传感器数据")
-                # 使用新的数据管理器
-                interface_loader.load_for_interface(
-                    interface=self,
-                    data_type='sensor_data',
-                    table_widget=self.table,
-                    force_refresh=True,
-                    preserve_old_data=preserve_old_data
-                )
-            elif ASYNC_API_AVAILABLE and async_api:
-                # 回退到原始异步API
-                logger.debug("回退到原始异步API加载传感器数据")
-                if self.worker and self.worker.isRunning():
-                    self.worker.cancel()
-                
-                if not preserve_old_data:
-                    self.table.setRowCount(0)
-                self.worker = async_api.get_sensor_data_async(
-                    success_callback=self.on_data_received,
-                    error_callback=self.on_data_error
-                )
-            else:
-                # 最终回退到同步加载
-                logger.warning("异步API不可用，回退到同步加载")
-                if not preserve_old_data:
-                    self.table.setRowCount(0)
-                try:
-                    response_data = api_client.get_sensor_data()
-                    self.on_data_received(response_data)
-                except Exception as e:
-                    self.on_data_error(str(e))
+            logger.debug("使用数据管理器加载传感器数据")
+            # 使用新的数据管理器
+            self.worker = interface_loader.load_for_interface(
+                interface=self,
+                data_type='sensor_data',
+                table_widget=self.table,
+                force_refresh=not preserve_old_data,
+                preserve_old_data=preserve_old_data,
+                column_mapping=self.column_mapping
+            )
         except Exception as e:
             logger.error(f"加载传感器数据时出错: {e}")
             self.on_data_error(str(e))
@@ -254,89 +274,22 @@ class SensorDataInterface(QWidget):
         self.on_data_error(error)
     
     def on_data_received(self, response):
-        """处理接收到的数据"""
-        try:
-            if not self or not hasattr(self, 'table') or not self.table:
-                logger.warning("传感器数据回调时界面已销毁")
-                return
-                
-            if not response or 'results' not in response:
-                logger.debug("传感器数据为空")
-                return
-
-            data_list = response['results']
-            logger.debug(f"接收到 {len(data_list)} 个传感器数据")
-            
-            self.table.setRowCount(0)
-            for data in data_list:
-                row = self.table.rowCount()
-                self.table.insertRow(row)
-                
-                # 设置表格项
-                self.table.setItem(row, 0, QTableWidgetItem(data.get('sensor_type_display', 'N/A')))
-                
-                file_name = os.path.basename(data.get('file_url', ''))
-                self.table.setItem(row, 1, QTableWidgetItem(file_name))
-                
-                file_size = data.get('file_size', 0)
-                if file_size:
-                    size_str = f"{file_size / 1024:.1f} KB" if file_size < 1024*1024 else f"{file_size / (1024*1024):.1f} MB"
-                else:
-                    size_str = "未知"
-                self.table.setItem(row, 2, QTableWidgetItem(size_str))
-                
-                task_info = data.get('task_info', {})
-                task_code = task_info.get('task_code', 'N/A') if task_info else 'N/A'
-                self.table.setItem(row, 3, QTableWidgetItem(task_code))
-                
-                upload_time = data.get('upload_time', '')
-                if upload_time:
-                    try:
-                        dt = datetime.fromisoformat(upload_time.replace('Z', '+00:00'))
-                        formatted_time = dt.strftime('%Y-%m-%d %H:%M')
-                    except:
-                        formatted_time = upload_time
-                else:
-                    formatted_time = 'N/A'
-                self.table.setItem(row, 4, QTableWidgetItem(formatted_time))
-                
-                self.table.setItem(row, 5, QTableWidgetItem(data.get('sensor_id', 'N/A')))
-                
-                # 操作按钮
-                download_button = PrimaryPushButton("下载")
-                delete_button = PushButton("删除")
-                
-                file_url = data.get('file_url', '')
-                download_button.clicked.connect(partial(self.download_file, file_url, file_name))
-                delete_button.clicked.connect(partial(self.delete_data, data['id']))
-                
-                button_widget = QWidget()
-                button_layout = QHBoxLayout(button_widget)
-                button_layout.setContentsMargins(2, 2, 2, 2)
-                button_layout.setSpacing(8)
-                button_layout.addWidget(download_button)
-                button_layout.addWidget(delete_button)
-                self.table.setCellWidget(row, 6, button_widget)
-            
-            # 根据按钮数量动态调整操作列宽度 (2个按钮)
-            button_width = 75
-            spacing = 8
-            margin = 6
-            total_width = 2 * button_width + spacing + 2 * margin
-            self.table.horizontalHeader().resizeSection(6, total_width)
-            
-        except Exception as e:
-            logger.error(f"处理传感器数据时出错: {e}")
+        """处理接收到的传感器数据（现在主要用于日志记录或额外操作）"""
+        # 当使用了 column_mapping 自动填充时，表格填充已由 InterfaceDataLoader 自动处理
+        # 这里只进行日志记录和任何需要的额外操作
+        if hasattr(self, 'column_mapping') and self.column_mapping:
+            total = response.get('count', 0) if response else 0
+            logger.info(f"SensorDataInterface 成功接收并处理了 {total} 条传感器数据。")
+            return
+        
+        # 如果没有使用自动填充，则保留原有的手动处理逻辑
+        # （这部分代码在当前实现中已经被移除，因为我们已经完全转向自动填充）
+        logger.warning("SensorDataInterface 未使用自动填充配置，但手动填充逻辑已被移除")
     
     def on_data_error(self, error_message):
-        """处理数据加载错误"""
-        try:
-            logger.error(f"传感器数据加载失败: {error_message}")
-            if self and hasattr(self, 'parent') and self.parent():
-                InfoBar.error("加载失败", f"传感器数据加载失败: {error_message}", parent=self)
-        except Exception as e:
-            logger.error(f"处理传感器数据错误时出错: {e}")
-
+        """处理传感器数据加载错误"""
+        # InfoBar 错误提示已由 InterfaceDataLoader 自动处理
+        logger.error(f"传感器数据加载失败: {error_message}")
 
     def upload_data_file(self):
         """ 上传数据文件 """

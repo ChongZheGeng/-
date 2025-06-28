@@ -7,34 +7,18 @@ from qfluentwidgets import (TreeView, SubtitleLabel, PushButton,
                             RoundMenu, InfoBar, MessageBox, Action, FluentIcon as FIF)
 
 from ..api.api_client import api_client
+from ..api.data_manager import data_manager
+from .nav_interface import NavInterface
 import logging
 import time
 
 # 设置logger
 logger = logging.getLogger(__name__)
 
-# 导入数据管理器
-try:
-    from ..api.data_manager import interface_loader, data_manager
-    DATA_MANAGER_AVAILABLE = True
-    logger.debug("数据管理器导入成功")
-except ImportError as e:
-    logger.warning(f"数据管理器导入失败，回退到原始异步API: {e}")
-    # 安全导入异步API作为回退
-    try:
-        from ..api.async_api import async_api
-        ASYNC_API_AVAILABLE = True
-        logger.debug("异步API模块导入成功")
-    except ImportError as e2:
-        logger.warning(f"异步API模块导入失败: {e2}")
-        async_api = None
-        ASYNC_API_AVAILABLE = False
-    DATA_MANAGER_AVAILABLE = False
-
 from .processing_task_interface import GroupNameDialog
 
 
-class TaskGroupInterface(QWidget):
+class TaskGroupInterface(NavInterface):
     """ 任务分组管理界面 """
 
     def __init__(self, parent=None):
@@ -72,8 +56,27 @@ class TaskGroupInterface(QWidget):
         self.group_tree.setContextMenuPolicy(Qt.CustomContextMenu)
         self.group_tree.customContextMenuRequested.connect(self.show_group_context_menu)
 
-        # --- 初始化时不自动加载数据，改为按需加载 ---
-        # self.populate_group_tree()  # 注释掉自动加载
+        # 移除初始化时的数据加载调用，改为在on_activated中加载
+
+    def on_activated(self):
+        """界面激活时的回调方法 - 按需加载数据"""
+        try:
+            self.populate_group_tree(preserve_old_data=True)
+        except Exception as e:
+            logger.error(f"激活任务分组界面时加载数据出错: {e}")
+            self.on_groups_data_error(str(e))
+
+    def on_deactivated(self):
+        """
+        当界面被切换离开时调用。
+        可以在此处进行一些清理工作，如取消正在进行的请求。
+        """
+        # 取消正在进行的数据加载请求
+        if hasattr(self, 'groups_worker') and self.groups_worker and self.groups_worker.isRunning():
+            self.groups_worker.cancel()
+        if hasattr(self, 'tasks_worker') and self.tasks_worker and self.tasks_worker.isRunning():
+            self.tasks_worker.cancel()
+        logger.debug("TaskGroupInterface 被切换离开，已取消数据加载请求")
 
     def populate_group_tree(self, preserve_old_data=True):
         """ 异步从API获取数据并填充树形控件 """
@@ -87,46 +90,20 @@ class TaskGroupInterface(QWidget):
         self._is_loading = True
 
         try:
-            if DATA_MANAGER_AVAILABLE:
-                logger.debug("使用数据管理器加载任务分组数据")
-                
-                # 只有在不保留旧数据时才立即清空
-                if not preserve_old_data:
-                    self.group_model.clear()
-                    self.group_model.setHorizontalHeaderLabels(["分组 / 任务"])
-                
-                # 使用数据管理器获取任务分组数据
-                self.groups_worker = data_manager.get_data_async(
-                    data_type='task_groups',
-                    success_callback=self.on_groups_data_received,
-                    error_callback=self.on_groups_data_error,
-                    force_refresh=True
-                )
-            elif ASYNC_API_AVAILABLE and async_api:
-                # 回退到原始异步API
-                logger.debug("回退到原始异步API加载任务分组数据")
-                
-                if not preserve_old_data:
-                    self.group_model.clear()
-                    self.group_model.setHorizontalHeaderLabels(["分组 / 任务"])
-                
-                self.groups_worker = async_api.get_task_groups_async(
-                    success_callback=self.on_groups_data_received,
-                    error_callback=self.on_groups_data_error
-                )
-            else:
-                # 最终回退到同步加载
-                logger.warning("异步API不可用，回退到同步加载")
-                
-                if not preserve_old_data:
-                    self.group_model.clear()
-                    self.group_model.setHorizontalHeaderLabels(["分组 / 任务"])
-                    
-                try:
-                    response_data = api_client.get_task_groups()
-                    self.on_groups_data_received(response_data)
-                except Exception as e:
-                    self.on_groups_data_error(str(e))
+            logger.debug("使用数据管理器加载任务分组数据")
+            
+            # 只有在不保留旧数据时才立即清空
+            if not preserve_old_data:
+                self.group_model.clear()
+                self.group_model.setHorizontalHeaderLabels(["分组 / 任务"])
+            
+            # 使用数据管理器获取任务分组数据
+            self.groups_worker = data_manager.get_data_async(
+                data_type='task_groups',
+                success_callback=self.on_groups_data_received,
+                error_callback=self.on_groups_data_error,
+                force_refresh=True
+            )
         except Exception as e:
             logger.error(f"加载任务分组数据时出错: {e}")
             self.on_groups_data_error(str(e))
@@ -148,56 +125,23 @@ class TaskGroupInterface(QWidget):
                 logger.debug("不在加载状态，跳过分组数据处理")
                 return
 
-            # 清空模型并重新设置标题（保留旧数据时在这里清空）
+            # 清空模型并重新设置标题
             self.group_model.clear()
             self.group_model.setHorizontalHeaderLabels(["分组 / 任务"])
 
             groups_data = response_data.get('results', [])
             logger.debug(f"接收到 {len(groups_data)} 个任务分组数据")
             
-            root_item = self.group_model.invisibleRootItem()
-            groups_map = {}
-
-            # 1. 创建分组节点 (不包括任务数)
-            # "未归档任务" 节点
-            unarchived_item = QStandardItem("未归档任务")
-            unarchived_item.setData({"name": "未归档任务", "is_default": True, "id": None}, Qt.UserRole)
-            unarchived_item.setEditable(False)
-
-            # 其他分组节点
-            if groups_data:
-                logger.debug(f"处理 {len(groups_data)} 个任务分组")
-                for group in groups_data:
-                    group_item = QStandardItem(group['name'])
-                    group_item.setData(group, Qt.UserRole)
-                    group_item.setEditable(False)
-                    groups_map[group['id']] = group_item
-
-            # 2. 异步获取所有任务并分配到分组
-            # 为避免重复处理，保存当前的分组状态
-            self._current_groups_map = groups_map
-            self._current_unarchived_item = unarchived_item
-            self._current_root_item = root_item
+            # 保存分组数据以供任务分配时使用
+            self._current_groups_data = groups_data
             
-            if DATA_MANAGER_AVAILABLE:
-                self.tasks_worker = data_manager.get_data_async(
-                    data_type='processing_tasks',
-                    success_callback=self.on_tasks_data_received,
-                    error_callback=self.on_tasks_data_error,
-                    force_refresh=True
-                )
-            elif ASYNC_API_AVAILABLE and async_api:
-                self.tasks_worker = async_api.get_processing_tasks_async(
-                    success_callback=self.on_tasks_data_received,
-                    error_callback=self.on_tasks_data_error
-                )
-            else:
-                # 同步回退
-                try:
-                    tasks_response = api_client.get_processing_tasks()
-                    self.on_tasks_data_received(tasks_response)
-                except Exception as e:
-                    self.on_tasks_data_error(str(e))
+            # 异步获取所有任务
+            self.tasks_worker = data_manager.get_data_async(
+                data_type='processing_tasks',
+                success_callback=self.on_tasks_data_received,
+                error_callback=self.on_tasks_data_error,
+                force_refresh=True
+            )
             
         except Exception as e:
             logger.error(f"处理任务分组数据时出错: {e}")
@@ -205,35 +149,42 @@ class TaskGroupInterface(QWidget):
     
     def on_groups_data_error(self, error_message):
         """处理任务分组数据加载错误"""
-        try:
-            logger.error(f"任务分组数据加载失败: {error_message}")
-            if self and hasattr(self, 'parent') and self.parent():
-                InfoBar.error("加载失败", f"任务分组数据加载失败: {error_message}", parent=self)
-        except Exception as e:
-            logger.error(f"处理任务分组数据错误时出错: {e}")
-        finally:
-            self._is_loading = False
+        logger.error(f"任务分组数据加载失败: {error_message}")
+        self._is_loading = False
+        if self and hasattr(self, 'parent') and self.parent():
+            InfoBar.error("加载失败", f"任务分组数据加载失败: {error_message}", parent=self)
     
     def on_tasks_data_received(self, tasks_response):
-        """处理接收到的任务数据"""
+        """处理接收到的任务数据并构建完整的树状结构"""
         try:
             if not self or not hasattr(self, 'group_tree') or not self.group_tree:
                 logger.warning("任务数据回调时界面已销毁")
                 return
             
-            # 检查是否有当前的分组状态和加载状态
-            if not getattr(self, '_is_loading', False) or not hasattr(self, '_current_groups_map'):
-                logger.debug("不在加载状态或没有分组状态，跳过任务数据处理")
+            if not getattr(self, '_is_loading', False) or not hasattr(self, '_current_groups_data'):
+                logger.debug("不在加载状态或没有分组数据，跳过任务数据处理")
                 return
                 
-            groups_map = self._current_groups_map
-            unarchived_item = self._current_unarchived_item
-            root_item = self._current_root_item
-                
+            groups_data = self._current_groups_data
+            root_item = self.group_model.invisibleRootItem()
+            groups_map = {}
+
+            # 创建"未归档任务"节点
+            unarchived_item = QStandardItem("未归档任务")
+            unarchived_item.setData({"name": "未归档任务", "is_default": True, "id": None}, Qt.UserRole)
+            unarchived_item.setEditable(False)
+
+            # 创建分组节点
+            for group in groups_data:
+                group_item = QStandardItem(group['name'])
+                group_item.setData(group, Qt.UserRole)
+                group_item.setEditable(False)
+                groups_map[group['id']] = group_item
+
+            # 分配任务到对应分组
             if tasks_response and 'results' in tasks_response:
                 logger.debug(f"接收到 {len(tasks_response['results'])} 个任务数据")
                 for task in tasks_response['results']:
-                    # 使用任务编码和类型作为显示文本
                     task_display_text = f"{task['task_code']} ({task.get('processing_type_display', 'N/A')})"
                     task_item = QStandardItem(task_display_text)
                     task_item.setData(task, role=Qt.UserRole + 1)
@@ -246,13 +197,11 @@ class TaskGroupInterface(QWidget):
                     else:
                         unarchived_item.appendRow(task_item)
 
-            # 更新分组任务数并添加到模型
-            # 更新"未归档任务"数量并添加
+            # 添加节点到模型（显示任务数量）
             unarchived_count = unarchived_item.rowCount()
             unarchived_item.setText(f"未归档任务 ({unarchived_count})")
             root_item.appendRow(unarchived_item)
 
-            # 更新其他分组数量并添加 (按名称排序)
             for group_id, group_item in groups_map.items():
                 task_count = group_item.rowCount()
                 group_data = group_item.data(Qt.UserRole)
@@ -261,15 +210,11 @@ class TaskGroupInterface(QWidget):
                     root_item.appendRow(group_item)
             
             self.group_tree.expandAll()
-            logger.debug("任务分组树状结构构建完成")
+            logger.info(f"任务分组树状结构构建完成，共 {len(groups_data)} 个分组")
             
-            # 清理临时状态
-            if hasattr(self, '_current_groups_map'):
-                delattr(self, '_current_groups_map')
-            if hasattr(self, '_current_unarchived_item'):
-                delattr(self, '_current_unarchived_item')
-            if hasattr(self, '_current_root_item'):
-                delattr(self, '_current_root_item')
+            # 清理状态
+            if hasattr(self, '_current_groups_data'):
+                delattr(self, '_current_groups_data')
             self._is_loading = False
             
         except Exception as e:
@@ -278,21 +223,12 @@ class TaskGroupInterface(QWidget):
     
     def on_tasks_data_error(self, error_message):
         """处理任务数据加载错误"""
-        try:
-            logger.error(f"任务数据加载失败: {error_message}")
-            if self and hasattr(self, 'parent') and self.parent():
-                InfoBar.error("加载失败", f"任务数据加载失败: {error_message}", parent=self)
-        except Exception as e:
-            logger.error(f"处理任务数据错误时出错: {e}")
-        finally:
-            # 清理状态
-            if hasattr(self, '_current_groups_map'):
-                delattr(self, '_current_groups_map')
-            if hasattr(self, '_current_unarchived_item'):
-                delattr(self, '_current_unarchived_item')
-            if hasattr(self, '_current_root_item'):
-                delattr(self, '_current_root_item')
-            self._is_loading = False
+        logger.error(f"任务数据加载失败: {error_message}")
+        self._is_loading = False
+        if hasattr(self, '_current_groups_data'):
+            delattr(self, '_current_groups_data')
+        if self and hasattr(self, 'parent') and self.parent():
+            InfoBar.error("加载失败", f"任务数据加载失败: {error_message}", parent=self)
 
     def add_group(self):
         """ 新建任务组 """

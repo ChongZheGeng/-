@@ -6,29 +6,14 @@ from qfluentwidgets import (TableWidget, PushButton, StrongBodyLabel, LineEdit, 
                             TextEdit, PrimaryPushButton, MessageBox, InfoBar, MessageBoxBase, 
                             SubtitleLabel, PasswordLineEdit)
 
+from pyQTClient.app.view.nav_interface import NavInterface
+
 from ..api.api_client import api_client
+from ..api.data_manager import interface_loader
 import logging
 
 # 设置logger
 logger = logging.getLogger(__name__)
-
-# 导入数据管理器
-try:
-    from ..api.data_manager import interface_loader
-    DATA_MANAGER_AVAILABLE = True
-    logger.debug("数据管理器导入成功")
-except ImportError as e:
-    logger.warning(f"数据管理器导入失败，回退到原始异步API: {e}")
-    # 安全导入异步API作为回退
-    try:
-        from ..api.async_api import async_api
-        ASYNC_API_AVAILABLE = True
-        logger.debug("异步API模块导入成功")
-    except ImportError as e2:
-        logger.warning(f"异步API模块导入失败: {e2}")
-        async_api = None
-        ASYNC_API_AVAILABLE = False
-    DATA_MANAGER_AVAILABLE = False
 
 
 class UserEditDialog(MessageBoxBase):
@@ -132,7 +117,7 @@ class UserEditDialog(MessageBoxBase):
         return True
 
 
-class UserInterface(QWidget):
+class UserInterface(NavInterface):
     """ 用户管理主界面 """
 
     def __init__(self, parent=None):
@@ -163,128 +148,107 @@ class UserInterface(QWidget):
         self.table.setWordWrap(False)
         # --- 样式应用结束 ---
         
-        self.table.setColumnCount(7)
-        self.table.setHorizontalHeaderLabels(["ID", "用户名", "姓名", "邮箱", "是否职员", "是否激活", "操作"])
         self.table.verticalHeader().hide()
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        # 列宽设置：数据列可调整，操作列固定宽度，倒数第二列拉伸
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)  # 数据列可调整
-        self.table.horizontalHeader().setSectionResizeMode(5, QHeaderView.Stretch)  # 是否激活列拉伸以铺满
-        self.table.horizontalHeader().setSectionResizeMode(6, QHeaderView.Fixed)  # 操作列固定宽度
-        # 初始设置操作列宽度（数据加载后会重新计算）
-        self.table.horizontalHeader().resizeSection(6, 160)
         self.table.setAlternatingRowColors(True)
+        
+        self._define_column_mapping()
 
         self.refresh_button.clicked.connect(self.populate_table)
         self.add_button.clicked.connect(self.add_user)
 
-        # --- 初始化时不自动加载数据，改为按需加载 ---
-        # self.populate_table()  # 注释掉自动加载
+    def _define_column_mapping(self):
+        """定义表格的列映射关系"""
+        self.column_mapping = [
+            {'key': 'id', 'header': 'ID', 'width': 60},
+            {'key': 'username', 'header': '用户名'},
+            {
+                'key': 'full_name', 
+                'header': '姓名',
+                'formatter': lambda full_name: full_name or "N/A"
+            },
+            {'key': 'email', 'header': '邮箱'},
+            {
+                'key': 'is_staff', 
+                'header': '是否职员',
+                'formatter': lambda is_staff: "是" if is_staff else "否"
+            },
+            {
+                'key': 'is_active', 
+                'header': '是否激活',
+                'formatter': lambda is_active: "是" if is_active else "否"
+            },
+            {
+                'type': 'buttons',
+                'header': '操作',
+                'width': 170,
+                'buttons': [
+                    {'text': '编辑', 'style': 'primary', 'callback': self.edit_user},
+                    {'text': '删除', 'style': 'default', 'callback': lambda user: self.delete_user(user['id'], user['username'])}
+                ]
+            }
+        ]
 
-    def populate_table(self, preserve_old_data=True):
-        """ 异步从API获取数据并填充表格 """
+    def on_activated(self):
+        """
+        当界面被激活时调用（例如，通过导航切换到此界面）。
+        主要负责自动加载数据，为了UI流畅性会保留旧数据。
+        """
+        logger.debug("UserInterface 被激活，开始加载数据")
+        self._load_data(preserve_old_data=True)
+
+    def on_deactivated(self):
+        """
+        当界面被切换离开时调用。
+        可以在此处进行一些清理工作，如取消正在进行的请求。
+        """
+        if hasattr(self, 'worker') and self.worker:
+            self.worker.cancel()
+            logger.debug("UserInterface 被切换离开，已取消数据加载请求")
+
+    def _load_data(self, preserve_old_data: bool):
+        """
+        内部数据加载方法。
+        
+        Args:
+            preserve_old_data (bool): 是否保留旧数据直到新数据加载完成
+        """
         try:
-            if DATA_MANAGER_AVAILABLE:
-                logger.debug("使用数据管理器加载用户数据")
-                # 使用新的数据管理器
-                interface_loader.load_for_interface(
-                    interface=self,
-                    data_type='users',
-                    table_widget=self.table,
-                    force_refresh=True,
-                    preserve_old_data=preserve_old_data
-                )
-            elif ASYNC_API_AVAILABLE and async_api:
-                # 回退到原始异步API
-                logger.debug("回退到原始异步API加载用户数据")
-                if self.worker and self.worker.isRunning():
-                    self.worker.cancel()
-                
-                if not preserve_old_data:
-                    self.table.setRowCount(0)
-                self.worker = async_api.get_users_async(
-                    success_callback=self.on_users_data_received,
-                    error_callback=self.on_users_data_error
-                )
-            else:
-                # 最终回退到同步加载
-                logger.warning("异步API不可用，回退到同步加载")
-                if not preserve_old_data:
-                    self.table.setRowCount(0)
-                try:
-                    response_data = api_client.get_users()
-                    self.on_users_data_received(response_data)
-                except Exception as e:
-                    self.on_users_data_error(str(e))
+            logger.debug("使用数据管理器加载用户数据")
+            self.worker = interface_loader.load_for_interface(
+                interface=self,
+                data_type='users',
+                table_widget=self.table,
+                force_refresh=not preserve_old_data,
+                preserve_old_data=preserve_old_data,
+                column_mapping=self.column_mapping
+            )
         except Exception as e:
             logger.error(f"加载用户数据时出错: {e}")
             self.on_users_data_error(str(e))
-    
+
+    def populate_table(self):
+        """ 手动刷新数据（不保留旧数据） """
+        logger.debug("手动刷新用户数据")
+        self._load_data(preserve_old_data=False)
+
     def on_users_data_received(self, response_data):
-        """处理接收到的用户数据"""
-        try:
-            if not self or not hasattr(self, 'table') or not self.table:
-                logger.warning("用户数据回调时界面已销毁")
-                return
-                
-            if response_data is None:
-                InfoBar.error("错误", "无法从服务器获取用户数据。", duration=3000, parent=self)
-                return
-
-            user_list = response_data.get('results', [])
-            logger.debug(f"接收到 {len(user_list)} 个用户数据")
-            
-            self.table.setRowCount(0)
-            for user in user_list:
-                row = self.table.rowCount()
-                self.table.insertRow(row)
-                self.table.setItem(row, 0, QTableWidgetItem(str(user['id'])))
-                self.table.setItem(row, 1, QTableWidgetItem(user['username']))
-                full_name = user.get('full_name') or f"{user.get('first_name', '')} {user.get('last_name', '')}".strip()
-                self.table.setItem(row, 2, QTableWidgetItem(full_name))
-                self.table.setItem(row, 3, QTableWidgetItem(user.get('email', '')))
-
-                is_staff_item = QTableWidgetItem("是" if user['is_staff'] else "否")
-                is_staff_item.setTextAlignment(Qt.AlignCenter)
-                self.table.setItem(row, 4, is_staff_item)
-                
-                is_active_item = QTableWidgetItem("是" if user['is_active'] else "否")
-                is_active_item.setTextAlignment(Qt.AlignCenter)
-                self.table.setItem(row, 5, is_active_item)
-                
-                edit_button = PrimaryPushButton("编辑")
-                delete_button = PushButton("删除")
-                edit_button.clicked.connect(lambda _, u=user: self.edit_user(u))
-                delete_button.clicked.connect(lambda _, u_id=user['id'], u_name=user['username']: self.delete_user(u_id, u_name))
-                
-                action_widget = QWidget()
-                action_layout = QHBoxLayout(action_widget)
-                action_layout.setContentsMargins(2, 2, 2, 2)
-                action_layout.setSpacing(8)
-                action_layout.addWidget(edit_button)
-                action_layout.addWidget(delete_button)
-                self.table.setCellWidget(row, 6, action_widget)
-            
-            # 根据按钮数量动态调整操作列宽度 (2个按钮)
-            button_width = 75  # 每个按钮约75px
-            spacing = 8  # 按钮间距
-            margin = 6  # 边距
-            total_width = 2 * button_width + spacing + 2 * margin
-            self.table.horizontalHeader().resizeSection(6, total_width)
-            
-            InfoBar.success("成功", "数据已刷新", duration=1500, parent=self)
-            
-        except Exception as e:
-            logger.error(f"处理用户数据时出错: {e}")
+        """处理接收到的用户数据（现在主要用于日志记录或额外操作）"""
+        # 当使用了 column_mapping 自动填充时，表格填充已由 InterfaceDataLoader 自动处理
+        # 这里只进行日志记录和任何需要的额外操作
+        if hasattr(self, 'column_mapping') and self.column_mapping:
+            total = response_data.get('count', 0)
+            logger.info(f"UserInterface 成功接收并处理了 {total} 条用户数据。")
+            return
+        
+        # 如果没有使用自动填充，则保留原有的手动处理逻辑
+        # （这部分代码在当前实现中已经被移除，因为我们已经完全转向自动填充）
+        logger.warning("UserInterface 未使用自动填充配置，但手动填充逻辑已被移除")
     
     def on_users_data_error(self, error_message):
         """处理用户数据加载错误"""
-        try:
-            logger.error(f"用户数据加载失败: {error_message}")
-            if self and hasattr(self, 'parent') and self.parent():
-                InfoBar.error("加载失败", f"用户数据加载失败: {error_message}", parent=self)
-        except Exception as e:
-            logger.error(f"处理用户数据错误时出错: {e}")
+        # InfoBar 错误提示已由 InterfaceDataLoader 自动处理
+        logger.error(f"用户数据加载失败: {error_message}")
 
     def add_user(self):
         dialog = UserEditDialog(self)
@@ -293,7 +257,7 @@ class UserInterface(QWidget):
             result = api_client.add_user(data)
             if result:
                 InfoBar.success("成功", "新增用户成功", duration=2000, parent=self)
-                self.populate_table(preserve_old_data=False)
+                self.populate_table()
             else:
                 InfoBar.error("失败", "新增用户失败，请检查控制台输出。", duration=3000, parent=self)
 
@@ -304,7 +268,7 @@ class UserInterface(QWidget):
             result = api_client.update_user(user_data['id'], data)
             if result:
                 InfoBar.success("成功", "更新用户成功", duration=2000, parent=self)
-                self.populate_table(preserve_old_data=False)
+                self.populate_table()
             else:
                 InfoBar.error("失败", "更新用户失败，请查看控制台输出。", duration=3000, parent=self)
 
@@ -317,11 +281,6 @@ class UserInterface(QWidget):
         if msg_box.exec():
             if api_client.delete_user(user_id):
                 InfoBar.success("成功", "删除用户成功", duration=2000, parent=self)
-                self.populate_table(preserve_old_data=False)
+                self.populate_table()
             else:
-                InfoBar.error("失败", "删除用户失败", duration=3000, parent=self)
-
-    def __del__(self):
-        """ 确保在销毁时取消工作线程 """
-        if hasattr(self, 'worker') and self.worker:
-            self.worker.cancel() 
+                InfoBar.error("失败", "删除用户失败", duration=3000, parent=self) 

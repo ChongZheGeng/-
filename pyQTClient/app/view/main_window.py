@@ -1,12 +1,18 @@
 # coding:utf-8
+import logging
+
 from PyQt5.QtCore import QTimer
+from PyQt5.QtWidgets import QWidget
 from qfluentwidgets import (FluentWindow, NavigationItemPosition,
                             FluentIcon as FIF, isDarkTheme, SystemThemeListener)
+
+logger = logging.getLogger(__name__)
 
 # 使用相对路径导入上级包的模块
 from ..api.api_client import api_client
 from ..common.config import cfg
 from ..common.signal_bus import signalBus
+from .nav_interface import NavInterface
 
 # 使用相对路径导入同级包的模块
 from .dashboard_interface import DashboardInterface
@@ -25,6 +31,8 @@ class MainWindow(FluentWindow):
     def __init__(self):
         super().__init__()
         self.is_logout = False
+        # 添加一个属性来跟踪前一个激活的界面
+        self.previous_interface = None
         self.initWindow()
 
         # create sub interface
@@ -45,12 +53,7 @@ class MainWindow(FluentWindow):
 
         # 添加文件传输按钮到标题栏
         self.download_button = FileTransferButton(self)
-        # self.download_button.bor
-        
-        # 设置按钮大小与标题栏系统按钮一致
-        # self.download_button.setFixedSize(16, 16)
 
-        
         # 插入到标题栏右侧，在系统按钮之前
         self.titleBar.hBoxLayout.insertWidget(
             self.titleBar.hBoxLayout.count() - 1,
@@ -64,18 +67,17 @@ class MainWindow(FluentWindow):
         # add items to navigation interface
         self.initNavigation()
 
-        # 连接导航切换信号，实现按需加载
-        self.stackedWidget.currentChanged.connect(self.on_interface_changed)
 
     def initNavigation(self):
         # --- 首页看板 ---
-        self.addSubInterface(self.dashboard_interface, FIF.HOME, "系统概览",position=NavigationItemPosition.SCROLL)
-        self.navigationInterface.addSeparator(35)
+        self.addSubInterface(self.dashboard_interface, FIF.HOME, "系统概览", position=NavigationItemPosition.TOP)
+        # self.navigationInterface.addSeparator(35)
 
         # --- 主导航 ---
-        self.addSubInterface(self.processing_task_interface, FIF.EDIT, "加工任务",position=NavigationItemPosition.SCROLL)
-        self.addSubInterface(self.task_group_interface, FIF.TAG, "任务分组",position=NavigationItemPosition.SCROLL)
-        self.navigationInterface.addSeparator(35)
+        self.addSubInterface(self.processing_task_interface, FIF.EDIT, "加工任务",
+                             position=NavigationItemPosition.SCROLL)
+        self.addSubInterface(self.task_group_interface, FIF.TAG, "任务分组", position=NavigationItemPosition.SCROLL)
+        # self.navigationInterface.addSeparator(35)
 
         # --- 二级导航 ---
         self.addSubInterface(
@@ -92,7 +94,8 @@ class MainWindow(FluentWindow):
         )
 
         # add sensor data interface
-        self.addSubInterface(self.sensor_data_interface, FIF.SPEED_HIGH, "传感器数据管理")
+        self.addSubInterface(self.sensor_data_interface, FIF.SPEED_HIGH, "传感器数据管理",
+                             position=NavigationItemPosition.SCROLL)
 
         if self.user_interface:
             self.addSubInterface(
@@ -111,31 +114,20 @@ class MainWindow(FluentWindow):
         )
 
         # 设置首页为默认页面
-        self.navigationInterface.setCurrentItem(self.dashboard_interface.objectName())
+        # self.navigationInterface.setCurrentItem(self.dashboard_interface.objectName())
+        self.switchTo(self.dashboard_interface)
 
-        self.navigationInterface.addSeparator()
-
-        # add setting interface
-        self.stackedWidget.addWidget(self.dashboard_interface)
-        if self.user_interface:
-            self.stackedWidget.addWidget(self.user_interface)
-        self.stackedWidget.addWidget(self.composite_material_interface)
-        self.stackedWidget.addWidget(self.processing_task_interface)
-        self.stackedWidget.addWidget(self.task_group_interface)
-        self.stackedWidget.addWidget(self.sensor_data_interface)
-        self.stackedWidget.addWidget(self.setting_interface)
-        self.stackedWidget.addWidget(self.tool_interface)
-
-        # 确保看板界面显示在最前面
-        self.stackedWidget.setCurrentWidget(self.dashboard_interface)
+        # enable acrylic effect
+        self.navigationInterface.setAcrylicEnabled(True)
 
         # 启动看板界面的定时器（因为默认显示看板）
         if hasattr(self.dashboard_interface, 'start_refresh_timer'):
             self.dashboard_interface.start_refresh_timer()
 
     def initWindow(self):
-        self.resize(1200, 600)
-        self.setMinimumWidth(760)
+        self.resize(1400, 700)
+        self.setMinimumWidth(900)
+        self.setMinimumHeight(700)
         self.setWindowTitle("复合材料加工数据管理")
         self.setMicaEffectEnabled(cfg.get(cfg.micaEnabled))
 
@@ -162,14 +154,17 @@ class MainWindow(FluentWindow):
 
         super().closeEvent(event)
 
-    def on_interface_changed(self, index):
-        """界面切换时的处理，每次切换都自动刷新数据"""
-        current_widget = self.stackedWidget.widget(index)
+    def switchTo(self, interface: QWidget):
+        super().switchTo(interface)
+        current_widget = self.stackedWidget.currentWidget()
+
         if current_widget is None:
+            logger.warning(f"on_interface_changed: current_widget is None, name={current_widget.objectName()}")
             return
 
         # 获取界面的对象名称
         interface_name = current_widget.objectName()
+        logger.debug(f"界面切换到: {interface_name} (name={current_widget.objectName()})")
 
         # 控制看板界面的定时器
         if interface_name == "DashboardInterface":
@@ -181,102 +176,27 @@ class MainWindow(FluentWindow):
             if hasattr(self.dashboard_interface, 'stop_refresh_timer'):
                 self.dashboard_interface.stop_refresh_timer()
 
-        # 每次切换都自动刷新数据（移除了只加载一次的限制）
-        # 根据界面类型加载对应数据，使用preserve_old_data=True避免用户看到空白界面
-        try:
-            if interface_name == "DashboardInterface":
-                # 看板界面 - 定时器会自动刷新数据，这里不需要额外操作
-                pass
+        # 处理前一个界面的清理工作
+        if self.previous_interface and isinstance(self.previous_interface, NavInterface):
+            logger.debug(f"调用前一个界面的 on_deactivated: {self.previous_interface.objectName()}")
+            self.previous_interface.on_deactivated()
 
-            elif interface_name == "ProcessingTaskInterface":
-                # 加工任务界面 - 使用数据管理器自动刷新数据
-                try:
-                    from ..api.data_manager import interface_loader
-                    interface_loader.load_for_interface(
-                        interface=current_widget.task_list_widget,
-                        data_type='processing_tasks',
-                        table_widget=current_widget.task_list_widget.table,
-                        force_refresh=True,
-                        preserve_old_data=True  # 保留旧数据直到新数据加载完成
-                    )
-                except ImportError:
-                    # 回退到原始方法
-                    current_widget.task_list_widget.populate_table()
+        # 处理当前界面的激活工作
+        logger.debug(f"检查当前界面是否为 NavInterface: {isinstance(current_widget, NavInterface)}")
+        if isinstance(current_widget, NavInterface):
+            # 调用标准的激活方法
+            logger.debug(f"准备调用 {interface_name} 的 on_activated 方法")
+            try:
+                logger.debug(f"正在调用 {interface_name}.on_activated()")
+                current_widget.on_activated()
+                logger.debug(f"成功调用 {interface_name}.on_activated()")
+            except Exception as e:
+                logger.error(f"调用 {current_widget.objectName()} 的 on_activated 时出错: {e}")
 
-            elif interface_name == "TaskGroupInterface":
-                # 任务分组界面 - 自动刷新数据，使用preserve_old_data避免空白
-                if hasattr(current_widget, 'populate_group_tree'):
-                    current_widget.populate_group_tree(preserve_old_data=True)
+        else:
+            logger.warning(f"{interface_name} 不是 NavInterface 的实例")
 
-            elif interface_name == "ToolInterface":
-                # 刀具管理界面 - 使用数据管理器自动刷新数据
-                try:
-                    from ..api.data_manager import interface_loader
-                    interface_loader.load_for_interface(
-                        interface=current_widget,
-                        data_type='tools',
-                        table_widget=current_widget.table,
-                        force_refresh=True,
-                        preserve_old_data=True  # 保留旧数据直到新数据加载完成
-                    )
-                except ImportError:
-                    # 回退到原始方法
-                    if hasattr(current_widget, 'populate_table'):
-                        current_widget.populate_table()
+        # 更新前一个界面的引用
+        self.previous_interface = current_widget
+        logger.debug(f"已更新 previous_interface 为: {interface_name}")
 
-            elif interface_name == "CompositeMaterialInterface":
-                # 构件管理界面 - 使用数据管理器自动刷新数据
-                try:
-                    from ..api.data_manager import interface_loader
-                    interface_loader.load_for_interface(
-                        interface=current_widget,
-                        data_type='composite_materials',
-                        table_widget=current_widget.table,
-                        force_refresh=True,
-                        preserve_old_data=True  # 保留旧数据直到新数据加载完成
-                    )
-                except ImportError:
-                    # 回退到原始方法
-                    if hasattr(current_widget, 'populate_table'):
-                        current_widget.populate_table()
-
-            elif interface_name == "SensorDataInterface":
-                # 传感器数据界面 - 使用数据管理器自动刷新数据
-                try:
-                    from ..api.data_manager import interface_loader
-                    interface_loader.load_for_interface(
-                        interface=current_widget,
-                        data_type='sensor_data',
-                        table_widget=current_widget.table,
-                        force_refresh=True,
-                        preserve_old_data=True  # 保留旧数据直到新数据加载完成
-                    )
-                except ImportError:
-                    # 回退到原始方法
-                    if hasattr(current_widget, 'populate_table'):
-                        current_widget.populate_table()
-
-            elif interface_name == "UserInterface":
-                # 用户管理界面 - 使用数据管理器自动刷新数据
-                try:
-                    from ..api.data_manager import interface_loader
-                    interface_loader.load_for_interface(
-                        interface=current_widget,
-                        data_type='users',
-                        table_widget=current_widget.table,
-                        force_refresh=True,
-                        preserve_old_data=True  # 保留旧数据直到新数据加载完成
-                    )
-                except ImportError:
-                    # 回退到原始方法
-                    if hasattr(current_widget, 'populate_table'):
-                        current_widget.populate_table()
-
-            elif interface_name == "SettingInterface":
-                # 设置界面 - 不需要刷新数据
-                pass
-
-        except Exception as e:
-            import logging
-            logger = logging.getLogger(__name__)
-            logger.error(f"自动刷新界面数据时出错 ({interface_name}): {e}") 

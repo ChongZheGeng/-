@@ -10,6 +10,7 @@ from qfluentwidgets import (StrongBodyLabel, BodyLabel, ComboBox, PrimaryPushBut
 
 from ..api.api_client import api_client
 from ..common.config import cfg, save_webdav_credentials, get_webdav_credentials, test_webdav_connection
+from .nav_interface import NavInterface
 
 
 class WebDAVCard(CardWidget):
@@ -337,7 +338,7 @@ class PersonnelSelectionCard(CardWidget):
             InfoBar.error("错误", "更新人员关联失败", parent=self.window())
 
 
-class SettingInterface(QWidget):
+class SettingInterface(NavInterface):
     """设置界面"""
     
     logoutSignal = pyqtSignal()
@@ -386,9 +387,21 @@ class SettingInterface(QWidget):
         # 连接信号
         self.logoutCard.logoutButton.clicked.connect(self.logoutSignal.emit)
         cfg.themeChanged.connect(setTheme)
-        
+    
+    def on_activated(self):
+        """
+        当界面被激活时调用（例如，通过导航切换到此界面）。
+        设置界面主要处理本地配置，但需要加载当前用户信息。
+        """
         # 加载当前用户信息
         self.load_user_info()
+
+    def on_deactivated(self):
+        """
+        当界面被切换离开时调用。
+        设置界面通常不需要特殊的清理工作。
+        """
+        pass
         
     def load_user_info(self):
         """加载当前用户信息"""

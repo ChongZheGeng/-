@@ -10,28 +10,12 @@ from qfluentwidgets import (TableWidget, PushButton, StrongBodyLabel, LineEdit, 
                             ScrollArea, TreeView, RoundMenu)
 
 from ..api.api_client import api_client
+from ..api.data_manager import interface_loader
+from .nav_interface import NavInterface
 import logging
 
 # 设置logger
 logger = logging.getLogger(__name__)
-
-# 导入数据管理器
-try:
-    from ..api.data_manager import interface_loader
-    DATA_MANAGER_AVAILABLE = True
-    logger.debug("数据管理器导入成功")
-except ImportError as e:
-    logger.warning(f"数据管理器导入失败，回退到原始异步API: {e}")
-    # 安全导入异步API作为回退
-    try:
-        from ..api.async_api import async_api
-        ASYNC_API_AVAILABLE = True
-        logger.debug("异步API模块导入成功")
-    except ImportError as e2:
-        logger.warning(f"异步API模块导入失败: {e2}")
-        async_api = None
-        ASYNC_API_AVAILABLE = False
-    DATA_MANAGER_AVAILABLE = False
 
 from .task_detail_interface import TaskDetailInterface
 
@@ -397,58 +381,68 @@ class TaskListWidget(QWidget):
         self.table.setWordWrap(False)
         # --- 样式应用结束 ---
         
-        self.table.setColumnCount(9)
-        headers = ["任务编码", "加工类型", "状态", "刀具", "构件", "任务分组", "操作员", "加工时间", "操作"]
-        self.table.setHorizontalHeaderLabels(headers)
         self.table.verticalHeader().hide()
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        # 列宽设置：数据列可调整，操作列固定宽度，倒数第二列拉伸
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)  # 数据列可调整
-        self.table.horizontalHeader().setSectionResizeMode(7, QHeaderView.Stretch)  # 加工时间列拉伸以铺满
-        self.table.horizontalHeader().setSectionResizeMode(8, QHeaderView.Fixed)  # 操作列固定宽度
-        # 初始设置操作列宽度（数据加载后会重新计算）
-        self.table.horizontalHeader().resizeSection(8, 280)
         self.table.setAlternatingRowColors(True)
+        
+        self._define_column_mapping()
 
         # --- 信号与槽连接 ---
         self.refresh_button.clicked.connect(self.populate_table)
         self.add_button.clicked.connect(self.add_task)
         
+    def _define_column_mapping(self):
+        """定义表格的列映射关系"""
+        self.column_mapping = [
+            {'key': 'task_code', 'header': '任务编码'},
+            {'key': 'processing_type_display', 'header': '加工类型'},
+            {'key': 'status_display', 'header': '状态'},
+            {
+                'key': 'tool_info', 
+                'header': '刀具',
+                'formatter': lambda tool_info: tool_info.get('code', 'N/A') if tool_info else 'N/A'
+            },
+            {
+                'key': 'material_info', 
+                'header': '构件',
+                'formatter': lambda material_info: material_info.get('part_number', 'N/A') if material_info else 'N/A'
+            },
+            {'key': 'group_name', 'header': '任务分组', 'formatter': lambda group_name: group_name or '未分配'},
+            {
+                'key': 'operator_info', 
+                'header': '操作员',
+                'formatter': lambda operator_info: operator_info.get('full_name', 'N/A') if operator_info else 'N/A'
+            },
+            {
+                'key': 'processing_time', 
+                'header': '加工时间',
+                'formatter': lambda processing_time: processing_time.replace('T', ' ').split('.')[0] if processing_time else 'N/A'
+            },
+            {
+                'type': 'buttons',
+                'header': '操作',
+                'width': 280,
+                'buttons': [
+                    {'text': '查看', 'style': 'primary', 'callback': lambda task: self.viewDetailSignal.emit(task['id'])},
+                    {'text': '编辑', 'style': 'default', 'callback': self.edit_task},
+                    {'text': '复制', 'style': 'default', 'callback': lambda task: self.clone_task(task['id'])},
+                    {'text': '删除', 'style': 'default', 'callback': lambda task: self.delete_task(task['id'])}
+                ]
+            }
+        ]
+        
     def populate_table(self, preserve_old_data=True):
         """ 异步从API获取数据并填充表格 """
         try:
-            if DATA_MANAGER_AVAILABLE:
-                logger.debug("使用数据管理器加载加工任务数据")
-                # 使用新的数据管理器
-                interface_loader.load_for_interface(
-                    interface=self,
-                    data_type='processing_tasks',
-                    table_widget=self.table,
-                    force_refresh=True,
-                    preserve_old_data=preserve_old_data
-                )
-            elif ASYNC_API_AVAILABLE and async_api:
-                # 回退到原始异步API
-                logger.debug("回退到原始异步API加载加工任务数据")
-                if self.worker and self.worker.isRunning():
-                    self.worker.cancel()
-                
-                if not preserve_old_data:
-                    self.table.setRowCount(0)
-                self.worker = async_api.get_processing_tasks_async(
-                    success_callback=self.on_tasks_data_received,
-                    error_callback=self.on_tasks_data_error
-                )
-            else:
-                # 最终回退到同步加载
-                logger.warning("异步API不可用，回退到同步加载")
-                if not preserve_old_data:
-                    self.table.setRowCount(0)
-                try:
-                    response_data = api_client.get_processing_tasks()
-                    self.on_tasks_data_received(response_data)
-                except Exception as e:
-                    self.on_tasks_data_error(str(e))
+            logger.debug("使用数据管理器加载加工任务数据")
+            self.worker = interface_loader.load_for_interface(
+                interface=self,
+                data_type='processing_tasks',
+                table_widget=self.table,
+                force_refresh=not preserve_old_data,
+                preserve_old_data=preserve_old_data,
+                column_mapping=self.column_mapping
+            )
         except Exception as e:
             logger.error(f"加载加工任务数据时出错: {e}")
             self.on_tasks_data_error(str(e))
@@ -462,76 +456,22 @@ class TaskListWidget(QWidget):
         self.on_tasks_data_error(error)
     
     def on_tasks_data_received(self, response_data):
-        """处理接收到的加工任务数据"""
-        try:
-            if not self or not hasattr(self, 'table') or not self.table:
-                logger.warning("加工任务数据回调时界面已销毁")
-                return
-                
-            if response_data is None:
-                return
-
-            tasks_data = response_data.get('results', [])
-            logger.debug(f"接收到 {len(tasks_data)} 个加工任务数据")
-            
-            # 清空表格以避免重复数据
-            self.table.setRowCount(0)
-            
-            for task in tasks_data:
-                row = self.table.rowCount()
-                self.table.insertRow(row)
-                self.table.setItem(row, 0, QTableWidgetItem(task['task_code']))
-                self.table.setItem(row, 1, QTableWidgetItem(task.get('processing_type_display', 'N/A')))
-                self.table.setItem(row, 2, QTableWidgetItem(task.get('status_display', 'N/A')))
-                self.table.setItem(row, 3, QTableWidgetItem(task.get('tool_info', {}).get('code', 'N/A')))
-                self.table.setItem(row, 4, QTableWidgetItem(task.get('material_info', {}).get('part_number', 'N/A')))
-                self.table.setItem(row, 5, QTableWidgetItem(task.get('group_name', '未分配')))
-                self.table.setItem(row, 6, QTableWidgetItem(task.get('operator_info', {}).get('full_name', 'N/A')))
-                
-                proc_time_str = task.get('processing_time', '').replace('T', ' ').split('.')[0]
-                self.table.setItem(row, 7, QTableWidgetItem(proc_time_str))
-
-                # --- 操作按钮 ---
-                buttons_widget = QWidget()
-                buttons_layout = QHBoxLayout(buttons_widget)
-                buttons_layout.setContentsMargins(2, 2, 2, 2)
-                buttons_layout.setSpacing(6)
-                
-                view_button = PrimaryPushButton("查看")
-                edit_button = PushButton("编辑")
-                clone_button = PushButton("复制")
-                delete_button = PushButton("删除")
-
-                view_button.clicked.connect(lambda _, t=task['id']: self.viewDetailSignal.emit(t))
-                edit_button.clicked.connect(lambda _, t=task: self.edit_task(t))
-                clone_button.clicked.connect(lambda _, t_id=task['id']: self.clone_task(t_id))
-                delete_button.clicked.connect(lambda _, t_id=task['id']: self.delete_task(t_id))
-                
-                buttons_layout.addWidget(view_button)
-                buttons_layout.addWidget(edit_button)
-                buttons_layout.addWidget(clone_button)
-                buttons_layout.addWidget(delete_button)
-                self.table.setCellWidget(row, 8, buttons_widget)
-            
-            # 根据按钮数量动态调整操作列宽度 (4个按钮)
-            button_width = 65  # 每个按钮约65px
-            spacing = 6  # 按钮间距
-            margin = 6  # 边距
-            total_width = 4 * button_width + 3 * spacing + 2 * margin
-            self.table.horizontalHeader().resizeSection(8, total_width)
-            
-        except Exception as e:
-            logger.error(f"处理加工任务数据时出错: {e}")
+        """处理接收到的加工任务数据（现在主要用于日志记录或额外操作）"""
+        # 当使用了 column_mapping 自动填充时，表格填充已由 InterfaceDataLoader 自动处理
+        # 这里只进行日志记录和任何需要的额外操作
+        if hasattr(self, 'column_mapping') and self.column_mapping:
+            total = response_data.get('count', 0)
+            logger.info(f"TaskListWidget 成功接收并处理了 {total} 条加工任务数据。")
+            return
+        
+        # 如果没有使用自动填充，则保留原有的手动处理逻辑
+        # （这部分代码在当前实现中已经被移除，因为我们已经完全转向自动填充）
+        logger.warning("TaskListWidget 未使用自动填充配置，但手动填充逻辑已被移除")
     
     def on_tasks_data_error(self, error_message):
         """处理加工任务数据加载错误"""
-        try:
-            logger.error(f"加工任务数据加载失败: {error_message}")
-            if self and hasattr(self, 'parent') and self.parent():
-                InfoBar.error("加载失败", f"加工任务数据加载失败: {error_message}", parent=self)
-        except Exception as e:
-            logger.error(f"处理加工任务数据错误时出错: {e}")
-
+        # InfoBar 错误提示已由 InterfaceDataLoader 自动处理
+        logger.error(f"加工任务数据加载失败: {error_message}")
 
     def add_task(self):
         """ 新增任务 """
@@ -591,7 +531,7 @@ class TaskListWidget(QWidget):
         self.table.setRowCount(0)
 
 
-class ProcessingTaskInterface(QWidget):
+class ProcessingTaskInterface(NavInterface):
     """ 加工任务管理主界面 """
 
     def __init__(self, parent=None):
@@ -617,8 +557,29 @@ class ProcessingTaskInterface(QWidget):
         self.task_list_widget.viewDetailSignal.connect(self.show_task_detail)
         self.task_detail_interface.backRequested.connect(self.show_task_list)
 
-        # --- 初始化时不自动加载数据，改为按需加载 ---
-        # self.task_list_widget.populate_table()  # 注释掉自动加载
+    def on_activated(self):
+        """界面激活时的回调方法 - 按需加载数据"""
+        try:
+            interface_loader.load_for_interface(
+                interface=self.task_list_widget,
+                data_type='processing_tasks',
+                table_widget=self.task_list_widget.table,
+                force_refresh=True,
+                preserve_old_data=True,
+                column_mapping=self.task_list_widget.column_mapping
+            )
+        except Exception as e:
+            logger.error(f"激活加工任务界面时加载数据出错: {e}")
+            self.task_list_widget.on_tasks_data_error(str(e))
+
+    def on_deactivated(self):
+        """
+        当界面被切换离开时调用。
+        可以在此处进行一些清理工作，如取消正在进行的请求。
+        """
+        if hasattr(self.task_list_widget, 'worker') and self.task_list_widget.worker:
+            self.task_list_widget.worker.cancel()
+            logger.debug("ProcessingTaskInterface 被切换离开，已取消数据加载请求")
 
     def show_task_detail(self, task_id: int):
         """ 切换到任务详情页 """

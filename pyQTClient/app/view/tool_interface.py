@@ -5,29 +5,14 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QTableWidgetItem,
 from qfluentwidgets import (TableWidget, PushButton, StrongBodyLabel, LineEdit, ComboBox,
                             TextEdit, PrimaryPushButton, MessageBox, InfoBar, MessageBoxBase, SubtitleLabel)
 
+from .nav_interface import NavInterface
+
 from ..api.api_client import api_client
+from ..api.data_manager import interface_loader
 import logging
 
 # 设置logger
 logger = logging.getLogger(__name__)
-
-# 导入数据管理器
-try:
-    from ..api.data_manager import interface_loader
-    DATA_MANAGER_AVAILABLE = True
-    logger.debug("数据管理器导入成功")
-except ImportError as e:
-    logger.warning(f"数据管理器导入失败，回退到原始异步API: {e}")
-    # 安全导入异步API作为回退
-    try:
-        from ..api.async_api import async_api
-        ASYNC_API_AVAILABLE = True
-        logger.debug("异步API模块导入成功")
-    except ImportError as e2:
-        logger.warning(f"异步API模块导入失败: {e2}")
-        async_api = None
-        ASYNC_API_AVAILABLE = False
-    DATA_MANAGER_AVAILABLE = False
 
 
 class ToolEditDialog(MessageBoxBase):
@@ -159,7 +144,7 @@ class ToolEditDialog(MessageBoxBase):
         return True
 
 
-class ToolInterface(QWidget):
+class ToolInterface(NavInterface):
     """ 刀具管理主界面 """
 
     def __init__(self, parent=None):
@@ -192,123 +177,88 @@ class ToolInterface(QWidget):
         self.table.setWordWrap(False)
         # --- 样式应用结束 ---
         
-        self.table.setColumnCount(8)
-        self.table.setHorizontalHeaderLabels(["ID", "类型", "规格", "编码", "状态", "创建时间", "更新时间", "操作"])
         self.table.verticalHeader().hide()
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        # 列宽设置：数据列可调整，操作列固定宽度，倒数第二列拉伸
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)  # 数据列可调整
-        self.table.horizontalHeader().setSectionResizeMode(6, QHeaderView.Stretch)  # 更新时间列拉伸以铺满
-        self.table.horizontalHeader().setSectionResizeMode(7, QHeaderView.Fixed)  # 操作列固定宽度
-        # 初始设置操作列宽度（数据加载后会重新计算）
-        self.table.horizontalHeader().resizeSection(7, 160)
         self.table.setAlternatingRowColors(True)
+        
+        self._define_column_mapping()
 
         # --- 信号与槽连接 ---
         self.refresh_button.clicked.connect(self.populate_table)
         self.add_button.clicked.connect(self.add_tool)
 
-        # --- 初始化时不自动加载数据，改为按需加载 ---
-        # self.populate_table()  # 注释掉自动加载
+    def _define_column_mapping(self):
+        """定义表格的列映射关系"""
+        self.column_mapping = [
+            {'key': 'id', 'header': 'ID', 'width': 60},
+            {'key': 'tool_type', 'header': '类型'},
+            {'key': 'tool_spec', 'header': '规格'},
+            {'key': 'code', 'header': '编码'},
+            {
+                'key': 'current_status', 
+                'header': '状态', 
+                'formatter': lambda status: dict(ToolEditDialog.TOOL_STATUS_CHOICES).get(status, status)
+            },
+            {'key': 'created_at', 'header': '创建时间', 'formatter': lambda t: t.split('T')[0] if t else 'N/A'},
+            {'key': 'updated_at', 'header': '更新时间', 'formatter': lambda t: t.split('T')[0] if t else 'N/A'},
+            {
+                'type': 'buttons',
+                'header': '操作',
+                'width': 170,
+                'buttons': [
+                    {'text': '编辑', 'style': 'primary', 'callback': self.edit_tool},
+                    {'text': '删除', 'style': 'default', 'callback': lambda tool: self.delete_tool(tool['id'])}
+                ]
+            }
+        ]
 
-    def populate_table(self, preserve_old_data=True):
-        """ 异步从API获取数据并填充表格 """
+    def on_activated(self):
+        """
+        当界面被激活时调用（例如，通过导航切换到此界面）。
+        主要负责自动加载数据，为了UI流畅性会保留旧数据。
+        """
+        logger.info(f"ToolInterface 被激活，开始加载数据")
+        self._load_data(preserve_old_data=True)
+
+    def on_deactivated(self):
+        """
+        当界面被取消激活时调用（例如，切换到其他界面）。
+        可用于停止定时器等清理工作。
+        """
+        if hasattr(self, 'worker') and self.worker:
+            self.worker.cancel()
+            logger.debug("ToolInterface 被切换离开，已取消数据加载请求")
+
+    def _load_data(self, preserve_old_data: bool):
+        """
+        加载刀具数据的核心私有方法。
+        
+        :param preserve_old_data: 是否在加载新数据时保留旧数据以避免闪烁。
+                                  手动刷新时应为 False，自动加载时应为 True。
+        """
         try:
-            if DATA_MANAGER_AVAILABLE:
-                logger.debug("使用数据管理器加载刀具数据")
-                # 使用新的数据管理器
-                interface_loader.load_for_interface(
-                    interface=self,
-                    data_type='tools',
-                    table_widget=self.table,
-                    force_refresh=True,
-                    preserve_old_data=preserve_old_data
-                )
-            elif ASYNC_API_AVAILABLE and async_api:
-                # 回退到原始异步API
-                logger.debug("回退到原始异步API加载刀具数据")
-                if self.worker and self.worker.isRunning():
-                    self.worker.cancel()
-                
-                if not preserve_old_data:
-                    self.table.setRowCount(0)
-                self.worker = async_api.get_tools_async(
-                    success_callback=self.on_tools_data_received,
-                    error_callback=self.on_tools_data_error
-                )
-            else:
-                # 最终回退到同步加载
-                logger.warning("异步API不可用，回退到同步加载")
-                if not preserve_old_data:
-                    self.table.setRowCount(0)
-                try:
-                    response_data = api_client.get_tools()
-                    self.on_tools_data_received(response_data)
-                except Exception as e:
-                    self.on_tools_data_error(str(e))
+            logger.debug(f"ToolInterface._load_data() 被调用，preserve_old_data={preserve_old_data}")
+            self.worker = interface_loader.load_for_interface(
+                interface=self,
+                data_type='tools',
+                table_widget=self.table,
+                force_refresh=not preserve_old_data,
+                preserve_old_data=preserve_old_data,
+                column_mapping=self.column_mapping
+            )
+            logger.debug(f"ToolInterface worker 创建成功: {self.worker is not None}")
         except Exception as e:
-            logger.error(f"加载刀具数据时出错: {e}")
-            self.on_tools_data_error(str(e))
-    
-    def on_tools_data_received(self, response_data):
-        """处理接收到的刀具数据"""
-        try:
-            if not self or not hasattr(self, 'table') or not self.table:
-                logger.warning("刀具数据回调时界面已销毁")
-                return
-                
-            if response_data is None:
-                return
-
-            tools_data = response_data.get('results', [])
-            logger.debug(f"接收到 {len(tools_data)} 个刀具数据")
+            logger.error(f"加载刀具数据时发生意外错误: {e}")
+            InfoBar.error("严重错误", f"加载数据失败: {e}", duration=5000, parent=self)
             
-            self.table.setRowCount(0)
-            for tool in tools_data:
-                row = self.table.rowCount()
-                self.table.insertRow(row)
-                self.table.setItem(row, 0, QTableWidgetItem(str(tool['id'])))
-                self.table.setItem(row, 1, QTableWidgetItem(tool['tool_type']))
-                self.table.setItem(row, 2, QTableWidgetItem(tool['tool_spec']))
-                self.table.setItem(row, 3, QTableWidgetItem(tool['code']))
-                self.table.setItem(row, 4, QTableWidgetItem(tool.get('get_current_status_display', tool['current_status'])))
-                self.table.setItem(row, 5, QTableWidgetItem(tool.get('created_at', 'N/A').split('T')[0]))
-                self.table.setItem(row, 6, QTableWidgetItem(tool.get('updated_at', 'N/A').split('T')[0]))
-
-                # 操作按钮
-                edit_button = PrimaryPushButton("编辑")
-                delete_button = PushButton("删除")
-                edit_button.clicked.connect(lambda _, t=tool: self.edit_tool(t))
-                delete_button.clicked.connect(lambda _, t_id=tool['id']: self.delete_tool(t_id))
-                
-                action_widget = QWidget()
-                action_layout = QHBoxLayout(action_widget)
-                action_layout.setContentsMargins(2, 2, 2, 2)
-                action_layout.setSpacing(8)
-                action_layout.addWidget(edit_button)
-                action_layout.addWidget(delete_button)
-                self.table.setCellWidget(row, 7, action_widget)
-            
-            # 根据按钮数量动态调整操作列宽度 (2个按钮)
-            button_width = 75  # 每个按钮约75px
-            spacing = 8  # 按钮间距
-            margin = 6  # 边距
-            total_width = 2 * button_width + spacing + 2 * margin
-            self.table.horizontalHeader().resizeSection(7, total_width)
-            
-            InfoBar.success("成功", "数据已刷新", duration=1500, parent=self)
-        except Exception as e:
-            logger.error(f"处理刀具数据时出错: {e}")
-    
-    def on_tools_data_error(self, error_message):
-        """处理刀具数据加载错误"""
-        try:
-            logger.error(f"刀具数据加载失败: {error_message}")
-            if self and hasattr(self, 'parent') and self.parent():
-                InfoBar.error("加载失败", f"刀具数据加载失败: {error_message}", parent=self)
-        except Exception as e:
-            logger.error(f"处理刀具数据错误时出错: {e}")
-
+    def populate_table(self):
+        """ 
+        手动刷新表格数据。
+        该方法由"刷新"按钮调用，不保留旧数据以提供明确的刷新反馈。
+        """
+        logger.info("用户手动刷新刀具数据。")
+        self._load_data(preserve_old_data=False)
+        # 注释掉自动加载 ---
 
     def add_tool(self):
         """ 弹出新增对话框 """
@@ -318,7 +268,7 @@ class ToolInterface(QWidget):
             result = api_client.add_tool(data)
             if result:
                 InfoBar.success("成功", "新增成功", duration=2000, parent=self)
-                self.populate_table(preserve_old_data=False)
+                self.populate_table()
             else:
                 InfoBar.error("失败", "新增失败，请查看控制台输出。", duration=3000, parent=self)
 
@@ -330,7 +280,7 @@ class ToolInterface(QWidget):
             result = api_client.update_tool(tool_data['id'], data)
             if result:
                 InfoBar.success("成功", "更新成功", duration=2000, parent=self)
-                self.populate_table(preserve_old_data=False)
+                self.populate_table()
             else:
                 InfoBar.error("失败", "更新失败，请查看控制台输出。", duration=3000, parent=self)
 
@@ -340,7 +290,7 @@ class ToolInterface(QWidget):
         if msg_box.exec():
             if api_client.delete_tool(tool_id):
                 InfoBar.success("成功", "删除成功", duration=2000, parent=self)
-                self.populate_table(preserve_old_data=False)
+                self.populate_table()
             else:
                 InfoBar.error("失败", "删除失败", duration=3000, parent=self)
 
@@ -350,95 +300,19 @@ class ToolInterface(QWidget):
             self.worker.cancel()
     
     def on_tools_data_received(self, response_data):
-        """处理接收到的刀具数据"""
-        try:
-            if not self or not hasattr(self, 'table') or not self.table:
-                logger.warning("刀具数据回调时界面已销毁")
-                return
-                
-            if response_data is None:
-                return
-
-            tools_data = response_data.get('results', [])
-            logger.debug(f"接收到 {len(tools_data)} 个刀具数据")
-            
-            self.table.setRowCount(0)
-            for tool in tools_data:
-                row = self.table.rowCount()
-                self.table.insertRow(row)
-                self.table.setItem(row, 0, QTableWidgetItem(str(tool['id'])))
-                self.table.setItem(row, 1, QTableWidgetItem(tool['tool_type']))
-                self.table.setItem(row, 2, QTableWidgetItem(tool['tool_spec']))
-                self.table.setItem(row, 3, QTableWidgetItem(tool['code']))
-                self.table.setItem(row, 4, QTableWidgetItem(tool.get('get_current_status_display', tool['current_status'])))
-                self.table.setItem(row, 5, QTableWidgetItem(tool.get('created_at', 'N/A').split('T')[0]))
-                self.table.setItem(row, 6, QTableWidgetItem(tool.get('updated_at', 'N/A').split('T')[0]))
-
-                # 操作按钮
-                edit_button = PrimaryPushButton("编辑")
-                delete_button = PushButton("删除")
-                edit_button.clicked.connect(lambda _, t=tool: self.edit_tool(t))
-                delete_button.clicked.connect(lambda _, t_id=tool['id']: self.delete_tool(t_id))
-                
-                action_widget = QWidget()
-                action_layout = QHBoxLayout(action_widget)
-                action_layout.setContentsMargins(2, 2, 2, 2)
-                action_layout.setSpacing(8)
-                action_layout.addWidget(edit_button)
-                action_layout.addWidget(delete_button)
-                self.table.setCellWidget(row, 7, action_widget)
-            
-            # 根据按钮数量动态调整操作列宽度 (2个按钮)
-            button_width = 75  # 每个按钮约75px
-            spacing = 8  # 按钮间距
-            margin = 6  # 边距
-            total_width = 2 * button_width + spacing + 2 * margin
-            self.table.horizontalHeader().resizeSection(7, total_width)
-            
-            InfoBar.success("成功", "数据已刷新", duration=1500, parent=self)
-        except Exception as e:
-            logger.error(f"处理刀具数据时出错: {e}")
+        """处理接收到的刀具数据（现在主要用于日志记录或额外操作）"""
+        # 当使用了 column_mapping 自动填充时，表格填充已由 InterfaceDataLoader 自动处理
+        # 这里只进行日志记录和任何需要的额外操作
+        if hasattr(self, 'column_mapping') and self.column_mapping:
+            total = response_data.get('count', 0)
+            logger.info(f"ToolInterface 成功接收并处理了 {total} 条刀具数据。")
+            return
+        
+        # 如果没有使用自动填充，则保留原有的手动处理逻辑
+        # （这部分代码在当前实现中已经被移除，因为我们已经完全转向自动填充）
+        logger.warning("ToolInterface 未使用自动填充配置，但手动填充逻辑已被移除")
     
     def on_tools_data_error(self, error_message):
         """处理刀具数据加载错误"""
-        try:
-            logger.error(f"刀具数据加载失败: {error_message}")
-            if self and hasattr(self, 'parent') and self.parent():
-                InfoBar.error("加载失败", f"刀具数据加载失败: {error_message}", parent=self)
-        except Exception as e:
-            logger.error(f"处理刀具数据错误时出错: {e}")
-
-
-    def add_tool(self):
-        """ 弹出新增对话框 """
-        dialog = ToolEditDialog(self)
-        if dialog.exec():
-            data, _ = dialog.get_data()
-            result = api_client.add_tool(data)
-            if result:
-                InfoBar.success("成功", "新增成功", duration=2000, parent=self)
-                self.populate_table()
-            else:
-                InfoBar.error("失败", "新增失败，请查看控制台输出。", duration=3000, parent=self)
-
-    def edit_tool(self, tool_data):
-        """ 弹出编辑对话框 """
-        dialog = ToolEditDialog(self, tool_data)
-        if dialog.exec():
-            data, _ = dialog.get_data()
-            result = api_client.update_tool(tool_data['id'], data)
-            if result:
-                InfoBar.success("成功", "更新成功", duration=2000, parent=self)
-                self.populate_table()
-            else:
-                InfoBar.error("失败", "更新失败，请查看控制台输出。", duration=3000, parent=self)
-
-    def delete_tool(self, tool_id):
-        """ 删除刀具 """
-        msg_box = MessageBox("确认删除", f"您确定要删除 ID 为 {tool_id} 的刀具吗？", self.window())
-        if msg_box.exec():
-            if api_client.delete_tool(tool_id):
-                InfoBar.success("成功", "删除成功", duration=2000, parent=self)
-                self.populate_table()
-            else:
-                InfoBar.error("失败", "删除失败", duration=3000, parent=self) 
+        # InfoBar 错误提示已由 InterfaceDataLoader 自动处理
+        logger.error(f"刀具数据加载失败: {error_message}")

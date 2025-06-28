@@ -7,29 +7,13 @@ from qfluentwidgets import (CardWidget, SubtitleLabel, BodyLabel, StrongBodyLabe
                             IconWidget, FluentIcon as FIF, InfoBar, ProgressBar, 
                             TitleLabel, CaptionLabel, setFont)
 
-from ..api.api_client import api_client
+from .nav_interface import NavInterface
+
+from ..api.data_manager import data_manager
 import logging
 
 # 设置logger
 logger = logging.getLogger(__name__)
-
-# 导入数据管理器
-try:
-    from ..api.data_manager import data_manager
-    DATA_MANAGER_AVAILABLE = True
-    logger.debug("数据管理器导入成功")
-except ImportError as e:
-    logger.warning(f"数据管理器导入失败，回退到原始异步API: {e}")
-    # 安全导入异步API作为回退
-    try:
-        from ..api.async_api import async_api
-        ASYNC_API_AVAILABLE = True
-        logger.debug("异步API模块导入成功")
-    except ImportError as e2:
-        logger.warning(f"异步API模块导入失败: {e2}")
-        async_api = None
-        ASYNC_API_AVAILABLE = False
-    DATA_MANAGER_AVAILABLE = False
 
 
 class StatCard(CardWidget):
@@ -238,7 +222,7 @@ class RecentActivityCard(CardWidget):
             self.activity_layout.addLayout(activity_layout)
 
 
-class DashboardInterface(QWidget):
+class DashboardInterface(NavInterface):
     """看板界面"""
     
     def __init__(self, parent=None):
@@ -266,12 +250,6 @@ class DashboardInterface(QWidget):
         # 定时刷新 - 但不立即启动
         self.refresh_timer = QTimer()
         self.refresh_timer.timeout.connect(self.refresh_data)
-        
-        # 延迟初始加载数据，避免启动时的问题
-        self.init_timer = QTimer()
-        self.init_timer.setSingleShot(True)
-        self.init_timer.timeout.connect(self.delayed_refresh_data)
-        self.init_timer.start(1000)  # 1秒后加载数据
     
     def create_stat_cards(self):
         """创建统计卡片"""
@@ -314,102 +292,40 @@ class DashboardInterface(QWidget):
         self.main_layout.addStretch()
     
     def refresh_data(self):
-        """刷新数据（优先使用异步，回退到同步）"""
+        """使用数据管理器刷新看板数据"""
         try:
-            # 取消之前的异步任务
             self.cancel_active_workers()
-            
-            if DATA_MANAGER_AVAILABLE:
-                logger.debug("使用数据管理器刷新看板数据")
-                
-                # 使用数据管理器异步获取用户统计
-                worker1 = data_manager.get_data_async(
-                    data_type='users',
-                    success_callback=self.on_users_data_received,
-                    error_callback=self.on_api_error
-                )
-                if worker1:
-                    self.active_workers.append(worker1)
-                
-                # 使用数据管理器异步获取任务统计
-                worker2 = data_manager.get_data_async(
-                    data_type='processing_tasks',
-                    success_callback=self.on_tasks_data_received,
-                    error_callback=self.on_api_error
-                )
-                if worker2:
-                    self.active_workers.append(worker2)
-                
-                # 使用数据管理器异步获取传感器数据统计
-                worker3 = data_manager.get_data_async(
-                    data_type='sensor_data',
-                    success_callback=self.on_sensor_data_received,
-                    error_callback=self.on_api_error
-                )
-                if worker3:
-                    self.active_workers.append(worker3)
-            elif ASYNC_API_AVAILABLE and async_api:
-                logger.debug("回退到原始异步API刷新看板数据")
-                
-                # 异步获取用户统计
-                worker1 = async_api.get_users_async(
-                    success_callback=self.on_users_data_received,
-                    error_callback=self.on_api_error
-                )
-                if worker1:
-                    self.active_workers.append(worker1)
-                
-                # 异步获取任务统计
-                worker2 = async_api.get_processing_tasks_async(
-                    success_callback=self.on_tasks_data_received,
-                    error_callback=self.on_api_error
-                )
-                if worker2:
-                    self.active_workers.append(worker2)
-                
-                # 异步获取传感器数据统计
-                worker3 = async_api.get_sensor_data_async(
-                    success_callback=self.on_sensor_data_received,
-                    error_callback=self.on_api_error
-                )
-                if worker3:
-                    self.active_workers.append(worker3)
-            else:
-                logger.debug("回退到同步刷新看板数据")
-                self.refresh_data_sync()
-                
+            logger.debug("使用数据管理器刷新看板数据")
+
+            worker1 = data_manager.get_data_async(
+                data_type='users',
+                success_callback=self.on_users_data_received,
+                error_callback=self.on_api_error
+            )
+            if worker1:
+                self.active_workers.append(worker1)
+
+            worker2 = data_manager.get_data_async(
+                data_type='processing_tasks',
+                success_callback=self.on_tasks_data_received,
+                error_callback=self.on_api_error
+            )
+            if worker2:
+                self.active_workers.append(worker2)
+
+            worker3 = data_manager.get_data_async(
+                data_type='sensor_data',
+                success_callback=self.on_sensor_data_received,
+                error_callback=self.on_api_error
+            )
+            if worker3:
+                self.active_workers.append(worker3)
+
         except Exception as e:
             import traceback
             error_msg = f"看板数据刷新失败: {str(e)}\n{traceback.format_exc()}"
             logger.error(error_msg)
-            # 回退到同步调用
-            try:
-                self.refresh_data_sync()
-            except Exception as sync_e:
-                logger.error(f"同步刷新也失败: {sync_e}")
-    
-    def refresh_data_sync(self):
-        """同步刷新数据（备用方案）"""
-        try:
-            logger.debug("执行同步数据刷新")
-            
-            # 获取用户统计
-            users_data = api_client.get_users()
-            self.on_users_data_received(users_data)
-            
-            # 获取任务统计
-            tasks_data = api_client.get_processing_tasks()
-            self.on_tasks_data_received(tasks_data)
-            
-            # 获取传感器数据统计
-            sensor_data = api_client.get_sensor_data()
-            self.on_sensor_data_received(sensor_data)
-            
-        except Exception as e:
-            import traceback
-            error_msg = f"同步刷新失败: {str(e)}\n{traceback.format_exc()}"
-            logger.error(error_msg)
-            self.on_api_error(str(e))
+            self.on_api_error(f"刷新失败: {e}")
     
     def on_users_data_received(self, users_data):
         """处理用户数据"""
@@ -504,14 +420,6 @@ class DashboardInterface(QWidget):
         
         return activities
     
-    def delayed_refresh_data(self):
-        """延迟刷新数据"""
-        logger.debug("延迟刷新数据被触发")
-        try:
-            self.refresh_data()
-        except Exception as e:
-            logger.error(f"延迟刷新失败: {e}")
-    
     def start_refresh_timer(self):
         """启动定时刷新"""
         if not self.refresh_timer.isActive():
@@ -562,5 +470,20 @@ class DashboardInterface(QWidget):
                 self.cancel_active_workers()
         except:
             pass  # 析构时忽略所有异常
-    
+
+    def on_activated(self):
+        """
+        当界面被激活时调用（例如，通过导航切换到此界面）。
+        主要负责自动加载数据。
+        """
+        logger.debug("DashboardInterface 被激活，开始加载数据")
+        self.refresh_data()
+
+    def on_deactivated(self):
+        """
+        当界面被切换离开时调用。
+        可以在此处进行一些清理工作，如取消正在进行的请求。
+        """
+        self.cancel_active_workers()
+        logger.debug("DashboardInterface 被切换离开，已取消所有活跃的数据加载请求")
  
