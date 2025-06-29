@@ -15,7 +15,7 @@ import time
 # 设置logger
 logger = logging.getLogger(__name__)
 
-from .processing_task_interface import GroupNameDialog
+from .components.task_group_component import GroupNameDialog
 
 
 class TaskGroupInterface(NavInterface):
