@@ -178,6 +178,10 @@ class ApiClient:
         """ 获取所有任务组 """
         return self._request('get', 'task-groups')
 
+    def get_task_groups_with_tasks(self):
+        """ 获取任务组及其关联的任务数据 """
+        return self._request('get', 'task-groups/with_tasks')
+
     def add_task_group(self, data):
         """ 新增任务组 """
         return self._request('post', 'task-groups', json=data)
@@ -207,6 +211,117 @@ class ApiClient:
     def delete_sensor_data(self, data_id):
         """ 删除传感器数据 """
         return self._request('delete', f'sensor-data/{data_id}')
+
+    def delete_sensor_file_from_webdav(self, file_url):
+        """ 从WebDAV删除传感器数据文件 """
+        from ..common.config import get_webdav_credentials
+        from webdav4.client import Client
+        import os
+        
+        # 检查WebDAV配置
+        credentials = get_webdav_credentials()
+        if not credentials or not credentials['enabled']:
+            return False, "WebDAV未配置或未启用"
+        
+        try:
+            # 准备WebDAV客户端
+            client = Client(
+                base_url=credentials['url'],
+                auth=(credentials['username'], credentials['password'])
+            )
+            
+            # 从完整URL中提取相对路径
+            base_url = credentials['url'].rstrip('/')
+            if file_url.startswith(base_url):
+                relative_path = file_url[len(base_url):].lstrip('/')
+                
+                # 检查文件是否存在
+                if client.exists(relative_path):
+                    client.remove(relative_path)
+                    return True, f"文件删除成功: {os.path.basename(relative_path)}"
+                else:
+                    return False, "文件不存在"
+            else:
+                return False, "文件URL格式不正确"
+                
+        except Exception as e:
+            return False, f"删除文件失败: {str(e)}"
+
+    def sync_sensor_files_with_database(self):
+        """ 同步WebDAV文件与数据库记录 """
+        from ..common.config import get_webdav_credentials
+        from webdav4.client import Client
+        import os
+        
+        # 检查WebDAV配置
+        credentials = get_webdav_credentials()
+        if not credentials or not credentials['enabled']:
+            return False, "WebDAV未配置或未启用", []
+        
+        try:
+            # 准备WebDAV客户端
+            client = Client(
+                base_url=credentials['url'],
+                auth=(credentials['username'], credentials['password'])
+            )
+            
+            sensor_data_dir = 'sensor_data'
+            unmanaged_dir = 'sensor_data/unmanaged'
+            
+            # 检查sensor_data目录是否存在
+            if not client.exists(sensor_data_dir):
+                return True, "sensor_data目录不存在，无需同步", []
+            
+            # 创建unmanaged目录（如果不存在）
+            if not client.exists(unmanaged_dir):
+                client.mkdir(unmanaged_dir)
+            
+            # 获取所有传感器数据记录中的文件URL
+            sensor_data_response = self.get_sensor_data()
+            if not sensor_data_response or 'results' not in sensor_data_response:
+                return False, "无法获取传感器数据记录", []
+            
+            # 提取数据库中所有的文件名
+            db_files = set()
+            base_url = credentials['url'].rstrip('/')
+            for record in sensor_data_response['results']:
+                file_url = record.get('file_url', '')
+                if file_url.startswith(base_url):
+                    relative_path = file_url[len(base_url):].lstrip('/')
+                    if relative_path.startswith('sensor_data/') and not relative_path.startswith('sensor_data/unmanaged/'):
+                        filename = os.path.basename(relative_path)
+                        db_files.add(filename)
+            
+            # 获取WebDAV中sensor_data目录的所有文件
+            webdav_files = []
+            for item in client.ls(sensor_data_dir, detail=True):
+                if item['type'] == 'file':
+                    filename = os.path.basename(item['name'])
+                    webdav_files.append(filename)
+            
+            # 找出多余的文件（在WebDAV中存在但数据库中没有记录的文件）
+            unmanaged_files = []
+            for filename in webdav_files:
+                if filename not in db_files:
+                    # 移动文件到unmanaged目录
+                    src_path = f"{sensor_data_dir}/{filename}"
+                    dst_path = f"{unmanaged_dir}/{filename}"
+                    
+                    try:
+                        client.move(src_path, dst_path)
+                        unmanaged_files.append(filename)
+                    except Exception as e:
+                        print(f"移动文件 {filename} 失败: {e}")
+            
+            if unmanaged_files:
+                message = f"已将 {len(unmanaged_files)} 个未管理的文件移动到 unmanaged 目录"
+            else:
+                message = "所有文件都有对应的数据库记录，无需移动"
+                
+            return True, message, unmanaged_files
+            
+        except Exception as e:
+            return False, f"文件同步失败: {str(e)}", []
 
     def upload_sensor_file_to_webdav(self, file_path, task_id, sensor_type, sensor_id=None, description=None):
         """ 上传传感器数据文件到WebDAV并创建数据库记录 """

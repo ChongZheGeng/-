@@ -12588,3 +12588,2330 @@ KeyboardInterrupt
 2025-06-29 22:07:18,786 - DEBUG - 异步API调用成功: get_sensor_data
 2025-06-29 22:07:18,791 - DEBUG - 已更新缓存: sensor_data
 2025-06-29 22:07:20,053 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:27:34,656 - INFO - 应用程序启动
+2025-06-29 22:27:35,453 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 22:27:35,462 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 22:27:35,463 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 22:27:35,473 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 22:27:36,124 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 22:27:36,260 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 22:27:36,261 - DEBUG - 看板定时刷新已启动
+2025-06-29 22:27:36,261 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:27:36,261 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 22:27:36,261 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 22:27:36,261 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 22:27:36,261 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:27:36,261 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 22:27:36,261 - DEBUG - 创建新的异步请求: users
+2025-06-29 22:27:36,261 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 22:27:36,261 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:27:36,261 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 22:27:36,261 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 22:27:36,262 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:27:36,262 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 22:27:36,262 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 22:27:36,292 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 22:27:36,293 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 22:27:36,562 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 22:27:36,562 - DEBUG - 异步API调用成功: get_users
+2025-06-29 22:27:36,562 - DEBUG - 已更新缓存: users
+2025-06-29 22:27:36,562 - DEBUG - 用户数据更新: 1
+2025-06-29 22:27:36,773 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-29 22:27:36,774 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:27:36,776 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:27:36,778 - DEBUG - 传感器数据更新: 6
+2025-06-29 22:27:37,268 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 22:27:37,268 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 22:27:37,269 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 22:27:37,278 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 22:27:40,188 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-06-29 22:27:40,188 - DEBUG - 看板定时刷新已停止
+2025-06-29 22:27:40,188 - DEBUG - 取消异步API调用: get_users
+2025-06-29 22:27:40,188 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:27:40,188 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 22:27:40,188 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:27:40,188 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 22:27:40,188 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:27:40,188 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 22:27:40,188 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:27:40,188 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-06-29 22:27:40,188 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-06-29 22:27:40,188 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 22:27:40,188 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-06-29 22:27:40,188 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-06-29 22:27:40,189 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 22:27:41,058 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 22:27:41,059 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 22:27:41,060 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 22:27:41,815 - DEBUG - 界面切换到: TaskGroupInterface (name=TaskGroupInterface)
+2025-06-29 22:27:41,815 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:27:41,815 - DEBUG - 调用前一个界面的 on_deactivated: ProcessingTaskInterface
+2025-06-29 22:27:41,815 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:27:41,815 - DEBUG - ProcessingTaskInterface 被切换离开，已取消数据加载请求
+2025-06-29 22:27:41,815 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:27:41,815 - DEBUG - 准备调用 TaskGroupInterface 的 on_activated 方法
+2025-06-29 22:27:41,815 - DEBUG - 正在调用 TaskGroupInterface.on_activated()
+2025-06-29 22:27:41,815 - DEBUG - 使用新的统一API加载任务分组和任务数据
+2025-06-29 22:27:41,815 - DEBUG - 创建新的异步请求: task_groups_with_tasks
+2025-06-29 22:27:41,815 - DEBUG - 成功调用 TaskGroupInterface.on_activated()
+2025-06-29 22:27:41,815 - DEBUG - 已更新 previous_interface 为: TaskGroupInterface
+2025-06-29 22:27:41,815 - DEBUG - 开始执行异步API调用: get_task_groups_with_tasks
+2025-06-29 22:27:42,123 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/with_tasks/ HTTP/1.1" 200 3594
+2025-06-29 22:27:42,124 - DEBUG - 异步API调用成功: get_task_groups_with_tasks
+2025-06-29 22:27:42,124 - DEBUG - 已更新缓存: task_groups_with_tasks
+2025-06-29 22:27:42,124 - DEBUG - 接收到 2 个任务分组数据（包含任务）
+2025-06-29 22:27:42,125 - INFO - 任务分组树状结构构建完成，共 2 个分组
+2025-06-29 22:27:43,268 - DEBUG - 界面切换到: ToolInterface (name=ToolInterface)
+2025-06-29 22:27:43,269 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:27:43,269 - DEBUG - 调用前一个界面的 on_deactivated: TaskGroupInterface
+2025-06-29 22:27:43,269 - DEBUG - TaskGroupInterface 被切换离开，已取消数据加载请求
+2025-06-29 22:27:43,269 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:27:43,269 - DEBUG - 准备调用 ToolInterface 的 on_activated 方法
+2025-06-29 22:27:43,269 - DEBUG - 正在调用 ToolInterface.on_activated()
+2025-06-29 22:27:43,269 - INFO - ToolInterface 被激活，开始加载数据
+2025-06-29 22:27:43,269 - DEBUG - ToolInterface._load_data() 被调用，preserve_old_data=True
+2025-06-29 22:27:43,269 - DEBUG - 创建新的异步请求: tools
+2025-06-29 22:27:43,269 - DEBUG - ToolInterface worker 创建成功: False
+2025-06-29 22:27:43,269 - DEBUG - 成功调用 ToolInterface.on_activated()
+2025-06-29 22:27:43,269 - DEBUG - 已更新 previous_interface 为: ToolInterface
+2025-06-29 22:27:43,269 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-29 22:27:43,529 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 533
+2025-06-29 22:27:43,529 - DEBUG - 异步API调用成功: get_tools
+2025-06-29 22:27:43,529 - DEBUG - 已更新缓存: tools
+2025-06-29 22:27:45,007 - DEBUG - 界面切换到: CompositeMaterialInterface (name=CompositeMaterialInterface)
+2025-06-29 22:27:45,007 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:27:45,007 - DEBUG - 调用前一个界面的 on_deactivated: ToolInterface
+2025-06-29 22:27:45,007 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:27:45,007 - DEBUG - 准备调用 CompositeMaterialInterface 的 on_activated 方法
+2025-06-29 22:27:45,007 - DEBUG - 正在调用 CompositeMaterialInterface.on_activated()
+2025-06-29 22:27:45,007 - INFO - CompositeMaterialInterface 被激活，开始加载数据
+2025-06-29 22:27:45,007 - DEBUG - CompositeMaterialInterface._load_data() 被调用，preserve_old_data=True
+2025-06-29 22:27:45,007 - DEBUG - 创建新的异步请求: composite_materials
+2025-06-29 22:27:45,007 - DEBUG - CompositeMaterialInterface worker 创建成功: False
+2025-06-29 22:27:45,007 - DEBUG - 成功调用 CompositeMaterialInterface.on_activated()
+2025-06-29 22:27:45,007 - DEBUG - 已更新 previous_interface 为: CompositeMaterialInterface
+2025-06-29 22:27:45,008 - DEBUG - 开始执行异步API调用: get_composite_materials
+2025-06-29 22:27:45,263 - DEBUG - http://127.0.0.1:8000 "GET /api/composite-materials/ HTTP/1.1" 200 600
+2025-06-29 22:27:45,263 - DEBUG - 异步API调用成功: get_composite_materials
+2025-06-29 22:27:45,263 - DEBUG - 已更新缓存: composite_materials
+2025-06-29 22:27:46,275 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 22:27:46,276 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:27:46,276 - DEBUG - 调用前一个界面的 on_deactivated: CompositeMaterialInterface
+2025-06-29 22:27:46,276 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:27:46,276 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 22:27:46,276 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 22:27:46,276 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:27:46,276 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 22:27:46,276 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 22:27:46,276 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:27:46,667 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-29 22:27:46,669 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:27:46,669 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:27:50,561 - DEBUG - 界面切换到: CompositeMaterialInterface (name=CompositeMaterialInterface)
+2025-06-29 22:27:50,561 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:27:50,561 - DEBUG - 调用前一个界面的 on_deactivated: SensorDataInterface
+2025-06-29 22:27:50,561 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 22:27:50,561 - DEBUG - SensorDataInterface 被切换离开，已取消数据加载请求
+2025-06-29 22:27:50,562 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:27:50,562 - DEBUG - 准备调用 CompositeMaterialInterface 的 on_activated 方法
+2025-06-29 22:27:50,562 - DEBUG - 正在调用 CompositeMaterialInterface.on_activated()
+2025-06-29 22:27:50,562 - INFO - CompositeMaterialInterface 被激活，开始加载数据
+2025-06-29 22:27:50,562 - DEBUG - CompositeMaterialInterface._load_data() 被调用，preserve_old_data=True
+2025-06-29 22:27:50,562 - DEBUG - 使用缓存数据: composite_materials
+2025-06-29 22:27:50,570 - DEBUG - CompositeMaterialInterface worker 创建成功: False
+2025-06-29 22:27:50,570 - DEBUG - 成功调用 CompositeMaterialInterface.on_activated()
+2025-06-29 22:27:50,570 - DEBUG - 已更新 previous_interface 为: CompositeMaterialInterface
+2025-06-29 22:27:53,236 - DEBUG - 界面切换到: ToolInterface (name=ToolInterface)
+2025-06-29 22:27:53,236 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:27:53,236 - DEBUG - 调用前一个界面的 on_deactivated: CompositeMaterialInterface
+2025-06-29 22:27:53,236 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:27:53,236 - DEBUG - 准备调用 ToolInterface 的 on_activated 方法
+2025-06-29 22:27:53,236 - DEBUG - 正在调用 ToolInterface.on_activated()
+2025-06-29 22:27:53,236 - INFO - ToolInterface 被激活，开始加载数据
+2025-06-29 22:27:53,236 - DEBUG - ToolInterface._load_data() 被调用，preserve_old_data=True
+2025-06-29 22:27:53,238 - DEBUG - 使用缓存数据: tools
+2025-06-29 22:27:53,249 - DEBUG - ToolInterface worker 创建成功: False
+2025-06-29 22:27:53,249 - DEBUG - 成功调用 ToolInterface.on_activated()
+2025-06-29 22:27:53,249 - DEBUG - 已更新 previous_interface 为: ToolInterface
+2025-06-29 22:27:56,149 - DEBUG - 界面切换到: TaskGroupInterface (name=TaskGroupInterface)
+2025-06-29 22:27:56,149 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:27:56,149 - DEBUG - 调用前一个界面的 on_deactivated: ToolInterface
+2025-06-29 22:27:56,149 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:27:56,149 - DEBUG - 准备调用 TaskGroupInterface 的 on_activated 方法
+2025-06-29 22:27:56,149 - DEBUG - 正在调用 TaskGroupInterface.on_activated()
+2025-06-29 22:27:56,149 - DEBUG - 使用新的统一API加载任务分组和任务数据
+2025-06-29 22:27:56,149 - DEBUG - 创建新的异步请求: task_groups_with_tasks
+2025-06-29 22:27:56,149 - DEBUG - 成功调用 TaskGroupInterface.on_activated()
+2025-06-29 22:27:56,149 - DEBUG - 已更新 previous_interface 为: TaskGroupInterface
+2025-06-29 22:27:56,149 - DEBUG - 开始执行异步API调用: get_task_groups_with_tasks
+2025-06-29 22:27:56,397 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/with_tasks/ HTTP/1.1" 200 3594
+2025-06-29 22:27:56,397 - DEBUG - 异步API调用成功: get_task_groups_with_tasks
+2025-06-29 22:27:56,398 - DEBUG - 已更新缓存: task_groups_with_tasks
+2025-06-29 22:27:56,399 - DEBUG - 接收到 2 个任务分组数据（包含任务）
+2025-06-29 22:27:56,400 - INFO - 任务分组树状结构构建完成，共 2 个分组
+2025-06-29 22:27:57,308 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-06-29 22:27:57,308 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:27:57,308 - DEBUG - 调用前一个界面的 on_deactivated: TaskGroupInterface
+2025-06-29 22:27:57,308 - DEBUG - TaskGroupInterface 被切换离开，已取消数据加载请求
+2025-06-29 22:27:57,308 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:27:57,308 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-06-29 22:27:57,308 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-06-29 22:27:57,308 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:27:57,308 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 22:27:57,308 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-06-29 22:27:57,308 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-06-29 22:27:57,308 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 22:27:58,196 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 22:27:58,197 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 22:27:58,198 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 22:27:59,407 - DEBUG - 界面切换到: TaskGroupInterface (name=TaskGroupInterface)
+2025-06-29 22:27:59,407 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:27:59,407 - DEBUG - 调用前一个界面的 on_deactivated: ProcessingTaskInterface
+2025-06-29 22:27:59,407 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:27:59,407 - DEBUG - ProcessingTaskInterface 被切换离开，已取消数据加载请求
+2025-06-29 22:27:59,407 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:27:59,407 - DEBUG - 准备调用 TaskGroupInterface 的 on_activated 方法
+2025-06-29 22:27:59,407 - DEBUG - 正在调用 TaskGroupInterface.on_activated()
+2025-06-29 22:27:59,407 - DEBUG - 使用新的统一API加载任务分组和任务数据
+2025-06-29 22:27:59,407 - DEBUG - 创建新的异步请求: task_groups_with_tasks
+2025-06-29 22:27:59,407 - DEBUG - 成功调用 TaskGroupInterface.on_activated()
+2025-06-29 22:27:59,407 - DEBUG - 已更新 previous_interface 为: TaskGroupInterface
+2025-06-29 22:27:59,408 - DEBUG - 开始执行异步API调用: get_task_groups_with_tasks
+2025-06-29 22:27:59,660 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/with_tasks/ HTTP/1.1" 200 3594
+2025-06-29 22:27:59,660 - DEBUG - 异步API调用成功: get_task_groups_with_tasks
+2025-06-29 22:27:59,660 - DEBUG - 已更新缓存: task_groups_with_tasks
+2025-06-29 22:27:59,660 - DEBUG - 接收到 2 个任务分组数据（包含任务）
+2025-06-29 22:27:59,661 - INFO - 任务分组树状结构构建完成，共 2 个分组
+2025-06-29 22:28:00,765 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 22:28:00,765 - DEBUG - 看板定时刷新已启动
+2025-06-29 22:28:00,765 - DEBUG - 调用前一个界面的 on_deactivated: TaskGroupInterface
+2025-06-29 22:28:00,765 - DEBUG - TaskGroupInterface 被切换离开，已取消数据加载请求
+2025-06-29 22:28:00,765 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:28:00,765 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 22:28:00,765 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 22:28:00,765 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 22:28:00,765 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:28:00,765 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 22:28:00,765 - DEBUG - 使用缓存数据: users
+2025-06-29 22:28:00,765 - DEBUG - 用户数据更新: 1
+2025-06-29 22:28:00,765 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-29 22:28:00,771 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 22:28:00,771 - DEBUG - 使用缓存数据: sensor_data
+2025-06-29 22:28:00,771 - DEBUG - 传感器数据更新: 6
+2025-06-29 22:28:00,771 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 22:28:00,771 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 22:28:01,780 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-06-29 22:28:01,780 - DEBUG - 看板定时刷新已停止
+2025-06-29 22:28:01,780 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:28:01,780 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 22:28:01,780 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:28:01,780 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 22:28:01,780 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:28:01,780 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-06-29 22:28:01,780 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-06-29 22:28:01,780 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:28:01,780 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 22:28:01,780 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-06-29 22:28:01,780 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-06-29 22:28:01,780 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 22:28:02,661 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 22:28:02,662 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 22:28:02,662 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 22:28:04,766 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 22:28:04,766 - DEBUG - 看板定时刷新已启动
+2025-06-29 22:28:04,766 - DEBUG - 调用前一个界面的 on_deactivated: ProcessingTaskInterface
+2025-06-29 22:28:04,766 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:28:04,766 - DEBUG - ProcessingTaskInterface 被切换离开，已取消数据加载请求
+2025-06-29 22:28:04,766 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:28:04,766 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 22:28:04,766 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 22:28:04,766 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 22:28:04,766 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:28:04,766 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 22:28:04,766 - DEBUG - 使用缓存数据: users
+2025-06-29 22:28:04,766 - DEBUG - 用户数据更新: 1
+2025-06-29 22:28:04,766 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-29 22:28:04,773 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 22:28:04,773 - DEBUG - 使用缓存数据: sensor_data
+2025-06-29 22:28:04,773 - DEBUG - 传感器数据更新: 6
+2025-06-29 22:28:04,773 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 22:28:04,773 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 22:28:09,391 - DEBUG - 看板定时刷新已停止
+2025-06-29 22:28:09,391 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:32:36,827 - INFO - 应用程序启动
+2025-06-29 22:32:37,518 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 22:32:37,526 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 22:32:37,527 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 22:32:37,537 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 22:32:38,155 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 22:32:38,284 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 22:32:38,284 - DEBUG - 看板定时刷新已启动
+2025-06-29 22:32:38,284 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:32:38,284 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 22:32:38,284 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 22:32:38,284 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 22:32:38,284 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:32:38,284 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 22:32:38,284 - DEBUG - 创建新的异步请求: users
+2025-06-29 22:32:38,284 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 22:32:38,284 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:32:38,284 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 22:32:38,284 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 22:32:38,285 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:32:38,285 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 22:32:38,285 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 22:32:38,314 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 22:32:38,314 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 22:32:38,592 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 22:32:38,592 - DEBUG - 异步API调用成功: get_users
+2025-06-29 22:32:38,592 - DEBUG - 已更新缓存: users
+2025-06-29 22:32:38,593 - DEBUG - 用户数据更新: 1
+2025-06-29 22:32:38,716 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-29 22:32:38,717 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:32:38,717 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:32:38,718 - DEBUG - 传感器数据更新: 6
+2025-06-29 22:32:39,187 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 22:32:39,187 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 22:32:39,187 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 22:32:39,192 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 22:32:40,297 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-06-29 22:32:40,297 - DEBUG - 看板定时刷新已停止
+2025-06-29 22:32:40,297 - DEBUG - 取消异步API调用: get_users
+2025-06-29 22:32:40,297 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:32:40,297 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 22:32:40,298 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:32:40,298 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 22:32:40,298 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:32:40,298 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 22:32:40,298 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:32:40,298 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-06-29 22:32:40,298 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-06-29 22:32:40,298 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 22:32:40,298 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-06-29 22:32:40,298 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-06-29 22:32:40,298 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 22:32:41,198 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 22:32:41,199 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 22:32:41,202 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 22:32:42,794 - DEBUG - 界面切换到: TaskGroupInterface (name=TaskGroupInterface)
+2025-06-29 22:32:42,794 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:32:42,794 - DEBUG - 调用前一个界面的 on_deactivated: ProcessingTaskInterface
+2025-06-29 22:32:42,794 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:32:42,794 - DEBUG - ProcessingTaskInterface 被切换离开，已取消数据加载请求
+2025-06-29 22:32:42,794 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:32:42,795 - DEBUG - 准备调用 TaskGroupInterface 的 on_activated 方法
+2025-06-29 22:32:42,795 - DEBUG - 正在调用 TaskGroupInterface.on_activated()
+2025-06-29 22:32:42,795 - DEBUG - 使用新的统一API加载任务分组和任务数据
+2025-06-29 22:32:42,795 - DEBUG - 创建新的异步请求: task_groups_with_tasks
+2025-06-29 22:32:42,795 - DEBUG - 成功调用 TaskGroupInterface.on_activated()
+2025-06-29 22:32:42,795 - DEBUG - 已更新 previous_interface 为: TaskGroupInterface
+2025-06-29 22:32:42,795 - DEBUG - 开始执行异步API调用: get_task_groups_with_tasks
+2025-06-29 22:32:43,103 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/with_tasks/ HTTP/1.1" 200 3594
+2025-06-29 22:32:43,103 - DEBUG - 异步API调用成功: get_task_groups_with_tasks
+2025-06-29 22:32:43,103 - DEBUG - 已更新缓存: task_groups_with_tasks
+2025-06-29 22:32:43,104 - DEBUG - 接收到 2 个任务分组数据（包含任务）
+2025-06-29 22:32:43,104 - INFO - 任务分组树状结构构建完成，共 2 个分组
+2025-06-29 22:32:44,854 - DEBUG - 界面切换到: ToolInterface (name=ToolInterface)
+2025-06-29 22:32:44,855 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:32:44,855 - DEBUG - 调用前一个界面的 on_deactivated: TaskGroupInterface
+2025-06-29 22:32:44,855 - DEBUG - TaskGroupInterface 被切换离开，已取消数据加载请求
+2025-06-29 22:32:44,855 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:32:44,855 - DEBUG - 准备调用 ToolInterface 的 on_activated 方法
+2025-06-29 22:32:44,855 - DEBUG - 正在调用 ToolInterface.on_activated()
+2025-06-29 22:32:44,855 - INFO - ToolInterface 被激活，开始加载数据
+2025-06-29 22:32:44,855 - DEBUG - ToolInterface._load_data() 被调用，preserve_old_data=True
+2025-06-29 22:32:44,855 - DEBUG - 创建新的异步请求: tools
+2025-06-29 22:32:44,855 - DEBUG - ToolInterface worker 创建成功: False
+2025-06-29 22:32:44,855 - DEBUG - 成功调用 ToolInterface.on_activated()
+2025-06-29 22:32:44,855 - DEBUG - 已更新 previous_interface 为: ToolInterface
+2025-06-29 22:32:44,855 - DEBUG - 开始执行异步API调用: get_tools
+2025-06-29 22:32:45,112 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 533
+2025-06-29 22:32:45,112 - DEBUG - 异步API调用成功: get_tools
+2025-06-29 22:32:45,113 - DEBUG - 已更新缓存: tools
+2025-06-29 22:32:47,245 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-06-29 22:32:47,245 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:32:47,245 - DEBUG - 调用前一个界面的 on_deactivated: ToolInterface
+2025-06-29 22:32:47,245 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:32:47,245 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-06-29 22:32:47,245 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-06-29 22:32:47,245 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:32:47,245 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 22:32:47,245 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-06-29 22:32:47,245 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-06-29 22:32:47,246 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 22:32:48,120 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 22:32:48,120 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 22:32:48,121 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 22:32:50,670 - DEBUG - 界面切换到: ToolInterface (name=ToolInterface)
+2025-06-29 22:32:50,670 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:32:50,670 - DEBUG - 调用前一个界面的 on_deactivated: ProcessingTaskInterface
+2025-06-29 22:32:50,670 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:32:50,670 - DEBUG - ProcessingTaskInterface 被切换离开，已取消数据加载请求
+2025-06-29 22:32:50,670 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:32:50,670 - DEBUG - 准备调用 ToolInterface 的 on_activated 方法
+2025-06-29 22:32:50,670 - DEBUG - 正在调用 ToolInterface.on_activated()
+2025-06-29 22:32:50,670 - INFO - ToolInterface 被激活，开始加载数据
+2025-06-29 22:32:50,670 - DEBUG - ToolInterface._load_data() 被调用，preserve_old_data=True
+2025-06-29 22:32:50,670 - DEBUG - 使用缓存数据: tools
+2025-06-29 22:32:50,679 - DEBUG - ToolInterface worker 创建成功: False
+2025-06-29 22:32:50,679 - DEBUG - 成功调用 ToolInterface.on_activated()
+2025-06-29 22:32:50,680 - DEBUG - 已更新 previous_interface 为: ToolInterface
+2025-06-29 22:32:52,161 - DEBUG - 界面切换到: CompositeMaterialInterface (name=CompositeMaterialInterface)
+2025-06-29 22:32:52,161 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:32:52,161 - DEBUG - 调用前一个界面的 on_deactivated: ToolInterface
+2025-06-29 22:32:52,161 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:32:52,161 - DEBUG - 准备调用 CompositeMaterialInterface 的 on_activated 方法
+2025-06-29 22:32:52,161 - DEBUG - 正在调用 CompositeMaterialInterface.on_activated()
+2025-06-29 22:32:52,161 - INFO - CompositeMaterialInterface 被激活，开始加载数据
+2025-06-29 22:32:52,161 - DEBUG - CompositeMaterialInterface._load_data() 被调用，preserve_old_data=True
+2025-06-29 22:32:52,161 - DEBUG - 创建新的异步请求: composite_materials
+2025-06-29 22:32:52,161 - DEBUG - CompositeMaterialInterface worker 创建成功: False
+2025-06-29 22:32:52,161 - DEBUG - 成功调用 CompositeMaterialInterface.on_activated()
+2025-06-29 22:32:52,161 - DEBUG - 已更新 previous_interface 为: CompositeMaterialInterface
+2025-06-29 22:32:52,161 - DEBUG - 开始执行异步API调用: get_composite_materials
+2025-06-29 22:32:52,417 - DEBUG - http://127.0.0.1:8000 "GET /api/composite-materials/ HTTP/1.1" 200 600
+2025-06-29 22:32:52,418 - DEBUG - 异步API调用成功: get_composite_materials
+2025-06-29 22:32:52,419 - DEBUG - 已更新缓存: composite_materials
+2025-06-29 22:33:01,163 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 22:33:01,163 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:33:01,163 - DEBUG - 调用前一个界面的 on_deactivated: CompositeMaterialInterface
+2025-06-29 22:33:01,163 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:33:01,163 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 22:33:01,163 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 22:33:01,163 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:33:01,163 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 22:33:01,163 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 22:33:01,163 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:33:01,552 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-29 22:33:01,553 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:33:01,556 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:33:04,580 - DEBUG - 界面切换到: CompositeMaterialInterface (name=CompositeMaterialInterface)
+2025-06-29 22:33:04,581 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:33:04,581 - DEBUG - 调用前一个界面的 on_deactivated: SensorDataInterface
+2025-06-29 22:33:04,581 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 22:33:04,581 - DEBUG - SensorDataInterface 被切换离开，已取消数据加载请求
+2025-06-29 22:33:04,581 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:33:04,581 - DEBUG - 准备调用 CompositeMaterialInterface 的 on_activated 方法
+2025-06-29 22:33:04,581 - DEBUG - 正在调用 CompositeMaterialInterface.on_activated()
+2025-06-29 22:33:04,581 - INFO - CompositeMaterialInterface 被激活，开始加载数据
+2025-06-29 22:33:04,581 - DEBUG - CompositeMaterialInterface._load_data() 被调用，preserve_old_data=True
+2025-06-29 22:33:04,581 - DEBUG - 使用缓存数据: composite_materials
+2025-06-29 22:33:04,589 - DEBUG - CompositeMaterialInterface worker 创建成功: False
+2025-06-29 22:33:04,589 - DEBUG - 成功调用 CompositeMaterialInterface.on_activated()
+2025-06-29 22:33:04,589 - DEBUG - 已更新 previous_interface 为: CompositeMaterialInterface
+2025-06-29 22:33:05,948 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 22:33:05,949 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:33:05,949 - DEBUG - 调用前一个界面的 on_deactivated: CompositeMaterialInterface
+2025-06-29 22:33:05,949 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:33:05,949 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 22:33:05,949 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 22:33:05,949 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 22:33:05,949 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:33:05,949 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 22:33:05,949 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 22:33:05,949 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:33:06,335 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-29 22:33:06,335 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:33:06,336 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:33:34,980 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:35:08,246 - INFO - 应用程序启动
+2025-06-29 22:35:08,939 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 22:35:08,942 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 22:35:08,944 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 22:35:08,945 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 22:35:09,856 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 22:35:10,002 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 22:35:10,002 - DEBUG - 看板定时刷新已启动
+2025-06-29 22:35:10,002 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:35:10,002 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 22:35:10,002 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 22:35:10,002 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 22:35:10,002 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:35:10,002 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 22:35:10,002 - DEBUG - 创建新的异步请求: users
+2025-06-29 22:35:10,003 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 22:35:10,003 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:35:10,003 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 22:35:10,003 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 22:35:10,003 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:35:10,003 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 22:35:10,003 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 22:35:10,031 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 22:35:10,031 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 22:35:10,349 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 22:35:10,349 - DEBUG - 异步API调用成功: get_users
+2025-06-29 22:35:10,350 - DEBUG - 已更新缓存: users
+2025-06-29 22:35:10,351 - DEBUG - 用户数据更新: 1
+2025-06-29 22:35:10,462 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-29 22:35:10,463 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:35:10,466 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:35:10,468 - DEBUG - 传感器数据更新: 6
+2025-06-29 22:35:11,007 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 22:35:11,008 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 22:35:11,012 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 22:35:11,028 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 22:35:12,168 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 22:35:12,168 - DEBUG - 看板定时刷新已停止
+2025-06-29 22:35:12,168 - DEBUG - 取消异步API调用: get_users
+2025-06-29 22:35:12,168 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:35:12,168 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 22:35:12,168 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:35:12,168 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 22:35:12,168 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:35:12,168 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 22:35:12,168 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:35:12,168 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 22:35:12,168 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 22:35:12,168 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:35:12,169 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 22:35:12,169 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 22:35:12,169 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:35:12,552 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-29 22:35:12,553 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:35:12,553 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:35:18,975 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 22:35:27,792 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:36:10,409 - INFO - 应用程序启动
+2025-06-29 22:36:11,144 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 22:36:11,150 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 22:36:11,153 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 22:36:11,155 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 22:36:11,803 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 22:36:11,979 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 22:36:11,979 - DEBUG - 看板定时刷新已启动
+2025-06-29 22:36:11,979 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:36:11,980 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 22:36:11,980 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 22:36:11,980 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 22:36:11,980 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:36:11,980 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 22:36:11,980 - DEBUG - 创建新的异步请求: users
+2025-06-29 22:36:11,980 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 22:36:11,980 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:36:11,980 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 22:36:11,980 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 22:36:11,982 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 22:36:11,982 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:36:11,983 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 22:36:11,986 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 22:36:11,993 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 22:36:12,236 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 22:36:12,237 - DEBUG - 异步API调用成功: get_users
+2025-06-29 22:36:12,237 - DEBUG - 已更新缓存: users
+2025-06-29 22:36:12,238 - DEBUG - 用户数据更新: 1
+2025-06-29 22:36:12,433 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-29 22:36:12,433 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:36:12,434 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:36:12,434 - DEBUG - 传感器数据更新: 6
+2025-06-29 22:36:12,904 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 22:36:12,905 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 22:36:12,905 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 22:36:12,918 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 22:36:13,185 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 22:36:13,185 - DEBUG - 看板定时刷新已停止
+2025-06-29 22:36:13,185 - DEBUG - 取消异步API调用: get_users
+2025-06-29 22:36:13,186 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:36:13,186 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 22:36:13,186 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:36:13,186 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 22:36:13,186 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:36:13,186 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 22:36:13,186 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:36:13,186 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 22:36:13,186 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 22:36:13,186 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:36:13,186 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 22:36:13,186 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 22:36:13,187 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:36:13,576 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-29 22:36:13,578 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:36:13,578 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:36:19,044 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:37:23,345 - INFO - 应用程序启动
+2025-06-29 22:37:24,099 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 22:37:24,104 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 22:37:24,107 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 22:37:24,109 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 22:37:24,798 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 22:37:25,018 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 22:37:25,018 - DEBUG - 看板定时刷新已启动
+2025-06-29 22:37:25,018 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:37:25,018 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 22:37:25,018 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 22:37:25,018 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 22:37:25,018 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:37:25,018 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 22:37:25,018 - DEBUG - 创建新的异步请求: users
+2025-06-29 22:37:25,019 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 22:37:25,019 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:37:25,019 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 22:37:25,019 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 22:37:25,019 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 22:37:25,019 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 22:37:25,020 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:37:25,053 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 22:37:25,054 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 22:37:25,307 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 22:37:25,309 - DEBUG - 异步API调用成功: get_users
+2025-06-29 22:37:25,309 - DEBUG - 已更新缓存: users
+2025-06-29 22:37:25,309 - DEBUG - 用户数据更新: 1
+2025-06-29 22:37:25,452 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-29 22:37:25,454 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:37:25,455 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:37:25,457 - DEBUG - 传感器数据更新: 6
+2025-06-29 22:37:25,957 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 22:37:25,958 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 22:37:25,958 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 22:37:25,975 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 22:37:26,261 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 22:37:26,261 - DEBUG - 看板定时刷新已停止
+2025-06-29 22:37:26,261 - DEBUG - 取消异步API调用: get_users
+2025-06-29 22:37:26,261 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:37:26,261 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 22:37:26,261 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:37:26,261 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 22:37:26,261 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:37:26,261 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 22:37:26,261 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:37:26,261 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 22:37:26,261 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 22:37:26,261 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:37:26,262 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 22:37:26,262 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 22:37:26,262 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:37:26,658 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-29 22:37:26,658 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:37:26,658 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:45:03,930 - INFO - 应用程序启动
+2025-06-29 22:45:04,652 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 22:45:04,657 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 22:45:04,658 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 22:45:04,660 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 22:45:05,734 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 22:45:05,936 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 22:45:05,937 - DEBUG - 看板定时刷新已启动
+2025-06-29 22:45:05,937 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:45:05,937 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 22:45:05,937 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 22:45:05,937 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 22:45:05,937 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:45:05,937 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 22:45:05,937 - DEBUG - 创建新的异步请求: users
+2025-06-29 22:45:05,937 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 22:45:05,937 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:45:05,937 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 22:45:05,938 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 22:45:05,938 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:45:05,938 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 22:45:05,938 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 22:45:05,972 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 22:45:05,983 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 22:45:06,282 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 22:45:06,284 - DEBUG - 异步API调用成功: get_users
+2025-06-29 22:45:06,284 - DEBUG - 已更新缓存: users
+2025-06-29 22:45:06,284 - DEBUG - 用户数据更新: 1
+2025-06-29 22:45:06,419 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-29 22:45:06,421 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:45:06,428 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:45:06,429 - DEBUG - 传感器数据更新: 6
+2025-06-29 22:45:06,893 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 22:45:06,894 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 22:45:06,894 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 22:45:06,900 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 22:45:08,292 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 22:45:08,292 - DEBUG - 看板定时刷新已停止
+2025-06-29 22:45:08,292 - DEBUG - 取消异步API调用: get_users
+2025-06-29 22:45:08,292 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 22:45:08,292 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 22:45:08,292 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:45:08,292 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 22:45:08,292 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 22:45:08,292 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 22:45:08,292 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 22:45:08,292 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 22:45:08,292 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 22:45:08,292 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:45:08,292 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 22:45:08,292 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 22:45:08,293 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:45:08,696 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3105
+2025-06-29 22:45:08,697 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:45:08,700 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:45:19,103 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-06-29 22:45:19,162 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000229BD0B9FC0>
+2025-06-29 22:45:19,163 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:19,164 - DEBUG - send_request_headers.complete
+2025-06-29 22:45:19,164 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:19,164 - DEBUG - send_request_body.complete
+2025-06-29 22:45:19,165 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:19,197 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 14:41:13 GMT'), (b'Content-Length', b'804')])
+2025-06-29 22:45:19,199 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/20250624_221153_mcp-feedback-enhanced-main.zip "HTTP/1.1 207 Multi-Status"
+2025-06-29 22:45:19,200 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:19,200 - DEBUG - receive_response_body.complete
+2025-06-29 22:45:19,201 - DEBUG - response_closed.started
+2025-06-29 22:45:19,201 - DEBUG - response_closed.complete
+2025-06-29 22:45:19,204 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:19,205 - DEBUG - send_request_headers.complete
+2025-06-29 22:45:19,205 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:19,205 - DEBUG - send_request_body.complete
+2025-06-29 22:45:19,206 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:19,216 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 14:41:13 GMT'), (b'Content-Length', b'804')])
+2025-06-29 22:45:19,216 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/20250624_221153_mcp-feedback-enhanced-main.zip "HTTP/1.1 207 Multi-Status"
+2025-06-29 22:45:19,216 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:19,217 - DEBUG - receive_response_body.complete
+2025-06-29 22:45:19,217 - DEBUG - response_closed.started
+2025-06-29 22:45:19,217 - DEBUG - response_closed.complete
+2025-06-29 22:45:19,221 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:19,222 - DEBUG - send_request_headers.complete
+2025-06-29 22:45:19,223 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:19,223 - DEBUG - send_request_body.complete
+2025-06-29 22:45:19,223 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:19,229 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 14:41:13 GMT'), (b'Content-Length', b'804')])
+2025-06-29 22:45:19,230 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/20250624_221153_mcp-feedback-enhanced-main.zip "HTTP/1.1 207 Multi-Status"
+2025-06-29 22:45:19,233 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:19,233 - DEBUG - receive_response_body.complete
+2025-06-29 22:45:19,233 - DEBUG - response_closed.started
+2025-06-29 22:45:19,233 - DEBUG - response_closed.complete
+2025-06-29 22:45:19,236 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2025-06-29 22:45:19,237 - DEBUG - send_request_headers.complete
+2025-06-29 22:45:19,237 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2025-06-29 22:45:19,237 - DEBUG - send_request_body.complete
+2025-06-29 22:45:19,237 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2025-06-29 22:45:19,921 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Accept-Ranges', b'bytes'), (b'Content-Length', b'10673873'), (b'Content-Type', b'application/zip'), (b'Etag', b'"184bffb8a6d195a8a2ded1"'), (b'Last-Modified', b'Tue, 24 Jun 2025 14:07:28 GMT'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 14:41:14 GMT')])
+2025-06-29 22:45:19,922 - INFO - HTTP Request: GET http://mainnas.mildhedgehog.com:5005/sensor_data/20250624_221153_mcp-feedback-enhanced-main.zip "HTTP/1.1 200 OK"
+2025-06-29 22:45:19,923 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2025-06-29 22:45:20,534 - DEBUG - receive_response_body.complete
+2025-06-29 22:45:20,534 - DEBUG - response_closed.started
+2025-06-29 22:45:20,534 - DEBUG - response_closed.complete
+2025-06-29 22:45:27,209 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 22:45:59,440 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-06-29 22:45:59,471 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000229BD45C610>
+2025-06-29 22:45:59,471 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:59,471 - DEBUG - send_request_headers.complete
+2025-06-29 22:45:59,471 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:59,471 - DEBUG - send_request_body.complete
+2025-06-29 22:45:59,472 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:59,488 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 14:41:54 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 22:45:59,489 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 22:45:59,489 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:45:59,490 - DEBUG - receive_response_body.complete
+2025-06-29 22:45:59,490 - DEBUG - response_closed.started
+2025-06-29 22:45:59,490 - DEBUG - response_closed.complete
+2025-06-29 22:45:59,497 - DEBUG - send_request_headers.started request=<Request [b'PUT']>
+2025-06-29 22:45:59,498 - DEBUG - send_request_headers.complete
+2025-06-29 22:45:59,498 - DEBUG - send_request_body.started request=<Request [b'PUT']>
+2025-06-29 22:46:10,044 - DEBUG - send_request_body.complete
+2025-06-29 22:46:10,044 - DEBUG - receive_response_headers.started request=<Request [b'PUT']>
+2025-06-29 22:46:10,090 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Etag', b'"184d8a82d4d652a848cfb018"'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 14:42:04 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 22:46:10,091 - INFO - HTTP Request: PUT http://mainnas.mildhedgehog.com:5005/sensor_data/20250629_224559_2025-05-13-raspios-bookworm-armhf.img.xz "HTTP/1.1 201 Created"
+2025-06-29 22:46:10,091 - DEBUG - receive_response_body.started request=<Request [b'PUT']>
+2025-06-29 22:46:10,091 - DEBUG - receive_response_body.complete
+2025-06-29 22:46:10,091 - DEBUG - response_closed.started
+2025-06-29 22:46:10,091 - DEBUG - response_closed.complete
+2025-06-29 22:46:10,418 - DEBUG - http://127.0.0.1:8000 "POST /api/sensor-data/ HTTP/1.1" 201 548
+2025-06-29 22:46:11,442 - DEBUG - 使用数据管理器加载传感器数据
+2025-06-29 22:46:11,442 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 22:46:11,442 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 22:46:11,443 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 22:46:11,877 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3654
+2025-06-29 22:46:11,878 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 22:46:11,879 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 22:46:20,849 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-06-29 22:46:20,852 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000229BD46EF20>
+2025-06-29 22:46:20,852 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:46:20,852 - DEBUG - send_request_headers.complete
+2025-06-29 22:46:20,852 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:46:20,852 - DEBUG - send_request_body.complete
+2025-06-29 22:46:20,852 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:46:20,866 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 14:42:15 GMT'), (b'Content-Length', b'829')])
+2025-06-29 22:46:20,866 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/20250629_224559_2025-05-13-raspios-bookworm-armhf.img.xz "HTTP/1.1 207 Multi-Status"
+2025-06-29 22:46:20,866 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:46:20,866 - DEBUG - receive_response_body.complete
+2025-06-29 22:46:20,866 - DEBUG - response_closed.started
+2025-06-29 22:46:20,866 - DEBUG - response_closed.complete
+2025-06-29 22:46:20,867 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:46:20,867 - DEBUG - send_request_headers.complete
+2025-06-29 22:46:20,867 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:46:20,867 - DEBUG - send_request_body.complete
+2025-06-29 22:46:20,867 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:46:20,880 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 14:42:15 GMT'), (b'Content-Length', b'829')])
+2025-06-29 22:46:20,880 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/20250629_224559_2025-05-13-raspios-bookworm-armhf.img.xz "HTTP/1.1 207 Multi-Status"
+2025-06-29 22:46:20,880 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:46:20,880 - DEBUG - receive_response_body.complete
+2025-06-29 22:46:20,881 - DEBUG - response_closed.started
+2025-06-29 22:46:20,881 - DEBUG - response_closed.complete
+2025-06-29 22:46:20,882 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:46:20,882 - DEBUG - send_request_headers.complete
+2025-06-29 22:46:20,882 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:46:20,882 - DEBUG - send_request_body.complete
+2025-06-29 22:46:20,882 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 22:46:20,896 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 14:42:15 GMT'), (b'Content-Length', b'829')])
+2025-06-29 22:46:20,896 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/20250629_224559_2025-05-13-raspios-bookworm-armhf.img.xz "HTTP/1.1 207 Multi-Status"
+2025-06-29 22:46:20,896 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 22:46:20,896 - DEBUG - receive_response_body.complete
+2025-06-29 22:46:20,896 - DEBUG - response_closed.started
+2025-06-29 22:46:20,897 - DEBUG - response_closed.complete
+2025-06-29 22:46:20,897 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2025-06-29 22:46:20,897 - DEBUG - send_request_headers.complete
+2025-06-29 22:46:20,897 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2025-06-29 22:46:20,897 - DEBUG - send_request_body.complete
+2025-06-29 22:46:20,897 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2025-06-29 22:46:20,926 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Accept-Ranges', b'bytes'), (b'Content-Length', b'1221570584'), (b'Content-Type', b'application/x-xz'), (b'Etag', b'"184d8a82d4d652a848cfb018"'), (b'Last-Modified', b'Sun, 29 Jun 2025 14:42:04 GMT'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 14:42:15 GMT')])
+2025-06-29 22:46:20,926 - INFO - HTTP Request: GET http://mainnas.mildhedgehog.com:5005/sensor_data/20250629_224559_2025-05-13-raspios-bookworm-armhf.img.xz "HTTP/1.1 200 OK"
+2025-06-29 22:46:20,926 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2025-06-29 22:47:57,399 - DEBUG - receive_response_body.complete
+2025-06-29 22:47:57,399 - DEBUG - response_closed.started
+2025-06-29 22:47:57,399 - DEBUG - response_closed.complete
+2025-06-29 22:58:46,715 - INFO - 应用程序启动
+2025-06-29 22:58:47,507 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 22:58:47,514 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 22:58:47,516 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 22:58:47,519 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 22:58:48,221 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 22:58:58,952 - INFO - 应用程序启动
+2025-06-29 22:58:59,619 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 22:58:59,624 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 22:58:59,627 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 22:58:59,628 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 22:59:00,307 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:02:25,477 - INFO - 应用程序启动
+2025-06-29 23:02:26,139 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:02:26,150 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:02:26,152 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:02:26,155 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:02:27,005 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:02:27,212 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:02:27,212 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:02:27,212 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:02:27,212 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:02:27,212 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:02:27,212 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:02:27,212 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:02:27,213 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:02:27,213 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:02:27,213 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:02:27,213 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:02:27,213 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:02:27,213 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:02:27,213 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:02:27,214 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:02:27,214 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:02:27,249 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:02:27,252 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:02:27,538 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:02:27,539 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:02:27,544 - DEBUG - 已更新缓存: users
+2025-06-29 23:02:27,546 - DEBUG - 用户数据更新: 1
+2025-06-29 23:02:27,694 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3654
+2025-06-29 23:02:27,695 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:02:27,696 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:02:27,698 - DEBUG - 传感器数据更新: 7
+2025-06-29 23:02:28,186 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:02:28,187 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:02:28,187 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:02:28,193 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:02:28,723 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:02:28,723 - DEBUG - 看板定时刷新已停止
+2025-06-29 23:02:28,723 - DEBUG - 取消异步API调用: get_users
+2025-06-29 23:02:28,723 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 23:02:28,723 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:02:28,723 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:02:28,724 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 23:02:28,724 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:02:28,724 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 23:02:28,724 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:02:28,724 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:02:28,724 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:02:28,724 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:02:28,724 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:02:28,724 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:02:28,724 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:02:29,120 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3654
+2025-06-29 23:02:29,121 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:02:29,121 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:02:35,303 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:02:44,770 - DEBUG - http://127.0.0.1:8000 "PUT /api/sensor-data/9/ HTTP/1.1" 200 399
+2025-06-29 23:02:44,774 - DEBUG - 使用数据管理器加载传感器数据
+2025-06-29 23:02:44,774 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:02:44,774 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:02:44,775 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:02:45,199 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3505
+2025-06-29 23:02:45,200 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:02:45,200 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:05:49,160 - INFO - 应用程序启动
+2025-06-29 23:05:49,998 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:05:50,006 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:05:50,007 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:05:50,018 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:05:50,646 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:05:50,820 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:05:50,820 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:05:50,820 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:05:50,820 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:05:50,820 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:05:50,820 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:05:50,820 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:05:50,820 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:05:50,820 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:05:50,820 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:05:50,820 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:05:50,820 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:05:50,820 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:05:50,821 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:05:50,821 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:05:50,821 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:05:50,828 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:05:50,841 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:05:51,130 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:05:51,131 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:05:51,135 - DEBUG - 已更新缓存: users
+2025-06-29 23:05:51,137 - DEBUG - 用户数据更新: 1
+2025-06-29 23:05:51,282 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3773
+2025-06-29 23:05:51,282 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:05:51,284 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:05:51,284 - DEBUG - 传感器数据更新: 7
+2025-06-29 23:05:51,789 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:05:51,790 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:05:51,791 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:05:51,810 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:05:51,867 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:05:51,867 - DEBUG - 看板定时刷新已停止
+2025-06-29 23:05:51,867 - DEBUG - 取消异步API调用: get_users
+2025-06-29 23:05:51,867 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 23:05:51,867 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:05:51,867 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:05:51,868 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 23:05:51,868 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:05:51,868 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 23:05:51,868 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:05:51,868 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:05:51,868 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:05:51,868 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:05:51,868 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:05:51,868 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:05:51,868 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:05:52,291 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3773
+2025-06-29 23:05:52,292 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:05:52,293 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:06:03,911 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:06:19,190 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:06:22,861 - DEBUG - http://127.0.0.1:8000 "PUT /api/sensor-data/9/ HTTP/1.1" 200 427
+2025-06-29 23:06:22,863 - DEBUG - 使用数据管理器加载传感器数据
+2025-06-29 23:06:22,863 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:06:22,863 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:06:22,863 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:06:23,293 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3755
+2025-06-29 23:06:23,295 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:06:23,299 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:06:26,477 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:06:29,569 - DEBUG - http://127.0.0.1:8000 "PUT /api/sensor-data/8/ HTTP/1.1" 200 425
+2025-06-29 23:06:29,572 - DEBUG - 使用数据管理器加载传感器数据
+2025-06-29 23:06:29,572 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:06:29,574 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:06:30,001 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3621
+2025-06-29 23:06:30,001 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:06:30,002 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:06:32,794 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:06:36,029 - DEBUG - http://127.0.0.1:8000 "PUT /api/sensor-data/8/ HTTP/1.1" 200 425
+2025-06-29 23:06:36,035 - DEBUG - 使用数据管理器加载传感器数据
+2025-06-29 23:06:36,035 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:06:36,036 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:06:36,467 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3621
+2025-06-29 23:06:36,468 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:06:36,470 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:09:38,920 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:10:33,295 - INFO - 应用程序启动
+2025-06-29 23:10:33,892 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:10:33,896 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:10:33,898 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:10:33,900 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:10:34,620 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:10:34,788 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:10:34,788 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:10:34,788 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:10:34,788 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:10:34,788 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:10:34,788 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:10:34,788 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:10:34,788 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:10:34,788 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:10:34,788 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:10:34,788 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:10:34,788 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:10:34,788 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:10:34,789 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:10:34,789 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:10:34,789 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:10:34,811 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:10:34,812 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:10:35,081 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:10:35,082 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:10:35,082 - DEBUG - 已更新缓存: users
+2025-06-29 23:10:35,085 - DEBUG - 用户数据更新: 1
+2025-06-29 23:10:35,232 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3621
+2025-06-29 23:10:35,233 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:10:35,233 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:10:35,233 - DEBUG - 传感器数据更新: 7
+2025-06-29 23:10:35,685 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:10:35,685 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:10:35,685 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:10:35,699 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:10:39,805 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:10:39,806 - DEBUG - 看板定时刷新已停止
+2025-06-29 23:10:39,806 - DEBUG - 取消异步API调用: get_users
+2025-06-29 23:10:39,806 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 23:10:39,806 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:10:39,806 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:10:39,806 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 23:10:39,806 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:10:39,806 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 23:10:39,806 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:10:39,806 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:10:39,806 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:10:39,806 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:10:39,806 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:10:39,806 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:10:39,806 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:10:40,219 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3621
+2025-06-29 23:10:40,220 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:10:40,220 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:11:45,599 - INFO - 应用程序启动
+2025-06-29 23:11:46,245 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:11:46,253 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:11:46,255 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:11:46,266 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:11:46,893 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:11:47,031 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:11:47,031 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:11:47,031 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:11:47,031 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:11:47,031 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:11:47,031 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:11:47,031 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:11:47,032 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:11:47,032 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:11:47,032 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:11:47,032 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:11:47,032 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:11:47,032 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:11:47,034 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:11:47,034 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:11:47,034 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:11:47,058 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:11:47,060 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:11:47,343 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:11:47,344 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:11:47,345 - DEBUG - 已更新缓存: users
+2025-06-29 23:11:47,345 - DEBUG - 用户数据更新: 1
+2025-06-29 23:11:47,729 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3621
+2025-06-29 23:11:47,730 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:11:47,731 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:11:47,732 - DEBUG - 传感器数据更新: 7
+2025-06-29 23:11:47,937 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:11:47,937 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:11:47,938 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:11:47,946 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:11:52,411 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:11:52,411 - DEBUG - 看板定时刷新已停止
+2025-06-29 23:11:52,411 - DEBUG - 取消异步API调用: get_users
+2025-06-29 23:11:52,412 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 23:11:52,412 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:11:52,412 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:11:52,412 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 23:11:52,412 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:11:52,412 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 23:11:52,412 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:11:52,412 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:11:52,412 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:11:52,412 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:11:52,412 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:11:52,412 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:11:52,412 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:11:52,844 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3621
+2025-06-29 23:11:52,845 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:11:52,846 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:12:53,055 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:14:10,382 - INFO - 应用程序启动
+2025-06-29 23:14:11,108 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:14:11,117 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:14:11,117 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:14:11,129 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:14:11,885 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:14:12,020 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:14:12,020 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:14:12,020 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:14:12,020 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:14:12,020 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:14:12,021 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:14:12,021 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:14:12,021 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:14:12,021 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:14:12,021 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:14:12,021 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:14:12,021 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:14:12,021 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:14:12,021 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:14:12,021 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:14:12,021 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:14:12,052 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:14:12,053 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:14:12,327 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:14:12,327 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:14:12,330 - DEBUG - 已更新缓存: users
+2025-06-29 23:14:12,330 - DEBUG - 用户数据更新: 1
+2025-06-29 23:14:12,461 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3621
+2025-06-29 23:14:12,461 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:14:12,465 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:14:12,465 - DEBUG - 传感器数据更新: 7
+2025-06-29 23:14:12,937 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:14:12,937 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:14:12,938 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:14:12,962 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:14:13,843 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:14:13,843 - DEBUG - 看板定时刷新已停止
+2025-06-29 23:14:13,843 - DEBUG - 取消异步API调用: get_users
+2025-06-29 23:14:13,843 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 23:14:13,843 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:14:13,843 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:14:13,843 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 23:14:13,843 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:14:13,843 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 23:14:13,843 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:14:13,844 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:14:13,844 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:14:13,844 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:14:13,844 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:14:13,844 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:14:13,844 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:14:14,282 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3621
+2025-06-29 23:14:14,284 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:14:14,287 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:14:17,421 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:14:23,419 - DEBUG - http://127.0.0.1:8000 "PUT /api/sensor-data/7/ HTTP/1.1" 200 548
+2025-06-29 23:14:23,427 - DEBUG - 使用数据管理器加载传感器数据
+2025-06-29 23:14:23,427 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:14:23,427 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:14:23,428 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:14:23,830 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3624
+2025-06-29 23:14:23,830 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:14:23,831 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:14:28,552 - DEBUG - http://127.0.0.1:8000 "DELETE /api/sensor-data/8/ HTTP/1.1" 204 0
+2025-06-29 23:14:28,558 - DEBUG - 使用数据管理器加载传感器数据
+2025-06-29 23:14:28,558 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:14:28,560 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:14:28,947 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3198
+2025-06-29 23:14:28,947 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:14:28,948 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:14:31,973 - DEBUG - http://127.0.0.1:8000 "DELETE /api/sensor-data/9/ HTTP/1.1" 204 0
+2025-06-29 23:14:31,976 - DEBUG - 使用数据管理器加载传感器数据
+2025-06-29 23:14:31,977 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:14:31,977 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:14:32,346 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:14:32,464 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:14:32,465 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:28:14,033 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-06-29 23:28:14,035 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-06-29 23:28:15,182 - INFO - 应用程序启动
+2025-06-29 23:28:15,874 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:28:15,884 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:28:15,885 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:28:15,899 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:28:16,521 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:28:16,666 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:28:16,666 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:28:16,666 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:28:16,666 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:28:16,666 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:28:16,666 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:28:16,666 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:28:16,666 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:28:16,666 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:28:16,666 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:28:16,667 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:28:16,667 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:28:16,667 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:28:16,668 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:28:16,668 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:28:16,668 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:28:16,700 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:28:16,700 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:28:16,981 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:28:16,982 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:28:16,983 - DEBUG - 已更新缓存: users
+2025-06-29 23:28:16,985 - DEBUG - 用户数据更新: 1
+2025-06-29 23:28:17,076 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:28:17,076 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:28:17,077 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:28:17,077 - DEBUG - 传感器数据更新: 5
+2025-06-29 23:28:17,592 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:28:17,592 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:28:17,592 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:28:17,597 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:28:24,986 - INFO - 应用程序启动
+2025-06-29 23:28:25,796 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:28:25,804 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:28:25,804 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:28:25,816 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:28:26,480 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:28:26,612 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:28:26,612 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:28:26,612 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:28:26,612 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:28:26,612 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:28:26,612 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:28:26,612 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:28:26,613 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:28:26,613 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:28:26,613 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:28:26,613 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:28:26,613 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:28:26,613 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:28:26,614 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:28:26,614 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:28:26,614 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:28:26,641 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:28:26,643 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:28:26,910 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:28:26,910 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:28:26,910 - DEBUG - 已更新缓存: users
+2025-06-29 23:28:26,911 - DEBUG - 用户数据更新: 1
+2025-06-29 23:28:27,026 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:28:27,027 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:28:27,028 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:28:27,030 - DEBUG - 传感器数据更新: 5
+2025-06-29 23:28:27,575 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:28:27,577 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:28:27,578 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:28:27,602 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:28:28,059 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:28:28,059 - DEBUG - 看板定时刷新已停止
+2025-06-29 23:28:28,059 - DEBUG - 取消异步API调用: get_users
+2025-06-29 23:28:28,059 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 23:28:28,059 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:28:28,059 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:28:28,059 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 23:28:28,059 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:28:28,059 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 23:28:28,059 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:28:28,059 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:28:28,059 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:28:28,059 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:28:28,060 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:28:28,060 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:28:28,060 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:28:28,420 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:28:28,420 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:28:28,421 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:28:30,713 - DEBUG - http://127.0.0.1:8000 "POST /api/sensor-data/sync_files/ HTTP/1.1" 400 39
+2025-06-29 23:34:29,043 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:34:38,036 - INFO - 应用程序启动
+2025-06-29 23:34:38,753 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:34:38,770 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:34:38,773 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:34:38,805 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:34:39,456 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:34:39,590 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:34:39,590 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:34:39,590 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:34:39,590 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:34:39,590 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:34:39,590 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:34:39,590 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:34:39,590 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:34:39,590 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:34:39,590 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:34:39,591 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:34:39,591 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:34:39,591 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:34:39,593 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:34:39,593 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:34:39,593 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:34:39,625 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:34:39,626 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:34:39,901 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:34:39,901 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:34:39,903 - DEBUG - 已更新缓存: users
+2025-06-29 23:34:39,905 - DEBUG - 用户数据更新: 1
+2025-06-29 23:34:39,998 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:34:39,998 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:34:39,998 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:34:39,999 - DEBUG - 传感器数据更新: 5
+2025-06-29 23:34:40,508 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:34:40,508 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:34:40,511 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:34:40,521 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:34:40,899 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:34:40,899 - DEBUG - 看板定时刷新已停止
+2025-06-29 23:34:40,899 - DEBUG - 取消异步API调用: get_users
+2025-06-29 23:34:40,899 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 23:34:40,899 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:34:40,899 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:34:40,899 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 23:34:40,899 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:34:40,899 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 23:34:40,899 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:34:40,899 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:34:40,899 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:34:40,899 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:34:40,899 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:34:40,899 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:34:40,899 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:34:41,275 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:34:41,276 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:34:41,278 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:34:43,038 - DEBUG - http://127.0.0.1:8000 "POST /api/sensor-data/sync_files/ HTTP/1.1" 500 71
+2025-06-29 23:45:14,042 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:45:26,537 - INFO - 应用程序启动
+2025-06-29 23:45:27,202 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:45:27,210 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:45:27,210 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:45:27,222 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:45:27,896 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:45:28,031 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:45:28,031 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:45:28,031 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:45:28,031 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:45:28,031 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:45:28,031 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:45:28,031 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:45:28,031 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:45:28,031 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:45:28,031 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:45:28,031 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:45:28,031 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:45:28,031 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:45:28,032 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:45:28,032 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:45:28,032 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:45:28,058 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:45:28,065 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:45:28,340 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:45:28,340 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:45:28,340 - DEBUG - 已更新缓存: users
+2025-06-29 23:45:28,341 - DEBUG - 用户数据更新: 1
+2025-06-29 23:45:28,415 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:45:28,416 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:45:28,416 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:45:28,417 - DEBUG - 传感器数据更新: 5
+2025-06-29 23:45:28,903 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:45:28,903 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:45:28,903 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:45:28,915 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:45:29,240 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:45:29,240 - DEBUG - 看板定时刷新已停止
+2025-06-29 23:45:29,240 - DEBUG - 取消异步API调用: get_users
+2025-06-29 23:45:29,240 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 23:45:29,240 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:45:29,240 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:45:29,240 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 23:45:29,240 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:45:29,241 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 23:45:29,241 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:45:29,241 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:45:29,241 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:45:29,241 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:45:29,241 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:45:29,241 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:45:29,241 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:45:29,597 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:45:29,597 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:45:29,597 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:45:31,753 - DEBUG - http://127.0.0.1:8000 "POST /api/sensor-data/sync_files/ HTTP/1.1" 500 71
+2025-06-29 23:46:56,843 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:47:05,764 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-06-29 23:47:05,788 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001B22053A650>
+2025-06-29 23:47:05,788 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:47:05,789 - DEBUG - send_request_headers.complete
+2025-06-29 23:47:05,789 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:47:05,789 - DEBUG - send_request_body.complete
+2025-06-29 23:47:05,789 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:47:05,821 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:43:00 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:47:05,821 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:47:05,821 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:47:05,822 - DEBUG - receive_response_body.complete
+2025-06-29 23:47:05,822 - DEBUG - response_closed.started
+2025-06-29 23:47:05,822 - DEBUG - response_closed.complete
+2025-06-29 23:47:05,829 - DEBUG - send_request_headers.started request=<Request [b'PUT']>
+2025-06-29 23:47:05,830 - DEBUG - send_request_headers.complete
+2025-06-29 23:47:05,830 - DEBUG - send_request_body.started request=<Request [b'PUT']>
+2025-06-29 23:47:05,833 - DEBUG - send_request_body.failed exception=LocalProtocolError('Too much data for declared Content-Length')
+2025-06-29 23:47:05,833 - DEBUG - response_closed.started
+2025-06-29 23:47:05,833 - DEBUG - response_closed.complete
+2025-06-29 23:47:23,511 - DEBUG - 界面切换到: CompositeMaterialInterface (name=CompositeMaterialInterface)
+2025-06-29 23:47:23,511 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:47:23,511 - DEBUG - 调用前一个界面的 on_deactivated: SensorDataInterface
+2025-06-29 23:47:23,511 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:47:23,511 - DEBUG - SensorDataInterface 被切换离开，已取消数据加载请求
+2025-06-29 23:47:23,511 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:47:23,511 - DEBUG - 准备调用 CompositeMaterialInterface 的 on_activated 方法
+2025-06-29 23:47:23,511 - DEBUG - 正在调用 CompositeMaterialInterface.on_activated()
+2025-06-29 23:47:23,511 - INFO - CompositeMaterialInterface 被激活，开始加载数据
+2025-06-29 23:47:23,511 - DEBUG - CompositeMaterialInterface._load_data() 被调用，preserve_old_data=True
+2025-06-29 23:47:23,511 - DEBUG - 创建新的异步请求: composite_materials
+2025-06-29 23:47:23,512 - DEBUG - CompositeMaterialInterface worker 创建成功: False
+2025-06-29 23:47:23,512 - DEBUG - 成功调用 CompositeMaterialInterface.on_activated()
+2025-06-29 23:47:23,512 - DEBUG - 已更新 previous_interface 为: CompositeMaterialInterface
+2025-06-29 23:47:23,512 - DEBUG - 开始执行异步API调用: get_composite_materials
+2025-06-29 23:47:23,768 - DEBUG - http://127.0.0.1:8000 "GET /api/composite-materials/ HTTP/1.1" 200 600
+2025-06-29 23:47:23,769 - DEBUG - 异步API调用成功: get_composite_materials
+2025-06-29 23:47:23,769 - DEBUG - 已更新缓存: composite_materials
+2025-06-29 23:47:24,282 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:47:24,282 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:47:24,282 - DEBUG - 调用前一个界面的 on_deactivated: CompositeMaterialInterface
+2025-06-29 23:47:24,282 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:47:24,282 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:47:24,282 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:47:24,282 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:47:24,282 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:47:24,284 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:47:24,284 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:47:24,284 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:47:24,641 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:47:24,641 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:47:24,641 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:47:27,750 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:47:39,531 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-06-29 23:47:39,533 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001B220B93100>
+2025-06-29 23:47:39,533 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:47:39,533 - DEBUG - send_request_headers.complete
+2025-06-29 23:47:39,533 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:47:39,534 - DEBUG - send_request_body.complete
+2025-06-29 23:47:39,534 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:47:39,538 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:43:34 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:47:39,538 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:47:39,538 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:47:39,539 - DEBUG - receive_response_body.complete
+2025-06-29 23:47:39,539 - DEBUG - response_closed.started
+2025-06-29 23:47:39,539 - DEBUG - response_closed.complete
+2025-06-29 23:47:39,543 - DEBUG - send_request_headers.started request=<Request [b'PUT']>
+2025-06-29 23:47:39,543 - DEBUG - send_request_headers.complete
+2025-06-29 23:47:39,544 - DEBUG - send_request_body.started request=<Request [b'PUT']>
+2025-06-29 23:47:39,544 - DEBUG - send_request_body.failed exception=LocalProtocolError('Too much data for declared Content-Length')
+2025-06-29 23:47:39,544 - DEBUG - response_closed.started
+2025-06-29 23:47:39,545 - DEBUG - response_closed.complete
+2025-06-29 23:47:56,186 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:48:06,073 - INFO - 应用程序启动
+2025-06-29 23:48:06,739 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:48:06,747 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:48:06,749 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:48:06,759 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:48:07,409 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:48:07,539 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:48:07,539 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:48:07,539 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:48:07,539 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:48:07,539 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:48:07,539 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:48:07,539 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:48:07,539 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:48:07,539 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:48:07,540 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:48:07,540 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:48:07,540 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:48:07,540 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:48:07,540 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:48:07,540 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:48:07,541 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:48:07,576 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:48:07,579 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:48:07,873 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:48:07,875 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:48:07,877 - DEBUG - 已更新缓存: users
+2025-06-29 23:48:07,880 - DEBUG - 用户数据更新: 1
+2025-06-29 23:48:07,963 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:48:07,964 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:48:07,966 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:48:07,967 - DEBUG - 传感器数据更新: 5
+2025-06-29 23:48:08,463 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:48:08,464 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:48:08,464 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:48:08,469 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:48:08,617 - DEBUG - 界面切换到: CompositeMaterialInterface (name=CompositeMaterialInterface)
+2025-06-29 23:48:08,617 - DEBUG - 看板定时刷新已停止
+2025-06-29 23:48:08,617 - DEBUG - 取消异步API调用: get_users
+2025-06-29 23:48:08,617 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 23:48:08,618 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:48:08,618 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:48:08,618 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 23:48:08,618 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:48:08,618 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 23:48:08,618 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:48:08,618 - DEBUG - 准备调用 CompositeMaterialInterface 的 on_activated 方法
+2025-06-29 23:48:08,618 - DEBUG - 正在调用 CompositeMaterialInterface.on_activated()
+2025-06-29 23:48:08,618 - INFO - CompositeMaterialInterface 被激活，开始加载数据
+2025-06-29 23:48:08,618 - DEBUG - CompositeMaterialInterface._load_data() 被调用，preserve_old_data=True
+2025-06-29 23:48:08,618 - DEBUG - 创建新的异步请求: composite_materials
+2025-06-29 23:48:08,618 - DEBUG - CompositeMaterialInterface worker 创建成功: False
+2025-06-29 23:48:08,618 - DEBUG - 成功调用 CompositeMaterialInterface.on_activated()
+2025-06-29 23:48:08,618 - DEBUG - 已更新 previous_interface 为: CompositeMaterialInterface
+2025-06-29 23:48:08,618 - DEBUG - 开始执行异步API调用: get_composite_materials
+2025-06-29 23:48:08,869 - DEBUG - http://127.0.0.1:8000 "GET /api/composite-materials/ HTTP/1.1" 200 600
+2025-06-29 23:48:08,870 - DEBUG - 异步API调用成功: get_composite_materials
+2025-06-29 23:48:08,870 - DEBUG - 已更新缓存: composite_materials
+2025-06-29 23:48:08,986 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:48:08,986 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:48:08,986 - DEBUG - 调用前一个界面的 on_deactivated: CompositeMaterialInterface
+2025-06-29 23:48:08,986 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:48:08,986 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:48:08,986 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:48:08,986 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:48:08,987 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:48:08,987 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:48:08,987 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:48:09,367 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:48:09,368 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:48:09,369 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:48:12,589 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:48:19,736 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-06-29 23:48:19,761 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001F8F7E52E00>
+2025-06-29 23:48:19,761 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:48:19,762 - DEBUG - send_request_headers.complete
+2025-06-29 23:48:19,762 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:48:19,762 - DEBUG - send_request_body.complete
+2025-06-29 23:48:19,762 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:48:19,771 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:44:14 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:48:19,773 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:48:19,773 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:48:19,774 - DEBUG - receive_response_body.complete
+2025-06-29 23:48:19,774 - DEBUG - response_closed.started
+2025-06-29 23:48:19,774 - DEBUG - response_closed.complete
+2025-06-29 23:48:19,777 - DEBUG - send_request_headers.started request=<Request [b'PUT']>
+2025-06-29 23:48:19,778 - DEBUG - send_request_headers.complete
+2025-06-29 23:48:19,778 - DEBUG - send_request_body.started request=<Request [b'PUT']>
+2025-06-29 23:48:19,780 - DEBUG - send_request_body.complete
+2025-06-29 23:48:19,780 - DEBUG - receive_response_headers.started request=<Request [b'PUT']>
+2025-06-29 23:48:19,792 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Etag', b'"184d8de738a347c02949"'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:44:14 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:48:19,792 - INFO - HTTP Request: PUT http://mainnas.mildhedgehog.com:5005/sensor_data/20250629_234819_ARCHITECTURE_GUIDE.md "HTTP/1.1 201 Created"
+2025-06-29 23:48:19,792 - DEBUG - receive_response_body.started request=<Request [b'PUT']>
+2025-06-29 23:48:19,792 - DEBUG - receive_response_body.complete
+2025-06-29 23:48:19,792 - DEBUG - response_closed.started
+2025-06-29 23:48:19,792 - DEBUG - response_closed.complete
+2025-06-29 23:48:20,084 - DEBUG - http://127.0.0.1:8000 "POST /api/sensor-data/ HTTP/1.1" 201 252
+2025-06-29 23:51:50,780 - INFO - 应用程序启动
+2025-06-29 23:51:51,489 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:51:51,493 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:51:51,494 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:51:51,496 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:51:52,144 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:51:52,287 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:51:52,287 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:51:52,287 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:51:52,287 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:51:52,287 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:51:52,287 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:51:52,287 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:51:52,287 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:51:52,287 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:51:52,287 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:51:52,287 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:51:52,287 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:51:52,287 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:51:52,288 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:51:52,288 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:51:52,288 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:51:52,315 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:51:52,315 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:51:52,616 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:51:52,617 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:51:52,617 - DEBUG - 已更新缓存: users
+2025-06-29 23:51:52,617 - DEBUG - 用户数据更新: 1
+2025-06-29 23:51:52,714 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3310
+2025-06-29 23:51:52,718 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:51:52,719 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:51:52,720 - DEBUG - 传感器数据更新: 6
+2025-06-29 23:51:53,270 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:51:53,270 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:51:53,270 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:51:53,275 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:51:53,472 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:51:53,472 - DEBUG - 看板定时刷新已停止
+2025-06-29 23:51:53,472 - DEBUG - 取消异步API调用: get_users
+2025-06-29 23:51:53,472 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 23:51:53,472 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:51:53,472 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:51:53,472 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 23:51:53,472 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:51:53,472 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 23:51:53,472 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:51:53,473 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:51:53,473 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:51:53,542 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-06-29 23:51:53,592 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001B6A89E8700>
+2025-06-29 23:51:53,592 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:51:53,592 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:53,592 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:51:53,592 - DEBUG - send_request_body.complete
+2025-06-29 23:51:53,592 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:51:53,608 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:51:53,609 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:51:53,609 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:51:53,613 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:53,613 - DEBUG - response_closed.started
+2025-06-29 23:51:53,613 - DEBUG - response_closed.complete
+2025-06-29 23:51:53,617 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:51:53,618 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:53,618 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:51:53,618 - DEBUG - send_request_body.complete
+2025-06-29 23:51:53,618 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:51:53,631 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Content-Length', b'9'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:51:53,633 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/unmanaged "HTTP/1.1 404 Not Found"
+2025-06-29 23:51:53,633 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:51:53,633 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:53,633 - DEBUG - response_closed.started
+2025-06-29 23:51:53,633 - DEBUG - response_closed.complete
+2025-06-29 23:51:53,634 - DEBUG - send_request_headers.started request=<Request [b'MKCOL']>
+2025-06-29 23:51:53,634 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:53,635 - DEBUG - send_request_body.started request=<Request [b'MKCOL']>
+2025-06-29 23:51:53,635 - DEBUG - send_request_body.complete
+2025-06-29 23:51:53,635 - DEBUG - receive_response_headers.started request=<Request [b'MKCOL']>
+2025-06-29 23:51:53,646 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:51:53,646 - INFO - HTTP Request: MKCOL http://mainnas.mildhedgehog.com:5005/sensor_data/unmanaged/ "HTTP/1.1 201 Created"
+2025-06-29 23:51:53,647 - DEBUG - receive_response_body.started request=<Request [b'MKCOL']>
+2025-06-29 23:51:53,647 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:53,648 - DEBUG - response_closed.started
+2025-06-29 23:51:53,648 - DEBUG - response_closed.complete
+2025-06-29 23:51:54,042 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3310
+2025-06-29 23:51:54,043 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:51:54,043 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:54,043 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:51:54,043 - DEBUG - send_request_body.complete
+2025-06-29 23:51:54,043 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:51:54,060 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:51:54,060 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:51:54,060 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:51:54,064 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:54,065 - DEBUG - response_closed.started
+2025-06-29 23:51:54,065 - DEBUG - response_closed.complete
+2025-06-29 23:51:54,066 - DEBUG - send_request_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,066 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:54,067 - DEBUG - send_request_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,067 - DEBUG - send_request_body.complete
+2025-06-29 23:51:54,067 - DEBUG - receive_response_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,088 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:51:54,088 - INFO - HTTP Request: MOVE http://mainnas.mildhedgehog.com:5005/sensor_data/sensor_data_20250623_160155.json "HTTP/1.1 201 Created"
+2025-06-29 23:51:54,088 - DEBUG - receive_response_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,088 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:54,088 - DEBUG - response_closed.started
+2025-06-29 23:51:54,088 - DEBUG - response_closed.complete
+2025-06-29 23:51:54,088 - DEBUG - send_request_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,088 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:54,089 - DEBUG - send_request_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,089 - DEBUG - send_request_body.complete
+2025-06-29 23:51:54,089 - DEBUG - receive_response_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,100 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:51:54,101 - INFO - HTTP Request: MOVE http://mainnas.mildhedgehog.com:5005/sensor_data/sensor_data_20250623_160206.json "HTTP/1.1 201 Created"
+2025-06-29 23:51:54,101 - DEBUG - receive_response_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,101 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:54,101 - DEBUG - response_closed.started
+2025-06-29 23:51:54,101 - DEBUG - response_closed.complete
+2025-06-29 23:51:54,101 - DEBUG - send_request_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,101 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:54,101 - DEBUG - send_request_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,101 - DEBUG - send_request_body.complete
+2025-06-29 23:51:54,101 - DEBUG - receive_response_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,112 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:51:54,113 - INFO - HTTP Request: MOVE http://mainnas.mildhedgehog.com:5005/sensor_data/20250624_200316_Adobe%20Premiere%20Pro%202022%20SP.zip "HTTP/1.1 201 Created"
+2025-06-29 23:51:54,113 - DEBUG - receive_response_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,113 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:54,113 - DEBUG - response_closed.started
+2025-06-29 23:51:54,113 - DEBUG - response_closed.complete
+2025-06-29 23:51:54,114 - DEBUG - send_request_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,114 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:54,114 - DEBUG - send_request_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,114 - DEBUG - send_request_body.complete
+2025-06-29 23:51:54,114 - DEBUG - receive_response_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,121 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:51:54,122 - INFO - HTTP Request: MOVE http://mainnas.mildhedgehog.com:5005/sensor_data/20250624_203118_%E7%A0%94%E7%A9%B6%E5%86%85%E5%AE%B9%E9%83%A8%E5%88%861.pptx "HTTP/1.1 201 Created"
+2025-06-29 23:51:54,122 - DEBUG - receive_response_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,122 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:54,122 - DEBUG - response_closed.started
+2025-06-29 23:51:54,122 - DEBUG - response_closed.complete
+2025-06-29 23:51:54,123 - DEBUG - send_request_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,123 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:54,123 - DEBUG - send_request_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,124 - DEBUG - send_request_body.complete
+2025-06-29 23:51:54,124 - DEBUG - receive_response_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,128 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:51:54,129 - INFO - HTTP Request: MOVE http://mainnas.mildhedgehog.com:5005/sensor_data/20250624_220713_Adobe%20Premiere%20Pro%202022%20SP.zip "HTTP/1.1 201 Created"
+2025-06-29 23:51:54,129 - DEBUG - receive_response_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,129 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:54,129 - DEBUG - response_closed.started
+2025-06-29 23:51:54,129 - DEBUG - response_closed.complete
+2025-06-29 23:51:54,130 - DEBUG - send_request_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,130 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:54,130 - DEBUG - send_request_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,131 - DEBUG - send_request_body.complete
+2025-06-29 23:51:54,131 - DEBUG - receive_response_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,135 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:51:54,136 - INFO - HTTP Request: MOVE http://mainnas.mildhedgehog.com:5005/sensor_data/20250624_221051_Adobe%20Premiere%20Pro%202022%20SP.zip "HTTP/1.1 201 Created"
+2025-06-29 23:51:54,136 - DEBUG - receive_response_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,136 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:54,136 - DEBUG - response_closed.started
+2025-06-29 23:51:54,136 - DEBUG - response_closed.complete
+2025-06-29 23:51:54,137 - DEBUG - send_request_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,137 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:54,137 - DEBUG - send_request_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,137 - DEBUG - send_request_body.complete
+2025-06-29 23:51:54,137 - DEBUG - receive_response_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,142 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:51:54,142 - INFO - HTTP Request: MOVE http://mainnas.mildhedgehog.com:5005/sensor_data/20250624_221153_mcp-feedback-enhanced-main.zip "HTTP/1.1 201 Created"
+2025-06-29 23:51:54,143 - DEBUG - receive_response_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,143 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:54,143 - DEBUG - response_closed.started
+2025-06-29 23:51:54,144 - DEBUG - response_closed.complete
+2025-06-29 23:51:54,145 - DEBUG - send_request_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,145 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:54,145 - DEBUG - send_request_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,146 - DEBUG - send_request_body.complete
+2025-06-29 23:51:54,146 - DEBUG - receive_response_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,151 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:51:54,151 - INFO - HTTP Request: MOVE http://mainnas.mildhedgehog.com:5005/sensor_data/20250629_224559_2025-05-13-raspios-bookworm-armhf.img.xz "HTTP/1.1 201 Created"
+2025-06-29 23:51:54,151 - DEBUG - receive_response_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,152 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:54,152 - DEBUG - response_closed.started
+2025-06-29 23:51:54,152 - DEBUG - response_closed.complete
+2025-06-29 23:51:54,153 - DEBUG - send_request_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,154 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:54,154 - DEBUG - send_request_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,154 - DEBUG - send_request_body.complete
+2025-06-29 23:51:54,155 - DEBUG - receive_response_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,160 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:51:54,160 - INFO - HTTP Request: MOVE http://mainnas.mildhedgehog.com:5005/sensor_data/20250629_234705_app_debug.log "HTTP/1.1 201 Created"
+2025-06-29 23:51:54,160 - DEBUG - receive_response_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,161 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:54,161 - DEBUG - response_closed.started
+2025-06-29 23:51:54,161 - DEBUG - response_closed.complete
+2025-06-29 23:51:54,162 - DEBUG - send_request_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,163 - DEBUG - send_request_headers.complete
+2025-06-29 23:51:54,163 - DEBUG - send_request_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,163 - DEBUG - send_request_body.complete
+2025-06-29 23:51:54,163 - DEBUG - receive_response_headers.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,169 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:47:48 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:51:54,169 - INFO - HTTP Request: MOVE http://mainnas.mildhedgehog.com:5005/sensor_data/20250629_234739_app_debug.log "HTTP/1.1 201 Created"
+2025-06-29 23:51:54,170 - DEBUG - receive_response_body.started request=<Request [b'MOVE']>
+2025-06-29 23:51:54,170 - DEBUG - receive_response_body.complete
+2025-06-29 23:51:54,170 - DEBUG - response_closed.started
+2025-06-29 23:51:54,170 - DEBUG - response_closed.complete
+2025-06-29 23:51:54,187 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:51:54,188 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:51:54,188 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:51:54,189 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:51:54,595 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3310
+2025-06-29 23:51:54,596 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:51:54,596 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:52:00,608 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\data_manager.py", line 374, in <lambda>
+    button.clicked.connect(lambda _, item=data_item, cb=callback: cb(item))
+  File "F:\python\-\pyQTClient\app\view\sensor_data_interface.py", line 284, in delete_data
+    dialog.textLabel.setParent(None)  # 移除默认文本标签
+AttributeError: 'MessageBox' object has no attribute 'textLabel'
+
+2025-06-29 23:52:00,609 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\data_manager.py", line 374, in <lambda>
+    button.clicked.connect(lambda _, item=data_item, cb=callback: cb(item))
+  File "F:\python\-\pyQTClient\app\view\sensor_data_interface.py", line 284, in delete_data
+    dialog.textLabel.setParent(None)  # 移除默认文本标签
+AttributeError: 'MessageBox' object has no attribute 'textLabel'
+
+2025-06-29 23:53:48,750 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:53:51,120 - INFO - 应用程序启动
+2025-06-29 23:53:51,869 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:53:51,872 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:53:51,873 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:53:51,875 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:53:52,526 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:53:52,722 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:53:52,722 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:53:52,722 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:53:52,722 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:53:52,722 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:53:52,722 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:53:52,722 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:53:52,722 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:53:52,722 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:53:52,722 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:53:52,722 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:53:52,722 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:53:52,723 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:53:52,724 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:53:52,724 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:53:52,724 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:53:52,754 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:53:52,761 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:53:53,044 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:53:53,045 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:53:53,045 - DEBUG - 已更新缓存: users
+2025-06-29 23:53:53,045 - DEBUG - 用户数据更新: 1
+2025-06-29 23:53:53,160 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3310
+2025-06-29 23:53:53,160 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:53:53,181 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:53:53,182 - DEBUG - 传感器数据更新: 6
+2025-06-29 23:53:53,615 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:53:53,616 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:53:53,616 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:53:53,621 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:53:55,222 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:53:55,222 - DEBUG - 看板定时刷新已停止
+2025-06-29 23:53:55,222 - DEBUG - 取消异步API调用: get_users
+2025-06-29 23:53:55,222 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 23:53:55,222 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:53:55,222 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:53:55,222 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 23:53:55,222 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:53:55,222 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 23:53:55,222 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:53:55,222 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:53:55,222 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:53:55,291 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-06-29 23:53:55,336 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000021CE1B74D90>
+2025-06-29 23:53:55,336 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:53:55,336 - DEBUG - send_request_headers.complete
+2025-06-29 23:53:55,336 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:53:55,336 - DEBUG - send_request_body.complete
+2025-06-29 23:53:55,336 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:53:55,352 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:49:49 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:53:55,353 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:53:55,354 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:53:55,360 - DEBUG - receive_response_body.complete
+2025-06-29 23:53:55,361 - DEBUG - response_closed.started
+2025-06-29 23:53:55,361 - DEBUG - response_closed.complete
+2025-06-29 23:53:55,366 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:53:55,366 - DEBUG - send_request_headers.complete
+2025-06-29 23:53:55,366 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:53:55,366 - DEBUG - send_request_body.complete
+2025-06-29 23:53:55,366 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:53:55,376 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:49:49 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:53:55,376 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/unmanaged "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:53:55,376 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:53:55,377 - DEBUG - receive_response_body.complete
+2025-06-29 23:53:55,377 - DEBUG - response_closed.started
+2025-06-29 23:53:55,377 - DEBUG - response_closed.complete
+2025-06-29 23:53:55,790 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3310
+2025-06-29 23:53:55,792 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:53:55,792 - DEBUG - send_request_headers.complete
+2025-06-29 23:53:55,792 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:53:55,792 - DEBUG - send_request_body.complete
+2025-06-29 23:53:55,792 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:53:55,796 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:49:50 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:53:55,797 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:53:55,797 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:53:55,797 - DEBUG - receive_response_body.complete
+2025-06-29 23:53:55,797 - DEBUG - response_closed.started
+2025-06-29 23:53:55,797 - DEBUG - response_closed.complete
+2025-06-29 23:53:55,799 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:53:55,799 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:53:55,799 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:53:55,799 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:53:56,191 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3310
+2025-06-29 23:53:56,192 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:53:56,192 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:53:59,132 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\data_manager.py", line 374, in <lambda>
+    button.clicked.connect(lambda _, item=data_item, cb=callback: cb(item))
+  File "F:\python\-\pyQTClient\app\view\sensor_data_interface.py", line 289, in delete_data
+    dialog = DeleteConfirmDialog(self.window())
+  File "F:\python\-\pyQTClient\app\view\sensor_data_interface.py", line 270, in __init__
+    self.titleLabel.setText("确认删除")
+AttributeError: 'DeleteConfirmDialog' object has no attribute 'titleLabel'
+
+2025-06-29 23:53:59,132 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\data_manager.py", line 374, in <lambda>
+    button.clicked.connect(lambda _, item=data_item, cb=callback: cb(item))
+  File "F:\python\-\pyQTClient\app\view\sensor_data_interface.py", line 289, in delete_data
+    dialog = DeleteConfirmDialog(self.window())
+  File "F:\python\-\pyQTClient\app\view\sensor_data_interface.py", line 270, in __init__
+    self.titleLabel.setText("确认删除")
+AttributeError: 'DeleteConfirmDialog' object has no attribute 'titleLabel'
+
+2025-06-29 23:56:06,902 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:56:11,792 - INFO - 应用程序启动
+2025-06-29 23:56:12,587 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:56:12,635 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:56:12,637 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:56:12,670 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:56:13,463 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:56:13,653 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:56:13,653 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:56:13,653 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:56:13,653 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:56:13,653 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:56:13,653 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:56:13,653 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:56:13,653 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:56:13,653 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:56:13,653 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:56:13,653 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:56:13,653 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:56:13,654 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:56:13,654 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:56:13,654 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:56:13,654 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:56:13,688 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:56:13,693 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:56:13,968 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:56:13,968 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:56:13,968 - DEBUG - 已更新缓存: users
+2025-06-29 23:56:13,969 - DEBUG - 用户数据更新: 1
+2025-06-29 23:56:14,086 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3310
+2025-06-29 23:56:14,087 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:56:14,090 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:56:14,090 - DEBUG - 传感器数据更新: 6
+2025-06-29 23:56:14,578 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:56:14,578 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:56:14,579 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:56:14,584 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:56:14,766 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:56:14,766 - DEBUG - 看板定时刷新已停止
+2025-06-29 23:56:14,766 - DEBUG - 取消异步API调用: get_users
+2025-06-29 23:56:14,766 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 23:56:14,766 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:56:14,766 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:56:14,767 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 23:56:14,767 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:56:14,767 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 23:56:14,767 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:56:14,767 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:56:14,767 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:56:14,831 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-06-29 23:56:14,880 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000203DD31C6D0>
+2025-06-29 23:56:14,880 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:56:14,881 - DEBUG - send_request_headers.complete
+2025-06-29 23:56:14,881 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:56:14,881 - DEBUG - send_request_body.complete
+2025-06-29 23:56:14,881 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:56:14,884 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:52:09 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:56:14,885 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:56:14,885 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:56:14,885 - DEBUG - receive_response_body.complete
+2025-06-29 23:56:14,886 - DEBUG - response_closed.started
+2025-06-29 23:56:14,886 - DEBUG - response_closed.complete
+2025-06-29 23:56:14,888 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:56:14,888 - DEBUG - send_request_headers.complete
+2025-06-29 23:56:14,888 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:56:14,889 - DEBUG - send_request_body.complete
+2025-06-29 23:56:14,889 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:56:14,894 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:52:09 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:56:14,894 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/unmanaged "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:56:14,894 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:56:14,895 - DEBUG - receive_response_body.complete
+2025-06-29 23:56:14,895 - DEBUG - response_closed.started
+2025-06-29 23:56:14,895 - DEBUG - response_closed.complete
+2025-06-29 23:56:15,299 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3310
+2025-06-29 23:56:15,299 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:56:15,299 - DEBUG - send_request_headers.complete
+2025-06-29 23:56:15,299 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:56:15,299 - DEBUG - send_request_body.complete
+2025-06-29 23:56:15,299 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:56:15,315 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:52:09 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:56:15,315 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:56:15,315 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:56:15,316 - DEBUG - receive_response_body.complete
+2025-06-29 23:56:15,316 - DEBUG - response_closed.started
+2025-06-29 23:56:15,316 - DEBUG - response_closed.complete
+2025-06-29 23:56:15,317 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:56:15,317 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:56:15,317 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:56:15,317 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:56:15,691 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3310
+2025-06-29 23:56:15,691 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:56:15,699 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:56:18,927 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\data_manager.py", line 374, in <lambda>
+    button.clicked.connect(lambda _, item=data_item, cb=callback: cb(item))
+  File "F:\python\-\pyQTClient\app\view\sensor_data_interface.py", line 264, in delete_data
+    dialog.titleLabel.setText("确认删除")
+AttributeError: 'MessageBoxBase' object has no attribute 'titleLabel'
+
+2025-06-29 23:56:18,927 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\api\data_manager.py", line 374, in <lambda>
+    button.clicked.connect(lambda _, item=data_item, cb=callback: cb(item))
+  File "F:\python\-\pyQTClient\app\view\sensor_data_interface.py", line 264, in delete_data
+    dialog.titleLabel.setText("确认删除")
+AttributeError: 'MessageBoxBase' object has no attribute 'titleLabel'
+
+2025-06-29 23:58:27,352 - INFO - 应用程序启动
+2025-06-29 23:58:28,050 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-29 23:58:28,055 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-29 23:58:28,057 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-29 23:58:28,059 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-29 23:58:28,923 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-29 23:58:29,096 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-29 23:58:29,096 - DEBUG - 看板定时刷新已启动
+2025-06-29 23:58:29,096 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:58:29,096 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-29 23:58:29,096 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-29 23:58:29,096 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-29 23:58:29,096 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:58:29,096 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-29 23:58:29,096 - DEBUG - 创建新的异步请求: users
+2025-06-29 23:58:29,097 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-29 23:58:29,097 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:58:29,097 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-29 23:58:29,097 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-29 23:58:29,097 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:58:29,097 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-29 23:58:29,097 - DEBUG - 开始执行异步API调用: get_users
+2025-06-29 23:58:29,134 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-29 23:58:29,138 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-29 23:58:29,432 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-29 23:58:29,432 - DEBUG - 异步API调用成功: get_users
+2025-06-29 23:58:29,433 - DEBUG - 已更新缓存: users
+2025-06-29 23:58:29,433 - DEBUG - 用户数据更新: 1
+2025-06-29 23:58:29,565 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3310
+2025-06-29 23:58:29,566 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:58:29,566 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:58:29,567 - DEBUG - 传感器数据更新: 6
+2025-06-29 23:58:30,016 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-29 23:58:30,017 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-29 23:58:30,018 - DEBUG - 已更新缓存: processing_tasks
+2025-06-29 23:58:30,038 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-29 23:58:30,301 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:58:30,301 - DEBUG - 看板定时刷新已停止
+2025-06-29 23:58:30,301 - DEBUG - 取消异步API调用: get_users
+2025-06-29 23:58:30,301 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-29 23:58:30,301 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:58:30,302 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:58:30,302 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-29 23:58:30,302 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:58:30,302 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-29 23:58:30,302 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:58:30,302 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:58:30,302 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:58:30,367 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-06-29 23:58:30,410 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001699E8289D0>
+2025-06-29 23:58:30,410 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:30,410 - DEBUG - send_request_headers.complete
+2025-06-29 23:58:30,410 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:30,410 - DEBUG - send_request_body.complete
+2025-06-29 23:58:30,410 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:30,426 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:54:24 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:58:30,427 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:58:30,427 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:30,431 - DEBUG - receive_response_body.complete
+2025-06-29 23:58:30,431 - DEBUG - response_closed.started
+2025-06-29 23:58:30,431 - DEBUG - response_closed.complete
+2025-06-29 23:58:30,440 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:30,440 - DEBUG - send_request_headers.complete
+2025-06-29 23:58:30,441 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:30,441 - DEBUG - send_request_body.complete
+2025-06-29 23:58:30,441 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:30,457 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:54:25 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:58:30,458 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/unmanaged "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:58:30,459 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:30,460 - DEBUG - receive_response_body.complete
+2025-06-29 23:58:30,460 - DEBUG - response_closed.started
+2025-06-29 23:58:30,460 - DEBUG - response_closed.complete
+2025-06-29 23:58:30,859 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3310
+2025-06-29 23:58:30,861 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:30,861 - DEBUG - send_request_headers.complete
+2025-06-29 23:58:30,861 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:30,861 - DEBUG - send_request_body.complete
+2025-06-29 23:58:30,861 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:30,880 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:54:25 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:58:30,881 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:58:30,881 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:30,881 - DEBUG - receive_response_body.complete
+2025-06-29 23:58:30,881 - DEBUG - response_closed.started
+2025-06-29 23:58:30,882 - DEBUG - response_closed.complete
+2025-06-29 23:58:30,884 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:58:30,884 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:58:30,884 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:58:30,884 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:58:31,289 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3310
+2025-06-29 23:58:31,290 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:58:31,291 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:58:36,259 - DEBUG - http://127.0.0.1:8000 "DELETE /api/sensor-data/10/ HTTP/1.1" 204 0
+2025-06-29 23:58:36,291 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-06-29 23:58:36,899 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001699E86E9B0>
+2025-06-29 23:58:36,899 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:36,899 - DEBUG - send_request_headers.complete
+2025-06-29 23:58:36,899 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:36,900 - DEBUG - send_request_body.complete
+2025-06-29 23:58:36,900 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:36,915 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:54:31 GMT'), (b'Content-Length', b'794')])
+2025-06-29 23:58:36,916 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/20250629_234819_ARCHITECTURE_GUIDE.md "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:58:36,916 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:58:36,916 - DEBUG - receive_response_body.complete
+2025-06-29 23:58:36,916 - DEBUG - response_closed.started
+2025-06-29 23:58:36,916 - DEBUG - response_closed.complete
+2025-06-29 23:58:36,917 - DEBUG - send_request_headers.started request=<Request [b'DELETE']>
+2025-06-29 23:58:36,917 - DEBUG - send_request_headers.complete
+2025-06-29 23:58:36,917 - DEBUG - send_request_body.started request=<Request [b'DELETE']>
+2025-06-29 23:58:36,918 - DEBUG - send_request_body.complete
+2025-06-29 23:58:36,918 - DEBUG - receive_response_headers.started request=<Request [b'DELETE']>
+2025-06-29 23:58:36,964 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 204, b'No Content', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:54:31 GMT')])
+2025-06-29 23:58:36,965 - INFO - HTTP Request: DELETE http://mainnas.mildhedgehog.com:5005/sensor_data/20250629_234819_ARCHITECTURE_GUIDE.md "HTTP/1.1 204 No Content"
+2025-06-29 23:58:36,965 - DEBUG - receive_response_body.started request=<Request [b'DELETE']>
+2025-06-29 23:58:36,965 - DEBUG - receive_response_body.complete
+2025-06-29 23:58:36,965 - DEBUG - response_closed.started
+2025-06-29 23:58:36,965 - DEBUG - response_closed.complete
+2025-06-29 23:58:36,978 - DEBUG - 使用数据管理器加载传感器数据
+2025-06-29 23:58:36,979 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-29 23:58:36,979 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:58:36,981 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:58:37,366 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:58:37,367 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:58:37,370 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:59:14,502 - DEBUG - 界面切换到: CompositeMaterialInterface (name=CompositeMaterialInterface)
+2025-06-29 23:59:14,502 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:59:14,502 - DEBUG - 调用前一个界面的 on_deactivated: SensorDataInterface
+2025-06-29 23:59:14,502 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:59:14,502 - DEBUG - 准备调用 CompositeMaterialInterface 的 on_activated 方法
+2025-06-29 23:59:14,502 - DEBUG - 正在调用 CompositeMaterialInterface.on_activated()
+2025-06-29 23:59:14,502 - INFO - CompositeMaterialInterface 被激活，开始加载数据
+2025-06-29 23:59:14,502 - DEBUG - CompositeMaterialInterface._load_data() 被调用，preserve_old_data=True
+2025-06-29 23:59:14,502 - DEBUG - 创建新的异步请求: composite_materials
+2025-06-29 23:59:14,502 - DEBUG - CompositeMaterialInterface worker 创建成功: False
+2025-06-29 23:59:14,502 - DEBUG - 成功调用 CompositeMaterialInterface.on_activated()
+2025-06-29 23:59:14,502 - DEBUG - 已更新 previous_interface 为: CompositeMaterialInterface
+2025-06-29 23:59:14,502 - DEBUG - 开始执行异步API调用: get_composite_materials
+2025-06-29 23:59:14,763 - DEBUG - http://127.0.0.1:8000 "GET /api/composite-materials/ HTTP/1.1" 200 600
+2025-06-29 23:59:14,763 - DEBUG - 异步API调用成功: get_composite_materials
+2025-06-29 23:59:14,766 - DEBUG - 已更新缓存: composite_materials
+2025-06-29 23:59:15,830 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-29 23:59:15,830 - DEBUG - 已取消所有活跃的异步任务
+2025-06-29 23:59:15,830 - DEBUG - 调用前一个界面的 on_deactivated: CompositeMaterialInterface
+2025-06-29 23:59:15,831 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-29 23:59:15,831 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-29 23:59:15,831 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-29 23:59:15,838 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-06-29 23:59:15,849 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001699E86FA00>
+2025-06-29 23:59:15,849 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:59:15,849 - DEBUG - send_request_headers.complete
+2025-06-29 23:59:15,849 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:59:15,850 - DEBUG - send_request_body.complete
+2025-06-29 23:59:15,850 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:59:15,865 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:55:10 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:59:15,865 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:59:15,866 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:59:15,866 - DEBUG - receive_response_body.complete
+2025-06-29 23:59:15,866 - DEBUG - response_closed.started
+2025-06-29 23:59:15,866 - DEBUG - response_closed.complete
+2025-06-29 23:59:15,867 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:59:15,867 - DEBUG - send_request_headers.complete
+2025-06-29 23:59:15,867 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:59:15,867 - DEBUG - send_request_body.complete
+2025-06-29 23:59:15,867 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:59:15,880 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 404, b'Not Found', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:55:10 GMT'), (b'Content-Length', b'9'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:59:15,880 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/unmanaged "HTTP/1.1 404 Not Found"
+2025-06-29 23:59:15,880 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:59:15,880 - DEBUG - receive_response_body.complete
+2025-06-29 23:59:15,880 - DEBUG - response_closed.started
+2025-06-29 23:59:15,880 - DEBUG - response_closed.complete
+2025-06-29 23:59:15,881 - DEBUG - send_request_headers.started request=<Request [b'MKCOL']>
+2025-06-29 23:59:15,881 - DEBUG - send_request_headers.complete
+2025-06-29 23:59:15,881 - DEBUG - send_request_body.started request=<Request [b'MKCOL']>
+2025-06-29 23:59:15,881 - DEBUG - send_request_body.complete
+2025-06-29 23:59:15,881 - DEBUG - receive_response_headers.started request=<Request [b'MKCOL']>
+2025-06-29 23:59:15,891 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 201, b'Created', [(b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:55:10 GMT'), (b'Content-Length', b'7'), (b'Content-Type', b'text/plain; charset=utf-8')])
+2025-06-29 23:59:15,891 - INFO - HTTP Request: MKCOL http://mainnas.mildhedgehog.com:5005/sensor_data/unmanaged/ "HTTP/1.1 201 Created"
+2025-06-29 23:59:15,891 - DEBUG - receive_response_body.started request=<Request [b'MKCOL']>
+2025-06-29 23:59:15,891 - DEBUG - receive_response_body.complete
+2025-06-29 23:59:15,891 - DEBUG - response_closed.started
+2025-06-29 23:59:15,891 - DEBUG - response_closed.complete
+2025-06-29 23:59:16,273 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:59:16,274 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:59:16,275 - DEBUG - send_request_headers.complete
+2025-06-29 23:59:16,275 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:59:16,275 - DEBUG - send_request_body.complete
+2025-06-29 23:59:16,275 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-29 23:59:16,292 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:55:10 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-29 23:59:16,293 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-29 23:59:16,293 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-29 23:59:16,293 - DEBUG - receive_response_body.complete
+2025-06-29 23:59:16,294 - DEBUG - response_closed.started
+2025-06-29 23:59:16,294 - DEBUG - response_closed.complete
+2025-06-29 23:59:16,299 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-29 23:59:16,299 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-29 23:59:16,299 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-29 23:59:16,300 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-29 23:59:16,680 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-29 23:59:16,681 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-29 23:59:16,683 - DEBUG - 已更新缓存: sensor_data
+2025-06-29 23:59:18,155 - DEBUG - 已取消所有活跃的异步任务
+2025-06-30 00:03:13,999 - INFO - 应用程序启动
+2025-06-30 00:03:14,717 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-06-30 00:03:14,724 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-06-30 00:03:14,725 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-06-30 00:03:14,726 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-06-30 00:03:15,500 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-06-30 00:03:15,699 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-30 00:03:15,699 - DEBUG - 看板定时刷新已启动
+2025-06-30 00:03:15,699 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-30 00:03:15,699 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-30 00:03:15,699 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-30 00:03:15,699 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-30 00:03:15,699 - DEBUG - 已取消所有活跃的异步任务
+2025-06-30 00:03:15,699 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-30 00:03:15,700 - DEBUG - 创建新的异步请求: users
+2025-06-30 00:03:15,700 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-30 00:03:15,700 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-30 00:03:15,700 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-30 00:03:15,700 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-30 00:03:15,701 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-30 00:03:15,701 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-30 00:03:15,701 - DEBUG - 开始执行异步API调用: get_users
+2025-06-30 00:03:15,733 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-06-30 00:03:15,734 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-06-30 00:03:16,032 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-30 00:03:16,033 - DEBUG - 异步API调用成功: get_users
+2025-06-30 00:03:16,035 - DEBUG - 已更新缓存: users
+2025-06-30 00:03:16,036 - DEBUG - 用户数据更新: 1
+2025-06-30 00:03:16,119 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-30 00:03:16,120 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-30 00:03:16,125 - DEBUG - 已更新缓存: sensor_data
+2025-06-30 00:03:16,126 - DEBUG - 传感器数据更新: 5
+2025-06-30 00:03:16,651 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-30 00:03:16,652 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-30 00:03:16,653 - DEBUG - 已更新缓存: processing_tasks
+2025-06-30 00:03:16,675 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-30 00:03:19,885 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-06-30 00:03:19,885 - DEBUG - 看板定时刷新已停止
+2025-06-30 00:03:19,885 - DEBUG - 取消异步API调用: get_users
+2025-06-30 00:03:19,885 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-30 00:03:19,885 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-30 00:03:19,885 - DEBUG - 已取消所有活跃的异步任务
+2025-06-30 00:03:19,885 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-30 00:03:19,885 - DEBUG - 已取消所有活跃的异步任务
+2025-06-30 00:03:19,885 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-30 00:03:19,885 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-30 00:03:19,885 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-06-30 00:03:19,885 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-06-30 00:03:19,947 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-06-30 00:03:19,986 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001BC5678C730>
+2025-06-30 00:03:19,986 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-30 00:03:19,986 - DEBUG - send_request_headers.complete
+2025-06-30 00:03:19,986 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-30 00:03:19,986 - DEBUG - send_request_body.complete
+2025-06-30 00:03:19,986 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-30 00:03:20,001 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:59:14 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-30 00:03:20,001 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-30 00:03:20,001 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-30 00:03:20,003 - DEBUG - receive_response_body.complete
+2025-06-30 00:03:20,003 - DEBUG - response_closed.started
+2025-06-30 00:03:20,003 - DEBUG - response_closed.complete
+2025-06-30 00:03:20,004 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-30 00:03:20,004 - DEBUG - send_request_headers.complete
+2025-06-30 00:03:20,004 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-30 00:03:20,004 - DEBUG - send_request_body.complete
+2025-06-30 00:03:20,004 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-30 00:03:20,018 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:59:14 GMT'), (b'Content-Length', b'613')])
+2025-06-30 00:03:20,018 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/unmanaged "HTTP/1.1 207 Multi-Status"
+2025-06-30 00:03:20,018 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-30 00:03:20,018 - DEBUG - receive_response_body.complete
+2025-06-30 00:03:20,018 - DEBUG - response_closed.started
+2025-06-30 00:03:20,018 - DEBUG - response_closed.complete
+2025-06-30 00:03:20,392 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-30 00:03:20,394 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-06-30 00:03:20,395 - DEBUG - send_request_headers.complete
+2025-06-30 00:03:20,395 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-06-30 00:03:20,396 - DEBUG - send_request_body.complete
+2025-06-30 00:03:20,396 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-06-30 00:03:20,411 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Sun, 29 Jun 2025 15:59:14 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-06-30 00:03:20,412 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-06-30 00:03:20,412 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-06-30 00:03:20,413 - DEBUG - receive_response_body.complete
+2025-06-30 00:03:20,413 - DEBUG - response_closed.started
+2025-06-30 00:03:20,413 - DEBUG - response_closed.complete
+2025-06-30 00:03:20,417 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-30 00:03:20,418 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-06-30 00:03:20,418 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-06-30 00:03:20,419 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-30 00:03:20,799 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-30 00:03:20,799 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-30 00:03:20,799 - DEBUG - 已更新缓存: sensor_data
+2025-06-30 00:03:23,024 - DEBUG - 界面切换到: TaskGroupInterface (name=TaskGroupInterface)
+2025-06-30 00:03:23,024 - DEBUG - 已取消所有活跃的异步任务
+2025-06-30 00:03:23,024 - DEBUG - 调用前一个界面的 on_deactivated: SensorDataInterface
+2025-06-30 00:03:23,024 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-30 00:03:23,024 - DEBUG - SensorDataInterface 被切换离开，已取消数据加载请求
+2025-06-30 00:03:23,024 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-30 00:03:23,024 - DEBUG - 准备调用 TaskGroupInterface 的 on_activated 方法
+2025-06-30 00:03:23,024 - DEBUG - 正在调用 TaskGroupInterface.on_activated()
+2025-06-30 00:03:23,024 - DEBUG - 使用新的统一API加载任务分组和任务数据
+2025-06-30 00:03:23,024 - DEBUG - 创建新的异步请求: task_groups_with_tasks
+2025-06-30 00:03:23,024 - DEBUG - 成功调用 TaskGroupInterface.on_activated()
+2025-06-30 00:03:23,024 - DEBUG - 已更新 previous_interface 为: TaskGroupInterface
+2025-06-30 00:03:23,024 - DEBUG - 开始执行异步API调用: get_task_groups_with_tasks
+2025-06-30 00:03:23,333 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/with_tasks/ HTTP/1.1" 200 3594
+2025-06-30 00:03:23,334 - DEBUG - 异步API调用成功: get_task_groups_with_tasks
+2025-06-30 00:03:23,337 - DEBUG - 已更新缓存: task_groups_with_tasks
+2025-06-30 00:03:23,338 - DEBUG - 接收到 2 个任务分组数据（包含任务）
+2025-06-30 00:03:23,339 - INFO - 任务分组树状结构构建完成，共 2 个分组
+2025-06-30 00:03:23,815 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-06-30 00:03:23,815 - DEBUG - 已取消所有活跃的异步任务
+2025-06-30 00:03:23,815 - DEBUG - 调用前一个界面的 on_deactivated: TaskGroupInterface
+2025-06-30 00:03:23,815 - DEBUG - TaskGroupInterface 被切换离开，已取消数据加载请求
+2025-06-30 00:03:23,815 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-30 00:03:23,815 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-06-30 00:03:23,815 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-06-30 00:03:23,815 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-30 00:03:23,815 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-06-30 00:03:23,815 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-06-30 00:03:23,816 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-30 00:03:24,726 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-30 00:03:24,726 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-30 00:03:24,726 - DEBUG - 已更新缓存: processing_tasks
+2025-06-30 00:03:51,730 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-06-30 00:03:51,731 - DEBUG - 看板定时刷新已启动
+2025-06-30 00:03:51,731 - DEBUG - 调用前一个界面的 on_deactivated: ProcessingTaskInterface
+2025-06-30 00:03:51,731 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-30 00:03:51,731 - DEBUG - ProcessingTaskInterface 被切换离开，已取消数据加载请求
+2025-06-30 00:03:51,731 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-30 00:03:51,731 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-06-30 00:03:51,731 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-06-30 00:03:51,731 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-06-30 00:03:51,731 - DEBUG - 已取消所有活跃的异步任务
+2025-06-30 00:03:51,731 - DEBUG - 使用数据管理器刷新看板数据
+2025-06-30 00:03:51,731 - DEBUG - 创建新的异步请求: users
+2025-06-30 00:03:51,731 - DEBUG - 使用缓存数据: processing_tasks
+2025-06-30 00:03:51,731 - DEBUG - 开始执行异步API调用: get_users
+2025-06-30 00:03:51,737 - DEBUG - 任务数据更新: 总数=6, 待处理=6
+2025-06-30 00:03:51,737 - DEBUG - 创建新的异步请求: sensor_data
+2025-06-30 00:03:51,737 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-06-30 00:03:51,737 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-06-30 00:03:51,737 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-06-30 00:03:51,988 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-06-30 00:03:51,989 - DEBUG - 异步API调用成功: get_users
+2025-06-30 00:03:51,989 - DEBUG - 已更新缓存: users
+2025-06-30 00:03:51,989 - DEBUG - 用户数据更新: 1
+2025-06-30 00:03:52,096 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 2770
+2025-06-30 00:03:52,096 - DEBUG - 异步API调用成功: get_sensor_data
+2025-06-30 00:03:52,097 - DEBUG - 已更新缓存: sensor_data
+2025-06-30 00:03:52,097 - DEBUG - 传感器数据更新: 5
+2025-06-30 00:03:53,558 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-06-30 00:03:53,558 - DEBUG - 看板定时刷新已停止
+2025-06-30 00:03:53,558 - DEBUG - 取消异步API调用: get_users
+2025-06-30 00:03:53,558 - DEBUG - 取消异步API调用: get_sensor_data
+2025-06-30 00:03:53,558 - DEBUG - 已取消所有活跃的异步任务
+2025-06-30 00:03:53,558 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-06-30 00:03:53,558 - DEBUG - 已取消所有活跃的异步任务
+2025-06-30 00:03:53,558 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-06-30 00:03:53,558 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-06-30 00:03:53,558 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-06-30 00:03:53,558 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-06-30 00:03:53,558 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-06-30 00:03:53,558 - DEBUG - 创建新的异步请求: processing_tasks
+2025-06-30 00:03:53,559 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-06-30 00:03:53,559 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-06-30 00:03:53,559 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-06-30 00:03:54,433 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 6148
+2025-06-30 00:03:54,434 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-06-30 00:03:54,434 - DEBUG - 已更新缓存: processing_tasks
+2025-06-30 00:03:57,705 - DEBUG - 已取消所有活跃的异步任务

@@ -26,7 +26,8 @@ class DataManager(QObject):
             'sensor_data': 'get_sensor_data',
             'processing_tasks': 'get_processing_tasks',
             'composite_materials': 'get_composite_materials',
-            'task_groups': 'get_task_groups'
+            'task_groups': 'get_task_groups',
+            'task_groups_with_tasks': 'get_task_groups_with_tasks'
         }
         
         # 支持params参数的方法
@@ -291,17 +292,26 @@ class InterfaceDataLoader:
         headers = [col.get('header', '') for col in column_mapping]
         table_widget.setHorizontalHeaderLabels(headers)
         
-        # 默认拉伸最后一列
+        # 默认设置为交互模式
         table_widget.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
-        if len(column_mapping) > 1:
-            stretch_col_index = -1
-            # 寻找最后一列非固定宽度的列进行拉伸
+        
+        # 寻找需要拉伸的列
+        stretch_col_index = -1
+        for i, col in enumerate(column_mapping):
+            if col.get('stretch'):
+                stretch_col_index = i
+                break
+        
+        # 如果没有显式设置stretch的列，则寻找最后一列非固定宽度的列进行拉伸
+        if stretch_col_index == -1 and len(column_mapping) > 1:
             for i in range(len(column_mapping) - 1, -1, -1):
                 if column_mapping[i].get('width') is None:
                     stretch_col_index = i
                     break
-            if stretch_col_index != -1:
-                table_widget.horizontalHeader().setSectionResizeMode(stretch_col_index, QHeaderView.Stretch)
+        
+        # 设置拉伸列
+        if stretch_col_index != -1:
+            table_widget.horizontalHeader().setSectionResizeMode(stretch_col_index, QHeaderView.Stretch)
         
         # 设置固定列宽
         for i, col in enumerate(column_mapping):
@@ -359,8 +369,9 @@ class InterfaceDataLoader:
                             button = PushButton(btn_text)
                         
                         if callback:
-                            # 使用lambda确保将当前的data_item传递给回调
-                            button.clicked.connect(lambda _, item=data_item: callback(item))
+                            # 使用lambda确保将当前的data_item和callback传递给槽函数
+                            # 修复了lambda延迟绑定的问题，确保每个按钮连接到正确的callback
+                            button.clicked.connect(lambda _, item=data_item, cb=callback: cb(item))
                         
                         action_layout.addWidget(button)
                     

@@ -44,6 +44,8 @@ from .serializers import (
     ProcessingTaskCreateUpdateSerializer,
     ProcessingParameterSerializer,
     SensorDataSerializer,
+    SensorDataCreateSerializer,
+    SensorDataUpdateSerializer,
     ProcessingQualitySerializer,
     ToolWearRecordSerializer,
     TaskGroupSerializer
@@ -379,12 +381,36 @@ class ProcessingTaskViewSet(viewsets.ModelViewSet):
 class SensorDataViewSet(viewsets.ModelViewSet):
     """传感器数据视图集"""
     queryset = SensorData.objects.filter(is_deleted=False).order_by('-upload_time')
-    serializer_class = SensorDataSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ['sensor_type', 'processing_task']
     search_fields = ['sensor_id', 'processing_task__task_code', 'file_name']
     ordering_fields = ['upload_time', 'file_size']
+    
+    def get_serializer_class(self):
+        """根据操作类型返回合适的序列化器"""
+        if self.action == 'create':
+            return SensorDataCreateSerializer
+        if self.action in ['update', 'partial_update']:
+            return SensorDataUpdateSerializer
+        return SensorDataSerializer
+    
+    def update(self, request, *args, **kwargs):
+        """重写更新方法，确保返回完整的序列化数据"""
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        
+        # 使用 get_serializer 获取对应的序列化器实例
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        
+        if getattr(instance, '_prefetched_objects_cache', None):
+            instance._prefetched_objects_cache = {}
+        
+        # 使用完整的 SensorDataSerializer 序列化器返回数据
+        return_serializer = SensorDataSerializer(instance)
+        return Response(return_serializer.data)
 
 
 class ProcessingQualityViewSet(viewsets.ModelViewSet):
@@ -499,6 +525,135 @@ class TaskGroupViewSet(viewsets.ModelViewSet):
         if not self.request.user.is_staff:
             return self.queryset.filter(created_by=self.request.user)
         return self.queryset
+
+    @action(detail=False, methods=['get'])
+    def with_tasks(self, request):
+        """
+        获取任务分组及其关联的任务数据
+        一次性返回前端构建树状图所需的完整数据结构，避免瀑布流加载
+        """
+        try:
+            # 获取所有任务分组
+            groups = self.get_queryset()
+            
+            # 获取所有未删除的任务
+            tasks = ProcessingTask.objects.filter(is_deleted=False).select_related(
+                'tool', 'composite_material', 'operator', 'group'
+            )
+            
+            # 构建返回数据结构
+            groups_data = []
+            for group in groups:
+                group_tasks = tasks.filter(group=group)
+                group_data = {
+                    'id': group.id,
+                    'name': group.name,
+                    'description': group.description,
+                    'created_by': {
+                        'id': group.created_by.id,
+                        'username': group.created_by.username,
+                        'full_name': group.created_by.get_full_name() or group.created_by.username
+                    } if group.created_by else None,
+                    'created_at': group.created_at,
+                    'tasks': []
+                }
+                
+                # 添加该分组下的任务
+                for task in group_tasks:
+                    task_data = {
+                        'id': task.id,
+                        'task_code': task.task_code,
+                        'processing_type': task.processing_type,
+                        'processing_type_display': task.get_processing_type_display(),
+                        'status': task.status,
+                        'status_display': task.get_status_display(),
+                        'processing_time': task.processing_time,
+                        'duration': task.duration,
+                        'notes': task.notes,
+                        'created_at': task.created_at,
+                        'updated_at': task.updated_at,
+                        'tool_info': {
+                            'id': task.tool.id,
+                            'code': task.tool.code,
+                            'tool_type': task.tool.tool_type,
+                            'tool_spec': task.tool.tool_spec
+                        } if task.tool else None,
+                        'material_info': {
+                            'id': task.composite_material.id,
+                            'part_number': task.composite_material.part_number,
+                            'material_type': task.composite_material.material_type,
+                            'material_type_display': task.composite_material.get_material_type_display()
+                        } if task.composite_material else None,
+                        'operator_info': {
+                            'id': task.operator.id,
+                            'username': task.operator.username,
+                            'full_name': task.operator.get_full_name() or task.operator.username
+                        } if task.operator else None
+                    }
+                    group_data['tasks'].append(task_data)
+                
+                groups_data.append(group_data)
+            
+            # 获取未分组的任务
+            unassigned_tasks = tasks.filter(group__isnull=True)
+            unassigned_data = {
+                'id': None,
+                'name': '未归档任务',
+                'description': '尚未分配到任何分组的任务',
+                'created_by': None,
+                'created_at': None,
+                'is_default': True,
+                'tasks': []
+            }
+            
+            for task in unassigned_tasks:
+                task_data = {
+                    'id': task.id,
+                    'task_code': task.task_code,
+                    'processing_type': task.processing_type,
+                    'processing_type_display': task.get_processing_type_display(),
+                    'status': task.status,
+                    'status_display': task.get_status_display(),
+                    'processing_time': task.processing_time,
+                    'duration': task.duration,
+                    'notes': task.notes,
+                    'created_at': task.created_at,
+                    'updated_at': task.updated_at,
+                    'tool_info': {
+                        'id': task.tool.id,
+                        'code': task.tool.code,
+                        'tool_type': task.tool.tool_type,
+                        'tool_spec': task.tool.tool_spec
+                    } if task.tool else None,
+                    'material_info': {
+                        'id': task.composite_material.id,
+                        'part_number': task.composite_material.part_number,
+                        'material_type': task.composite_material.material_type,
+                        'material_type_display': task.composite_material.get_material_type_display()
+                    } if task.composite_material else None,
+                    'operator_info': {
+                        'id': task.operator.id,
+                        'username': task.operator.username,
+                        'full_name': task.operator.get_full_name() or task.operator.username
+                    } if task.operator else None
+                }
+                unassigned_data['tasks'].append(task_data)
+            
+            # 将未分组任务添加到结果开头
+            result_data = [unassigned_data] + groups_data
+            
+            return Response({
+                'count': len(result_data),
+                'results': result_data
+            })
+            
+        except Exception as e:
+            import traceback
+            logger.error(f"获取任务分组和任务数据时出错: {str(e)}\n{traceback.format_exc()}")
+            return Response(
+                {'error': f'获取数据失败: {str(e)}'}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
     def perform_destroy(self, instance):
         # 检查组内是否有任务

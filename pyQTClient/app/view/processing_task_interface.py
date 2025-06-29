@@ -29,8 +29,8 @@ class ProcessingTaskInterface(NavInterface):
         self.setObjectName("ProcessingTaskInterface")
 
         self.main_layout = QVBoxLayout(self)
-        self.main_layout.setContentsMargins(10, 10, 10, 10)
-        self.main_layout.setSpacing(10)
+        self.main_layout.setContentsMargins(40, 30, 40, 30)
+        self.main_layout.setSpacing(30)
         
         self.title_label = SubtitleLabel("加工任务管理")
         self.main_layout.addWidget(self.title_label)

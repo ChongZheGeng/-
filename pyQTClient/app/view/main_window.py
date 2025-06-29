@@ -74,7 +74,7 @@ class MainWindow(FluentWindow):
         # self.navigationInterface.addSeparator(35)
 
         # --- 主导航 ---
-        self.addSubInterface(self.processing_task_interface, FIF.EDIT, "加工任务",
+        self.addSubInterface(self.processing_task_interface, FIF.CALENDAR, "加工任务",
                              position=NavigationItemPosition.SCROLL)
         self.addSubInterface(self.task_group_interface, FIF.TAG, "任务分组", position=NavigationItemPosition.SCROLL)
         # self.navigationInterface.addSeparator(35)
@@ -88,13 +88,13 @@ class MainWindow(FluentWindow):
         )
         self.addSubInterface(
             interface=self.composite_material_interface,
-            icon=FIF.CONSTRACT,
+            icon=FIF.TILES,
             text='构件管理',
             position=NavigationItemPosition.SCROLL
         )
 
         # add sensor data interface
-        self.addSubInterface(self.sensor_data_interface, FIF.SPEED_HIGH, "传感器数据管理",
+        self.addSubInterface(self.sensor_data_interface, FIF.BOOK_SHELF, "传感器数据管理",
                              position=NavigationItemPosition.SCROLL)
 
         if self.user_interface:

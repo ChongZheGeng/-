@@ -4,7 +4,7 @@ import logging
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QAbstractItemView
 from qfluentwidgets import (TableWidget, PushButton, PrimaryPushButton, MessageBox, InfoBar, SubtitleLabel)
 
-from pyQTClient.app.view.nav_interface import NavInterface
+from .nav_interface import NavInterface
 from .components.user_component import UserEditDialog
 from ..api.api_client import api_client
 from ..api.data_manager import interface_loader

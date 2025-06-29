@@ -191,11 +191,21 @@ class SensorDataSerializer(serializers.ModelSerializer):
     """传感器数据序列化器"""
     sensor_type_display = serializers.CharField(source='get_sensor_type_display', read_only=True)
     processing_task_code = serializers.CharField(source='processing_task.task_code', read_only=True)
+    task_info = serializers.SerializerMethodField()
     file_size_mb = serializers.SerializerMethodField()
     
     class Meta:
         model = SensorData
         fields = '__all__'
+    
+    def get_task_info(self, obj):
+        """获取任务信息"""
+        if obj.processing_task:
+            return {
+                'id': obj.processing_task.id,
+                'task_code': obj.processing_task.task_code
+            }
+        return None
     
     def get_file_size_mb(self, obj):
         """将文件大小转换为MB"""
@@ -211,6 +221,13 @@ class SensorDataCreateSerializer(serializers.ModelSerializer):
         model = SensorData
         fields = ['sensor_type', 'file_name', 'file_url', 'file_size', 
                  'processing_task', 'sensor_id', 'description']
+
+
+class SensorDataUpdateSerializer(serializers.ModelSerializer):
+    """用于更新传感器元数据的序列化器"""
+    class Meta:
+        model = SensorData
+        fields = ['sensor_type', 'processing_task', 'sensor_id', 'description']
 
 
 class ProcessingQualitySerializer(serializers.ModelSerializer):
