@@ -9,10 +9,11 @@ from qfluentwidgets import FluentTranslator, qconfig
 from app.common.config import cfg
 from app.view.login_window import LoginWindow
 from app.view.main_window import MainWindow
-    
+
 
 class ApplicationManager:
     """应用管理器，用于控制窗口流程"""
+
     def __init__(self):
         self.app = QApplication(sys.argv)
         self.setup_app_style()
@@ -20,7 +21,7 @@ class ApplicationManager:
 
         self.login_window = LoginWindow()
         self.login_window.loginSuccess.connect(self.show_main_window)
-        
+
         self.main_window = None
 
     def setup_app_style(self):
@@ -41,12 +42,12 @@ class ApplicationManager:
         locale = cfg.get(cfg.language).value
         translator = FluentTranslator(locale)
         self.app.installTranslator(translator)
-    
+
     def setup_exception_handling(self):
         """设置全局异常处理"""
         import traceback
         import logging
-        
+
         # 设置日志记录
         logging.basicConfig(
             level=logging.DEBUG,
@@ -56,15 +57,15 @@ class ApplicationManager:
                 logging.StreamHandler(sys.stdout)
             ]
         )
-        
+
         self.logger = logging.getLogger(__name__)
-        
+
         # 设置Qt异常处理
         def qt_exception_hook(exctype, value, tb):
             error_msg = ''.join(traceback.format_exception(exctype, value, tb))
             self.logger.error(f"未捕获的异常:\n{error_msg}")
             self.logger.critical(f"应用程序异常:\n{error_msg}")
-            
+
             # 显示错误对话框
             try:
                 from qfluentwidgets import MessageBox
@@ -74,19 +75,19 @@ class ApplicationManager:
                     parent = self.login_window
                 else:
                     parent = None
-                    
+
                 msg = MessageBox(
-                    "程序错误", 
-                    f"程序遇到未处理的错误:\n{str(value)}\n\n详细信息已保存到 app_debug.log", 
+                    "程序错误",
+                    f"程序遇到未处理的错误:\n{str(value)}\n\n详细信息已保存到 app_debug.log",
                     parent
                 )
                 msg.exec()
             except:
                 pass  # 如果连错误对话框都显示不了，就忽略
-        
+
         # 设置全局异常钩子
         sys.excepthook = qt_exception_hook
-        
+
         # 记录应用启动
         self.logger.info("应用程序启动")
 
@@ -100,10 +101,10 @@ class ApplicationManager:
         self.main_window = MainWindow()
         # Connect the logout signal after showing the main window
         self.main_window.setting_interface.logoutSignal.connect(self.show_login_window)
-        
+
         # 看板界面会在初始化时自动加载数据（现在改为每次切换都自动刷新，不需要标记）
         # 移除了 loaded_interfaces 的使用，因为现在每次切换导航都会自动刷新数据
-        
+
         self.main_window.show()
 
         if self.login_window:
@@ -113,7 +114,7 @@ class ApplicationManager:
         """显示登录窗口"""
         # 在显示新窗口前先关闭旧的，避免闪烁
         if self.main_window:
-            self.main_window.is_logout = True # 标记为登出
+            self.main_window.is_logout = True  # 标记为登出
             self.main_window.close()
 
         self.login_window = LoginWindow()
@@ -142,18 +143,18 @@ if __name__ == '__main__':
         manager.run()
 
         sys.exit(app.exec_())
-        
+
     except Exception as e:
         import traceback
         import logging
-        
+
         error_msg = f"应用程序启动失败: {str(e)}\n{traceback.format_exc()}"
-        
+
         # 设置基本日志
         logging.basicConfig(level=logging.ERROR)
         logger = logging.getLogger(__name__)
         logger.critical(error_msg)
-        
+
         # 尝试写入错误日志
         try:
             with open('startup_error.log', 'w', encoding='utf-8') as f:
@@ -161,5 +162,5 @@ if __name__ == '__main__':
             logger.info("错误信息已保存到 startup_error.log")
         except:
             pass
-        
+
         sys.exit(1)

@@ -21,7 +21,7 @@
     },
     "QFluentWidgets": {
         "ThemeColor": "#ff28afe9",
-        "ThemeMode": "Light"
+        "ThemeMode": "Dark"
     },
     "WebDAV": {
         "Enabled": true,

@@ -42,17 +42,17 @@ class CompositeMaterialInterface(NavInterface):
         # --- 数据表格 ---
         self.table = TableWidget(self)
         self.main_layout.addWidget(self.table)
-        
+
         # --- 应用官方示例样式 ---
         self.table.setBorderVisible(True)
         self.table.setBorderRadius(8)
         self.table.setWordWrap(False)
         # --- 样式应用结束 ---
-        
+
         self.table.verticalHeader().hide()
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.table.setAlternatingRowColors(True)
-        
+
         self._define_column_mapping()
 
         # --- 信号与槽连接 ---
@@ -65,9 +65,10 @@ class CompositeMaterialInterface(NavInterface):
             {'key': 'id', 'header': 'ID', 'width': 60},
             {'key': 'part_number', 'header': '构件编号'},
             {
-                'key': 'material_type', 
-                'header': '材料类型', 
-                'formatter': lambda material_type: dict(CompositeMaterialEditDialog.MATERIAL_TYPE_CHOICES).get(material_type, material_type)
+                'key': 'material_type',
+                'header': '材料类型',
+                'formatter': lambda material_type: dict(CompositeMaterialEditDialog.MATERIAL_TYPE_CHOICES).get(
+                    material_type, material_type)
             },
             {'key': 'thickness', 'header': '厚度(mm)'},
             {'key': 'created_at', 'header': '创建时间', 'formatter': lambda t: t.split('T')[0] if t else 'N/A'},
@@ -78,7 +79,8 @@ class CompositeMaterialInterface(NavInterface):
                 'width': 170,
                 'buttons': [
                     {'text': '编辑', 'style': 'primary', 'callback': self.edit_material},
-                    {'text': '删除', 'style': 'default', 'callback': lambda material: self.delete_material(material['id'])}
+                    {'text': '删除', 'style': 'default',
+                     'callback': lambda material: self.delete_material(material['id'])}
                 ]
             }
         ]
@@ -103,7 +105,7 @@ class CompositeMaterialInterface(NavInterface):
     def _load_data(self, preserve_old_data: bool):
         """
         内部数据加载方法。
-        
+
         Args:
             preserve_old_data (bool): 是否保留旧数据直到新数据加载完成
         """
@@ -129,13 +131,14 @@ class CompositeMaterialInterface(NavInterface):
 
     def on_composite_materials_data_received(self, response_data):
         """数据管理器使用的标准回调方法"""
-        logger.debug(f"CompositeMaterialInterface.on_composite_materials_data_received 被调用，数据类型: {type(response_data)}")
+        logger.debug(
+            f"CompositeMaterialInterface.on_composite_materials_data_received 被调用，数据类型: {type(response_data)}")
         self.on_materials_data_received(response_data)
-    
+
     def on_composite_materials_data_error(self, error):
         """数据管理器使用的标准错误回调方法"""
         self.on_materials_data_error(error)
-    
+
     def on_materials_data_received(self, response_data):
         """处理接收到的构件数据（现在主要用于日志记录或额外操作）"""
         # 当使用了 column_mapping 自动填充时，表格填充已由 InterfaceDataLoader 自动处理
@@ -144,11 +147,11 @@ class CompositeMaterialInterface(NavInterface):
             total = response_data.get('count', 0)
             logger.info(f"CompositeMaterialInterface 成功接收并处理了 {total} 条构件数据。")
             return
-        
+
         # 如果没有使用自动填充，则保留原有的手动处理逻辑
         # （这部分代码在当前实现中已经被移除，因为我们已经完全转向自动填充）
         logger.warning("CompositeMaterialInterface 未使用自动填充配置，但手动填充逻辑已被移除")
-    
+
     def on_materials_data_error(self, error_message):
         """处理构件数据加载错误"""
         # InfoBar 错误提示已由 InterfaceDataLoader 自动处理
@@ -188,4 +191,4 @@ class CompositeMaterialInterface(NavInterface):
 
     # ... (rest of the existing methods remain unchanged)
 
-    # ... (rest of the existing methods remain unchanged) 
+    # ... (rest of the existing methods remain unchanged)

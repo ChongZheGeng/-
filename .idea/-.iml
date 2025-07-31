@@ -19,6 +19,7 @@
       <excludeFolder url="file://$MODULE_DIR$/DjangoService/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/pyQTClient/venv" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (-)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
