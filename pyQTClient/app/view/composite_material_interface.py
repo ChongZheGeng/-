@@ -24,7 +24,7 @@ class CompositeMaterialInterface(NavInterface):
         self.setObjectName("CompositeMaterialInterface")
         self.worker = None
 
-        self.main_layout = QVBoxLayout(self)
+        self.main_layout = QVBoxLayout(self.view)
         self.main_layout.setContentsMargins(30, 30, 30, 30)
         self.main_layout.setSpacing(20)
 

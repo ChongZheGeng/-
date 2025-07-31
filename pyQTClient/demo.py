@@ -133,6 +133,11 @@ if __name__ == '__main__':
         app = QApplication(sys.argv)
         app.setAttribute(Qt.AA_DontCreateNativeWidgetSiblings)
 
+        locale = cfg.get(cfg.language).value
+        translator = FluentTranslator(locale)
+
+        app.installTranslator(translator)
+
         # --- 国际化 ---
         # translator = FluentTranslator(locals())
         # app.installTranslator(translator)

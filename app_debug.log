@@ -14915,3 +14915,2075 @@ AttributeError: 'MessageBoxBase' object has no attribute 'titleLabel'
 2025-06-30 00:03:54,434 - DEBUG - 异步API调用成功: get_processing_tasks
 2025-06-30 00:03:54,434 - DEBUG - 已更新缓存: processing_tasks
 2025-06-30 00:03:57,705 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:35:17,309 - INFO - 应用程序启动
+2025-07-30 09:35:18,062 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:35:18,066 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 302 0
+2025-07-30 09:35:18,095 - DEBUG - http://127.0.0.1:8000 "GET /accounts/login/?next=/api HTTP/1.1" 200 3195
+2025-07-30 09:35:18,112 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 403 543
+2025-07-30 09:35:22,350 - INFO - 应用程序启动
+2025-07-30 09:35:23,027 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:35:23,064 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 09:35:23,065 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 09:35:23,076 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 09:35:32,000 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 09:35:32,173 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 32, in __init__
+    self.setScrollAnimation(Qt.Vertical, 400, QEasingCurve.OutQuint)
+AttributeError: 'SettingInterface' object has no attribute 'setScrollAnimation'
+
+2025-07-30 09:35:32,173 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 32, in __init__
+    self.setScrollAnimation(Qt.Vertical, 400, QEasingCurve.OutQuint)
+AttributeError: 'SettingInterface' object has no attribute 'setScrollAnimation'
+
+2025-07-30 09:35:55,812 - INFO - 应用程序启动
+2025-07-30 09:35:56,514 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:35:56,517 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 09:35:56,519 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 09:35:56,520 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 09:36:05,612 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 09:36:05,697 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 32, in __init__
+    self.main_layout.setScrollAnimation(Qt.Vertical, 400, QEasingCurve.OutQuint)
+AttributeError: 'QVBoxLayout' object has no attribute 'setScrollAnimation'
+
+2025-07-30 09:36:05,697 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 32, in __init__
+    self.main_layout.setScrollAnimation(Qt.Vertical, 400, QEasingCurve.OutQuint)
+AttributeError: 'QVBoxLayout' object has no attribute 'setScrollAnimation'
+
+2025-07-30 09:36:54,145 - INFO - 应用程序启动
+2025-07-30 09:36:54,886 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:36:54,889 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 09:36:54,890 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 09:36:54,892 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 09:37:03,356 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 09:37:03,521 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 21, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\pyQTClient\app\view\nav_interface.py", line 5, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_area.py", line 103, in __init__
+    self.delegate = SmoothScrollDelegate(self, True)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 509, in __init__
+    self.vScrollBar = SmoothScrollBar(Qt.Vertical, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 419, in __init__
+    super().__init__(orient, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 156, in __init__
+    self.partnerBar = parent.verticalScrollBar()
+TypeError: could not convert 'SettingInterface' to 'QAbstractScrollArea'
+
+2025-07-30 09:37:03,521 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 21, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\pyQTClient\app\view\nav_interface.py", line 5, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_area.py", line 103, in __init__
+    self.delegate = SmoothScrollDelegate(self, True)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 509, in __init__
+    self.vScrollBar = SmoothScrollBar(Qt.Vertical, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 419, in __init__
+    super().__init__(orient, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 156, in __init__
+    self.partnerBar = parent.verticalScrollBar()
+TypeError: could not convert 'SettingInterface' to 'QAbstractScrollArea'
+
+2025-07-30 09:40:15,019 - INFO - 应用程序启动
+2025-07-30 09:40:15,741 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:40:15,744 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 09:40:15,746 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 09:40:15,747 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 09:40:24,606 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 09:40:24,782 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 21, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\pyQTClient\app\view\nav_interface.py", line 5, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_area.py", line 103, in __init__
+    self.delegate = SmoothScrollDelegate(self, True)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 509, in __init__
+    self.vScrollBar = SmoothScrollBar(Qt.Vertical, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 419, in __init__
+    super().__init__(orient, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 156, in __init__
+    self.partnerBar = parent.verticalScrollBar()
+TypeError: could not convert 'SettingInterface' to 'QAbstractScrollArea'
+
+2025-07-30 09:40:24,783 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 21, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\pyQTClient\app\view\nav_interface.py", line 5, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_area.py", line 103, in __init__
+    self.delegate = SmoothScrollDelegate(self, True)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 509, in __init__
+    self.vScrollBar = SmoothScrollBar(Qt.Vertical, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 419, in __init__
+    super().__init__(orient, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 156, in __init__
+    self.partnerBar = parent.verticalScrollBar()
+TypeError: could not convert 'SettingInterface' to 'QAbstractScrollArea'
+
+2025-07-30 09:43:37,440 - INFO - 应用程序启动
+2025-07-30 09:43:38,295 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:43:38,298 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 09:43:38,299 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 09:43:38,301 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 09:43:46,992 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 09:43:47,073 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 34, in __init__
+    self.setWidget(self.scrollWidget)
+AttributeError: 'SettingInterface' object has no attribute 'setWidget'
+
+2025-07-30 09:43:47,073 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 34, in __init__
+    self.setWidget(self.scrollWidget)
+AttributeError: 'SettingInterface' object has no attribute 'setWidget'
+
+2025-07-30 09:44:24,134 - INFO - 应用程序启动
+2025-07-30 09:44:24,930 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:44:24,934 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 09:44:24,935 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 09:44:24,937 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 09:44:33,477 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 09:44:33,599 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 34, in __init__
+    self.main_layout.setWidget(self.scrollWidget)
+AttributeError: 'QVBoxLayout' object has no attribute 'setWidget'
+
+2025-07-30 09:44:33,599 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 34, in __init__
+    self.main_layout.setWidget(self.scrollWidget)
+AttributeError: 'QVBoxLayout' object has no attribute 'setWidget'
+
+2025-07-30 09:44:48,446 - INFO - 应用程序启动
+2025-07-30 09:44:49,329 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:44:49,331 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 09:44:49,332 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 09:44:49,334 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 09:44:58,092 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 09:44:58,274 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 34, in __init__
+    self.main_layout.setScrollAnimation(Qt.Vertical, 400, QEasingCurve.OutQuint)
+AttributeError: 'QVBoxLayout' object has no attribute 'setScrollAnimation'
+
+2025-07-30 09:44:58,274 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 34, in __init__
+    self.main_layout.setScrollAnimation(Qt.Vertical, 400, QEasingCurve.OutQuint)
+AttributeError: 'QVBoxLayout' object has no attribute 'setScrollAnimation'
+
+2025-07-30 09:45:40,894 - INFO - 应用程序启动
+2025-07-30 09:45:41,767 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:45:41,772 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 09:45:41,773 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 09:45:41,776 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 09:45:50,860 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 09:45:50,940 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 21, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\pyQTClient\app\view\nav_interface.py", line 5, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_area.py", line 103, in __init__
+    self.delegate = SmoothScrollDelegate(self, True)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 509, in __init__
+    self.vScrollBar = SmoothScrollBar(Qt.Vertical, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 419, in __init__
+    super().__init__(orient, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 156, in __init__
+    self.partnerBar = parent.verticalScrollBar()
+TypeError: could not convert 'SettingInterface' to 'QAbstractScrollArea'
+
+2025-07-30 09:45:50,940 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 21, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\pyQTClient\app\view\nav_interface.py", line 5, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_area.py", line 103, in __init__
+    self.delegate = SmoothScrollDelegate(self, True)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 509, in __init__
+    self.vScrollBar = SmoothScrollBar(Qt.Vertical, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 419, in __init__
+    super().__init__(orient, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 156, in __init__
+    self.partnerBar = parent.verticalScrollBar()
+TypeError: could not convert 'SettingInterface' to 'QAbstractScrollArea'
+
+2025-07-30 09:49:45,615 - INFO - 应用程序启动
+2025-07-30 09:49:46,459 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:49:46,462 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 09:49:46,464 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 09:49:46,466 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 09:49:54,893 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 09:49:54,973 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 21, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\pyQTClient\app\view\nav_interface.py", line 5, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_area.py", line 103, in __init__
+    self.delegate = SmoothScrollDelegate(self, True)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 509, in __init__
+    self.vScrollBar = SmoothScrollBar(Qt.Vertical, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 419, in __init__
+    super().__init__(orient, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 156, in __init__
+    self.partnerBar = parent.verticalScrollBar()
+TypeError: could not convert 'SettingInterface' to 'QAbstractScrollArea'
+
+2025-07-30 09:49:54,973 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 46, in __init__
+    self.setting_interface = SettingInterface(self)
+  File "F:\python\-\pyQTClient\app\view\setting_interface.py", line 21, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\pyQTClient\app\view\nav_interface.py", line 5, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_area.py", line 103, in __init__
+    self.delegate = SmoothScrollDelegate(self, True)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 509, in __init__
+    self.vScrollBar = SmoothScrollBar(Qt.Vertical, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 419, in __init__
+    super().__init__(orient, parent)
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\scroll_bar.py", line 156, in __init__
+    self.partnerBar = parent.verticalScrollBar()
+TypeError: could not convert 'SettingInterface' to 'QAbstractScrollArea'
+
+2025-07-30 09:50:13,372 - INFO - 应用程序启动
+2025-07-30 09:50:14,210 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:50:14,214 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 09:50:14,214 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 09:50:14,216 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 09:50:22,941 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 09:50:23,160 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-30 09:50:23,160 - DEBUG - 看板定时刷新已启动
+2025-07-30 09:50:23,160 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:50:23,160 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-30 09:50:23,160 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-30 09:50:23,160 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-30 09:50:23,161 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:50:23,161 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-30 09:50:23,161 - DEBUG - 创建新的异步请求: users
+2025-07-30 09:50:23,161 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-30 09:50:23,161 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 09:50:23,161 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-30 09:50:23,161 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-30 09:50:23,161 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 09:50:23,161 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-30 09:50:23,162 - DEBUG - 开始执行异步API调用: get_users
+2025-07-30 09:50:23,186 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-30 09:50:23,194 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-30 09:50:26,113 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-07-30 09:50:26,114 - DEBUG - 看板定时刷新已停止
+2025-07-30 09:50:26,114 - DEBUG - 取消异步API调用: get_users
+2025-07-30 09:50:27,114 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-30 09:50:28,114 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-30 09:50:29,104 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-30 09:50:29,104 - DEBUG - 异步API调用在完成后被取消: get_users
+2025-07-30 09:50:29,115 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:50:29,115 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-30 09:50:29,115 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:50:29,115 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-30 09:50:29,115 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:50:29,115 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-07-30 09:50:29,115 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-07-30 09:50:29,583 - DEBUG - connect_tcp.started host='127.0.0.1' port=7890 local_address=None timeout=5.0 socket_options=None
+2025-07-30 09:50:29,583 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000225895ECBB0>
+2025-07-30 09:50:29,583 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:50:29,583 - DEBUG - send_request_headers.complete
+2025-07-30 09:50:29,583 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:50:29,583 - DEBUG - send_request_body.complete
+2025-07-30 09:50:29,583 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:50:31,472 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 09:50:31,473 - DEBUG - 异步API调用在完成后被取消: get_sensor_data
+2025-07-30 09:50:34,250 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 502, b'Bad Gateway', [(b'Connection', b'close'), (b'Content-Length', b'0')])
+2025-07-30 09:50:34,250 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 502 Bad Gateway"
+2025-07-30 09:50:34,250 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:50:34,250 - DEBUG - receive_response_body.complete
+2025-07-30 09:50:34,250 - DEBUG - response_closed.started
+2025-07-30 09:50:34,251 - DEBUG - response_closed.complete
+2025-07-30 09:50:35,251 - DEBUG - connect_tcp.started host='127.0.0.1' port=7890 local_address=None timeout=5.0 socket_options=None
+2025-07-30 09:50:35,251 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000225895ED630>
+2025-07-30 09:50:35,251 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:50:35,252 - DEBUG - send_request_headers.complete
+2025-07-30 09:50:35,252 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:50:35,252 - DEBUG - send_request_body.complete
+2025-07-30 09:50:35,252 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:50:38,896 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 502, b'Bad Gateway', [(b'Connection', b'close'), (b'Content-Length', b'0')])
+2025-07-30 09:50:38,897 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 502 Bad Gateway"
+2025-07-30 09:50:38,898 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:50:38,899 - DEBUG - receive_response_body.complete
+2025-07-30 09:50:38,899 - DEBUG - response_closed.started
+2025-07-30 09:50:38,899 - DEBUG - response_closed.complete
+2025-07-30 09:50:40,900 - DEBUG - connect_tcp.started host='127.0.0.1' port=7890 local_address=None timeout=5.0 socket_options=None
+2025-07-30 09:50:40,901 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x00000225895EE3E0>
+2025-07-30 09:50:40,901 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:50:40,901 - DEBUG - send_request_headers.complete
+2025-07-30 09:50:40,901 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:50:40,901 - DEBUG - send_request_body.complete
+2025-07-30 09:50:40,901 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:50:41,378 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-30 09:50:41,378 - DEBUG - 异步API调用在完成后被取消: get_processing_tasks
+2025-07-30 09:50:44,546 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 502, b'Bad Gateway', [(b'Connection', b'close'), (b'Content-Length', b'0')])
+2025-07-30 09:50:44,546 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 502 Bad Gateway"
+2025-07-30 09:50:44,546 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:50:44,546 - DEBUG - receive_response_body.complete
+2025-07-30 09:50:44,546 - DEBUG - response_closed.started
+2025-07-30 09:50:44,546 - DEBUG - response_closed.complete
+2025-07-30 09:50:44,547 - DEBUG - 合并到现有请求: sensor_data
+2025-07-30 09:50:44,547 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-07-30 09:50:44,547 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-07-30 09:50:47,534 - DEBUG - 界面切换到: SettingInterface (name=SettingInterface)
+2025-07-30 09:50:47,534 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:50:47,534 - DEBUG - 调用前一个界面的 on_deactivated: SensorDataInterface
+2025-07-30 09:50:47,534 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-30 09:50:47,534 - DEBUG - SensorDataInterface 被切换离开，已取消数据加载请求
+2025-07-30 09:50:47,534 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:50:47,534 - DEBUG - 准备调用 SettingInterface 的 on_activated 方法
+2025-07-30 09:50:47,534 - DEBUG - 正在调用 SettingInterface.on_activated()
+2025-07-30 09:50:51,794 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-07-30 09:50:51,795 - DEBUG - 成功调用 SettingInterface.on_activated()
+2025-07-30 09:50:51,795 - DEBUG - 已更新 previous_interface 为: SettingInterface
+2025-07-30 09:50:54,539 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:51:02,424 - INFO - 应用程序启动
+2025-07-30 09:51:03,274 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:51:03,278 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 09:51:03,279 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 09:51:03,280 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 09:51:11,958 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 09:51:12,097 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-30 09:51:12,097 - DEBUG - 看板定时刷新已启动
+2025-07-30 09:51:12,097 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:51:12,097 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-30 09:51:12,097 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-30 09:51:12,097 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-30 09:51:12,097 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:51:12,097 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-30 09:51:12,097 - DEBUG - 创建新的异步请求: users
+2025-07-30 09:51:12,098 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-30 09:51:12,098 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 09:51:12,098 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-30 09:51:12,098 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-30 09:51:12,099 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 09:51:12,099 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-30 09:51:12,099 - DEBUG - 开始执行异步API调用: get_users
+2025-07-30 09:51:12,128 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-30 09:51:12,129 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-30 09:51:16,699 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-07-30 09:51:16,699 - DEBUG - 看板定时刷新已停止
+2025-07-30 09:51:16,699 - DEBUG - 取消异步API调用: get_users
+2025-07-30 09:51:17,612 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-30 09:51:17,613 - DEBUG - 异步API调用在完成后被取消: get_users
+2025-07-30 09:51:17,614 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-30 09:51:18,614 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-30 09:51:19,615 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:51:19,615 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-30 09:51:19,615 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:51:19,615 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-30 09:51:19,615 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:51:19,615 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-07-30 09:51:19,615 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-07-30 09:51:19,615 - DEBUG - 合并到现有请求: processing_tasks
+2025-07-30 09:51:19,615 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-07-30 09:51:19,615 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-07-30 09:51:19,914 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 09:51:19,914 - DEBUG - 异步API调用在完成后被取消: get_sensor_data
+2025-07-30 09:51:22,113 - DEBUG - 界面切换到: TaskGroupInterface (name=TaskGroupInterface)
+2025-07-30 09:51:22,113 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:51:22,113 - DEBUG - 调用前一个界面的 on_deactivated: ProcessingTaskInterface
+2025-07-30 09:51:22,113 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-30 09:51:22,113 - DEBUG - ProcessingTaskInterface 被切换离开，已取消数据加载请求
+2025-07-30 09:51:22,113 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:51:22,113 - DEBUG - 准备调用 TaskGroupInterface 的 on_activated 方法
+2025-07-30 09:51:22,113 - DEBUG - 正在调用 TaskGroupInterface.on_activated()
+2025-07-30 09:51:22,113 - DEBUG - 使用新的统一API加载任务分组和任务数据
+2025-07-30 09:51:22,113 - DEBUG - 创建新的异步请求: task_groups_with_tasks
+2025-07-30 09:51:22,113 - DEBUG - 成功调用 TaskGroupInterface.on_activated()
+2025-07-30 09:51:22,113 - DEBUG - 已更新 previous_interface 为: TaskGroupInterface
+2025-07-30 09:51:22,113 - DEBUG - 开始执行异步API调用: get_task_groups_with_tasks
+2025-07-30 09:51:26,209 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-30 09:51:26,209 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-30 09:51:35,217 - INFO - 应用程序启动
+2025-07-30 09:51:35,977 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:51:35,980 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 09:51:35,981 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 09:51:35,983 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 09:51:43,254 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "C:\Users\MildHedgehog\AppData\Local\Programs\Python\Python310\lib\socket.py", line 705, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\login_window.py", line 167, in login
+    success, message = api_client.login(username, password)
+  File "F:\python\-\pyQTClient\app\api\api_client.py", line 50, in login
+    response = self.session.post(login_url, json={'username': username, 'password': password})
+  File "F:\python\-\venv\lib\site-packages\requests\sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+  File "F:\python\-\venv\lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "F:\python\-\venv\lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "F:\python\-\venv\lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "F:\python\-\venv\lib\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "F:\python\-\venv\lib\site-packages\urllib3\connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "F:\python\-\venv\lib\site-packages\urllib3\connection.py", line 565, in getresponse
+    httplib_response = super().getresponse()
+  File "C:\Users\MildHedgehog\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 1374, in getresponse
+    response.begin()
+  File "C:\Users\MildHedgehog\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "C:\Users\MildHedgehog\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "C:\Users\MildHedgehog\AppData\Local\Programs\Python\Python310\lib\socket.py", line 705, in readinto
+    return self._sock.recv_into(b)
+KeyboardInterrupt
+
+2025-07-30 09:51:43,254 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "C:\Users\MildHedgehog\AppData\Local\Programs\Python\Python310\lib\socket.py", line 705, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\login_window.py", line 167, in login
+    success, message = api_client.login(username, password)
+  File "F:\python\-\pyQTClient\app\api\api_client.py", line 50, in login
+    response = self.session.post(login_url, json={'username': username, 'password': password})
+  File "F:\python\-\venv\lib\site-packages\requests\sessions.py", line 637, in post
+    return self.request("POST", url, data=data, json=json, **kwargs)
+  File "F:\python\-\venv\lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "F:\python\-\venv\lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "F:\python\-\venv\lib\site-packages\requests\adapters.py", line 667, in send
+    resp = conn.urlopen(
+  File "F:\python\-\venv\lib\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "F:\python\-\venv\lib\site-packages\urllib3\connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "F:\python\-\venv\lib\site-packages\urllib3\connection.py", line 565, in getresponse
+    httplib_response = super().getresponse()
+  File "C:\Users\MildHedgehog\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 1374, in getresponse
+    response.begin()
+  File "C:\Users\MildHedgehog\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "C:\Users\MildHedgehog\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "C:\Users\MildHedgehog\AppData\Local\Programs\Python\Python310\lib\socket.py", line 705, in readinto
+    return self._sock.recv_into(b)
+KeyboardInterrupt
+
+2025-07-30 09:51:57,032 - INFO - 应用程序启动
+2025-07-30 09:51:57,897 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 09:51:57,906 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 09:51:57,907 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 09:51:57,917 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 09:52:06,499 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 09:52:06,639 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-30 09:52:06,639 - DEBUG - 看板定时刷新已启动
+2025-07-30 09:52:06,639 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:52:06,639 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-30 09:52:06,639 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-30 09:52:06,639 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-30 09:52:06,639 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:52:06,640 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-30 09:52:06,640 - DEBUG - 创建新的异步请求: users
+2025-07-30 09:52:06,640 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-30 09:52:06,640 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 09:52:06,640 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-30 09:52:06,640 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-30 09:52:06,640 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 09:52:06,640 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-30 09:52:06,640 - DEBUG - 开始执行异步API调用: get_users
+2025-07-30 09:52:06,679 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-30 09:52:06,683 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-30 09:52:12,332 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-30 09:52:12,332 - DEBUG - 异步API调用成功: get_users
+2025-07-30 09:52:12,333 - DEBUG - 已更新缓存: users
+2025-07-30 09:52:12,333 - DEBUG - 用户数据更新: 1
+2025-07-30 09:52:14,365 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 09:52:14,365 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-30 09:52:14,365 - DEBUG - 已更新缓存: sensor_data
+2025-07-30 09:52:14,366 - DEBUG - 传感器数据更新: 6
+2025-07-30 09:52:17,152 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-07-30 09:52:17,153 - DEBUG - 看板定时刷新已停止
+2025-07-30 09:52:17,153 - DEBUG - 取消异步API调用: get_users
+2025-07-30 09:52:17,153 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-30 09:52:18,166 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-30 09:52:18,167 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:52:18,167 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-30 09:52:18,167 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:52:18,167 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-30 09:52:18,167 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:52:18,168 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-07-30 09:52:18,168 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-07-30 09:52:18,241 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-07-30 09:52:24,970 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-30 09:52:24,970 - DEBUG - 异步API调用在完成后被取消: get_processing_tasks
+2025-07-30 09:52:29,329 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000020E1AFA2FE0>
+2025-07-30 09:52:29,329 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:52:29,329 - DEBUG - send_request_headers.complete
+2025-07-30 09:52:29,329 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:52:29,329 - DEBUG - send_request_body.complete
+2025-07-30 09:52:29,329 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:52:30,449 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Wed, 30 Jul 2025 01:54:18 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-07-30 09:52:30,451 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-07-30 09:52:30,451 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:52:30,452 - DEBUG - receive_response_body.complete
+2025-07-30 09:52:30,452 - DEBUG - response_closed.started
+2025-07-30 09:52:30,452 - DEBUG - response_closed.complete
+2025-07-30 09:52:30,459 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:52:30,460 - DEBUG - send_request_headers.complete
+2025-07-30 09:52:30,460 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:52:30,461 - DEBUG - send_request_body.complete
+2025-07-30 09:52:30,461 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:52:30,466 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Wed, 30 Jul 2025 01:54:18 GMT'), (b'Content-Length', b'613')])
+2025-07-30 09:52:30,467 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/unmanaged "HTTP/1.1 207 Multi-Status"
+2025-07-30 09:52:30,467 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:52:30,468 - DEBUG - receive_response_body.complete
+2025-07-30 09:52:30,468 - DEBUG - response_closed.started
+2025-07-30 09:52:30,468 - DEBUG - response_closed.complete
+2025-07-30 09:52:38,283 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 09:52:38,286 - DEBUG - close.started
+2025-07-30 09:52:38,287 - DEBUG - close.complete
+2025-07-30 09:52:38,287 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-07-30 09:52:38,290 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000020E1B04E530>
+2025-07-30 09:52:38,290 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:52:38,291 - DEBUG - send_request_headers.complete
+2025-07-30 09:52:38,291 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:52:38,291 - DEBUG - send_request_body.complete
+2025-07-30 09:52:38,292 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:52:38,306 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Wed, 30 Jul 2025 01:54:26 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-07-30 09:52:38,308 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-07-30 09:52:38,308 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:52:38,309 - DEBUG - receive_response_body.complete
+2025-07-30 09:52:38,309 - DEBUG - response_closed.started
+2025-07-30 09:52:38,309 - DEBUG - response_closed.complete
+2025-07-30 09:52:38,315 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 09:52:38,315 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-07-30 09:52:38,316 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-07-30 09:52:38,316 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 09:52:45,754 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 09:52:45,754 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-30 09:52:45,754 - DEBUG - 已更新缓存: sensor_data
+2025-07-30 09:53:00,460 - DEBUG - 界面切换到: SettingInterface (name=SettingInterface)
+2025-07-30 09:53:00,460 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:53:00,460 - DEBUG - 调用前一个界面的 on_deactivated: SensorDataInterface
+2025-07-30 09:53:00,460 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-30 09:53:00,460 - DEBUG - SensorDataInterface 被切换离开，已取消数据加载请求
+2025-07-30 09:53:00,460 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:53:00,461 - DEBUG - 准备调用 SettingInterface 的 on_activated 方法
+2025-07-30 09:53:00,461 - DEBUG - 正在调用 SettingInterface.on_activated()
+2025-07-30 09:53:00,673 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-07-30 09:53:00,673 - DEBUG - 成功调用 SettingInterface.on_activated()
+2025-07-30 09:53:00,673 - DEBUG - 已更新 previous_interface 为: SettingInterface
+2025-07-30 09:53:02,670 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-07-30 09:53:02,671 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:53:02,671 - DEBUG - 调用前一个界面的 on_deactivated: SettingInterface
+2025-07-30 09:53:02,671 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:53:02,671 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-07-30 09:53:02,671 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-07-30 09:53:02,676 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-07-30 09:53:02,701 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000020E2844CB80>
+2025-07-30 09:53:02,702 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:02,702 - DEBUG - send_request_headers.complete
+2025-07-30 09:53:02,702 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:02,702 - DEBUG - send_request_body.complete
+2025-07-30 09:53:02,702 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:02,717 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Wed, 30 Jul 2025 01:54:50 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-07-30 09:53:02,717 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-07-30 09:53:02,717 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:02,718 - DEBUG - receive_response_body.complete
+2025-07-30 09:53:02,718 - DEBUG - response_closed.started
+2025-07-30 09:53:02,718 - DEBUG - response_closed.complete
+2025-07-30 09:53:02,720 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:02,720 - DEBUG - send_request_headers.complete
+2025-07-30 09:53:02,720 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:02,720 - DEBUG - send_request_body.complete
+2025-07-30 09:53:02,720 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:02,729 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Wed, 30 Jul 2025 01:54:50 GMT'), (b'Content-Length', b'613')])
+2025-07-30 09:53:02,729 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/unmanaged "HTTP/1.1 207 Multi-Status"
+2025-07-30 09:53:02,729 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:02,729 - DEBUG - receive_response_body.complete
+2025-07-30 09:53:02,729 - DEBUG - response_closed.started
+2025-07-30 09:53:02,729 - DEBUG - response_closed.complete
+2025-07-30 09:53:03,122 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 09:53:03,122 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:03,122 - DEBUG - send_request_headers.complete
+2025-07-30 09:53:03,122 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:03,122 - DEBUG - send_request_body.complete
+2025-07-30 09:53:03,122 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:03,140 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Wed, 30 Jul 2025 01:54:51 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-07-30 09:53:03,140 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-07-30 09:53:03,140 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:03,141 - DEBUG - receive_response_body.complete
+2025-07-30 09:53:03,141 - DEBUG - response_closed.started
+2025-07-30 09:53:03,141 - DEBUG - response_closed.complete
+2025-07-30 09:53:03,142 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-30 09:53:03,142 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 09:53:03,142 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-07-30 09:53:03,142 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-07-30 09:53:03,143 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 09:53:03,538 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 09:53:03,538 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-30 09:53:03,539 - DEBUG - 已更新缓存: sensor_data
+2025-07-30 09:53:04,791 - DEBUG - 界面切换到: CompositeMaterialInterface (name=CompositeMaterialInterface)
+2025-07-30 09:53:04,791 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:53:04,791 - DEBUG - 调用前一个界面的 on_deactivated: SensorDataInterface
+2025-07-30 09:53:04,791 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-30 09:53:04,791 - DEBUG - SensorDataInterface 被切换离开，已取消数据加载请求
+2025-07-30 09:53:04,791 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:53:04,791 - DEBUG - 准备调用 CompositeMaterialInterface 的 on_activated 方法
+2025-07-30 09:53:04,791 - DEBUG - 正在调用 CompositeMaterialInterface.on_activated()
+2025-07-30 09:53:04,791 - INFO - CompositeMaterialInterface 被激活，开始加载数据
+2025-07-30 09:53:04,791 - DEBUG - CompositeMaterialInterface._load_data() 被调用，preserve_old_data=True
+2025-07-30 09:53:04,791 - DEBUG - 创建新的异步请求: composite_materials
+2025-07-30 09:53:04,791 - DEBUG - CompositeMaterialInterface worker 创建成功: False
+2025-07-30 09:53:04,792 - DEBUG - 成功调用 CompositeMaterialInterface.on_activated()
+2025-07-30 09:53:04,792 - DEBUG - 已更新 previous_interface 为: CompositeMaterialInterface
+2025-07-30 09:53:04,792 - DEBUG - 开始执行异步API调用: get_composite_materials
+2025-07-30 09:53:05,034 - DEBUG - http://127.0.0.1:8000 "GET /api/composite-materials/ HTTP/1.1" 200 600
+2025-07-30 09:53:05,034 - DEBUG - 异步API调用成功: get_composite_materials
+2025-07-30 09:53:05,041 - DEBUG - 已更新缓存: composite_materials
+2025-07-30 09:53:05,639 - DEBUG - 界面切换到: ToolInterface (name=ToolInterface)
+2025-07-30 09:53:05,639 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:53:05,639 - DEBUG - 调用前一个界面的 on_deactivated: CompositeMaterialInterface
+2025-07-30 09:53:05,639 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:53:05,639 - DEBUG - 准备调用 ToolInterface 的 on_activated 方法
+2025-07-30 09:53:05,639 - DEBUG - 正在调用 ToolInterface.on_activated()
+2025-07-30 09:53:05,639 - INFO - ToolInterface 被激活，开始加载数据
+2025-07-30 09:53:05,639 - DEBUG - ToolInterface._load_data() 被调用，preserve_old_data=True
+2025-07-30 09:53:05,639 - DEBUG - 创建新的异步请求: tools
+2025-07-30 09:53:05,639 - DEBUG - ToolInterface worker 创建成功: False
+2025-07-30 09:53:05,639 - DEBUG - 成功调用 ToolInterface.on_activated()
+2025-07-30 09:53:05,639 - DEBUG - 已更新 previous_interface 为: ToolInterface
+2025-07-30 09:53:05,640 - DEBUG - 开始执行异步API调用: get_tools
+2025-07-30 09:53:05,892 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 533
+2025-07-30 09:53:05,893 - DEBUG - 异步API调用成功: get_tools
+2025-07-30 09:53:05,893 - DEBUG - 已更新缓存: tools
+2025-07-30 09:53:06,417 - DEBUG - 界面切换到: TaskGroupInterface (name=TaskGroupInterface)
+2025-07-30 09:53:06,417 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:53:06,417 - DEBUG - 调用前一个界面的 on_deactivated: ToolInterface
+2025-07-30 09:53:06,417 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:53:06,417 - DEBUG - 准备调用 TaskGroupInterface 的 on_activated 方法
+2025-07-30 09:53:06,417 - DEBUG - 正在调用 TaskGroupInterface.on_activated()
+2025-07-30 09:53:06,417 - DEBUG - 使用新的统一API加载任务分组和任务数据
+2025-07-30 09:53:06,417 - DEBUG - 创建新的异步请求: task_groups_with_tasks
+2025-07-30 09:53:06,417 - DEBUG - 成功调用 TaskGroupInterface.on_activated()
+2025-07-30 09:53:06,417 - DEBUG - 已更新 previous_interface 为: TaskGroupInterface
+2025-07-30 09:53:06,417 - DEBUG - 开始执行异步API调用: get_task_groups_with_tasks
+2025-07-30 09:53:06,711 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/with_tasks/ HTTP/1.1" 200 4136
+2025-07-30 09:53:06,712 - DEBUG - 异步API调用成功: get_task_groups_with_tasks
+2025-07-30 09:53:06,712 - DEBUG - 已更新缓存: task_groups_with_tasks
+2025-07-30 09:53:06,714 - DEBUG - 接收到 2 个任务分组数据（包含任务）
+2025-07-30 09:53:06,715 - INFO - 任务分组树状结构构建完成，共 2 个分组
+2025-07-30 09:53:07,580 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-07-30 09:53:07,580 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:53:07,580 - DEBUG - 调用前一个界面的 on_deactivated: TaskGroupInterface
+2025-07-30 09:53:07,580 - DEBUG - TaskGroupInterface 被切换离开，已取消数据加载请求
+2025-07-30 09:53:07,580 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:53:07,581 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-07-30 09:53:07,581 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-07-30 09:53:07,581 - DEBUG - 合并到现有请求: processing_tasks
+2025-07-30 09:53:07,581 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-07-30 09:53:07,581 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-07-30 09:53:08,467 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-30 09:53:08,468 - DEBUG - 看板定时刷新已启动
+2025-07-30 09:53:08,468 - DEBUG - 调用前一个界面的 on_deactivated: ProcessingTaskInterface
+2025-07-30 09:53:08,468 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-30 09:53:08,468 - DEBUG - ProcessingTaskInterface 被切换离开，已取消数据加载请求
+2025-07-30 09:53:08,468 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:53:08,468 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-30 09:53:08,468 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-30 09:53:08,468 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-30 09:53:08,468 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:53:08,468 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-30 09:53:08,468 - DEBUG - 创建新的异步请求: users
+2025-07-30 09:53:08,468 - DEBUG - 合并到现有请求: processing_tasks
+2025-07-30 09:53:08,468 - DEBUG - 使用缓存数据: sensor_data
+2025-07-30 09:53:08,468 - DEBUG - 传感器数据更新: 6
+2025-07-30 09:53:08,468 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-30 09:53:08,468 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-30 09:53:08,468 - DEBUG - 开始执行异步API调用: get_users
+2025-07-30 09:53:08,718 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-30 09:53:08,718 - DEBUG - 异步API调用成功: get_users
+2025-07-30 09:53:08,722 - DEBUG - 已更新缓存: users
+2025-07-30 09:53:08,723 - DEBUG - 用户数据更新: 1
+2025-07-30 09:53:11,417 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-07-30 09:53:11,417 - DEBUG - 看板定时刷新已停止
+2025-07-30 09:53:11,417 - DEBUG - 取消异步API调用: get_users
+2025-07-30 09:53:11,417 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-30 09:53:11,417 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:53:11,417 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-30 09:53:11,417 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:53:11,417 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-30 09:53:11,417 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:53:11,417 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-07-30 09:53:11,417 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-07-30 09:53:11,417 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-30 09:53:11,417 - DEBUG - 合并到现有请求: processing_tasks
+2025-07-30 09:53:11,417 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-07-30 09:53:11,417 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-07-30 09:53:12,209 - DEBUG - 界面切换到: TaskGroupInterface (name=TaskGroupInterface)
+2025-07-30 09:53:12,210 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:53:12,210 - DEBUG - 调用前一个界面的 on_deactivated: ProcessingTaskInterface
+2025-07-30 09:53:12,210 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-30 09:53:12,210 - DEBUG - ProcessingTaskInterface 被切换离开，已取消数据加载请求
+2025-07-30 09:53:12,210 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:53:12,210 - DEBUG - 准备调用 TaskGroupInterface 的 on_activated 方法
+2025-07-30 09:53:12,210 - DEBUG - 正在调用 TaskGroupInterface.on_activated()
+2025-07-30 09:53:12,210 - DEBUG - 使用新的统一API加载任务分组和任务数据
+2025-07-30 09:53:12,210 - DEBUG - 创建新的异步请求: task_groups_with_tasks
+2025-07-30 09:53:12,210 - DEBUG - 成功调用 TaskGroupInterface.on_activated()
+2025-07-30 09:53:12,210 - DEBUG - 已更新 previous_interface 为: TaskGroupInterface
+2025-07-30 09:53:12,210 - DEBUG - 开始执行异步API调用: get_task_groups_with_tasks
+2025-07-30 09:53:12,458 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/with_tasks/ HTTP/1.1" 200 4136
+2025-07-30 09:53:12,458 - DEBUG - 异步API调用成功: get_task_groups_with_tasks
+2025-07-30 09:53:12,459 - DEBUG - 已更新缓存: task_groups_with_tasks
+2025-07-30 09:53:12,459 - DEBUG - 接收到 2 个任务分组数据（包含任务）
+2025-07-30 09:53:12,460 - INFO - 任务分组树状结构构建完成，共 2 个分组
+2025-07-30 09:53:15,289 - DEBUG - 界面切换到: ToolInterface (name=ToolInterface)
+2025-07-30 09:53:15,289 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:53:15,289 - DEBUG - 调用前一个界面的 on_deactivated: TaskGroupInterface
+2025-07-30 09:53:15,289 - DEBUG - TaskGroupInterface 被切换离开，已取消数据加载请求
+2025-07-30 09:53:15,289 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:53:15,289 - DEBUG - 准备调用 ToolInterface 的 on_activated 方法
+2025-07-30 09:53:15,289 - DEBUG - 正在调用 ToolInterface.on_activated()
+2025-07-30 09:53:15,289 - INFO - ToolInterface 被激活，开始加载数据
+2025-07-30 09:53:15,289 - DEBUG - ToolInterface._load_data() 被调用，preserve_old_data=True
+2025-07-30 09:53:15,289 - DEBUG - 使用缓存数据: tools
+2025-07-30 09:53:15,298 - DEBUG - ToolInterface worker 创建成功: False
+2025-07-30 09:53:15,298 - DEBUG - 成功调用 ToolInterface.on_activated()
+2025-07-30 09:53:15,298 - DEBUG - 已更新 previous_interface 为: ToolInterface
+2025-07-30 09:53:15,982 - DEBUG - 界面切换到: CompositeMaterialInterface (name=CompositeMaterialInterface)
+2025-07-30 09:53:15,982 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:53:15,982 - DEBUG - 调用前一个界面的 on_deactivated: ToolInterface
+2025-07-30 09:53:15,982 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:53:15,982 - DEBUG - 准备调用 CompositeMaterialInterface 的 on_activated 方法
+2025-07-30 09:53:15,982 - DEBUG - 正在调用 CompositeMaterialInterface.on_activated()
+2025-07-30 09:53:15,982 - INFO - CompositeMaterialInterface 被激活，开始加载数据
+2025-07-30 09:53:15,982 - DEBUG - CompositeMaterialInterface._load_data() 被调用，preserve_old_data=True
+2025-07-30 09:53:15,982 - DEBUG - 使用缓存数据: composite_materials
+2025-07-30 09:53:15,989 - DEBUG - CompositeMaterialInterface worker 创建成功: False
+2025-07-30 09:53:15,989 - DEBUG - 成功调用 CompositeMaterialInterface.on_activated()
+2025-07-30 09:53:15,989 - DEBUG - 已更新 previous_interface 为: CompositeMaterialInterface
+2025-07-30 09:53:16,724 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-07-30 09:53:16,724 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 09:53:16,724 - DEBUG - 调用前一个界面的 on_deactivated: CompositeMaterialInterface
+2025-07-30 09:53:16,724 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 09:53:16,724 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-07-30 09:53:16,724 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-07-30 09:53:16,730 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-07-30 09:53:16,756 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000020E2847C220>
+2025-07-30 09:53:16,757 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:16,757 - DEBUG - send_request_headers.complete
+2025-07-30 09:53:16,757 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:16,757 - DEBUG - send_request_body.complete
+2025-07-30 09:53:16,757 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:16,772 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Wed, 30 Jul 2025 01:55:04 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-07-30 09:53:16,772 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-07-30 09:53:16,772 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:16,772 - DEBUG - receive_response_body.complete
+2025-07-30 09:53:16,772 - DEBUG - response_closed.started
+2025-07-30 09:53:16,774 - DEBUG - response_closed.complete
+2025-07-30 09:53:16,775 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:16,775 - DEBUG - send_request_headers.complete
+2025-07-30 09:53:16,775 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:16,775 - DEBUG - send_request_body.complete
+2025-07-30 09:53:16,775 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:16,781 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Wed, 30 Jul 2025 01:55:04 GMT'), (b'Content-Length', b'613')])
+2025-07-30 09:53:16,781 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/unmanaged "HTTP/1.1 207 Multi-Status"
+2025-07-30 09:53:16,782 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:16,782 - DEBUG - receive_response_body.complete
+2025-07-30 09:53:16,782 - DEBUG - response_closed.started
+2025-07-30 09:53:16,782 - DEBUG - response_closed.complete
+2025-07-30 09:53:17,151 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 09:53:17,151 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:17,151 - DEBUG - send_request_headers.complete
+2025-07-30 09:53:17,151 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:17,151 - DEBUG - send_request_body.complete
+2025-07-30 09:53:17,151 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:17,166 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Wed, 30 Jul 2025 01:55:05 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-07-30 09:53:17,166 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-07-30 09:53:17,166 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 09:53:17,167 - DEBUG - receive_response_body.complete
+2025-07-30 09:53:17,167 - DEBUG - response_closed.started
+2025-07-30 09:53:17,167 - DEBUG - response_closed.complete
+2025-07-30 09:53:17,168 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-30 09:53:17,168 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 09:53:17,168 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-07-30 09:53:17,168 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-07-30 09:53:17,168 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 09:53:17,537 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 09:53:17,537 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-30 09:53:17,537 - DEBUG - 已更新缓存: sensor_data
+2025-07-30 09:53:18,639 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:09:16,771 - INFO - 应用程序启动
+2025-07-30 10:09:17,690 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 10:09:17,699 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 10:09:17,699 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 10:09:17,710 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 10:09:18,323 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 10:09:18,456 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-30 10:09:18,456 - DEBUG - 看板定时刷新已启动
+2025-07-30 10:09:18,456 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:09:18,456 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-30 10:09:18,456 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-30 10:09:18,456 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-30 10:09:18,456 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:09:18,456 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-30 10:09:18,456 - DEBUG - 创建新的异步请求: users
+2025-07-30 10:09:18,456 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-30 10:09:18,456 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 10:09:18,456 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-30 10:09:18,456 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-30 10:09:18,463 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 10:09:18,463 - DEBUG - 开始执行异步API调用: get_users
+2025-07-30 10:09:18,463 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-30 10:09:18,490 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-30 10:09:18,491 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-30 10:09:18,761 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-30 10:09:18,761 - DEBUG - 异步API调用成功: get_users
+2025-07-30 10:09:18,761 - DEBUG - 已更新缓存: users
+2025-07-30 10:09:18,762 - DEBUG - 用户数据更新: 1
+2025-07-30 10:09:18,871 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 10:09:18,872 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-30 10:09:18,872 - DEBUG - 已更新缓存: sensor_data
+2025-07-30 10:09:18,872 - DEBUG - 传感器数据更新: 6
+2025-07-30 10:09:19,417 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-30 10:09:19,418 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-07-30 10:09:19,418 - DEBUG - 已更新缓存: processing_tasks
+2025-07-30 10:09:19,423 - DEBUG - 任务数据更新: 总数=7, 待处理=7
+2025-07-30 10:09:20,492 - DEBUG - 界面切换到: SettingInterface (name=SettingInterface)
+2025-07-30 10:09:20,492 - DEBUG - 看板定时刷新已停止
+2025-07-30 10:09:20,492 - DEBUG - 取消异步API调用: get_users
+2025-07-30 10:09:20,492 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-30 10:09:20,492 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-30 10:09:20,492 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:09:20,492 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-30 10:09:20,492 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:09:20,492 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-30 10:09:20,492 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:09:20,492 - DEBUG - 准备调用 SettingInterface 的 on_activated 方法
+2025-07-30 10:09:20,492 - DEBUG - 正在调用 SettingInterface.on_activated()
+2025-07-30 10:09:20,699 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-07-30 10:09:20,699 - DEBUG - 成功调用 SettingInterface.on_activated()
+2025-07-30 10:09:20,699 - DEBUG - 已更新 previous_interface 为: SettingInterface
+2025-07-30 10:10:25,596 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:12:03,931 - INFO - 应用程序启动
+2025-07-30 10:12:04,894 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 10:12:04,898 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 10:12:04,899 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 10:12:04,901 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 10:12:05,619 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 10:12:05,760 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-30 10:12:05,760 - DEBUG - 看板定时刷新已启动
+2025-07-30 10:12:05,760 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:12:05,760 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-30 10:12:05,760 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-30 10:12:05,760 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-30 10:12:05,760 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:12:05,760 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-30 10:12:05,760 - DEBUG - 创建新的异步请求: users
+2025-07-30 10:12:05,760 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-30 10:12:05,760 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 10:12:05,760 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-30 10:12:05,760 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-30 10:12:05,761 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 10:12:05,761 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-30 10:12:05,761 - DEBUG - 开始执行异步API调用: get_users
+2025-07-30 10:12:05,791 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-30 10:12:05,791 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-30 10:12:06,063 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-30 10:12:06,064 - DEBUG - 异步API调用成功: get_users
+2025-07-30 10:12:06,064 - DEBUG - 已更新缓存: users
+2025-07-30 10:12:06,065 - DEBUG - 用户数据更新: 1
+2025-07-30 10:12:06,162 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 10:12:06,163 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-30 10:12:06,165 - DEBUG - 已更新缓存: sensor_data
+2025-07-30 10:12:06,165 - DEBUG - 传感器数据更新: 6
+2025-07-30 10:12:06,758 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-30 10:12:06,759 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-07-30 10:12:06,759 - DEBUG - 已更新缓存: processing_tasks
+2025-07-30 10:12:06,762 - DEBUG - 任务数据更新: 总数=7, 待处理=7
+2025-07-30 10:12:07,256 - DEBUG - 界面切换到: SettingInterface (name=SettingInterface)
+2025-07-30 10:12:07,256 - DEBUG - 看板定时刷新已停止
+2025-07-30 10:12:07,256 - DEBUG - 取消异步API调用: get_users
+2025-07-30 10:12:07,256 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-30 10:12:07,256 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-30 10:12:07,256 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:12:07,256 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-30 10:12:07,256 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:12:07,256 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-30 10:12:07,256 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:12:07,256 - DEBUG - 准备调用 SettingInterface 的 on_activated 方法
+2025-07-30 10:12:07,256 - DEBUG - 正在调用 SettingInterface.on_activated()
+2025-07-30 10:12:07,504 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-07-30 10:12:07,505 - DEBUG - 成功调用 SettingInterface.on_activated()
+2025-07-30 10:12:07,505 - DEBUG - 已更新 previous_interface 为: SettingInterface
+2025-07-30 10:12:12,886 - DEBUG - 界面切换到: TaskGroupInterface (name=TaskGroupInterface)
+2025-07-30 10:12:12,886 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:12:12,886 - DEBUG - 调用前一个界面的 on_deactivated: SettingInterface
+2025-07-30 10:12:12,886 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:12:12,886 - DEBUG - 准备调用 TaskGroupInterface 的 on_activated 方法
+2025-07-30 10:12:12,886 - DEBUG - 正在调用 TaskGroupInterface.on_activated()
+2025-07-30 10:12:12,886 - DEBUG - 使用新的统一API加载任务分组和任务数据
+2025-07-30 10:12:12,886 - DEBUG - 创建新的异步请求: task_groups_with_tasks
+2025-07-30 10:12:12,888 - DEBUG - 成功调用 TaskGroupInterface.on_activated()
+2025-07-30 10:12:12,888 - DEBUG - 已更新 previous_interface 为: TaskGroupInterface
+2025-07-30 10:12:12,888 - DEBUG - 开始执行异步API调用: get_task_groups_with_tasks
+2025-07-30 10:12:13,189 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/with_tasks/ HTTP/1.1" 200 4136
+2025-07-30 10:12:13,189 - DEBUG - 异步API调用成功: get_task_groups_with_tasks
+2025-07-30 10:12:13,189 - DEBUG - 已更新缓存: task_groups_with_tasks
+2025-07-30 10:12:13,191 - DEBUG - 接收到 2 个任务分组数据（包含任务）
+2025-07-30 10:12:13,192 - INFO - 任务分组树状结构构建完成，共 2 个分组
+2025-07-30 10:12:17,181 - DEBUG - 界面切换到: SettingInterface (name=SettingInterface)
+2025-07-30 10:12:17,181 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:12:17,182 - DEBUG - 调用前一个界面的 on_deactivated: TaskGroupInterface
+2025-07-30 10:12:17,182 - DEBUG - TaskGroupInterface 被切换离开，已取消数据加载请求
+2025-07-30 10:12:17,182 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:12:17,182 - DEBUG - 准备调用 SettingInterface 的 on_activated 方法
+2025-07-30 10:12:17,182 - DEBUG - 正在调用 SettingInterface.on_activated()
+2025-07-30 10:12:17,384 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-07-30 10:12:17,384 - DEBUG - 成功调用 SettingInterface.on_activated()
+2025-07-30 10:12:17,384 - DEBUG - 已更新 previous_interface 为: SettingInterface
+2025-07-30 10:12:29,720 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-30 10:12:29,720 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-30 10:16:24,635 - INFO - 应用程序启动
+2025-07-30 10:16:25,383 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 10:16:25,386 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 10:16:25,387 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 10:16:25,388 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 10:16:25,990 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 10:16:26,015 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 39, in __init__
+    self.dashboard_interface = DashboardInterface(self)
+  File "F:\python\-\pyQTClient\app\view\dashboard_interface.py", line 229, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\pyQTClient\app\view\nav_interface.py", line 12, in __init__
+    self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+AttributeError: module 'PyQt5.Qt' has no attribute 'ScrollBarAlwaysOff'
+
+2025-07-30 10:16:26,015 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 39, in __init__
+    self.dashboard_interface = DashboardInterface(self)
+  File "F:\python\-\pyQTClient\app\view\dashboard_interface.py", line 229, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\pyQTClient\app\view\nav_interface.py", line 12, in __init__
+    self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+AttributeError: module 'PyQt5.Qt' has no attribute 'ScrollBarAlwaysOff'
+
+2025-07-30 10:16:49,064 - INFO - 应用程序启动
+2025-07-30 10:16:49,857 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 10:16:49,861 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 10:16:49,862 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 10:16:49,864 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 10:16:50,478 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 10:16:50,535 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 40, in __init__
+    self.tool_interface = ToolInterface(self)
+  File "F:\python\-\pyQTClient\app\view\tool_interface.py", line 62, in __init__
+    self.table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+NameError: name 'QSizePolicy' is not defined
+
+2025-07-30 10:16:50,536 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 40, in __init__
+    self.tool_interface = ToolInterface(self)
+  File "F:\python\-\pyQTClient\app\view\tool_interface.py", line 62, in __init__
+    self.table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+NameError: name 'QSizePolicy' is not defined
+
+2025-07-30 10:18:05,714 - INFO - 应用程序启动
+2025-07-30 10:18:06,478 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 10:18:06,481 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 10:18:06,482 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 10:18:06,485 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 10:18:07,094 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 10:18:07,233 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-30 10:18:07,233 - DEBUG - 看板定时刷新已启动
+2025-07-30 10:18:07,234 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:18:07,234 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-30 10:18:07,234 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-30 10:18:07,234 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-30 10:18:07,234 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:18:07,234 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-30 10:18:07,234 - DEBUG - 创建新的异步请求: users
+2025-07-30 10:18:07,234 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-30 10:18:07,234 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 10:18:07,234 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-30 10:18:07,234 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-30 10:18:07,235 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 10:18:07,235 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-30 10:18:07,235 - DEBUG - 开始执行异步API调用: get_users
+2025-07-30 10:18:07,261 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-30 10:18:07,261 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-30 10:18:07,533 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-30 10:18:07,534 - DEBUG - 异步API调用成功: get_users
+2025-07-30 10:18:07,534 - DEBUG - 已更新缓存: users
+2025-07-30 10:18:07,535 - DEBUG - 用户数据更新: 1
+2025-07-30 10:18:07,637 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 10:18:07,637 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-30 10:18:07,637 - DEBUG - 已更新缓存: sensor_data
+2025-07-30 10:18:07,638 - DEBUG - 传感器数据更新: 6
+2025-07-30 10:18:08,228 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-30 10:18:08,229 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-07-30 10:18:08,229 - DEBUG - 已更新缓存: processing_tasks
+2025-07-30 10:18:08,234 - DEBUG - 任务数据更新: 总数=7, 待处理=7
+2025-07-30 10:18:11,291 - DEBUG - 界面切换到: SettingInterface (name=SettingInterface)
+2025-07-30 10:18:11,291 - DEBUG - 看板定时刷新已停止
+2025-07-30 10:18:11,291 - DEBUG - 取消异步API调用: get_users
+2025-07-30 10:18:11,291 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-30 10:18:11,291 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-30 10:18:11,291 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:18:11,291 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-30 10:18:11,291 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:18:11,291 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-30 10:18:11,291 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:18:11,291 - DEBUG - 准备调用 SettingInterface 的 on_activated 方法
+2025-07-30 10:18:11,291 - DEBUG - 正在调用 SettingInterface.on_activated()
+2025-07-30 10:18:11,505 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-07-30 10:18:11,507 - DEBUG - 成功调用 SettingInterface.on_activated()
+2025-07-30 10:18:11,507 - DEBUG - 已更新 previous_interface 为: SettingInterface
+2025-07-30 10:18:26,093 - INFO - 应用程序启动
+2025-07-30 10:18:26,897 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 10:18:26,902 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 10:18:26,903 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 10:18:26,905 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 10:18:27,522 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 10:18:27,678 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-30 10:18:27,678 - DEBUG - 看板定时刷新已启动
+2025-07-30 10:18:27,678 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:18:27,678 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-30 10:18:27,678 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-30 10:18:27,678 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-30 10:18:27,678 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:18:27,678 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-30 10:18:27,678 - DEBUG - 创建新的异步请求: users
+2025-07-30 10:18:27,678 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-30 10:18:27,678 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 10:18:27,678 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-30 10:18:27,678 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-30 10:18:27,678 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 10:18:27,678 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-30 10:18:27,678 - DEBUG - 开始执行异步API调用: get_users
+2025-07-30 10:18:27,710 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-30 10:18:27,711 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-30 10:18:27,981 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-30 10:18:27,982 - DEBUG - 异步API调用成功: get_users
+2025-07-30 10:18:27,982 - DEBUG - 已更新缓存: users
+2025-07-30 10:18:27,983 - DEBUG - 用户数据更新: 1
+2025-07-30 10:18:28,084 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 10:18:28,086 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-30 10:18:28,086 - DEBUG - 已更新缓存: sensor_data
+2025-07-30 10:18:28,087 - DEBUG - 传感器数据更新: 6
+2025-07-30 10:18:28,683 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-30 10:18:28,685 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-07-30 10:18:28,686 - DEBUG - 已更新缓存: processing_tasks
+2025-07-30 10:18:28,691 - DEBUG - 任务数据更新: 总数=7, 待处理=7
+2025-07-30 10:18:31,644 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-30 10:18:31,644 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-30 10:18:59,018 - INFO - 应用程序启动
+2025-07-30 10:18:59,801 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 10:18:59,805 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 10:18:59,805 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 10:18:59,807 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 10:19:00,429 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 10:19:00,827 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-30 10:19:00,827 - DEBUG - 看板定时刷新已启动
+2025-07-30 10:19:00,827 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:19:00,827 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-30 10:19:00,827 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-30 10:19:00,827 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-30 10:19:00,827 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:19:00,827 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-30 10:19:00,827 - DEBUG - 创建新的异步请求: users
+2025-07-30 10:19:00,827 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-30 10:19:00,827 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 10:19:00,827 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-30 10:19:00,828 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-30 10:19:00,829 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 10:19:00,829 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-30 10:19:00,829 - DEBUG - 开始执行异步API调用: get_users
+2025-07-30 10:19:00,856 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-30 10:19:00,858 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-30 10:19:01,142 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-30 10:19:01,142 - DEBUG - 异步API调用成功: get_users
+2025-07-30 10:19:01,144 - DEBUG - 已更新缓存: users
+2025-07-30 10:19:01,146 - DEBUG - 用户数据更新: 1
+2025-07-30 10:19:01,248 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 10:19:01,248 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-30 10:19:01,250 - DEBUG - 已更新缓存: sensor_data
+2025-07-30 10:19:01,250 - DEBUG - 传感器数据更新: 6
+2025-07-30 10:19:01,821 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-30 10:19:01,821 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-07-30 10:19:01,821 - DEBUG - 已更新缓存: processing_tasks
+2025-07-30 10:19:01,825 - DEBUG - 任务数据更新: 总数=7, 待处理=7
+2025-07-30 10:19:04,220 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-07-30 10:19:04,220 - DEBUG - 看板定时刷新已停止
+2025-07-30 10:19:04,220 - DEBUG - 取消异步API调用: get_users
+2025-07-30 10:19:04,220 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-30 10:19:04,220 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-30 10:19:04,220 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:19:04,220 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-30 10:19:04,220 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:19:04,220 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-30 10:19:04,220 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:19:04,220 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-07-30 10:19:04,220 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-07-30 10:19:04,302 - DEBUG - connect_tcp.started host='127.0.0.1' port=7890 local_address=None timeout=5.0 socket_options=None
+2025-07-30 10:19:04,303 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000002916B71E440>
+2025-07-30 10:19:04,303 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 10:19:04,303 - DEBUG - send_request_headers.complete
+2025-07-30 10:19:04,303 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 10:19:04,303 - DEBUG - send_request_body.complete
+2025-07-30 10:19:04,303 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 10:19:09,001 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 502, b'Bad Gateway', [(b'Connection', b'close'), (b'Content-Length', b'0')])
+2025-07-30 10:19:09,003 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 502 Bad Gateway"
+2025-07-30 10:19:09,003 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 10:19:09,003 - DEBUG - receive_response_body.complete
+2025-07-30 10:19:09,004 - DEBUG - response_closed.started
+2025-07-30 10:19:09,004 - DEBUG - response_closed.complete
+2025-07-30 10:19:10,006 - DEBUG - connect_tcp.started host='127.0.0.1' port=7890 local_address=None timeout=5.0 socket_options=None
+2025-07-30 10:19:10,007 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000002916B71F220>
+2025-07-30 10:19:10,007 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 10:19:10,007 - DEBUG - send_request_headers.complete
+2025-07-30 10:19:10,007 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 10:19:10,007 - DEBUG - send_request_body.complete
+2025-07-30 10:19:10,007 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 10:19:13,638 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 502, b'Bad Gateway', [(b'Connection', b'close'), (b'Content-Length', b'0')])
+2025-07-30 10:19:13,638 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 502 Bad Gateway"
+2025-07-30 10:19:13,639 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 10:19:13,639 - DEBUG - receive_response_body.complete
+2025-07-30 10:19:13,639 - DEBUG - response_closed.started
+2025-07-30 10:19:13,639 - DEBUG - response_closed.complete
+2025-07-30 10:19:15,640 - DEBUG - connect_tcp.started host='127.0.0.1' port=7890 local_address=None timeout=5.0 socket_options=None
+2025-07-30 10:19:15,650 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000002916B71E140>
+2025-07-30 10:19:15,650 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 10:19:15,650 - DEBUG - send_request_headers.complete
+2025-07-30 10:19:15,650 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-30 10:19:15,650 - DEBUG - send_request_body.complete
+2025-07-30 10:19:15,650 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-30 10:19:19,276 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 502, b'Bad Gateway', [(b'Connection', b'close'), (b'Content-Length', b'0')])
+2025-07-30 10:19:19,277 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 502 Bad Gateway"
+2025-07-30 10:19:19,277 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-30 10:19:19,278 - DEBUG - receive_response_body.complete
+2025-07-30 10:19:19,278 - DEBUG - response_closed.started
+2025-07-30 10:19:19,278 - DEBUG - response_closed.complete
+2025-07-30 10:19:19,283 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 10:19:19,284 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-07-30 10:19:19,284 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-07-30 10:19:19,285 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 10:19:19,676 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 10:19:19,677 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-30 10:19:19,680 - DEBUG - 已更新缓存: sensor_data
+2025-07-30 10:19:21,225 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\info_bar.py", line 190, in __fadeOut
+    def __fadeOut(self):
+KeyboardInterrupt
+
+2025-07-30 10:19:21,225 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\venv\lib\site-packages\qfluentwidgets\components\widgets\info_bar.py", line 190, in __fadeOut
+    def __fadeOut(self):
+KeyboardInterrupt
+
+2025-07-30 10:20:14,165 - INFO - 应用程序启动
+2025-07-30 10:20:14,959 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 10:20:14,963 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 10:20:14,964 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 10:20:14,965 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 10:20:15,589 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 10:20:15,735 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-30 10:20:15,735 - DEBUG - 看板定时刷新已启动
+2025-07-30 10:20:15,735 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:20:15,736 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-30 10:20:15,736 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-30 10:20:15,736 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-30 10:20:15,736 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:20:15,736 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-30 10:20:15,736 - DEBUG - 创建新的异步请求: users
+2025-07-30 10:20:15,736 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-30 10:20:15,736 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 10:20:15,736 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-30 10:20:15,736 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-30 10:20:15,737 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 10:20:15,737 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-30 10:20:15,737 - DEBUG - 开始执行异步API调用: get_users
+2025-07-30 10:20:15,770 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-30 10:20:15,775 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-30 10:20:16,055 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-30 10:20:16,056 - DEBUG - 异步API调用成功: get_users
+2025-07-30 10:20:16,056 - DEBUG - 已更新缓存: users
+2025-07-30 10:20:16,056 - DEBUG - 用户数据更新: 1
+2025-07-30 10:20:16,148 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 10:20:16,149 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-30 10:20:16,150 - DEBUG - 已更新缓存: sensor_data
+2025-07-30 10:20:16,151 - DEBUG - 传感器数据更新: 6
+2025-07-30 10:20:16,737 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-30 10:20:16,737 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-07-30 10:20:16,737 - DEBUG - 已更新缓存: processing_tasks
+2025-07-30 10:20:16,741 - DEBUG - 任务数据更新: 总数=7, 待处理=7
+2025-07-30 10:20:24,142 - INFO - 应用程序启动
+2025-07-30 10:20:24,990 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 10:20:24,994 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 10:20:24,995 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 10:20:24,996 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 10:20:25,655 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 10:20:25,813 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-30 10:20:25,813 - DEBUG - 看板定时刷新已启动
+2025-07-30 10:20:25,813 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:20:25,813 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-30 10:20:25,813 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-30 10:20:25,813 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-30 10:20:25,813 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:20:25,813 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-30 10:20:25,813 - DEBUG - 创建新的异步请求: users
+2025-07-30 10:20:25,813 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-30 10:20:25,813 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 10:20:25,813 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-30 10:20:25,813 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-30 10:20:25,814 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 10:20:25,814 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-30 10:20:25,814 - DEBUG - 开始执行异步API调用: get_users
+2025-07-30 10:20:25,846 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-30 10:20:25,846 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-30 10:20:26,116 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-30 10:20:26,116 - DEBUG - 异步API调用成功: get_users
+2025-07-30 10:20:26,116 - DEBUG - 已更新缓存: users
+2025-07-30 10:20:26,117 - DEBUG - 用户数据更新: 1
+2025-07-30 10:20:26,219 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 10:20:26,219 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-30 10:20:26,219 - DEBUG - 已更新缓存: sensor_data
+2025-07-30 10:20:26,220 - DEBUG - 传感器数据更新: 6
+2025-07-30 10:20:26,813 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-30 10:20:26,814 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-07-30 10:20:26,814 - DEBUG - 已更新缓存: processing_tasks
+2025-07-30 10:20:26,818 - DEBUG - 任务数据更新: 总数=7, 待处理=7
+2025-07-30 10:20:29,777 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-30 10:20:29,777 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-30 10:21:05,973 - INFO - 应用程序启动
+2025-07-30 10:21:06,820 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-30 10:21:06,959 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-30 10:21:06,960 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-30 10:21:06,962 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-30 10:21:07,600 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-30 10:21:07,771 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-30 10:21:07,772 - DEBUG - 看板定时刷新已启动
+2025-07-30 10:21:07,772 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-30 10:21:07,772 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-30 10:21:07,772 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-30 10:21:07,772 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-30 10:21:07,772 - DEBUG - 已取消所有活跃的异步任务
+2025-07-30 10:21:07,772 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-30 10:21:07,772 - DEBUG - 创建新的异步请求: users
+2025-07-30 10:21:07,772 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-30 10:21:07,772 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-30 10:21:07,772 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-30 10:21:07,772 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-30 10:21:07,773 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-30 10:21:07,773 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-30 10:21:07,773 - DEBUG - 开始执行异步API调用: get_users
+2025-07-30 10:21:07,804 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-30 10:21:07,805 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-30 10:21:08,057 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-30 10:21:08,057 - DEBUG - 异步API调用成功: get_users
+2025-07-30 10:21:08,057 - DEBUG - 已更新缓存: users
+2025-07-30 10:21:08,057 - DEBUG - 用户数据更新: 1
+2025-07-30 10:21:08,231 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-30 10:21:08,232 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-30 10:21:08,235 - DEBUG - 已更新缓存: sensor_data
+2025-07-30 10:21:08,235 - DEBUG - 传感器数据更新: 6
+2025-07-30 10:21:08,798 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-30 10:21:08,798 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-07-30 10:21:08,799 - DEBUG - 已更新缓存: processing_tasks
+2025-07-30 10:21:08,805 - DEBUG - 任务数据更新: 总数=7, 待处理=7
+2025-07-30 10:21:12,719 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-30 10:21:12,719 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-31 10:40:19,923 - INFO - 应用程序启动
+2025-07-31 10:40:21,210 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-31 10:40:21,221 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-31 10:40:21,222 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-31 10:40:21,228 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-31 10:40:30,276 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-31 10:40:30,678 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-31 10:40:30,678 - DEBUG - 看板定时刷新已启动
+2025-07-31 10:40:30,678 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 10:40:30,678 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-31 10:40:30,678 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-31 10:40:30,678 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-31 10:40:30,678 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 10:40:30,678 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-31 10:40:30,678 - DEBUG - 创建新的异步请求: users
+2025-07-31 10:40:30,678 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-31 10:40:30,678 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-31 10:40:30,678 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-31 10:40:30,678 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-31 10:40:30,679 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-31 10:40:30,679 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-31 10:40:30,679 - DEBUG - 开始执行异步API调用: get_users
+2025-07-31 10:40:30,708 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-31 10:40:30,708 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-31 10:40:36,240 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-31 10:40:36,240 - DEBUG - 异步API调用成功: get_users
+2025-07-31 10:40:36,243 - DEBUG - 已更新缓存: users
+2025-07-31 10:40:36,244 - DEBUG - 用户数据更新: 1
+2025-07-31 10:40:38,243 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-31 10:40:38,244 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-31 10:40:38,245 - DEBUG - 已更新缓存: sensor_data
+2025-07-31 10:40:38,245 - DEBUG - 传感器数据更新: 6
+2025-07-31 10:40:44,119 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-07-31 10:40:44,119 - DEBUG - 看板定时刷新已停止
+2025-07-31 10:40:44,119 - DEBUG - 取消异步API调用: get_users
+2025-07-31 10:40:44,119 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-31 10:40:45,120 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-31 10:40:45,120 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 10:40:45,120 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-31 10:40:45,120 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 10:40:45,120 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-31 10:40:45,121 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 10:40:45,121 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-07-31 10:40:45,121 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-07-31 10:40:45,121 - DEBUG - 合并到现有请求: processing_tasks
+2025-07-31 10:40:45,121 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-07-31 10:40:45,121 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-07-31 10:40:47,006 - DEBUG - 界面切换到: SettingInterface (name=SettingInterface)
+2025-07-31 10:40:47,006 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 10:40:47,006 - DEBUG - 调用前一个界面的 on_deactivated: ProcessingTaskInterface
+2025-07-31 10:40:47,006 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-31 10:40:47,006 - DEBUG - ProcessingTaskInterface 被切换离开，已取消数据加载请求
+2025-07-31 10:40:47,006 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 10:40:47,006 - DEBUG - 准备调用 SettingInterface 的 on_activated 方法
+2025-07-31 10:40:47,006 - DEBUG - 正在调用 SettingInterface.on_activated()
+2025-07-31 10:40:50,378 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-31 10:40:50,378 - DEBUG - 异步API调用在完成后被取消: get_processing_tasks
+2025-07-31 10:40:51,336 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-07-31 10:40:51,336 - DEBUG - 成功调用 SettingInterface.on_activated()
+2025-07-31 10:40:51,337 - DEBUG - 已更新 previous_interface 为: SettingInterface
+2025-07-31 10:40:58,661 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-31 10:40:58,661 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-31 10:42:25,979 - INFO - 应用程序启动
+2025-07-31 10:42:26,760 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-31 10:42:26,764 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-31 10:42:26,765 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-31 10:42:26,768 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-31 10:42:35,348 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-31 10:42:35,786 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-31 10:42:35,786 - DEBUG - 看板定时刷新已启动
+2025-07-31 10:42:35,786 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 10:42:35,786 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-31 10:42:35,786 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-31 10:42:35,786 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-31 10:42:35,786 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 10:42:35,786 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-31 10:42:35,786 - DEBUG - 创建新的异步请求: users
+2025-07-31 10:42:35,787 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-31 10:42:35,787 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-31 10:42:35,787 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-31 10:42:35,787 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-31 10:42:35,788 - DEBUG - 开始执行异步API调用: get_users
+2025-07-31 10:42:35,788 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-31 10:42:35,788 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-31 10:42:35,799 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-31 10:42:35,814 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-31 10:42:40,845 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-31 10:42:40,845 - DEBUG - 异步API调用成功: get_users
+2025-07-31 10:42:40,846 - DEBUG - 已更新缓存: users
+2025-07-31 10:42:40,847 - DEBUG - 用户数据更新: 1
+2025-07-31 10:42:43,583 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-31 10:42:43,584 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-31 10:42:43,584 - DEBUG - 已更新缓存: sensor_data
+2025-07-31 10:42:43,587 - DEBUG - 传感器数据更新: 6
+2025-07-31 10:42:56,586 - DEBUG - 界面切换到: SettingInterface (name=SettingInterface)
+2025-07-31 10:42:56,586 - DEBUG - 看板定时刷新已停止
+2025-07-31 10:42:56,586 - DEBUG - 取消异步API调用: get_users
+2025-07-31 10:42:56,586 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-31 10:42:57,597 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-31 10:42:57,597 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 10:42:57,597 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-31 10:42:57,597 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 10:42:57,597 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-31 10:42:57,597 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 10:42:57,598 - DEBUG - 准备调用 SettingInterface 的 on_activated 方法
+2025-07-31 10:42:57,598 - DEBUG - 正在调用 SettingInterface.on_activated()
+2025-07-31 10:43:02,860 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-07-31 10:43:02,861 - DEBUG - 成功调用 SettingInterface.on_activated()
+2025-07-31 10:43:02,861 - DEBUG - 已更新 previous_interface 为: SettingInterface
+2025-07-31 10:43:19,711 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-31 10:43:19,711 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-31 10:57:58,578 - INFO - 应用程序启动
+2025-07-31 10:57:59,356 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-31 10:57:59,360 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-31 10:57:59,360 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-31 10:57:59,363 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-31 10:58:07,893 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-31 10:58:08,046 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-31 10:58:08,046 - DEBUG - 看板定时刷新已启动
+2025-07-31 10:58:08,046 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 10:58:08,046 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-31 10:58:08,046 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-31 10:58:08,046 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-31 10:58:08,046 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 10:58:08,046 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-31 10:58:08,046 - DEBUG - 创建新的异步请求: users
+2025-07-31 10:58:08,046 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-31 10:58:08,047 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-31 10:58:08,047 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-31 10:58:08,047 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-31 10:58:08,048 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-31 10:58:08,048 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-31 10:58:08,048 - DEBUG - 开始执行异步API调用: get_users
+2025-07-31 10:58:08,079 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-31 10:58:08,079 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-31 10:58:11,581 - DEBUG - 看板定时刷新已停止
+2025-07-31 10:58:11,581 - DEBUG - 取消异步API调用: get_users
+2025-07-31 10:58:12,588 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-31 10:58:13,590 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-31 10:58:13,809 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-31 10:58:13,809 - DEBUG - 异步API调用在完成后被取消: get_users
+2025-07-31 10:58:14,594 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:02:56,871 - INFO - 应用程序启动
+2025-07-31 11:02:57,657 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-31 11:02:57,661 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-31 11:02:57,662 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-31 11:02:57,664 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-31 11:03:06,281 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-31 11:03:06,393 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 39, in __init__
+    self.dashboard_interface = DashboardInterface(self)
+  File "F:\python\-\pyQTClient\app\view\dashboard_interface.py", line 229, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\pyQTClient\app\view\nav_interface.py", line 15, in __init__
+    self.vBoxLayout.setSpacing(30)
+AttributeError: 'DashboardInterface' object has no attribute 'vBoxLayout'
+
+2025-07-31 11:03:06,393 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 39, in __init__
+    self.dashboard_interface = DashboardInterface(self)
+  File "F:\python\-\pyQTClient\app\view\dashboard_interface.py", line 229, in __init__
+    super().__init__(parent=parent)
+  File "F:\python\-\pyQTClient\app\view\nav_interface.py", line 15, in __init__
+    self.vBoxLayout.setSpacing(30)
+AttributeError: 'DashboardInterface' object has no attribute 'vBoxLayout'
+
+2025-07-31 11:03:21,005 - INFO - 应用程序启动
+2025-07-31 11:03:21,787 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-31 11:03:21,790 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-31 11:03:21,791 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-31 11:03:21,792 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-31 11:03:30,611 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-31 11:03:30,763 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-31 11:03:30,763 - DEBUG - 看板定时刷新已启动
+2025-07-31 11:03:30,763 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:03:30,763 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-31 11:03:30,763 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-31 11:03:30,763 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-31 11:03:30,763 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:03:30,763 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-31 11:03:30,763 - DEBUG - 创建新的异步请求: users
+2025-07-31 11:03:30,763 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-31 11:03:30,764 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-31 11:03:30,764 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-31 11:03:30,764 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-31 11:03:30,765 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-31 11:03:30,765 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-31 11:03:30,777 - DEBUG - 开始执行异步API调用: get_users
+2025-07-31 11:03:30,786 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-31 11:03:30,794 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-31 11:03:36,228 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-31 11:03:36,229 - DEBUG - 异步API调用成功: get_users
+2025-07-31 11:03:36,229 - DEBUG - 已更新缓存: users
+2025-07-31 11:03:36,230 - DEBUG - 用户数据更新: 1
+2025-07-31 11:03:38,608 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-31 11:03:38,609 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-31 11:03:38,610 - DEBUG - 已更新缓存: sensor_data
+2025-07-31 11:03:38,611 - DEBUG - 传感器数据更新: 6
+2025-07-31 11:03:43,713 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-31 11:03:43,713 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-31 11:09:57,326 - INFO - 应用程序启动
+2025-07-31 11:09:58,086 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-31 11:09:58,089 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-31 11:09:58,090 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-31 11:09:58,092 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-31 11:10:06,310 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-31 11:10:06,511 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-31 11:10:06,511 - DEBUG - 看板定时刷新已启动
+2025-07-31 11:10:06,511 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:10:06,511 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-31 11:10:06,511 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-31 11:10:06,511 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-31 11:10:06,511 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:10:06,511 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-31 11:10:06,511 - DEBUG - 创建新的异步请求: users
+2025-07-31 11:10:06,511 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-31 11:10:06,511 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-31 11:10:06,511 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-31 11:10:06,511 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-31 11:10:06,512 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-31 11:10:06,512 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-31 11:10:06,526 - DEBUG - 开始执行异步API调用: get_users
+2025-07-31 11:10:06,537 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-31 11:10:06,538 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-31 11:10:08,997 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-07-31 11:10:08,997 - DEBUG - 看板定时刷新已停止
+2025-07-31 11:10:08,997 - DEBUG - 取消异步API调用: get_users
+2025-07-31 11:10:09,997 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-31 11:10:10,997 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-31 11:10:11,935 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-31 11:10:11,936 - DEBUG - 异步API调用在完成后被取消: get_users
+2025-07-31 11:10:11,998 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:10:11,998 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-31 11:10:11,998 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:10:11,998 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-31 11:10:11,998 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:10:11,998 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-07-31 11:10:11,998 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-07-31 11:10:11,998 - DEBUG - 合并到现有请求: processing_tasks
+2025-07-31 11:10:11,998 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-07-31 11:10:11,998 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-07-31 11:10:14,397 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-31 11:10:14,397 - DEBUG - 异步API调用在完成后被取消: get_sensor_data
+2025-07-31 11:10:15,945 - DEBUG - 界面切换到: SettingInterface (name=SettingInterface)
+2025-07-31 11:10:15,945 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:10:15,945 - DEBUG - 调用前一个界面的 on_deactivated: ProcessingTaskInterface
+2025-07-31 11:10:15,945 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-31 11:10:15,945 - DEBUG - ProcessingTaskInterface 被切换离开，已取消数据加载请求
+2025-07-31 11:10:15,945 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:10:15,945 - DEBUG - 准备调用 SettingInterface 的 on_activated 方法
+2025-07-31 11:10:15,945 - DEBUG - 正在调用 SettingInterface.on_activated()
+2025-07-31 11:10:20,422 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-07-31 11:10:20,422 - DEBUG - 成功调用 SettingInterface.on_activated()
+2025-07-31 11:10:20,422 - DEBUG - 已更新 previous_interface 为: SettingInterface
+2025-07-31 11:10:26,680 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-31 11:10:26,680 - DEBUG - 异步API调用在完成后被取消: get_processing_tasks
+2025-07-31 11:18:41,767 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-31 11:18:41,767 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-31 11:18:43,427 - INFO - 应用程序启动
+2025-07-31 11:18:44,238 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-31 11:18:44,244 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-31 11:18:44,245 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-31 11:18:44,247 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-31 11:18:50,571 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 500 170819
+2025-07-31 11:18:52,261 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-31 11:18:52,262 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-31 11:18:52,265 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-31 11:18:52,903 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-31 11:18:53,140 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-31 11:18:53,140 - DEBUG - 看板定时刷新已启动
+2025-07-31 11:18:53,140 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:18:53,140 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-31 11:18:53,140 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-31 11:18:53,140 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-31 11:18:53,140 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:18:53,140 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-31 11:18:53,140 - DEBUG - 创建新的异步请求: users
+2025-07-31 11:18:53,140 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-31 11:18:53,140 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-31 11:18:53,140 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-31 11:18:53,140 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-31 11:18:53,142 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-31 11:18:53,142 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-31 11:18:53,142 - DEBUG - 开始执行异步API调用: get_users
+2025-07-31 11:18:53,171 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-31 11:18:53,171 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-31 11:18:53,440 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-31 11:18:53,440 - DEBUG - 异步API调用成功: get_users
+2025-07-31 11:18:53,441 - DEBUG - 已更新缓存: users
+2025-07-31 11:18:53,441 - DEBUG - 用户数据更新: 1
+2025-07-31 11:18:53,547 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-31 11:18:53,547 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-31 11:18:53,547 - DEBUG - 已更新缓存: sensor_data
+2025-07-31 11:18:53,548 - DEBUG - 传感器数据更新: 6
+2025-07-31 11:18:54,114 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-31 11:18:54,114 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-07-31 11:18:54,114 - DEBUG - 已更新缓存: processing_tasks
+2025-07-31 11:18:54,119 - DEBUG - 任务数据更新: 总数=7, 待处理=7
+2025-07-31 11:19:06,379 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-07-31 11:19:06,379 - DEBUG - 看板定时刷新已停止
+2025-07-31 11:19:06,379 - DEBUG - 取消异步API调用: get_users
+2025-07-31 11:19:06,379 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-31 11:19:06,379 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-31 11:19:06,379 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:19:06,379 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-31 11:19:06,379 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:19:06,379 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-31 11:19:06,379 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:19:06,379 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-07-31 11:19:06,379 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-07-31 11:19:06,379 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-31 11:19:06,379 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-07-31 11:19:06,379 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-07-31 11:19:06,379 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-31 11:19:07,037 - DEBUG - 界面切换到: TaskGroupInterface (name=TaskGroupInterface)
+2025-07-31 11:19:07,037 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:19:07,037 - DEBUG - 调用前一个界面的 on_deactivated: ProcessingTaskInterface
+2025-07-31 11:19:07,037 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-31 11:19:07,037 - DEBUG - ProcessingTaskInterface 被切换离开，已取消数据加载请求
+2025-07-31 11:19:07,037 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:19:07,037 - DEBUG - 准备调用 TaskGroupInterface 的 on_activated 方法
+2025-07-31 11:19:07,037 - DEBUG - 正在调用 TaskGroupInterface.on_activated()
+2025-07-31 11:19:07,037 - DEBUG - 使用新的统一API加载任务分组和任务数据
+2025-07-31 11:19:07,037 - DEBUG - 创建新的异步请求: task_groups_with_tasks
+2025-07-31 11:19:07,037 - DEBUG - 成功调用 TaskGroupInterface.on_activated()
+2025-07-31 11:19:07,037 - DEBUG - 已更新 previous_interface 为: TaskGroupInterface
+2025-07-31 11:19:07,037 - DEBUG - 开始执行异步API调用: get_task_groups_with_tasks
+2025-07-31 11:19:07,289 - DEBUG - http://127.0.0.1:8000 "GET /api/task-groups/with_tasks/ HTTP/1.1" 200 4136
+2025-07-31 11:19:07,289 - DEBUG - 异步API调用成功: get_task_groups_with_tasks
+2025-07-31 11:19:07,289 - DEBUG - 已更新缓存: task_groups_with_tasks
+2025-07-31 11:19:07,290 - DEBUG - 接收到 2 个任务分组数据（包含任务）
+2025-07-31 11:19:07,291 - INFO - 任务分组树状结构构建完成，共 2 个分组
+2025-07-31 11:19:07,299 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-31 11:19:07,299 - DEBUG - 异步API调用在完成后被取消: get_processing_tasks
+2025-07-31 11:19:07,595 - DEBUG - 界面切换到: ToolInterface (name=ToolInterface)
+2025-07-31 11:19:07,595 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:19:07,595 - DEBUG - 调用前一个界面的 on_deactivated: TaskGroupInterface
+2025-07-31 11:19:07,595 - DEBUG - TaskGroupInterface 被切换离开，已取消数据加载请求
+2025-07-31 11:19:07,595 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:19:07,595 - DEBUG - 准备调用 ToolInterface 的 on_activated 方法
+2025-07-31 11:19:07,595 - DEBUG - 正在调用 ToolInterface.on_activated()
+2025-07-31 11:19:07,595 - INFO - ToolInterface 被激活，开始加载数据
+2025-07-31 11:19:07,595 - DEBUG - ToolInterface._load_data() 被调用，preserve_old_data=True
+2025-07-31 11:19:07,595 - DEBUG - 创建新的异步请求: tools
+2025-07-31 11:19:07,595 - DEBUG - ToolInterface worker 创建成功: False
+2025-07-31 11:19:07,595 - DEBUG - 成功调用 ToolInterface.on_activated()
+2025-07-31 11:19:07,595 - DEBUG - 已更新 previous_interface 为: ToolInterface
+2025-07-31 11:19:07,595 - DEBUG - 开始执行异步API调用: get_tools
+2025-07-31 11:19:07,842 - DEBUG - http://127.0.0.1:8000 "GET /api/tools/ HTTP/1.1" 200 533
+2025-07-31 11:19:07,842 - DEBUG - 异步API调用成功: get_tools
+2025-07-31 11:19:07,847 - DEBUG - 已更新缓存: tools
+2025-07-31 11:19:13,839 - DEBUG - 界面切换到: CompositeMaterialInterface (name=CompositeMaterialInterface)
+2025-07-31 11:19:13,839 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:19:13,839 - DEBUG - 调用前一个界面的 on_deactivated: ToolInterface
+2025-07-31 11:19:13,839 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:19:13,839 - DEBUG - 准备调用 CompositeMaterialInterface 的 on_activated 方法
+2025-07-31 11:19:13,839 - DEBUG - 正在调用 CompositeMaterialInterface.on_activated()
+2025-07-31 11:19:13,839 - INFO - CompositeMaterialInterface 被激活，开始加载数据
+2025-07-31 11:19:13,839 - DEBUG - CompositeMaterialInterface._load_data() 被调用，preserve_old_data=True
+2025-07-31 11:19:13,839 - DEBUG - 创建新的异步请求: composite_materials
+2025-07-31 11:19:13,839 - DEBUG - CompositeMaterialInterface worker 创建成功: False
+2025-07-31 11:19:13,839 - DEBUG - 成功调用 CompositeMaterialInterface.on_activated()
+2025-07-31 11:19:13,839 - DEBUG - 已更新 previous_interface 为: CompositeMaterialInterface
+2025-07-31 11:19:13,839 - DEBUG - 开始执行异步API调用: get_composite_materials
+2025-07-31 11:19:14,086 - DEBUG - http://127.0.0.1:8000 "GET /api/composite-materials/ HTTP/1.1" 200 600
+2025-07-31 11:19:14,086 - DEBUG - 异步API调用成功: get_composite_materials
+2025-07-31 11:19:14,086 - DEBUG - 已更新缓存: composite_materials
+2025-07-31 11:19:14,549 - DEBUG - 界面切换到: SensorDataInterface (name=SensorDataInterface)
+2025-07-31 11:19:14,549 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:19:14,549 - DEBUG - 调用前一个界面的 on_deactivated: CompositeMaterialInterface
+2025-07-31 11:19:14,549 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:19:14,549 - DEBUG - 准备调用 SensorDataInterface 的 on_activated 方法
+2025-07-31 11:19:14,549 - DEBUG - 正在调用 SensorDataInterface.on_activated()
+2025-07-31 11:19:15,030 - DEBUG - connect_tcp.started host='mainnas.mildhedgehog.com' port=5005 local_address=None timeout=5.0 socket_options=None
+2025-07-31 11:19:15,076 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001F811F93580>
+2025-07-31 11:19:15,076 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-31 11:19:15,076 - DEBUG - send_request_headers.complete
+2025-07-31 11:19:15,076 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-31 11:19:15,076 - DEBUG - send_request_body.complete
+2025-07-31 11:19:15,076 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-31 11:19:15,092 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Thu, 31 Jul 2025 03:21:03 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-07-31 11:19:15,092 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-07-31 11:19:15,092 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-31 11:19:15,093 - DEBUG - receive_response_body.complete
+2025-07-31 11:19:15,093 - DEBUG - response_closed.started
+2025-07-31 11:19:15,093 - DEBUG - response_closed.complete
+2025-07-31 11:19:15,094 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-31 11:19:15,094 - DEBUG - send_request_headers.complete
+2025-07-31 11:19:15,094 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-31 11:19:15,094 - DEBUG - send_request_body.complete
+2025-07-31 11:19:15,094 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-31 11:19:15,108 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Thu, 31 Jul 2025 03:21:03 GMT'), (b'Content-Length', b'613')])
+2025-07-31 11:19:15,108 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data/unmanaged "HTTP/1.1 207 Multi-Status"
+2025-07-31 11:19:15,108 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-31 11:19:15,108 - DEBUG - receive_response_body.complete
+2025-07-31 11:19:15,108 - DEBUG - response_closed.started
+2025-07-31 11:19:15,108 - DEBUG - response_closed.complete
+2025-07-31 11:19:15,486 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-31 11:19:15,486 - DEBUG - send_request_headers.started request=<Request [b'PROPFIND']>
+2025-07-31 11:19:15,486 - DEBUG - send_request_headers.complete
+2025-07-31 11:19:15,486 - DEBUG - send_request_body.started request=<Request [b'PROPFIND']>
+2025-07-31 11:19:15,486 - DEBUG - send_request_body.complete
+2025-07-31 11:19:15,486 - DEBUG - receive_response_headers.started request=<Request [b'PROPFIND']>
+2025-07-31 11:19:15,502 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 207, b'Multi-Status', [(b'Content-Type', b'text/xml; charset=utf-8'), (b'Www-Authenticate', b'Basic realm="Restricted"'), (b'Date', b'Thu, 31 Jul 2025 03:21:03 GMT'), (b'Transfer-Encoding', b'chunked')])
+2025-07-31 11:19:15,502 - INFO - HTTP Request: PROPFIND http://mainnas.mildhedgehog.com:5005/sensor_data "HTTP/1.1 207 Multi-Status"
+2025-07-31 11:19:15,502 - DEBUG - receive_response_body.started request=<Request [b'PROPFIND']>
+2025-07-31 11:19:15,503 - DEBUG - receive_response_body.complete
+2025-07-31 11:19:15,503 - DEBUG - response_closed.started
+2025-07-31 11:19:15,503 - DEBUG - response_closed.complete
+2025-07-31 11:19:15,504 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-31 11:19:15,504 - DEBUG - 成功调用 SensorDataInterface.on_activated()
+2025-07-31 11:19:15,504 - DEBUG - 已更新 previous_interface 为: SensorDataInterface
+2025-07-31 11:19:15,504 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-31 11:19:15,883 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-31 11:19:15,883 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-31 11:19:15,884 - DEBUG - 已更新缓存: sensor_data
+2025-07-31 11:19:16,677 - DEBUG - 界面切换到: SettingInterface (name=SettingInterface)
+2025-07-31 11:19:16,677 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:19:16,677 - DEBUG - 调用前一个界面的 on_deactivated: SensorDataInterface
+2025-07-31 11:19:16,677 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-31 11:19:16,677 - DEBUG - SensorDataInterface 被切换离开，已取消数据加载请求
+2025-07-31 11:19:16,677 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:19:16,677 - DEBUG - 准备调用 SettingInterface 的 on_activated 方法
+2025-07-31 11:19:16,677 - DEBUG - 正在调用 SettingInterface.on_activated()
+2025-07-31 11:19:16,883 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-07-31 11:19:16,883 - DEBUG - 成功调用 SettingInterface.on_activated()
+2025-07-31 11:19:16,884 - DEBUG - 已更新 previous_interface 为: SettingInterface
+2025-07-31 11:19:24,710 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:20:45,953 - INFO - 应用程序启动
+2025-07-31 11:20:46,732 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-31 11:20:46,736 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-31 11:20:46,736 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-31 11:20:46,738 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-31 11:20:47,343 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-31 11:20:47,580 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-31 11:20:47,580 - DEBUG - 看板定时刷新已启动
+2025-07-31 11:20:47,580 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:20:47,580 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-31 11:20:47,580 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-31 11:20:47,580 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-31 11:20:47,580 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:20:47,580 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-31 11:20:47,580 - DEBUG - 创建新的异步请求: users
+2025-07-31 11:20:47,580 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-31 11:20:47,580 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-31 11:20:47,580 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-31 11:20:47,580 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-31 11:20:47,581 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-31 11:20:47,581 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-31 11:20:47,581 - DEBUG - 开始执行异步API调用: get_users
+2025-07-31 11:20:47,606 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-31 11:20:47,608 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-31 11:20:47,877 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-31 11:20:47,877 - DEBUG - 异步API调用成功: get_users
+2025-07-31 11:20:47,878 - DEBUG - 已更新缓存: users
+2025-07-31 11:20:47,878 - DEBUG - 用户数据更新: 1
+2025-07-31 11:20:47,981 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-31 11:20:47,981 - DEBUG - 异步API调用成功: get_sensor_data
+2025-07-31 11:20:47,982 - DEBUG - 已更新缓存: sensor_data
+2025-07-31 11:20:47,983 - DEBUG - 传感器数据更新: 6
+2025-07-31 11:20:48,557 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-31 11:20:48,557 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-07-31 11:20:48,557 - DEBUG - 已更新缓存: processing_tasks
+2025-07-31 11:20:48,565 - DEBUG - 任务数据更新: 总数=7, 待处理=7
+2025-07-31 11:21:01,334 - DEBUG - 界面切换到: ProcessingTaskInterface (name=ProcessingTaskInterface)
+2025-07-31 11:21:01,334 - DEBUG - 看板定时刷新已停止
+2025-07-31 11:21:01,334 - DEBUG - 取消异步API调用: get_users
+2025-07-31 11:21:01,334 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-31 11:21:01,334 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-31 11:21:01,334 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:21:01,334 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-31 11:21:01,334 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:21:01,334 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-31 11:21:01,334 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:21:01,334 - DEBUG - 准备调用 ProcessingTaskInterface 的 on_activated 方法
+2025-07-31 11:21:01,334 - DEBUG - 正在调用 ProcessingTaskInterface.on_activated()
+2025-07-31 11:21:01,334 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-31 11:21:01,335 - DEBUG - 成功调用 ProcessingTaskInterface.on_activated()
+2025-07-31 11:21:01,335 - DEBUG - 已更新 previous_interface 为: ProcessingTaskInterface
+2025-07-31 11:21:01,335 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-31 11:21:02,281 - DEBUG - http://127.0.0.1:8000 "GET /api/processing-tasks/ HTTP/1.1" 200 7284
+2025-07-31 11:21:02,282 - DEBUG - 异步API调用成功: get_processing_tasks
+2025-07-31 11:21:02,282 - DEBUG - 已更新缓存: processing_tasks
+2025-07-31 11:21:02,454 - DEBUG - 界面切换到: SettingInterface (name=SettingInterface)
+2025-07-31 11:21:02,454 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:21:02,454 - DEBUG - 调用前一个界面的 on_deactivated: ProcessingTaskInterface
+2025-07-31 11:21:02,454 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-31 11:21:02,454 - DEBUG - ProcessingTaskInterface 被切换离开，已取消数据加载请求
+2025-07-31 11:21:02,454 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:21:02,455 - DEBUG - 准备调用 SettingInterface 的 on_activated 方法
+2025-07-31 11:21:02,455 - DEBUG - 正在调用 SettingInterface.on_activated()
+2025-07-31 11:21:02,663 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-07-31 11:21:02,665 - DEBUG - 成功调用 SettingInterface.on_activated()
+2025-07-31 11:21:02,665 - DEBUG - 已更新 previous_interface 为: SettingInterface
+2025-07-31 11:21:05,689 - DEBUG - 界面切换到: SettingInterface (name=SettingInterface)
+2025-07-31 11:21:05,689 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:21:05,689 - DEBUG - 调用前一个界面的 on_deactivated: SettingInterface
+2025-07-31 11:21:05,689 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:21:05,689 - DEBUG - 准备调用 SettingInterface 的 on_activated 方法
+2025-07-31 11:21:05,689 - DEBUG - 正在调用 SettingInterface.on_activated()
+2025-07-31 11:21:05,897 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-07-31 11:21:05,898 - DEBUG - 成功调用 SettingInterface.on_activated()
+2025-07-31 11:21:05,898 - DEBUG - 已更新 previous_interface 为: SettingInterface
+2025-07-31 11:21:09,548 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:25:34,561 - INFO - 应用程序启动
+2025-07-31 11:25:35,324 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-31 11:25:35,330 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-31 11:25:35,331 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-31 11:25:35,333 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-31 11:25:43,896 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-31 11:25:43,913 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 37, in __init__
+    self.initWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 143, in initWindow
+    self._debug_find_scroll_areas()
+AttributeError: 'MainWindow' object has no attribute '_debug_find_scroll_areas'
+
+2025-07-31 11:25:43,913 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\demo.py", line 100, in show_main_window
+    self.main_window = MainWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 37, in __init__
+    self.initWindow()
+  File "F:\python\-\pyQTClient\app\view\main_window.py", line 143, in initWindow
+    self._debug_find_scroll_areas()
+AttributeError: 'MainWindow' object has no attribute '_debug_find_scroll_areas'
+
+2025-07-31 11:26:27,730 - INFO - 应用程序启动
+2025-07-31 11:26:28,553 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2025-07-31 11:26:28,557 - DEBUG - http://127.0.0.1:8000 "GET /api HTTP/1.1" 301 None
+2025-07-31 11:26:28,558 - DEBUG - Resetting dropped connection: 127.0.0.1
+2025-07-31 11:26:28,560 - DEBUG - http://127.0.0.1:8000 "GET /api/ HTTP/1.1" 200 661
+2025-07-31 11:26:37,013 - DEBUG - http://127.0.0.1:8000 "POST /api/login/ HTTP/1.1" 200 41
+2025-07-31 11:26:37,277 - DEBUG - 界面切换到: DashboardInterface (name=DashboardInterface)
+2025-07-31 11:26:37,277 - DEBUG - 看板定时刷新已启动
+2025-07-31 11:26:37,277 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:26:37,277 - DEBUG - 准备调用 DashboardInterface 的 on_activated 方法
+2025-07-31 11:26:37,277 - DEBUG - 正在调用 DashboardInterface.on_activated()
+2025-07-31 11:26:37,277 - DEBUG - DashboardInterface 被激活，开始加载数据
+2025-07-31 11:26:37,277 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:26:37,277 - DEBUG - 使用数据管理器刷新看板数据
+2025-07-31 11:26:37,277 - DEBUG - 创建新的异步请求: users
+2025-07-31 11:26:37,277 - DEBUG - 创建新的异步请求: processing_tasks
+2025-07-31 11:26:37,277 - DEBUG - 创建新的异步请求: sensor_data
+2025-07-31 11:26:37,277 - DEBUG - 成功调用 DashboardInterface.on_activated()
+2025-07-31 11:26:37,277 - DEBUG - 已更新 previous_interface 为: DashboardInterface
+2025-07-31 11:26:37,278 - DEBUG - 开始执行异步API调用: get_sensor_data
+2025-07-31 11:26:37,278 - DEBUG - 开始执行异步API调用: get_processing_tasks
+2025-07-31 11:26:37,278 - DEBUG - 开始执行异步API调用: get_users
+2025-07-31 11:26:37,301 - DEBUG - Starting new HTTP connection (2): 127.0.0.1:8000
+2025-07-31 11:26:37,303 - DEBUG - Starting new HTTP connection (3): 127.0.0.1:8000
+2025-07-31 11:26:39,923 - DEBUG - 界面切换到: SettingInterface (name=SettingInterface)
+2025-07-31 11:26:39,923 - DEBUG - 看板定时刷新已停止
+2025-07-31 11:26:39,923 - DEBUG - 取消异步API调用: get_users
+2025-07-31 11:26:40,924 - DEBUG - 取消异步API调用: get_processing_tasks
+2025-07-31 11:26:41,924 - DEBUG - 取消异步API调用: get_sensor_data
+2025-07-31 11:26:42,903 - DEBUG - http://127.0.0.1:8000 "GET /api/users/ HTTP/1.1" 200 200
+2025-07-31 11:26:42,904 - DEBUG - 异步API调用在完成后被取消: get_users
+2025-07-31 11:26:42,925 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:26:42,925 - DEBUG - 调用前一个界面的 on_deactivated: DashboardInterface
+2025-07-31 11:26:42,925 - DEBUG - 已取消所有活跃的异步任务
+2025-07-31 11:26:42,925 - DEBUG - DashboardInterface 被切换离开，已取消所有活跃的数据加载请求
+2025-07-31 11:26:42,925 - DEBUG - 检查当前界面是否为 NavInterface: True
+2025-07-31 11:26:42,925 - DEBUG - 准备调用 SettingInterface 的 on_activated 方法
+2025-07-31 11:26:42,925 - DEBUG - 正在调用 SettingInterface.on_activated()
+2025-07-31 11:26:45,148 - DEBUG - http://127.0.0.1:8000 "GET /api/sensor-data/ HTTP/1.1" 200 3313
+2025-07-31 11:26:45,148 - DEBUG - 异步API调用在完成后被取消: get_sensor_data
+2025-07-31 11:26:47,401 - DEBUG - http://127.0.0.1:8000 "GET /api/user-info/ HTTP/1.1" 200 105
+2025-07-31 11:26:47,402 - DEBUG - 成功调用 SettingInterface.on_activated()
+2025-07-31 11:26:47,402 - DEBUG - 已更新 previous_interface 为: SettingInterface
+2025-07-31 11:26:52,208 - ERROR - 未捕获的异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+
+2025-07-31 11:26:52,208 - CRITICAL - 应用程序异常:
+Traceback (most recent call last):
+  File "F:\python\-\pyQTClient\app\view\file_transfer_manager.py", line 594, in update_badge
+    def update_badge(self):
+KeyboardInterrupt
+

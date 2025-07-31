@@ -4,7 +4,7 @@ import logging
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QWidget
 from qfluentwidgets import (FluentWindow, NavigationItemPosition,
-                            FluentIcon as FIF, isDarkTheme, SystemThemeListener)
+                            FluentIcon as FIF, isDarkTheme, SystemThemeListener, qconfig)
 
 logger = logging.getLogger(__name__)
 
@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 from ..api.api_client import api_client
 from ..common.config import cfg
 from ..common.signal_bus import signalBus
+from ..common.style_sheet import StyleSheet
 from .nav_interface import NavInterface
 
 # 使用相对路径导入同级包的模块
@@ -38,7 +39,6 @@ class MainWindow(FluentWindow):
         # create sub interface
         self.dashboard_interface = DashboardInterface(self)
         self.tool_interface = ToolInterface(self)
-        self.user_interface = UserInterface(self)
         self.composite_material_interface = CompositeMaterialInterface(self)
         self.processing_task_interface = ProcessingTaskInterface(self)
         self.task_group_interface = TaskGroupInterface(self)
@@ -63,6 +63,10 @@ class MainWindow(FluentWindow):
         # connect signal to slot
         signalBus.micaEnableChanged.connect(self.setMicaEffectEnabled)
         self.setting_interface.logoutSignal.connect(self.logout)
+
+        # 应用主窗口样式
+        self._apply_main_window_style()
+        qconfig.themeChanged.connect(self._apply_main_window_style)
 
         # add items to navigation interface
         self.initNavigation()
@@ -134,6 +138,11 @@ class MainWindow(FluentWindow):
         # create system theme listener
         self.themeListener = SystemThemeListener(self)
         self.themeListener.start()
+
+
+    def _apply_main_window_style(self):
+        """应用主窗口样式"""
+        StyleSheet.MAIN_WINDOW.apply(self)
 
     def _onThemeChangedFinished(self):
         super()._onThemeChangedFinished()

@@ -232,7 +232,7 @@ class DashboardInterface(NavInterface):
         # 异步任务管理
         self.active_workers = []
         
-        self.main_layout = QVBoxLayout(self)
+        self.main_layout = QVBoxLayout(self.view)
         self.main_layout.setContentsMargins(40, 30, 40, 30)
         self.main_layout.setSpacing(30)
         

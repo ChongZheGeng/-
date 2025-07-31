@@ -19,7 +19,7 @@ class SettingInterface(NavInterface):
         super().__init__(parent=parent)
         self.setObjectName("SettingInterface")
 
-        self.main_layout = QVBoxLayout(self)
+        self.main_layout = QVBoxLayout(self.view)
         self.main_layout.setContentsMargins(40, 30, 40, 30)
         self.main_layout.setSpacing(30)
 
