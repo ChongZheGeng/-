@@ -170,8 +170,16 @@ class ProcessingTaskEditDialog(MessageBoxBase):
         elif group_to_select:
             self.set_combo_by_data(self.group_combo, group_to_select)
 
-        # --- 优化后的紧凑布局 ---
-        content_layout = QVBoxLayout()
+        # --- 创建滚动区域 ---
+        self.scroll_area = ScrollArea(self)
+        self.scroll_content = QWidget()
+        self.scroll_area.setWidget(self.scroll_content)
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setStyleSheet("QScrollArea { background-color: transparent; border: none; }")
+        self.scroll_content.setStyleSheet("QWidget { background-color: transparent; }")
+
+        # 滚动区域内的内容布局
+        content_layout = QVBoxLayout(self.scroll_content)
         content_layout.setSpacing(15)
 
         # 网格布局用于顶部字段
@@ -215,14 +223,19 @@ class ProcessingTaskEditDialog(MessageBoxBase):
         content_layout.addWidget(StrongBodyLabel("备注:"))
         content_layout.addWidget(self.notes_edit)
 
-        # 将内容布局添加到对话框的主视图中
+        # 添加一个伸缩项，确保内容不会被拉伸
+        content_layout.addStretch(1)
+
+        # 将滚动区域添加到对话框的主视图中
         self.viewLayout.addWidget(self.titleLabel)
-        self.viewLayout.addLayout(content_layout)
+        self.viewLayout.addWidget(self.scroll_area)
 
         # --- 按钮和尺寸 ---
         self.yesButton.setText("确定")
         self.cancelButton.setText("取消")
         self.widget.setMinimumWidth(750)
+        # 设置最大高度，确保滚动区域在内容过多时生效
+        self.widget.setMaximumHeight(600)
 
     def add_widget_pair(self, label_text, widget):
         self.viewLayout.addWidget(StrongBodyLabel(label_text, self))
