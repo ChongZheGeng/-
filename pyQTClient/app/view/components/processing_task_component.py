@@ -159,9 +159,9 @@ class ProcessingTaskEditDialog(MessageBoxBase):
             # 设置下拉框的选中项
             self.set_combo_by_value(self.processing_type_combo, self.TASK_TYPE_CHOICES,
                                     task_data.get('processing_type'))
-            self.set_combo_by_data(self.tool_combo, task_data.get('tool_info', {}).get('id'))
-            self.set_combo_by_data(self.material_combo, task_data.get('material_info', {}).get('id'))
-            self.set_combo_by_data(self.operator_combo, task_data.get('operator_info', {}).get('id'))
+            self.set_combo_by_data(self.tool_combo, task_data.get('tool'))
+            self.set_combo_by_data(self.material_combo, task_data.get('composite_material'))
+            self.set_combo_by_data(self.operator_combo, task_data.get('operator'))
             self.set_combo_by_data(self.group_combo, task_data.get('group'))
 
             self.duration_edit.setText(str(task_data.get('duration', '')))
@@ -278,7 +278,7 @@ class ProcessingTaskEditDialog(MessageBoxBase):
                 return
 
     def set_combo_by_data(self, combo, data_to_find):
-        """ 根据 a-zA-Z0-9_  找到并选中 combox 里的项目 """
+        """ 根据数据找到并选中 combox 里的项目 """
         for i in range(combo.count()):
             if combo.itemData(i) == data_to_find:
                 combo.setCurrentIndex(i)
@@ -348,6 +348,14 @@ class TaskListWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.worker = None
+        # 关联数据缓存
+        self.tool_cache = {}  # tool_id -> tool_code
+        self.material_cache = {}  # material_id -> part_number
+        self.operator_cache = {}  # operator_id -> full_name
+        self.group_cache = {}  # group_id -> group_name
+
+        # 初始化时加载缓存数据
+        self.load_cached_data()
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -382,27 +390,94 @@ class TaskListWidget(QWidget):
         self.refresh_button.clicked.connect(self.populate_table)
         self.add_button.clicked.connect(self.add_task)
 
+    def load_cached_data(self):
+        """预加载关联数据的ID→名称映射"""
+        # 1. 加载刀具
+        try:
+            tools = api_client.get_tools()
+            if tools and 'results' in tools:
+                for tool in tools['results']:
+                    self.tool_cache[tool['id']] = tool['code']
+            logger.debug(f"已加载刀具缓存: {len(self.tool_cache)} 条记录")
+        except Exception as e:
+            logger.error(f"加载刀具缓存失败: {e}")
+
+        # 2. 加载构件
+        try:
+            materials = api_client.get_composite_materials()
+            if materials and 'results' in materials:
+                for mat in materials['results']:
+                    self.material_cache[mat['id']] = mat['part_number']
+            logger.debug(f"已加载构件缓存: {len(self.material_cache)} 条记录")
+        except Exception as e:
+            logger.error(f"加载构件缓存失败: {e}")
+
+        # 3. 加载操作员（从用户列表）
+        try:
+            users = api_client.get_users()
+            if users and 'results' in users:
+                for user in users['results']:
+                    display_name = user.get('full_name') or user.get('username', '')
+                    self.operator_cache[user['id']] = display_name
+            logger.debug(f"已加载操作员缓存: {len(self.operator_cache)} 条记录")
+        except Exception as e:
+            logger.error(f"加载操作员缓存失败: {e}")
+
+        # 4. 加载任务分组
+        try:
+            groups = api_client.get_task_groups()
+            if groups and 'results' in groups:
+                for group in groups['results']:
+                    self.group_cache[group['id']] = group['name']
+            logger.debug(f"已加载任务分组缓存: {len(self.group_cache)} 条记录")
+        except Exception as e:
+            logger.error(f"加载任务分组缓存失败: {e}")
+
     def _define_column_mapping(self):
         """定义表格的列映射关系"""
         self.column_mapping = [
             {'key': 'task_code', 'header': '任务编码'},
-            {'key': 'processing_type_display', 'header': '加工类型'},
-            {'key': 'status_display', 'header': '状态'},
+            # 加工类型：从原始值转换为显示名
             {
-                'key': 'tool_info',
+                'key': 'processing_type',
+                'header': '加工类型',
+                'formatter': lambda val: next(
+                    (disp for (v, disp) in ProcessingTaskEditDialog.TASK_TYPE_CHOICES if v == val),
+                    '未知'
+                )
+            },
+            # 任务状态：从原始值转换为显示名
+            {
+                'key': 'status',
+                'header': '状态',
+                'formatter': lambda val: next(
+                    (disp for (v, disp) in ProcessingTaskEditDialog.TASK_STATUS_CHOICES if v == val),
+                    '未知'
+                )
+            },
+            # 刀具：从ID转换为工具编码
+            {
+                'key': 'tool',
                 'header': '刀具',
-                'formatter': lambda tool_info: tool_info.get('code', 'N/A') if tool_info else 'N/A'
+                'formatter': lambda tool_id: self.tool_cache.get(tool_id, 'N/A')
             },
+            # 构件：从ID转换为构件编号
             {
-                'key': 'material_info',
+                'key': 'composite_material',
                 'header': '构件',
-                'formatter': lambda material_info: material_info.get('part_number', 'N/A') if material_info else 'N/A'
+                'formatter': lambda mat_id: self.material_cache.get(mat_id, 'N/A')
             },
-            {'key': 'group_name', 'header': '任务分组', 'formatter': lambda group_name: group_name or '未分配'},
+            # 任务分组：从ID转换为分组名称
             {
-                'key': 'operator_info',
+                'key': 'group',
+                'header': '任务分组',
+                'formatter': lambda group_id: self.group_cache.get(group_id, '未分配')
+            },
+            # 操作员：从ID转换为操作员姓名
+            {
+                'key': 'operator',
                 'header': '操作员',
-                'formatter': lambda operator_info: operator_info.get('full_name', 'N/A') if operator_info else 'N/A'
+                'formatter': lambda op_id: self.operator_cache.get(op_id, 'N/A')
             },
             {
                 'key': 'processing_time',
@@ -417,7 +492,7 @@ class TaskListWidget(QWidget):
                 'buttons': [
                     {'text': '查看', 'style': 'primary',
                      'callback': lambda task: self.viewDetailSignal.emit(task['id'])},
-                    {'text': '编辑', 'style': 'default', 'callback': self.edit_task},
+                    {'text': '编辑', 'style': 'default', 'callback': lambda task: self.edit_task(task)},
                     {'text': '复制', 'style': 'default', 'callback': lambda task: self.clone_task(task['id'])},
                     {'text': '删除', 'style': 'default', 'callback': lambda task: self.delete_task(task['id'])}
                 ]
@@ -449,76 +524,87 @@ class TaskListWidget(QWidget):
         self.on_tasks_data_error(error)
 
     def on_tasks_data_received(self, response_data):
-        """处理接收到的加工任务数据（现在主要用于日志记录或额外操作）"""
-        # 当使用了 column_mapping 自动填充时，表格填充已由 InterfaceDataLoader 自动处理
-        # 这里只进行日志记录和任何需要的额外操作
-        if hasattr(self, 'column_mapping') and self.column_mapping:
-            total = response_data.get('count', 0)
-            logger.info(f"TaskListWidget 成功接收并处理了 {total} 条加工任务数据。")
-            return
-
-        # 如果没有使用自动填充，则保留原有的手动处理逻辑
-        # （这部分代码在当前实现中已经被移除，因为我们已经完全转向自动填充）
-        logger.warning("TaskListWidget 未使用自动填充配置，但手动填充逻辑已被移除")
-
-    def on_tasks_data_error(self, error_message):
-        """处理加工任务数据加载错误"""
-        # InfoBar 错误提示已由 InterfaceDataLoader 自动处理
-        logger.error(f"加工任务数据加载失败: {error_message}")
+        """处理接收到的加工任务数据（现在主要用于日志记录）"""
+        # 可以在这里添加实际的数据处理逻辑
+        logger.debug(f"接收到加工任务数据: {len(response_data.get('results', []))} 条记录")
 
     def add_task(self):
-        """ 新增任务 """
-        dialog = ProcessingTaskEditDialog(self.window())
-        if dialog.exec():
-            data, error_msg = dialog.get_data()
-            if data:
-                response = api_client.add_processing_task(data)
-                if response:
-                    InfoBar.success("成功", "新任务已添加。", duration=3000, parent=self)
-                    self.populate_table(preserve_old_data=False)
-                else:
-                    InfoBar.error("失败", f"添加任务失败: {response}", duration=5000, parent=self)
+        """添加新任务"""
+        dialog = ProcessingTaskEditDialog(parent=self)
+        if dialog.exec_():
+            task_data, error = dialog.get_data()
+            if task_data:
+                try:
+                    # 调用API创建新任务
+                    response = api_client.create_processing_task(task_data)
+                    if response:
+                        InfoBar.success("成功", "任务创建成功", duration=3000, parent=self)
+                        self.populate_table(preserve_old_data=False)
+                    else:
+                        InfoBar.error("失败", "创建任务失败", duration=3000, parent=self)
+                except Exception as e:
+                    logger.error(f"创建任务时出错: {e}")
+                    InfoBar.error("错误", f"创建任务失败: {str(e)}", duration=3000, parent=self)
 
-    def edit_task(self, task_data):
-        """ 编辑任务 """
-        dialog = ProcessingTaskEditDialog(self.window(), task_data)
-        if dialog.exec():
-            data, error_msg = dialog.get_data()
-            if data:
-                response = api_client.update_processing_task(task_data['id'], data)
-                if response:
-                    InfoBar.success("成功", "任务已更新。", duration=3000, parent=self)
-                    self.populate_table(preserve_old_data=False)
-                else:
-                    InfoBar.error("失败", f"更新任务失败: {response}", duration=5000, parent=self)
+    def edit_task(self, task):
+        """编辑现有任务"""
+        dialog = ProcessingTaskEditDialog(parent=self, task_data=task)
+        if dialog.exec_():
+            task_data, error = dialog.get_data()
+            if task_data:
+                try:
+                    # 调用API更新任务
+                    response = api_client.update_processing_task(task['id'], task_data)
+                    if response:
+                        InfoBar.success("成功", "任务更新成功", duration=3000, parent=self)
+                        self.populate_table(preserve_old_data=False)
+                    else:
+                        InfoBar.error("失败", "更新任务失败", duration=3000, parent=self)
+                except Exception as e:
+                    logger.error(f"更新任务时出错: {e}")
+                    InfoBar.error("错误", f"更新任务失败: {str(e)}", duration=3000, parent=self)
 
     def clone_task(self, task_id):
-        """ 克隆任务 """
-        response = api_client.clone_processing_task(task_id)
-        if response:
-            InfoBar.success("成功", "任务已复制。", parent=self.window())
-            self.populate_table(preserve_old_data=False)
-        else:
-            InfoBar.error("失败", "复制任务失败。", parent=self.window())
+        """复制任务"""
+        try:
+            # 获取原始任务数据
+            task = api_client.get_processing_task(task_id)
+            if task:
+                # 创建新任务对话框，预填充原始任务数据
+                # 清除任务ID和编码，确保是新任务
+                cloned_task = task.copy()
+                cloned_task.pop('id', None)
+                cloned_task['task_code'] = f"{cloned_task.get('task_code', 'TASK')}_COPY"
+
+                dialog = ProcessingTaskEditDialog(parent=self, task_data=cloned_task)
+                if dialog.exec_():
+                    task_data, error = dialog.get_data()
+                    if task_data:
+                        # 调用API创建复制的任务
+                        response = api_client.create_processing_task(task_data)
+                        if response:
+                            InfoBar.success("成功", "任务复制成功", duration=3000, parent=self)
+                            self.populate_table(preserve_old_data=False)
+        except Exception as e:
+            logger.error(f"复制任务时出错: {e}")
+            InfoBar.error("错误", f"复制任务失败: {str(e)}", duration=3000, parent=self)
 
     def delete_task(self, task_id):
-        """ 删除任务 """
-        title = "确认删除"
-        content = f"您确定要删除ID为 {task_id} 的任务吗？此操作不可撤销。"
-        w = MessageBox(title, content, self.window())
+        """删除任务"""
+        # 显示确认对话框
+        msg_box = MessageBox("确认删除", f"确定要删除ID为 {task_id} 的任务吗？", self)
+        msg_box.yesButton.setText("删除")
+        msg_box.cancelButton.setText("取消")
 
-        if w.exec():
-            success, message = api_client.delete_processing_task(task_id)
-            if success:
-                InfoBar.success("成功", "任务已删除。", duration=3000, parent=self)
-                self.populate_table(preserve_old_data=False)
-            else:
-                InfoBar.error("失败", f"删除失败: {message}", duration=5000, parent=self)
-
-    def __del__(self):
-        """ 确保在销毁时取消工作线程 """
-        if hasattr(self, 'worker') and self.worker:
-            self.worker.cancel()
-
-    def clear_table(self):
-        self.table.setRowCount(0)
+        if msg_box.exec_():
+            try:
+                # 调用API删除任务
+                success = api_client.delete_processing_task(task_id)
+                if success:
+                    InfoBar.success("成功", "任务已删除", duration=3000, parent=self)
+                    self.populate_table(preserve_old_data=False)
+                else:
+                    InfoBar.error("失败", "删除任务失败", duration=3000, parent=self)
+            except Exception as e:
+                logger.error(f"删除任务时出错: {e}")
+                InfoBar.error("错误", f"删除任务失败: {str(e)}", duration=3000, parent=self)

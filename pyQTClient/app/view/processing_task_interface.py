@@ -1,7 +1,8 @@
 # coding:utf-8
 from PyQt5.QtCore import Qt, QDateTime, pyqtSignal, QModelIndex
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QTableWidgetItem, QHeaderView, QAbstractItemView, QStackedWidget, QGridLayout,
+from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QTableWidgetItem, QHeaderView, QAbstractItemView,
+                             QStackedWidget, QGridLayout,
                              QAction, QSplitter)
 
 from qfluentwidgets import (TableWidget, PushButton, StrongBodyLabel, LineEdit, ComboBox,
@@ -31,18 +32,18 @@ class ProcessingTaskInterface(NavInterface):
         self.main_layout = QVBoxLayout(self.view)
         self.main_layout.setContentsMargins(40, 30, 40, 30)
         self.main_layout.setSpacing(30)
-        
+
         self.title_label = SubtitleLabel("加工任务管理")
         self.main_layout.addWidget(self.title_label)
-        
+
         self.stackWidget = QStackedWidget(self)
         self.task_list_widget = TaskListWidget(self)
         self.task_detail_interface = TaskDetailInterface(self)
-        
+
         self.stackWidget.addWidget(self.task_list_widget)
         self.stackWidget.addWidget(self.task_detail_interface)
         self.main_layout.addWidget(self.stackWidget)
-        
+
         # --- 信号连接 ---
         self.task_list_widget.viewDetailSignal.connect(self.show_task_detail)
         self.task_detail_interface.backRequested.connect(self.show_task_list)
@@ -67,9 +68,11 @@ class ProcessingTaskInterface(NavInterface):
         当界面被切换离开时调用。
         可以在此处进行一些清理工作，如取消正在进行的请求。
         """
-        if hasattr(self.task_list_widget, 'worker') and self.task_list_widget.worker:
-            self.task_list_widget.worker.cancel()
-            logger.debug("ProcessingTaskInterface 被切换离开，已取消数据加载请求")
+        # 仅在切换到其他界面时取消任务，避免刷新时误判
+        if self.stackWidget.currentWidget() != self.task_list_widget:
+            if hasattr(self.task_list_widget, 'worker') and self.task_list_widget.worker:
+                self.task_list_widget.worker.cancel()
+                logger.debug("ProcessingTaskInterface 切换到其他界面，已取消数据加载请求")
 
     def show_task_detail(self, task_id: int):
         """ 切换到任务详情页 """
@@ -80,4 +83,4 @@ class ProcessingTaskInterface(NavInterface):
         """ 切换回任务列表页 """
         self.stackWidget.setCurrentWidget(self.task_list_widget)
         # 刷新任务列表数据
-        self.task_list_widget.populate_table() 
+        self.task_list_widget.populate_table()
