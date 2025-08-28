@@ -3,11 +3,11 @@ import logging
 
 from PyQt5.QtCore import Qt, QDateTime, pyqtSignal
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QAbstractItemView,
-                             QGridLayout)
+                             QGridLayout, QScrollArea, QLabel, QFrame)
 from qfluentwidgets import (TableWidget, PushButton, StrongBodyLabel, LineEdit, ComboBox,
                             TextEdit, PrimaryPushButton, MessageBox, InfoBar, MessageBoxBase, SubtitleLabel,
                             DateTimeEdit, FluentIcon as FIF, TransparentPushButton,
-                            ScrollArea)
+                            ScrollArea, ToolButton)
 
 from ...api.api_client import api_client
 from ...api.data_manager import interface_loader
@@ -342,12 +342,17 @@ class ProcessingTaskEditDialog(MessageBoxBase):
 
 
 class TaskListWidget(QWidget):
-    """ 显示任务列表的专用小部件 """
+    """ 显示任务列表的专用小部件 - 卡片式布局 """
     viewDetailSignal = pyqtSignal(int)
+    editSignal = pyqtSignal(dict)
+    cloneSignal = pyqtSignal(int)
+    deleteSignal = pyqtSignal(int)
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.worker = None
+        self.cards = []  # 存储所有任务卡片的引用
+
         # 关联数据缓存
         self.tool_cache = {}  # tool_id -> tool_code
         self.material_cache = {}  # material_id -> part_number
@@ -370,19 +375,21 @@ class TaskListWidget(QWidget):
         toolbar_layout.addStretch(1)
         layout.addLayout(toolbar_layout)
 
-        # --- 数据表格 ---
-        self.table = TableWidget(self)
-        layout.addWidget(self.table)
+        # --- 卡片容器 ---
+        self.scroll_area = ScrollArea(self)
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setStyleSheet("QScrollArea { background-color: transparent; border: none; }")
 
-        # --- 应用官方示例样式 ---
-        self.table.setBorderVisible(True)
-        self.table.setBorderRadius(8)
-        self.table.setWordWrap(False)
-        # --- 样式应用结束 ---
+        self.scroll_widget = QWidget()
+        self.scroll_widget.setStyleSheet("QWidget { background-color: transparent; }")
+        self.scroll_area.setWidget(self.scroll_widget)
 
-        self.table.verticalHeader().hide()
-        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.table.setAlternatingRowColors(True)
+        # 使用网格布局排列卡片，每行显示3个卡片
+        self.cards_layout = QGridLayout(self.scroll_widget)
+        self.cards_layout.setSpacing(20)
+        self.cards_layout.setContentsMargins(10, 10, 10, 10)
+
+        layout.addWidget(self.scroll_area)
 
         self._define_column_mapping()
 
@@ -434,10 +441,9 @@ class TaskListWidget(QWidget):
             logger.error(f"加载任务分组缓存失败: {e}")
 
     def _define_column_mapping(self):
-        """定义表格的列映射关系"""
+        """定义数据映射关系（保持与表格版本兼容）"""
         self.column_mapping = [
             {'key': 'task_code', 'header': '任务编码'},
-            # 加工类型：从原始值转换为显示名
             {
                 'key': 'processing_type',
                 'header': '加工类型',
@@ -446,7 +452,6 @@ class TaskListWidget(QWidget):
                     '未知'
                 )
             },
-            # 任务状态：从原始值转换为显示名
             {
                 'key': 'status',
                 'header': '状态',
@@ -455,25 +460,21 @@ class TaskListWidget(QWidget):
                     '未知'
                 )
             },
-            # 刀具：从ID转换为工具编码
             {
                 'key': 'tool',
                 'header': '刀具',
                 'formatter': lambda tool_id: self.tool_cache.get(tool_id, 'N/A')
             },
-            # 构件：从ID转换为构件编号
             {
                 'key': 'composite_material',
                 'header': '构件',
                 'formatter': lambda mat_id: self.material_cache.get(mat_id, 'N/A')
             },
-            # 任务分组：从ID转换为分组名称
             {
                 'key': 'group',
                 'header': '任务分组',
                 'formatter': lambda group_id: self.group_cache.get(group_id, '未分配')
             },
-            # 操作员：从ID转换为操作员姓名
             {
                 'key': 'operator',
                 'header': '操作员',
@@ -484,48 +485,75 @@ class TaskListWidget(QWidget):
                 'header': '加工时间',
                 'formatter': lambda processing_time: processing_time.replace('T', ' ').split('.')[
                     0] if processing_time else 'N/A'
-            },
-            {
-                'type': 'buttons',
-                'header': '操作',
-                'width': 280,
-                'buttons': [
-                    {'text': '查看', 'style': 'primary',
-                     'callback': lambda task: self.viewDetailSignal.emit(task['id'])},
-                    {'text': '编辑', 'style': 'default', 'callback': lambda task: self.edit_task(task)},
-                    {'text': '复制', 'style': 'default', 'callback': lambda task: self.clone_task(task['id'])},
-                    {'text': '删除', 'style': 'default', 'callback': lambda task: self.delete_task(task['id'])}
-                ]
             }
         ]
 
     def populate_table(self, preserve_old_data=True):
-        """ 异步从API获取数据并填充表格 """
+        """ 异步从API获取数据并填充卡片 """
         try:
             logger.debug("使用数据管理器加载加工任务数据")
+            # 修复：移除不被支持的use_table参数
             self.worker = interface_loader.load_for_interface(
                 interface=self,
                 data_type='processing_tasks',
-                table_widget=self.table,
                 force_refresh=not preserve_old_data,
                 preserve_old_data=preserve_old_data,
                 column_mapping=self.column_mapping
             )
         except Exception as e:
             logger.error(f"加载加工任务数据时出错: {e}")
-            self.on_tasks_data_error(str(e))
+            self.on_processing_tasks_data_error(str(e))
 
     def on_processing_tasks_data_received(self, response_data):
-        """数据管理器使用的标准回调方法"""
-        self.on_tasks_data_received(response_data)
+        """处理接收到的加工任务数据，创建卡片"""
+        # 清除现有卡片
+        for card in self.cards:
+            self.cards_layout.removeWidget(card)
+            card.deleteLater()
+        self.cards.clear()
+
+        # 获取任务列表
+        tasks = response_data.get('results', [])
+        logger.debug(f"接收到加工任务数据: {len(tasks)} 条记录，正在创建卡片")
+
+        # 为每个任务创建卡片
+        for i, task in enumerate(tasks):
+            # 添加显示用的数据
+            task['tool_display'] = self.tool_cache.get(task.get('tool'), 'N/A')
+            task['material_display'] = self.material_cache.get(task.get('composite_material'), 'N/A')
+            task['operator_display'] = self.operator_cache.get(task.get('operator'), 'N/A')
+            task['group_display'] = self.group_cache.get(task.get('group'), '未分配')
+
+            # 创建卡片
+            from ..processing_task_interface import TaskCard  # 避免循环导入
+            card = TaskCard(task)
+
+            # 连接卡片信号
+            card.viewDetailSignal.connect(self.viewDetailSignal.emit)
+            card.editSignal.connect(self.edit_task)
+            card.cloneSignal.connect(self.clone_task)
+            card.deleteSignal.connect(self.delete_task)
+
+            # 计算网格位置（每行3个卡片）
+            row = i // 3
+            col = i % 3
+
+            # 添加到布局
+            self.cards_layout.addWidget(card, row, col)
+            self.cards.append(card)
 
     def on_processing_tasks_data_error(self, error):
         """数据管理器使用的标准错误回调方法"""
-        self.on_tasks_data_error(error)
+        logger.error(f"加载任务数据出错: {error}")
+        InfoBar.error(
+            "数据加载失败",
+            f"无法加载加工任务数据: {error}",
+            duration=5000,
+            parent=self
+        )
 
     def on_tasks_data_received(self, response_data):
         """处理接收到的加工任务数据（现在主要用于日志记录）"""
-        # 可以在这里添加实际的数据处理逻辑
         logger.debug(f"接收到加工任务数据: {len(response_data.get('results', []))} 条记录")
 
     def add_task(self):
