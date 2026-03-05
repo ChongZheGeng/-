@@ -22,6 +22,7 @@ from .sensor_data_interface import SensorDataInterface
 from .setting_interface import SettingInterface
 from .task_group_interface import TaskGroupInterface
 from .processing_task_interface import ProcessingTaskInterface
+from .recommendation_interface import RecommendationInterface
 from .composite_material_interface import CompositeMaterialInterface
 from .tool_interface import ToolInterface
 from .user_interface import UserInterface
@@ -41,6 +42,7 @@ class MainWindow(FluentWindow):
         self.tool_interface = ToolInterface(self)
         self.composite_material_interface = CompositeMaterialInterface(self)
         self.processing_task_interface = ProcessingTaskInterface(self)
+        self.recommendation_interface = RecommendationInterface(self)
         self.task_group_interface = TaskGroupInterface(self)
         self.sensor_data_interface = SensorDataInterface(self)
         self.setting_interface = SettingInterface(self)
@@ -81,6 +83,8 @@ class MainWindow(FluentWindow):
         self.addSubInterface(self.processing_task_interface, FIF.CALENDAR, "加工任务",
                              position=NavigationItemPosition.SCROLL)
         self.addSubInterface(self.task_group_interface, FIF.TAG, "任务分组", position=NavigationItemPosition.SCROLL)
+        self.addSubInterface(self.recommendation_interface, FIF.ROBOT, "参数推荐",
+                             position=NavigationItemPosition.SCROLL)
         # self.navigationInterface.addSeparator(35)
 
         # --- 二级导航 ---

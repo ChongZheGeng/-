@@ -11,6 +11,7 @@ from qfluentwidgets import (TableWidget, PushButton, StrongBodyLabel, LineEdit, 
 
 from ...api.api_client import api_client
 from ...api.data_manager import interface_loader
+from .recommend_dialog import RecommendDialog
 
 # 设置logger
 logger = logging.getLogger(__name__)
@@ -85,6 +86,51 @@ class ParameterWidget(QWidget):
     def remove_parameter_row(self, row_widget):
         self.param_layout.removeWidget(row_widget)
         row_widget.deleteLater()
+
+    def get_parameter_value(self, key):
+        """根据参数名获取参数值（支持 n/fz/中文别名）"""
+        aliases = {
+            "n": {"n", "转速", "主轴转速"},
+            "fz": {"fz", "每齿进给"},
+        }
+        target = aliases.get(key, {key})
+
+        for i in range(self.param_layout.count()):
+            row_widget = self.param_layout.itemAt(i).widget()
+            if not row_widget:
+                continue
+            layout = row_widget.layout()
+            name = layout.itemAt(0).widget().text().strip().lower()
+            value = layout.itemAt(1).widget().text().strip()
+            if any(a.lower() == name for a in target):
+                return value
+        return None
+
+    def set_parameter_value(self, key, value):
+        """设置参数值，不存在则新增一行"""
+        aliases = {
+            "n": ("n", "rpm"),
+            "fz": ("fz", "mm/tooth"),
+        }
+        label, unit = aliases.get(key, (key, ""))
+
+        for i in range(self.param_layout.count()):
+            row_widget = self.param_layout.itemAt(i).widget()
+            if not row_widget:
+                continue
+            layout = row_widget.layout()
+            name_edit = layout.itemAt(0).widget()
+            value_edit = layout.itemAt(1).widget()
+            name = name_edit.text().strip().lower()
+            if name in {key.lower(), label.lower()}:
+                value_edit.setText(str(value))
+                return
+
+        self.add_parameter_row({
+            "parameter_name": label,
+            "parameter_value": value,
+            "unit": unit
+        })
 
     def get_parameters(self):
         params = []
@@ -219,6 +265,11 @@ class ProcessingTaskEditDialog(MessageBoxBase):
         self.parameter_widget = ParameterWidget(parameters, self)
         content_layout.addWidget(self.parameter_widget)
 
+        self.recommend_button = PrimaryPushButton("智能推荐参数")
+        self.recommend_button.setIcon(FIF.ROBOT)
+        self.recommend_button.clicked.connect(self.open_recommend_dialog)
+        content_layout.addWidget(self.recommend_button)
+
         # 备注
         content_layout.addWidget(StrongBodyLabel("备注:"))
         content_layout.addWidget(self.notes_edit)
@@ -236,6 +287,18 @@ class ProcessingTaskEditDialog(MessageBoxBase):
         self.widget.setMinimumWidth(750)
         # 设置最大高度，确保滚动区域在内容过多时生效
         self.widget.setMaximumHeight(600)
+
+    def open_recommend_dialog(self):
+        default_n = self.parameter_widget.get_parameter_value("n")
+        default_fz = self.parameter_widget.get_parameter_value("fz")
+        dialog = RecommendDialog(self, default_n=default_n, default_fz=default_fz)
+        if dialog.exec():
+            values = dialog.get_recommended_values()
+            if not values:
+                return
+            self.parameter_widget.set_parameter_value("n", values.get("n"))
+            self.parameter_widget.set_parameter_value("fz", values.get("fz"))
+            InfoBar.success("推荐成功", "已自动回填推荐的 n 和 fz", duration=2000, parent=self)
 
     def add_widget_pair(self, label_text, widget):
         self.viewLayout.addWidget(StrongBodyLabel(label_text, self))
