@@ -382,6 +382,15 @@ class ApiClient:
         except Exception as e:
             return False, f"上传失败: {str(e)}"
 
+
+    def health_check(self, timeout=3):
+        """后端健康检查（可选）"""
+        return self._request('get', 'health', timeout=timeout)
+
+    def recommend_parameters(self, data, timeout=10):
+        """调用参数推荐接口"""
+        return self._request('post', 'recommend', json=data, timeout=timeout)
+
     def get_current_user_info(self):
         """ 获取当前登录用户信息 """
         try:
