@@ -3,6 +3,8 @@ from ..common import config
 
 # API 服务器的基础URL
 API_BASE_URL = "http://127.0.0.1:8000/api"
+DEFAULT_TIMEOUT = (3, 10)
+UPLOAD_TIMEOUT = (5, 60)
 
 
 class ApiClient:
@@ -25,9 +27,12 @@ class ApiClient:
         
         # 配置重试策略
         retry_strategy = Retry(
-            total=3,
+            total=1,
+            connect=1,
+            read=1,
             backoff_factor=0.1,
-            status_forcelist=[500, 502, 503, 504]
+            status_forcelist=[500, 502, 503, 504],
+            allowed_methods=["GET", "POST", "PUT", "DELETE", "PATCH"]
         )
         
         adapter = HTTPAdapter(
@@ -44,10 +49,14 @@ class ApiClient:
         login_url = f"{API_BASE_URL}/login/"
         try:
             # 首先获取CSRF令牌
-            self.session.get(API_BASE_URL)
+            self.session.get(API_BASE_URL, timeout=DEFAULT_TIMEOUT)
             
             # 发送登录请求
-            response = self.session.post(login_url, json={'username': username, 'password': password})
+            response = self.session.post(
+                login_url,
+                json={'username': username, 'password': password},
+                timeout=DEFAULT_TIMEOUT
+            )
             
             if response.status_code == 200:
                 # 登录成功，保存CSRF令牌（如果有）
@@ -82,6 +91,7 @@ class ApiClient:
             
         try:
             # session对象会自动发送cookies
+            kwargs.setdefault('timeout', DEFAULT_TIMEOUT)
             response = self.session.request(method, url, **kwargs)
             
             response.raise_for_status()
@@ -178,9 +188,9 @@ class ApiClient:
         """ 获取所有任务组 """
         return self._request('get', 'task-groups')
 
-    def get_task_groups_with_tasks(self):
+    def get_task_groups_with_tasks(self, params=None):
         """ 获取任务组及其关联的任务数据 """
-        return self._request('get', 'task-groups/with_tasks')
+        return self._request('get', 'task-groups/with_tasks', params=params)
 
     def add_task_group(self, data):
         """ 新增任务组 """
@@ -379,6 +389,33 @@ class ApiClient:
             else:
                 return False, "文件上传成功但数据库记录创建失败"
                 
+        except Exception as e:
+            return False, f"上传失败: {str(e)}"
+
+    def upload_sensor_file_fallback(self, file_path, task_id, sensor_type, sensor_id=None, description=None):
+        """WebDAV 未启用时，走后端 HTTP 上传兜底"""
+        import os
+
+        try:
+            with open(file_path, 'rb') as f:
+                files = {'file': (os.path.basename(file_path), f)}
+                data = {
+                    'processing_task': task_id,
+                    'sensor_type': sensor_type,
+                    'sensor_id': sensor_id or '',
+                    'description': description or ''
+                }
+                result = self._request(
+                    'post',
+                    'sensor-data/upload',
+                    data=data,
+                    files=files,
+                    timeout=UPLOAD_TIMEOUT
+                )
+
+            if result:
+                return True, f"文件上传成功: {result.get('file_name', os.path.basename(file_path))}"
+            return False, "上传失败"
         except Exception as e:
             return False, f"上传失败: {str(e)}"
 

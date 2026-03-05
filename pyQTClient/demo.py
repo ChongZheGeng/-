@@ -2,13 +2,14 @@
 import os
 import sys
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QApplication
 from qfluentwidgets import FluentTranslator, qconfig
 
 from app.common.config import cfg
 from app.view.login_window import LoginWindow
 from app.view.main_window import MainWindow
+from app.api.data_manager import data_manager
     
 
 class ApplicationManager:
@@ -106,8 +107,15 @@ class ApplicationManager:
         
         self.main_window.show()
 
+        # 登录成功后仅预热小型基础数据，不阻塞 UI
+        QTimer.singleShot(0, self.preload_basic_cache)
+
         if self.login_window:
             self.login_window.close()
+
+    def preload_basic_cache(self):
+        for data_type in ('tools', 'composite_materials', 'users'):
+            data_manager.get_data_async(data_type=data_type, force_refresh=False)
 
     def show_login_window(self):
         """显示登录窗口"""

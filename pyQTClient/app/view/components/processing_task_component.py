@@ -10,7 +10,7 @@ from qfluentwidgets import (TableWidget, PushButton, StrongBodyLabel, LineEdit, 
                             ScrollArea, ToolButton)
 
 from ...api.api_client import api_client
-from ...api.data_manager import interface_loader
+from ...api.data_manager import data_manager
 
 # 设置logger
 logger = logging.getLogger(__name__)
@@ -359,6 +359,7 @@ class TaskListWidget(QWidget):
         self.operator_cache = {}  # operator_id -> full_name
         self.group_cache = {}  # group_id -> group_name
 
+        self._tasks_response = {'results': []}
         # 初始化时加载缓存数据
         self.load_cached_data()
 
@@ -398,47 +399,34 @@ class TaskListWidget(QWidget):
         self.add_button.clicked.connect(self.add_task)
 
     def load_cached_data(self):
-        """预加载关联数据的ID→名称映射"""
-        # 1. 加载刀具
+        """从缓存恢复关联数据映射，避免登录后阻塞请求"""
         try:
-            tools = api_client.get_tools()
+            tools = data_manager.get_cached_data('tools')
             if tools and 'results' in tools:
                 for tool in tools['results']:
                     self.tool_cache[tool['id']] = tool['code']
-            logger.debug(f"已加载刀具缓存: {len(self.tool_cache)} 条记录")
-        except Exception as e:
-            logger.error(f"加载刀具缓存失败: {e}")
 
-        # 2. 加载构件
-        try:
-            materials = api_client.get_composite_materials()
+            materials = data_manager.get_cached_data('composite_materials')
             if materials and 'results' in materials:
                 for mat in materials['results']:
                     self.material_cache[mat['id']] = mat['part_number']
-            logger.debug(f"已加载构件缓存: {len(self.material_cache)} 条记录")
-        except Exception as e:
-            logger.error(f"加载构件缓存失败: {e}")
 
-        # 3. 加载操作员（从用户列表）
-        try:
-            users = api_client.get_users()
+            users = data_manager.get_cached_data('users')
             if users and 'results' in users:
                 for user in users['results']:
                     display_name = user.get('full_name') or user.get('username', '')
                     self.operator_cache[user['id']] = display_name
-            logger.debug(f"已加载操作员缓存: {len(self.operator_cache)} 条记录")
         except Exception as e:
-            logger.error(f"加载操作员缓存失败: {e}")
+            logger.error(f"加载本地缓存失败: {e}")
 
-        # 4. 加载任务分组
-        try:
-            groups = api_client.get_task_groups()
-            if groups and 'results' in groups:
-                for group in groups['results']:
-                    self.group_cache[group['id']] = group['name']
-            logger.debug(f"已加载任务分组缓存: {len(self.group_cache)} 条记录")
-        except Exception as e:
-            logger.error(f"加载任务分组缓存失败: {e}")
+    def update_data(self, response_data):
+        """统一更新入口，修复缺少 update_data 导致的崩溃"""
+        if isinstance(response_data, list):
+            self._tasks_response = {'results': response_data}
+        elif isinstance(response_data, dict):
+            self._tasks_response = response_data
+        else:
+            self._tasks_response = {'results': []}
 
     def _define_column_mapping(self):
         """定义数据映射关系（保持与表格版本兼容）"""
@@ -489,20 +477,8 @@ class TaskListWidget(QWidget):
         ]
 
     def populate_table(self, preserve_old_data=True):
-        """ 异步从API获取数据并填充卡片 """
-        try:
-            logger.debug("使用数据管理器加载加工任务数据")
-            # 修复：移除不被支持的use_table参数
-            self.worker = interface_loader.load_for_interface(
-                interface=self,
-                data_type='processing_tasks',
-                force_refresh=not preserve_old_data,
-                preserve_old_data=preserve_old_data,
-                column_mapping=self.column_mapping
-            )
-        except Exception as e:
-            logger.error(f"加载加工任务数据时出错: {e}")
-            self.on_processing_tasks_data_error(str(e))
+        """根据当前缓存数据填充卡片"""
+        self.on_processing_tasks_data_received(self._tasks_response)
 
     def on_processing_tasks_data_received(self, response_data):
         """处理接收到的加工任务数据，创建卡片"""

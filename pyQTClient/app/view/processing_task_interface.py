@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 from .task_detail_interface import TaskDetailInterface
 from .components.processing_task_component import TaskListWidget
+from ..api.data_manager import data_manager
 from .components.processing_task_component import ProcessingTaskEditDialog  # 确保导入这个类
 
 
@@ -236,41 +237,38 @@ class ProcessingTaskInterface(NavInterface):
         QTimer.singleShot(300, self.refresh_task_data)
 
     def refresh_task_data(self):
-        """刷新任务数据的方法 - 适配API返回字典的情况"""
+        """刷新任务数据的方法 - 改为异步 + 分页加载"""
         try:
-            # 标记为加载中
             self.is_loading = True
-            logger.debug("直接发起API调用: get_processing_tasks")
-
-            # 修复：API返回的是数据字典而非请求对象
-            data = api_client.get_processing_tasks()
-
-            # 直接处理返回的数据
-            if isinstance(data, dict) and 'results' in data:
-                # 假设API返回格式为{"results": [...]}
-                self.on_data_received(data['results'])
-            else:
-                # 兼容直接返回列表的情况
-                self.on_data_received(data)
+            logger.debug("异步加载加工任务数据")
+            params = {'page': 1, 'page_size': 20}
+            self.worker = data_manager.get_data_async(
+                data_type='processing_tasks',
+                success_callback=self.on_data_received,
+                error_callback=self.on_data_error,
+                params=params,
+                force_refresh=True
+            )
 
         except Exception as e:
             logger.error(f"加载加工任务数据出错: {e}")
             self.on_data_error(str(e))
         finally:
-            # 无论成功失败，都标记为加载完成
-            self.is_loading = False
+            pass
 
     def on_data_received(self, data):
         """数据接收成功后的处理"""
-        logger.debug(f"成功接收加工任务数据，共 {len(data)} 条记录")
-        # 直接更新任务列表组件
+        data = data or {}
+        logger.debug(f"成功接收加工任务数据，共 {len(data.get('results', []))} 条记录")
         self.task_list_widget.update_data(data)
         self.task_list_widget.populate_table()
+        self.is_loading = False
 
     def on_data_error(self, error):
         """数据接收错误处理"""
         logger.error(f"接收加工任务数据时发生错误: {error}")
         self.task_list_widget.on_processing_tasks_data_error(str(error))
+        self.is_loading = False
 
     def on_deactivated(self):
         """当界面被切换离开时调用 - 修复请求状态判断逻辑"""

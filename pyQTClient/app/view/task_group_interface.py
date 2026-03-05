@@ -97,6 +97,7 @@ class TaskGroupInterface(NavInterface):
                 data_type='task_groups_with_tasks',
                 success_callback=self.on_task_groups_with_tasks_data_received,
                 error_callback=self.on_task_groups_with_tasks_data_error,
+                params={'page': 1, 'page_size': 20, 'include_tasks': 'true'},
                 force_refresh=True
             )
         except Exception as e:

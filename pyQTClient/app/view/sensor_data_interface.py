@@ -48,6 +48,15 @@ class SensorDataInterface(NavInterface):
 
         self.main_layout.addLayout(title_layout)
 
+        self.webdav_hint_layout = QHBoxLayout()
+        self.webdav_hint = BodyLabel("")
+        self.webdav_setting_button = PushButton("去设置")
+        self.webdav_setting_button.clicked.connect(self.goto_setting_page)
+        self.webdav_hint_layout.addWidget(self.webdav_hint)
+        self.webdav_hint_layout.addWidget(self.webdav_setting_button)
+        self.webdav_hint_layout.addStretch(1)
+        self.main_layout.addLayout(self.webdav_hint_layout)
+
         # --- 数据表格 ---
         self.table = TableWidget(self)
 
@@ -126,6 +135,7 @@ class SensorDataInterface(NavInterface):
     def on_activated(self):
         """界面激活时的回调方法 - 按需加载数据并自动同步文件"""
         try:
+            self.update_webdav_hint()
             # 首先进行文件同步（静默执行）
             credentials = get_webdav_credentials()
             if credentials and credentials['enabled']:
@@ -146,6 +156,7 @@ class SensorDataInterface(NavInterface):
                 interface=self,
                 data_type='sensor_data',
                 table_widget=self.table,
+                params={'page': 1, 'page_size': 20},
                 force_refresh=True,
                 preserve_old_data=True,
                 column_mapping=self.column_mapping
@@ -159,9 +170,9 @@ class SensorDataInterface(NavInterface):
         当界面被切换离开时调用。
         可以在此处进行一些清理工作，如取消正在进行的请求。
         """
-        if hasattr(self, 'worker') and self.worker:
-            self.worker.cancel()
-            logger.debug("SensorDataInterface 被切换离开，已取消数据加载请求")
+        # 使用序号让旧回调失效，避免请求已发出后频繁 cancel
+        self._load_seq = getattr(self, '_load_seq', 0) + 1
+        logger.debug("SensorDataInterface 被切换离开，已忽略旧请求回调")
 
     def populate_table(self, preserve_old_data=True):
         """ 异步从API获取数据并填充表格 """
@@ -172,6 +183,7 @@ class SensorDataInterface(NavInterface):
                 interface=self,
                 data_type='sensor_data',
                 table_widget=self.table,
+                params={'page': 1, 'page_size': 20},
                 force_refresh=not preserve_old_data,
                 preserve_old_data=preserve_old_data,
                 column_mapping=self.column_mapping
@@ -211,31 +223,49 @@ class SensorDataInterface(NavInterface):
         # 首先检查WebDAV是否已配置
         credentials = get_webdav_credentials()
         if not credentials or not credentials['enabled']:
-            InfoBar.warning(
-                "WebDAV未配置",
-                "请先在设置页面中配置并启用WebDAV连接。",
-                duration=5000,
-                parent=self
-            )
-            return
+            InfoBar.info("提示", "当前使用后端存储模式（fallback）上传文件。", duration=3000, parent=self)
 
         # 显示文件选择对话框
         dialog = SensorDataUploadDialog(self.window())
         if dialog.exec():
             data = dialog.get_data()
             if data:
-                # 获取主窗口的文件传输按钮
-                main_window = self.window()
-                if hasattr(main_window, 'download_button'):
-                    # 使用统一的文件传输管理器
-                    upload_task = main_window.download_button.start_upload(data, self.parent())
-                    if upload_task:
-                        # 连接上传完成信号到刷新表格
-                        upload_task.transfer_finished.connect(
-                            lambda success, message: self.populate_table(preserve_old_data=False) if success else None
-                        )
+                if credentials and credentials['enabled']:
+                    main_window = self.window()
+                    if hasattr(main_window, 'download_button'):
+                        upload_task = main_window.download_button.start_upload(data, self.parent())
+                        if upload_task:
+                            upload_task.transfer_finished.connect(
+                                lambda success, message: self.populate_table(preserve_old_data=False) if success else None
+                            )
+                    else:
+                        InfoBar.error("错误", "文件传输功能不可用", parent=self)
                 else:
-                    InfoBar.error("错误", "文件传输功能不可用", parent=self)
+                    success, message = api_client.upload_sensor_file_fallback(
+                        data['file_path'],
+                        data['processing_task'],
+                        data['sensor_type'],
+                        data.get('sensor_id'),
+                        data.get('description')
+                    )
+                    if success:
+                        InfoBar.success("成功", message, duration=2500, parent=self)
+                        self.populate_table(preserve_old_data=False)
+                    else:
+                        InfoBar.error("上传失败", message, duration=4000, parent=self)
+
+    def update_webdav_hint(self):
+        credentials = get_webdav_credentials()
+        enabled = credentials and credentials.get('enabled')
+        if enabled:
+            self.webdav_hint.setText("当前使用 WebDAV 存储，可进行上传/下载/同步。")
+        else:
+            self.webdav_hint.setText("WebDAV 未配置，当前使用后端存储（fallback）上传；可前往设置启用 WebDAV。")
+
+    def goto_setting_page(self):
+        main_window = self.window()
+        if hasattr(main_window, 'setting_interface') and hasattr(main_window, 'switchTo'):
+            main_window.switchTo(main_window.setting_interface)
 
     def download_file(self, file_url, file_name):
         """下载文件"""

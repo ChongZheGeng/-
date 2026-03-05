@@ -8,6 +8,9 @@ from django.contrib.auth import login, logout, get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
+from django.core.files.storage import default_storage
+from django.conf import settings
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import (
     ProcessCategory,
@@ -50,6 +53,7 @@ from .serializers import (
     ToolWearRecordSerializer,
     TaskGroupSerializer
 )
+from .pagination import StandardResultsSetPagination
 
 
 # 自定义权限类，允许已登录用户执行任何操作
@@ -290,6 +294,7 @@ class ProcessingTaskViewSet(viewsets.ModelViewSet):
     filterset_fields = ['processing_type', 'status', 'tool', 'composite_material', 'group']
     search_fields = ['task_code', 'operator__username', 'notes']
     ordering_fields = ['processing_time', 'status']
+    pagination_class = StandardResultsSetPagination
     
     def get_serializer_class(self):
         if self.action == 'list':
@@ -386,6 +391,8 @@ class SensorDataViewSet(viewsets.ModelViewSet):
     filterset_fields = ['sensor_type', 'processing_task']
     search_fields = ['sensor_id', 'processing_task__task_code', 'file_name']
     ordering_fields = ['upload_time', 'file_size']
+    pagination_class = StandardResultsSetPagination
+    parser_classes = [MultiPartParser, FormParser]
     
     def get_serializer_class(self):
         """根据操作类型返回合适的序列化器"""
@@ -411,6 +418,28 @@ class SensorDataViewSet(viewsets.ModelViewSet):
         # 使用完整的 SensorDataSerializer 序列化器返回数据
         return_serializer = SensorDataSerializer(instance)
         return Response(return_serializer.data)
+
+    @action(detail=False, methods=['post'], url_path='upload')
+    def upload(self, request):
+        upload_file = request.FILES.get('file')
+        if not upload_file:
+            return Response({'error': '缺少文件'}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = SensorDataCreateSerializer(data={
+            'sensor_type': request.data.get('sensor_type'),
+            'file_name': upload_file.name,
+            'file_url': 'http://placeholder.local/pending',
+            'file_size': upload_file.size,
+            'processing_task': request.data.get('processing_task'),
+            'sensor_id': request.data.get('sensor_id', ''),
+            'description': request.data.get('description', ''),
+        })
+        serializer.is_valid(raise_exception=True)
+
+        file_rel_path = default_storage.save(f"sensor_data/{upload_file.name}", upload_file)
+        file_url = request.build_absolute_uri(f"{settings.MEDIA_URL}{file_rel_path}")
+        sensor = serializer.save(file_url=file_url)
+        return Response(SensorDataSerializer(sensor).data, status=status.HTTP_201_CREATED)
 
 
 class ProcessingQualityViewSet(viewsets.ModelViewSet):
@@ -519,6 +548,7 @@ class TaskGroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'description']
+    pagination_class = StandardResultsSetPagination
 
     def get_queryset(self):
         # 普通用户只能看到自己创建的组
@@ -533,8 +563,11 @@ class TaskGroupViewSet(viewsets.ModelViewSet):
         一次性返回前端构建树状图所需的完整数据结构，避免瀑布流加载
         """
         try:
-            # 获取所有任务分组
-            groups = self.get_queryset()
+            include_tasks = request.query_params.get('include_tasks', 'false').lower() == 'true'
+
+            groups = self.paginate_queryset(self.get_queryset())
+            if groups is None:
+                groups = self.get_queryset()
             
             # 获取所有未删除的任务
             tasks = ProcessingTask.objects.filter(is_deleted=False).select_related(
@@ -555,11 +588,12 @@ class TaskGroupViewSet(viewsets.ModelViewSet):
                         'full_name': group.created_by.get_full_name() or group.created_by.username
                     } if group.created_by else None,
                     'created_at': group.created_at,
-                    'tasks': []
+                    'task_count': group_tasks.count(),
+                    'tasks': [] if include_tasks else None
                 }
-                
-                # 添加该分组下的任务
-                for task in group_tasks:
+
+                # 可选：附带该分组下任务详情
+                for task in group_tasks if include_tasks else []:
                     task_data = {
                         'id': task.id,
                         'task_code': task.task_code,
@@ -603,10 +637,11 @@ class TaskGroupViewSet(viewsets.ModelViewSet):
                 'created_by': None,
                 'created_at': None,
                 'is_default': True,
-                'tasks': []
+                'task_count': unassigned_tasks.count(),
+                'tasks': [] if include_tasks else None
             }
-            
-            for task in unassigned_tasks:
+
+            for task in unassigned_tasks if include_tasks else []:
                 task_data = {
                     'id': task.id,
                     'task_code': task.task_code,

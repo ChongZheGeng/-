@@ -308,7 +308,8 @@ class DashboardInterface(NavInterface):
             worker2 = data_manager.get_data_async(
                 data_type='processing_tasks',
                 success_callback=self.on_tasks_data_received,
-                error_callback=self.on_api_error
+                error_callback=self.on_api_error,
+                params={'page': 1, 'page_size': 20}
             )
             if worker2:
                 self.active_workers.append(worker2)
@@ -316,7 +317,8 @@ class DashboardInterface(NavInterface):
             worker3 = data_manager.get_data_async(
                 data_type='sensor_data',
                 success_callback=self.on_sensor_data_received,
-                error_callback=self.on_api_error
+                error_callback=self.on_api_error,
+                params={'page': 1, 'page_size': 20}
             )
             if worker3:
                 self.active_workers.append(worker3)

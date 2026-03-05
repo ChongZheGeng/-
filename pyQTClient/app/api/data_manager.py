@@ -1,5 +1,6 @@
 import time
 import logging
+import json
 from PyQt5.QtCore import QObject, pyqtSignal
 from .async_api import AsyncApiWorker
 
@@ -18,6 +19,8 @@ class DataManager(QObject):
         self.cache = {}
         self.active_requests = {}
         self.cache_timeout = 30  # 缓存30秒
+        self.debounce_ms = 400
+        self.last_request_at = {}
         
         # 数据类型到API方法的映射
         self.api_methods = {
@@ -32,8 +35,16 @@ class DataManager(QObject):
         
         # 支持params参数的方法
         self.methods_with_params = {
-            'sensor_data', 'processing_tasks'
+            'sensor_data', 'processing_tasks', 'task_groups_with_tasks'
         }
+
+    def _build_request_key(self, data_type, params=None):
+        if not params:
+            return data_type
+        try:
+            return f"{data_type}:{json.dumps(params, sort_keys=True, ensure_ascii=False)}"
+        except Exception:
+            return f"{data_type}:{str(params)}"
     
     def get_data_async(self, data_type, success_callback=None, error_callback=None,
                       params=None, force_refresh=False):
@@ -51,19 +62,29 @@ class DataManager(QObject):
             AsyncApiWorker or None
         """
         try:
+            request_key = self._build_request_key(data_type, params)
+
             # 1. 检查缓存
-            if not force_refresh and self._is_cache_valid(data_type):
-                logger.debug(f"使用缓存数据: {data_type}")
+            if not force_refresh and self._is_cache_valid(request_key):
+                logger.debug(f"使用缓存数据: {request_key}")
                 if success_callback:
-                    success_callback(self.cache[data_type]['data'])
-                self.data_updated.emit(data_type, self.cache[data_type]['data'])
+                    success_callback(self.cache[request_key]['data'])
+                self.data_updated.emit(data_type, self.cache[request_key]['data'])
                 return None
 
+            # 高频请求防抖
+            now = time.time()
+            last_at = self.last_request_at.get(request_key, 0)
+            if not force_refresh and (now - last_at) * 1000 < self.debounce_ms:
+                logger.debug(f"请求被防抖忽略: {request_key}")
+                return None
+            self.last_request_at[request_key] = now
+
             # 2. 检查是否有正在进行的请求
-            is_new_request = data_type not in self.active_requests
+            is_new_request = request_key not in self.active_requests
 
             if is_new_request:
-                logger.debug(f"创建新的异步请求: {data_type}")
+                logger.debug(f"创建新的异步请求: {request_key}")
                 # 获取API客户端和方法
                 api_method = self._get_api_method(data_type)
                 if not api_method:
@@ -84,8 +105,8 @@ class DataManager(QObject):
 
                 # 定义仅在首次创建时需要的包装回调
                 def wrapped_success(data):
-                    self._update_cache(data_type, data)
-                    callbacks = self.active_requests.pop(data_type, {}).get('callbacks', [])
+                    self._update_cache(request_key, data)
+                    callbacks = self.active_requests.pop(request_key, {}).get('callbacks', [])
 
                     # 直接触发所有已注册的回调
                     for success_cb, _ in callbacks:
@@ -99,7 +120,7 @@ class DataManager(QObject):
                     self.data_updated.emit(data_type, data)
 
                 def wrapped_error(error):
-                    callbacks = self.active_requests.pop(data_type, {}).get('callbacks', [])
+                    callbacks = self.active_requests.pop(request_key, {}).get('callbacks', [])
 
                     # 直接触发所有已注册的错误回调
                     for _, error_cb in callbacks:
@@ -116,20 +137,20 @@ class DataManager(QObject):
                 worker.error.connect(wrapped_error)
 
                 # 记录活跃请求，回调列表初始化为空
-                self.active_requests[data_type] = {
+                self.active_requests[request_key] = {
                     'worker': worker,
                     'callbacks': []
                 }
                 
                 worker.start()
             else:
-                logger.debug(f"合并到现有请求: {data_type}")
+                logger.debug(f"合并到现有请求: {request_key}")
 
             # 3. 为本次调用注册回调（无论是新请求还是合并请求）
             if success_callback or error_callback:
-                self.active_requests[data_type]['callbacks'].append((success_callback, error_callback))
+                self.active_requests[request_key]['callbacks'].append((success_callback, error_callback))
 
-            return self.active_requests[data_type]['worker']
+            return self.active_requests[request_key]['worker']
 
         except Exception as e:
             error_msg = f"创建异步请求失败: {str(e)}"
@@ -141,12 +162,11 @@ class DataManager(QObject):
     
     def cancel_request(self, data_type):
         """取消指定类型的数据请求"""
-        if data_type in self.active_requests:
-            worker = self.active_requests[data_type]['worker']
-            if worker and worker.isRunning():
-                worker.cancel()
-                logger.debug(f"已取消请求: {data_type}")
-            del self.active_requests[data_type]
+        for request_key in list(self.active_requests.keys()):
+            if request_key == data_type or request_key.startswith(f"{data_type}:"):
+                # 不主动 cancel 已发出的请求，避免状态混乱；仅移除回调，让结果被忽略
+                self.active_requests[request_key]['callbacks'] = []
+                logger.debug(f"已忽略请求回调: {request_key}")
     
     def cancel_all_requests(self):
         """取消所有活跃请求"""
@@ -205,7 +225,8 @@ class InterfaceDataLoader:
     def __init__(self, data_manager):
         self.data_manager = data_manager
     
-    def load_for_interface(self, interface, data_type, table_widget=None, force_refresh=False, preserve_old_data=False, column_mapping=None):
+    def load_for_interface(self, interface, data_type, table_widget=None, force_refresh=False,
+                           preserve_old_data=False, column_mapping=None, params=None):
         """
         为界面自动加载数据的简化方法
         
@@ -221,13 +242,18 @@ class InterfaceDataLoader:
         if table_widget and not preserve_old_data:
             self._prepare_table(table_widget, column_mapping)
 
-        # 取消之前的请求
-        if hasattr(interface, 'worker') and interface.worker:
-            interface.worker.cancel()
+        # 使用请求序号忽略已过期回调，避免频繁 cancel 导致状态混乱
+        load_seq = getattr(interface, '_load_seq', 0) + 1
+        setattr(interface, '_load_seq', load_seq)
         
         # 定义成功回调
         def success_callback(data):
             try:
+                # 页面切换后产生的旧回调直接忽略
+                if getattr(interface, '_load_seq', 0) != load_seq:
+                    logger.debug(f"忽略过期回调: {interface.__class__.__name__}/{data_type}")
+                    return
+
                 # 如果保留旧数据，在新数据到达时才准备表格
                 if table_widget and preserve_old_data:
                     self._prepare_table(table_widget, column_mapping)
@@ -259,6 +285,10 @@ class InterfaceDataLoader:
         # 定义错误回调
         def error_callback(error):
             try:
+                if getattr(interface, '_load_seq', 0) != load_seq:
+                    logger.debug(f"忽略过期错误回调: {interface.__class__.__name__}/{data_type}")
+                    return
+
                 # 如果保留旧数据且发生错误，不清空表格，保持原有数据
                 # 尝试调用界面的标准错误处理方法
                 method_name = f'on_{data_type}_data_error'
@@ -274,11 +304,13 @@ class InterfaceDataLoader:
                 logger.error(f"处理错误回调时出错: {e}", exc_info=True)
 
         interface.worker = self.data_manager.get_data_async(
-            data_type, 
-            success_callback, 
-            error_callback, 
+            data_type,
+            success_callback,
+            error_callback,
+            params=params,
             force_refresh=force_refresh
         )
+        return interface.worker
 
     def _prepare_table(self, table_widget, column_mapping):
         """准备表格，设置表头和列数"""
