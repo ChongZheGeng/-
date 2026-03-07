@@ -346,8 +346,18 @@ class LoginWindow(Window):
         box.setWindowTitle(title)
         box.setText(message)
 
+        powershell_command = manual_command
+        cmd_command = None
         if manual_command:
-            box.setInformativeText(f"可手动执行：\n{manual_command}")
+            powershell_command = backend_launcher.build_powershell_manual_command()
+            cmd_command = backend_launcher.build_cmd_manual_command()
+
+        if manual_command:
+            box.setInformativeText(
+                "可手动执行（复制后可直接粘贴运行）：\n"
+                f"PowerShell 命令：\n{powershell_command}\n\n"
+                f"CMD 命令：\n{cmd_command}"
+            )
 
         if allow_retry:
             box.setStandardButtons(QMessageBox.Retry | QMessageBox.Cancel)
@@ -355,17 +365,30 @@ class LoginWindow(Window):
         else:
             box.setStandardButtons(QMessageBox.Ok)
 
-        copy_button = None
+        copy_ps_button = None
+        copy_cmd_button = None
         if manual_command:
-            copy_button = box.addButton("复制启动命令", QMessageBox.ActionRole)
+            copy_ps_button = box.addButton("复制 PowerShell 命令", QMessageBox.ActionRole)
+            copy_cmd_button = box.addButton("复制 CMD 命令", QMessageBox.ActionRole)
 
         box.exec_()
         clicked = box.clickedButton()
-        if copy_button and clicked == copy_button:
-            QApplication.clipboard().setText(manual_command)
+        if copy_ps_button and clicked == copy_ps_button:
+            QApplication.clipboard().setText(powershell_command)
             InfoBar.success(
                 "已复制",
-                "启动命令已复制到剪贴板",
+                "PowerShell 启动命令已复制到剪贴板",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=2500,
+                parent=self
+            )
+        elif copy_cmd_button and clicked == copy_cmd_button:
+            QApplication.clipboard().setText(cmd_command)
+            InfoBar.success(
+                "已复制",
+                "CMD 启动命令已复制到剪贴板",
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
