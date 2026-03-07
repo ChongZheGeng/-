@@ -8,6 +8,7 @@ from django.contrib.auth import login, logout, get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 from .models import (
     ProcessCategory,
@@ -112,6 +113,7 @@ class UserViewSet(viewsets.ModelViewSet):
             return UserCreateUpdateSerializer
         return UserSerializer
 
+
     def perform_destroy(self, instance):
         """
         在删除用户前进行检查，防止删除自己或唯一的超级用户。
@@ -127,6 +129,16 @@ class UserViewSet(viewsets.ModelViewSet):
                 raise ValidationError("不能删除唯一的超级管理员。")
 
         super().perform_destroy(instance)
+
+class HealthCheckView(views.APIView):
+    """轻量健康检查接口。"""
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        return Response({
+            "status": "ok",
+            "time": timezone.now().isoformat()
+        }, status=status.HTTP_200_OK)
 
 
 class ProcessCategoryViewSet(viewsets.ModelViewSet):

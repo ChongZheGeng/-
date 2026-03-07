@@ -15,7 +15,8 @@ from .views import (
     ProcessingQualityViewSet,
     ToolWearRecordViewSet,
     TaskGroupViewSet,
-    UserInfoView
+    UserInfoView,
+    HealthCheckView,
 )
 
 # 创建路由器并注册视图集
@@ -39,6 +40,7 @@ router.register(r'task-groups', TaskGroupViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('health/', HealthCheckView.as_view(), name='api_health'),
     path('login/', LoginView.as_view(), name='api_login'),
     path('user-info/', UserInfoView.as_view(), name='user_info'),
-] 
+]

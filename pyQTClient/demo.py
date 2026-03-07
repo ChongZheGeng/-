@@ -61,9 +61,11 @@ class ApplicationManager:
         
         # 设置Qt异常处理
         def qt_exception_hook(exctype, value, tb):
+            if exctype in (KeyboardInterrupt, SystemExit):
+                return
+
             error_msg = ''.join(traceback.format_exception(exctype, value, tb))
             self.logger.error(f"未捕获的异常:\n{error_msg}")
-            self.logger.critical(f"应用程序异常:\n{error_msg}")
             
             # 显示错误对话框
             try:
@@ -81,7 +83,7 @@ class ApplicationManager:
                     parent
                 )
                 msg.exec()
-            except:
+            except Exception:
                 pass  # 如果连错误对话框都显示不了，就忽略
         
         # 设置全局异常钩子

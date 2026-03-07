@@ -3,6 +3,7 @@ from ..common import config
 
 # API 服务器的基础URL
 API_BASE_URL = "http://127.0.0.1:8000/api"
+REQUEST_TIMEOUT = (2, 5)
 
 
 class ApiClient:
@@ -24,11 +25,7 @@ class ApiClient:
         from urllib3.util.retry import Retry
         
         # 配置重试策略
-        retry_strategy = Retry(
-            total=3,
-            backoff_factor=0.1,
-            status_forcelist=[500, 502, 503, 504]
-        )
+        retry_strategy = Retry(total=0, connect=0, read=0, redirect=0, status=0)
         
         adapter = HTTPAdapter(
             max_retries=retry_strategy,
@@ -39,15 +36,28 @@ class ApiClient:
         self.session.mount("http://", adapter)
         self.session.mount("https://", adapter)
 
+    def check_health(self):
+        """检查后端健康状态，失败时快速返回。"""
+        health_url = f"{API_BASE_URL}/health/"
+        try:
+            response = self.session.get(health_url, timeout=REQUEST_TIMEOUT)
+            if response.status_code != 200:
+                return False, "后端健康检查失败"
+            data = response.json() if response.content else {}
+            return data.get("status") == "ok", "ok"
+        except requests.exceptions.RequestException:
+            return False, "后端未启动或无法连接"
+
     def login(self, username, password):
         """ 调用新的JSON登录接口 """
         login_url = f"{API_BASE_URL}/login/"
         try:
-            # 首先获取CSRF令牌
-            self.session.get(API_BASE_URL)
-            
             # 发送登录请求
-            response = self.session.post(login_url, json={'username': username, 'password': password})
+            response = self.session.post(
+                login_url,
+                json={'username': username, 'password': password},
+                timeout=REQUEST_TIMEOUT
+            )
             
             if response.status_code == 200:
                 # 登录成功，保存CSRF令牌（如果有）
@@ -82,6 +92,7 @@ class ApiClient:
             
         try:
             # session对象会自动发送cookies
+            kwargs.setdefault('timeout', REQUEST_TIMEOUT)
             response = self.session.request(method, url, **kwargs)
             
             response.raise_for_status()

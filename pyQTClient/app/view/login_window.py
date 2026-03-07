@@ -12,6 +12,7 @@ from qfluentwidgets import (setTheme, Theme, SplitTitleBar, isDarkTheme, Subtitl
 # 使用相对路径导入上级包的模块
 from ..api.api_client import api_client
 from ..common.config import cfg
+from ..api.async_api import AsyncApiHelper
 from .. import resource_rc  # 导入编译后的资源文件
 
 # 动态导入无边框窗口库
@@ -31,6 +32,8 @@ class LoginWindow(Window):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.login_successful = False
+        self.health_worker = None
+        self.login_worker = None
 
         # --- 主布局 (分栏) ---
         mainLayout = QHBoxLayout()
@@ -162,18 +165,48 @@ class LoginWindow(Window):
         self.password_edit.setEnabled(False)
         self.loginButton.hide()
         self.progressRing.show()
-        QApplication.processEvents()
 
-        success, message = api_client.login(username, password)
+        # 先探活，探活失败时立即提示并停止后续请求
+        self.health_worker = AsyncApiHelper.call_async(
+            api_client.check_health,
+            success_callback=lambda result: self._on_health_checked(result, username, password),
+            error_callback=self._on_network_error
+        )
 
-        # 恢复正常状态
+    def _restore_login_state(self):
         self.username_edit.setEnabled(True)
         self.password_edit.setEnabled(True)
         self.loginButton.show()
         self.progressRing.hide()
 
+    def _on_health_checked(self, result, username, password):
+        is_ok = isinstance(result, tuple) and result[0]
+        if not is_ok:
+            self._restore_login_state()
+            InfoBar.warning(
+                "后端未连接",
+                "后端未启动或无法连接，请先在 DjangoService 目录执行：\npython manage.py runserver 127.0.0.1:8000",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=6000,
+                parent=self
+            )
+            return
+
+        self.login_worker = AsyncApiHelper.call_async(
+            api_client.login,
+            lambda login_result: self._on_login_finished(login_result, username, password),
+            self._on_network_error,
+            username,
+            password
+        )
+
+    def _on_login_finished(self, login_result, username, password):
+        self._restore_login_state()
+        success, message = login_result if isinstance(login_result, tuple) else (False, "登录失败")
+
         if success:
-            # 保存或清除凭据
             if self.remember_checkbox.isChecked():
                 password_bytes = QByteArray(password.encode('utf-8'))
                 encrypted_password = password_bytes.toBase64().data().decode('utf-8')
@@ -187,9 +220,22 @@ class LoginWindow(Window):
 
             self.login_successful = True
             self.loginSuccess.emit()
-        else:
-            InfoBar.error("登录失败", message, orient=Qt.Horizontal, isClosable=True,
-                          position=InfoBarPosition.TOP, duration=3000, parent=self)
+            return
+
+        InfoBar.error("登录失败", message, orient=Qt.Horizontal, isClosable=True,
+                      position=InfoBarPosition.TOP, duration=3000, parent=self)
+
+    def _on_network_error(self, _error_message):
+        self._restore_login_state()
+        InfoBar.warning(
+            "后端未连接",
+            "后端未启动或无法连接，请先在 DjangoService 目录执行：\npython manage.py runserver 127.0.0.1:8000",
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.TOP,
+            duration=6000,
+            parent=self
+        )
 
     def accept(self):
         """模拟Dialog的accept方法"""
