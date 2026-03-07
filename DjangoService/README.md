@@ -86,3 +86,41 @@ API使用基于会话和基本认证，可以通过以下方式进行身份验�
 
 - 基本认证: 使用HTTP基本认证提供用户名和密码
 - 会话认证: 通过`/api-auth/login/`登录后使用会话认证 
+
+## Windows 一键接口测试
+
+> 在 Windows PowerShell 中，`curl` 常常是 `Invoke-WebRequest` 的别名，参数行为与 Linux 不一致。
+> 建议使用 `curl.exe` 或 `Invoke-RestMethod`。
+
+### 1) 健康检查（推荐）
+
+```powershell
+cd DjangoService
+.\test_health.ps1
+```
+
+或直接执行：
+
+```powershell
+Invoke-RestMethod -Uri "http://127.0.0.1:8000/api/health/" -Method GET
+```
+
+### 2) 推荐接口（如果仓库中有 `test_recommend_api.ps1`）
+
+```powershell
+# 仅当脚本存在时运行
+.\test_recommend_api.ps1
+```
+
+### 3) 启动顺序（Windows）
+
+1. 先启动 Django：
+   ```powershell
+   cd DjangoService
+   python manage.py runserver 127.0.0.1:8000
+   ```
+2. 再启动 PyQt 客户端：
+   ```powershell
+   cd ..\pyQTClient
+   python demo.py
+   ```
