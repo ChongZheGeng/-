@@ -88,6 +88,36 @@ class AsyncApiHelper:
         return worker
     
     @staticmethod
+    def ping_health_async(success_callback=None, error_callback=None):
+        """异步健康检查"""
+        api_client = get_api_client()
+        if not api_client:
+            if error_callback:
+                error_callback("API客户端不可用")
+            return None
+        return AsyncApiHelper.call_async(
+            api_client.ping_health,
+            success_callback,
+            error_callback
+        )
+
+    @staticmethod
+    def login_async(username, password, success_callback=None, error_callback=None):
+        """异步登录"""
+        api_client = get_api_client()
+        if not api_client:
+            if error_callback:
+                error_callback("API客户端不可用")
+            return None
+        return AsyncApiHelper.call_async(
+            api_client.login,
+            success_callback,
+            error_callback,
+            username,
+            password
+        )
+
+    @staticmethod
     def get_sensor_data_async(success_callback=None, error_callback=None, params=None):
         """异步获取传感器数据"""
         api_client = get_api_client()

@@ -4,13 +4,14 @@ import sys
 from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QByteArray
 from PyQt5.QtGui import QIcon, QPixmap, QPainter, QColor, QBrush
 from PyQt5.QtWidgets import (QApplication, QWidget, QVBoxLayout, QLabel, QHBoxLayout,
-                             QDesktopWidget, QGraphicsDropShadowEffect)
+                             QDesktopWidget, QGraphicsDropShadowEffect, QMessageBox)
 from qfluentwidgets import (setTheme, Theme, SplitTitleBar, isDarkTheme, SubtitleLabel, BodyLabel, LineEdit,
                             PasswordLineEdit, StrongBodyLabel, CheckBox, PrimaryPushButton, ProgressRing, InfoBar,
                             InfoBarPosition, setThemeColor)
 
 # 使用相对路径导入上级包的模块
 from ..api.api_client import api_client
+from ..api.async_api import async_api
 from ..common.config import cfg
 from .. import resource_rc  # 导入编译后的资源文件
 
@@ -31,6 +32,9 @@ class LoginWindow(Window):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.login_successful = False
+        self.health_worker = None
+        self.login_worker = None
+        self.pending_credentials = None
 
         # --- 主布局 (分栏) ---
         mainLayout = QHBoxLayout()
@@ -147,8 +151,22 @@ class LoginWindow(Window):
                 # 让UI有时间渲染，然后再自动登录
                 QTimer.singleShot(100, self.login)
 
+    def set_loading_state(self, loading, button_text="登录"):
+        """设置加载状态，避免阻塞 UI。"""
+        self.username_edit.setEnabled(not loading)
+        self.password_edit.setEnabled(not loading)
+        self.remember_checkbox.setEnabled(not loading)
+        self.loginButton.setEnabled(not loading)
+        self.loginButton.setText(button_text)
+
+        if loading:
+            self.progressRing.show()
+        else:
+            self.progressRing.hide()
+            self.loginButton.setText("登录")
+
     def login(self):
-        """登录处理"""
+        """登录处理：先健康检查，再异步登录"""
         username = self.username_edit.text().strip()
         password = self.password_edit.text().strip()
 
@@ -157,23 +175,48 @@ class LoginWindow(Window):
                           position=InfoBarPosition.TOP, duration=3000, parent=self)
             return
 
-        # 切换到加载状态
-        self.username_edit.setEnabled(False)
-        self.password_edit.setEnabled(False)
-        self.loginButton.hide()
-        self.progressRing.show()
-        QApplication.processEvents()
+        self.pending_credentials = (username, password)
+        self.set_loading_state(True, "检测后端中...")
 
-        success, message = api_client.login(username, password)
+        self.health_worker = async_api.ping_health_async(
+            success_callback=self.on_health_check_finished,
+            error_callback=self.on_health_check_error
+        )
 
-        # 恢复正常状态
-        self.username_edit.setEnabled(True)
-        self.password_edit.setEnabled(True)
-        self.loginButton.show()
-        self.progressRing.hide()
+    def on_health_check_finished(self, result):
+        """健康检查成功后再发起登录请求"""
+        is_ok, payload = result
+        if not is_ok:
+            self.on_health_check_error(payload)
+            return
+
+        self.set_loading_state(True, "登录中...")
+        username, password = self.pending_credentials
+        self.login_worker = async_api.login_async(
+            username,
+            password,
+            success_callback=self.on_login_finished,
+            error_callback=self.on_login_error
+        )
+
+    def on_health_check_error(self, error_message):
+        self.set_loading_state(False)
+        reply = QMessageBox.warning(
+            self,
+            "连接失败",
+            f"后端未启动/连接失败。\n\n{error_message}\n\n请先启动 Django 服务后重试。",
+            QMessageBox.Retry | QMessageBox.Cancel,
+            QMessageBox.Retry
+        )
+        if reply == QMessageBox.Retry:
+            self.login()
+
+    def on_login_finished(self, result):
+        success, message = result
+        self.set_loading_state(False)
 
         if success:
-            # 保存或清除凭据
+            username, password = self.pending_credentials
             if self.remember_checkbox.isChecked():
                 password_bytes = QByteArray(password.encode('utf-8'))
                 encrypted_password = password_bytes.toBase64().data().decode('utf-8')
@@ -190,6 +233,11 @@ class LoginWindow(Window):
         else:
             InfoBar.error("登录失败", message, orient=Qt.Horizontal, isClosable=True,
                           position=InfoBarPosition.TOP, duration=3000, parent=self)
+
+    def on_login_error(self, error_message):
+        self.set_loading_state(False)
+        InfoBar.error("登录失败", str(error_message), orient=Qt.Horizontal, isClosable=True,
+                      position=InfoBarPosition.TOP, duration=3000, parent=self)
 
     def accept(self):
         """模拟Dialog的accept方法"""

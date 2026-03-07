@@ -3,6 +3,8 @@ from ..common import config
 
 # API 服务器的基础URL
 API_BASE_URL = "http://127.0.0.1:8000/api"
+DEFAULT_TIMEOUT = (2, 5)
+HEALTH_TIMEOUT = (1, 2)
 
 
 class ApiClient:
@@ -25,9 +27,10 @@ class ApiClient:
         
         # 配置重试策略
         retry_strategy = Retry(
-            total=3,
-            backoff_factor=0.1,
-            status_forcelist=[500, 502, 503, 504]
+            total=0,
+            connect=0,
+            read=0,
+            status=0
         )
         
         adapter = HTTPAdapter(
@@ -39,34 +42,42 @@ class ApiClient:
         self.session.mount("http://", adapter)
         self.session.mount("https://", adapter)
 
+    def ping_health(self):
+        """快速探活后端服务"""
+        health_url = f"{API_BASE_URL}/health/"
+        try:
+            response = self.session.get(health_url, timeout=HEALTH_TIMEOUT)
+            response.raise_for_status()
+            return True, response.json()
+        except requests.exceptions.RequestException as e:
+            print(f"Health check failed: {e}")
+            return False, f"后端未启动/连接失败: {e}"
+
     def login(self, username, password):
         """ 调用新的JSON登录接口 """
         login_url = f"{API_BASE_URL}/login/"
         try:
-            # 首先获取CSRF令牌
-            self.session.get(API_BASE_URL)
-            
-            # 发送登录请求
-            response = self.session.post(login_url, json={'username': username, 'password': password})
-            
+            response = self.session.post(
+                login_url,
+                json={'username': username, 'password': password},
+                timeout=DEFAULT_TIMEOUT
+            )
+
             if response.status_code == 200:
-                # 登录成功，保存CSRF令牌（如果有）
                 if 'csrftoken' in self.session.cookies:
                     self.csrf_token = self.session.cookies['csrftoken']
-                
-                # 保存当前用户信息
+
                 self.current_user = response.json()
                 is_superuser = self.current_user.get('is_superuser', False)
                 config.set_admin_status(is_superuser)
                 return True, "登录成功"
-            
-            # 从响应中获取更详细的错误信息
+
             error_message = response.json().get('error', '未知错误')
             return False, error_message
 
         except requests.exceptions.RequestException as e:
             print(f"API 登录错误: {e}")
-            return False, f"网络错误，请检查后端服务是否运行。"
+            return False, "网络错误，请检查后端服务是否运行。"
 
     def _request(self, method, endpoint, **kwargs):
         """ 使用会话封装请求逻辑 """
@@ -82,6 +93,7 @@ class ApiClient:
             
         try:
             # session对象会自动发送cookies
+            kwargs.setdefault("timeout", DEFAULT_TIMEOUT)
             response = self.session.request(method, url, **kwargs)
             
             response.raise_for_status()

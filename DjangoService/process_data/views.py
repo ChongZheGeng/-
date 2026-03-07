@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from rest_framework import viewsets, permissions, filters, status, views
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Q
 from django.contrib.auth import login, logout, get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.utils import timezone
+from django.db import connection
 from django.contrib.auth.models import User
 
 from .models import (
@@ -64,6 +66,25 @@ class IsAuthenticatedOrReadOnly(permissions.BasePermission):
         
         # 对于其他方法（POST, PUT, DELETE等），需要用户已登录
         return request.user and request.user.is_authenticated
+
+
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def health_api(request):
+    """轻量健康检查接口，用于客户端快速探活。"""
+    payload = {
+        "status": "ok",
+        "service": "DjangoService",
+        "time": timezone.now().isoformat(),
+    }
+
+    try:
+        connection.ensure_connection()
+    except Exception as exc:
+        payload["status"] = "degraded"
+        payload["error"] = str(exc)
+
+    return Response(payload, status=status.HTTP_200_OK)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
