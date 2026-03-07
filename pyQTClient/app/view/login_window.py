@@ -1,5 +1,6 @@
 # coding:utf-8
 import sys
+import logging
 
 from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QByteArray
 from PyQt5.QtGui import QIcon, QPixmap, QPainter, QColor, QBrush
@@ -12,8 +13,12 @@ from qfluentwidgets import (setTheme, Theme, SplitTitleBar, isDarkTheme, Subtitl
 # 使用相对路径导入上级包的模块
 from ..api.api_client import api_client
 from ..api.async_api import async_api
-from ..common.config import cfg
+from ..common.config import cfg, is_auto_start_backend_enabled
+from ..common import backend_launcher
 from .. import resource_rc  # 导入编译后的资源文件
+
+
+logger = logging.getLogger(__name__)
 
 # 动态导入无边框窗口库
 def isWin11():
@@ -35,6 +40,9 @@ class LoginWindow(Window):
         self.health_worker = None
         self.login_worker = None
         self.pending_credentials = None
+        self.backend_starting = False
+        self.health_dialog_visible = False
+        self.auto_start_worker = None
 
         # --- 主布局 (分栏) ---
         mainLayout = QHBoxLayout()
@@ -201,15 +209,171 @@ class LoginWindow(Window):
 
     def on_health_check_error(self, error_message):
         self.set_loading_state(False)
-        reply = QMessageBox.warning(
-            self,
-            "连接失败",
-            f"后端未启动/连接失败。\n\n{error_message}\n\n请先启动 Django 服务后重试。",
-            QMessageBox.Retry | QMessageBox.Cancel,
-            QMessageBox.Retry
+        if self.health_dialog_visible:
+            return
+
+        self.health_dialog_visible = True
+        should_retry = self.show_backend_error_dialog(
+            title="连接失败",
+            message=f"后端未启动/连接失败。\n\n{error_message}\n\n请先启动 Django 服务后重试。",
+            manual_command=backend_launcher.build_manual_command(),
+            allow_retry=True
         )
-        if reply == QMessageBox.Retry:
-            self.login()
+        self.health_dialog_visible = False
+        if should_retry:
+            self.retry_health_check()
+
+    def retry_health_check(self):
+        """点击 Retry 后的流程：先快速探活，再视配置自动拉起后端。"""
+        if self.backend_starting:
+            return
+
+        self.set_loading_state(True, "重试检测后端中...")
+        self.health_worker = async_api.ping_health_async(
+            success_callback=self.on_retry_health_finished,
+            error_callback=self.on_retry_health_error
+        )
+
+    def on_retry_health_error(self, error_message):
+        self.on_retry_health_finished((False, str(error_message)))
+
+    def on_retry_health_finished(self, result):
+        is_ok, payload = result
+        if is_ok:
+            logger.info("Retry 阶段健康检查成功，继续登录")
+            self.on_health_check_finished(result)
+            return
+
+        if not is_auto_start_backend_enabled():
+            self.set_loading_state(False)
+            logger.info("自动拉起后端未启用，保持原有重试提示")
+            self.on_health_check_error(payload)
+            return
+
+        self.start_backend_auto_flow(payload)
+
+    def start_backend_auto_flow(self, last_error):
+        if self.backend_starting:
+            logger.info("后端已在启动中，忽略重复启动请求")
+            return
+
+        self.backend_starting = True
+        self.set_loading_state(True, "正在自动启动后端...")
+        logger.info("开始执行后端自动拉起流程，最后一次健康检查错误: %s", last_error)
+        self.auto_start_worker = async_api.call_async(
+            self._start_backend_and_wait,
+            self.on_backend_auto_flow_finished,
+            self.on_backend_auto_flow_error,
+            str(last_error)
+        )
+
+    def _start_backend_and_wait(self, last_error):
+        repo_root = backend_launcher.find_repo_root()
+        if not repo_root:
+            manual_cmd = backend_launcher.build_manual_command()
+            logger.warning("自动拉起失败：未找到 manage.py")
+            return {
+                "ok": False,
+                "message": f"未找到 DjangoService/manage.py。最后错误: {last_error}",
+                "manual_command": manual_cmd
+            }
+
+        manual_cmd = backend_launcher.build_manual_command(repo_root)
+        try:
+            process = backend_launcher.start_django_server(repo_root)
+            ok, elapsed, wait_message = backend_launcher.wait_for_health(timeout_seconds=25, interval_seconds=0.5)
+            logger.info("后端自动拉起等待结果: ok=%s elapsed=%.2fs detail=%s", ok, elapsed, wait_message)
+            if ok:
+                return {
+                    "ok": True,
+                    "message": f"后端已就绪，耗时 {elapsed:.1f}s",
+                    "manual_command": manual_cmd,
+                    "pid": process.pid,
+                }
+
+            return {
+                "ok": False,
+                "message": f"自动启动后端后等待超时（{elapsed:.1f}s）：{wait_message}",
+                "manual_command": manual_cmd,
+                "pid": process.pid,
+            }
+        except Exception as e:
+            logger.exception("自动启动后端异常")
+            return {
+                "ok": False,
+                "message": f"自动启动后端异常: {e}",
+                "manual_command": manual_cmd,
+            }
+
+    def on_backend_auto_flow_error(self, error_message):
+        self.backend_starting = False
+        self.set_loading_state(False)
+        logger.error("后端自动拉起流程线程异常: %s", error_message)
+        self.show_backend_error_dialog(
+            title="自动启动失败",
+            message=f"自动启动后端失败：{error_message}",
+            manual_command=backend_launcher.build_manual_command(),
+            allow_retry=False
+        )
+
+    def on_backend_auto_flow_finished(self, result):
+        self.backend_starting = False
+        if result.get("ok"):
+            logger.info("自动启动成功: pid=%s %s", result.get("pid"), result.get("message"))
+            self.set_loading_state(True, "后端已就绪，登录中...")
+            username, password = self.pending_credentials
+            self.login_worker = async_api.login_async(
+                username,
+                password,
+                success_callback=self.on_login_finished,
+                error_callback=self.on_login_error
+            )
+            return
+
+        self.set_loading_state(False)
+        logger.warning("自动启动失败: %s", result.get("message"))
+        self.show_backend_error_dialog(
+            title="自动启动失败",
+            message=result.get("message", "未知错误"),
+            manual_command=result.get("manual_command"),
+            allow_retry=True
+        )
+
+    def show_backend_error_dialog(self, title, message, manual_command=None, allow_retry=True):
+        """统一显示后端失败提示，并支持复制手动启动命令。"""
+        box = QMessageBox(self)
+        box.setIcon(QMessageBox.Warning)
+        box.setWindowTitle(title)
+        box.setText(message)
+
+        if manual_command:
+            box.setInformativeText(f"可手动执行：\n{manual_command}")
+
+        if allow_retry:
+            box.setStandardButtons(QMessageBox.Retry | QMessageBox.Cancel)
+            box.setDefaultButton(QMessageBox.Retry)
+        else:
+            box.setStandardButtons(QMessageBox.Ok)
+
+        copy_button = None
+        if manual_command:
+            copy_button = box.addButton("复制启动命令", QMessageBox.ActionRole)
+
+        box.exec_()
+        clicked = box.clickedButton()
+        if copy_button and clicked == copy_button:
+            QApplication.clipboard().setText(manual_command)
+            InfoBar.success(
+                "已复制",
+                "启动命令已复制到剪贴板",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=2500,
+                parent=self
+            )
+
+        return allow_retry and box.standardButton(clicked) == QMessageBox.Retry
 
     def on_login_finished(self, result):
         success, message = result
