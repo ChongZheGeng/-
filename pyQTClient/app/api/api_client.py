@@ -8,8 +8,8 @@ from ..common import config
 API_BASE_URL = "http://127.0.0.1:8000/api"
 DEFAULT_TIMEOUT = (2, 5)
 HEALTH_TIMEOUT = (3, 5)
-HEALTH_MAX_ATTEMPTS = 5
-HEALTH_RETRY_INTERVAL_SECONDS = 0.8
+HEALTH_MAX_ATTEMPTS = 3
+HEALTH_RETRY_INTERVAL_SECONDS = 0.7
 
 logger = logging.getLogger(__name__)
 

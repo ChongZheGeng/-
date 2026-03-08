@@ -43,13 +43,6 @@ def quick_health_check(timeout: Tuple[float, float] = (3, 5)) -> Tuple[bool, str
         return False, str(e)
 
 
-def _build_windows_command(repo_root: Path, python_exe: str) -> str:
-    django_dir = repo_root / "DjangoService"
-    return (
-        f'Set-Location "{django_dir}"; '
-        f'& "{python_exe}" manage.py runserver 127.0.0.1:8000'
-    )
-
 
 def _resolve_paths(repo_root: Optional[Path] = None, python_exe: Optional[str] = None) -> Tuple[Path, str]:
     """解析 DjangoService 与 Python 可执行文件路径。"""
@@ -84,21 +77,17 @@ def build_manual_command(repo_root: Optional[Path] = None, python_exe: Optional[
 def start_django_server(repo_root: Path, python_exe: Optional[str] = None) -> subprocess.Popen:
     """在新窗口中非阻塞启动 Django 开发服务器。"""
     py = python_exe or sys.executable
+    django_dir = repo_root / "DjangoService"
+    cmd = [py, "manage.py", "runserver", "127.0.0.1:8000"]
 
+    logger.info("准备启动后端: cwd=%s python=%s cmd=%s", django_dir, py, cmd)
     if os.name == "nt":
-        powershell_cmd = _build_windows_command(repo_root, py)
-        cmd = [
-            "powershell",
-            "-NoExit",
-            "-Command",
-            powershell_cmd,
-        ]
-        logger.info("准备通过 PowerShell 新窗口启动后端: %s", powershell_cmd)
-        process = subprocess.Popen(cmd, creationflags=subprocess.CREATE_NEW_CONSOLE)
+        process = subprocess.Popen(
+            cmd,
+            cwd=str(django_dir),
+            creationflags=subprocess.CREATE_NEW_CONSOLE,
+        )
     else:
-        django_dir = repo_root / "DjangoService"
-        cmd = [py, "manage.py", "runserver", "127.0.0.1:8000"]
-        logger.info("当前系统非 Windows，使用后台进程启动后端: cwd=%s cmd=%s", django_dir, cmd)
         process = subprocess.Popen(cmd, cwd=str(django_dir))
 
     logger.info("后端启动进程已拉起，pid=%s", process.pid)
