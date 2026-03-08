@@ -1,6 +1,7 @@
 import logging
 import os
 import time
+from django.conf import settings
 from django.shortcuts import render
 from django.db import DatabaseError, connections
 from rest_framework import viewsets, permissions, filters, status, views
@@ -56,7 +57,7 @@ from .serializers import (
 
 
 logger = logging.getLogger(__name__)
-BUILD_MARKER = "dev-sqlite-fallback-v1"
+BUILD_MARKER = "sqlite-init-fix-v1"
 
 logger.info("[process_data.views] loaded file=%s", os.path.abspath(__file__))
 
@@ -105,6 +106,24 @@ def _probe_database_connection() -> dict:
     return result
 
 
+def _probe_db_initialization() -> dict:
+    """探测数据库是否完成初始化（迁移）。"""
+    result = {
+        "db_initialized": False,
+        "auth_user_table_exists": False,
+    }
+
+    try:
+        table_names = set(connections["default"].introspection.table_names())
+        auth_table = get_user_model()._meta.db_table
+        result["auth_user_table_exists"] = auth_table in table_names
+        result["db_initialized"] = result["auth_user_table_exists"]
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("[health] db_initialization_probe_failed err=%s", exc)
+
+    return result
+
+
 # 自定义权限类，允许已登录用户执行任何操作
 class IsAuthenticatedOrReadOnly(permissions.BasePermission):
     """
@@ -131,6 +150,7 @@ def health_api(request):
         "build_marker": BUILD_MARKER,
         "has_recommend_route": _has_recommend_route(),
         **db_result,
+        **_probe_db_initialization(),
     }
     return Response(body, status=status.HTTP_200_OK)
 
@@ -239,8 +259,27 @@ class LoginView(views.APIView):
             }
             logger.info("[login] build_response_done username=%s", username)
             return Response(response_data, status=status.HTTP_200_OK)
-        except DatabaseError:
+        except DatabaseError as exc:
             logger.exception("[login] request_error username=%s database_error=true", username)
+            err_text = str(exc)
+            err_type = exc.__class__.__name__
+
+            sqlite_missing_table = (
+                settings.DB_RUNTIME_ENGINE == "sqlite"
+                and ("no such table" in err_text.lower())
+            )
+            if sqlite_missing_table:
+                logger.error(
+                    "[login] uninitialized_sqlite_detected username=%s err_type=%s err=%s",
+                    username,
+                    err_type,
+                    err_text,
+                )
+                return Response(
+                    {"error": "开发数据库未初始化，请先运行开发初始化脚本"},
+                    status=status.HTTP_503_SERVICE_UNAVAILABLE,
+                )
+
             return Response({"error": "数据库连接异常，请稍后重试"}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
         except Exception:
             logger.exception("[login] request_error username=%s", username)
