@@ -1,3 +1,5 @@
+import logging
+
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
@@ -19,6 +21,10 @@ from .views import (
     health_api,
     recommend_api,
 )
+
+
+logger = logging.getLogger(__name__)
+logger.info("[process_data.urls] module_loaded file=%s", __file__)
 
 # 创建路由器并注册视图集
 router = DefaultRouter()
@@ -46,3 +52,5 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='api_login'),
     path('user-info/', UserInfoView.as_view(), name='user_info'),
 ]
+
+logger.info("[process_data.urls] recommend route registered path=/api/recommend/")
