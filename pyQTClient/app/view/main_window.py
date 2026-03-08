@@ -19,6 +19,7 @@ from .nav_interface import NavInterface
 from .dashboard_interface import DashboardInterface
 from .file_transfer_manager import FileTransferButton
 from .sensor_data_interface import SensorDataInterface
+from .sensor_processing_interface import SensorProcessingInterface
 from .setting_interface import SettingInterface
 from .task_group_interface import TaskGroupInterface
 from .processing_task_interface import ProcessingTaskInterface
@@ -45,6 +46,7 @@ class MainWindow(FluentWindow):
         self.recommendation_interface = RecommendationInterface(self)
         self.task_group_interface = TaskGroupInterface(self)
         self.sensor_data_interface = SensorDataInterface(self)
+        self.sensor_processing_interface = SensorProcessingInterface(self)
         self.setting_interface = SettingInterface(self)
 
         # 根据用户权限决定是否添加用户管理界面
@@ -103,6 +105,8 @@ class MainWindow(FluentWindow):
 
         # add sensor data interface
         self.addSubInterface(self.sensor_data_interface, FIF.BOOK_SHELF, "传感器数据管理",
+                             position=NavigationItemPosition.SCROLL)
+        self.addSubInterface(self.sensor_processing_interface, FIF.IOT, "传感器处理",
                              position=NavigationItemPosition.SCROLL)
 
         if self.user_interface:
@@ -212,4 +216,3 @@ class MainWindow(FluentWindow):
         # 更新前一个界面的引用
         self.previous_interface = current_widget
         logger.debug(f"已更新 previous_interface 为: {interface_name}")
-
