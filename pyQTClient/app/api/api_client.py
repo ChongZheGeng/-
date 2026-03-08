@@ -62,6 +62,9 @@ class ApiClient:
                 return "后端未启动（connection refused）"
             return "后端连接失败（connection error）"
         if isinstance(exc, requests.exceptions.HTTPError) and getattr(exc, "response", None) is not None:
+            detail = str(exc)
+            if "database unavailable" in detail:
+                return "后端数据库未就绪，请稍后重试"
             status_code = exc.response.status_code
             if status_code == 404:
                 return "/api/health/ 未配置（404）"
@@ -85,7 +88,21 @@ class ApiClient:
                 response = self.session.get(health_url, timeout=HEALTH_TIMEOUT)
                 logger.info("Health check response status_code=%s", response.status_code)
                 response.raise_for_status()
-                return True, response.json()
+                payload = response.json()
+                if isinstance(payload, dict) and payload.get("db_ok") is False:
+                    logger.warning(
+                        "Health check indicates database unavailable url=%s payload=%s",
+                        health_url,
+                        payload,
+                    )
+                    last_exception = requests.exceptions.HTTPError(
+                        "health payload indicates database unavailable",
+                        response=response,
+                    )
+                    if attempt < attempts:
+                        time.sleep(retry_interval)
+                    continue
+                return True, payload
             except requests.exceptions.RequestException as exc:
                 last_exception = exc
                 logger.warning(
