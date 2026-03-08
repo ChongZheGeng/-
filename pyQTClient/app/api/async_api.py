@@ -43,6 +43,10 @@ class AsyncApiWorker(QThread):
                 
             if self._is_result_failed(result):
                 logger.warning(f"异步API调用失败: {self.api_method.__name__}, result={result}")
+                if self.api_method.__name__ == 'login':
+                    error_message = result[1] if isinstance(result, tuple) and len(result) > 1 else "登录失败"
+                    self.error.emit(str(error_message))
+                    return
             else:
                 logger.debug(f"异步API调用成功: {self.api_method.__name__}")
             self.finished.emit(result)

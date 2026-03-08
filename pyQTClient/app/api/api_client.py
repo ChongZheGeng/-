@@ -107,11 +107,28 @@ class ApiClient:
         """ 调用新的JSON登录接口 """
         login_url = f"{API_BASE_URL}/login/"
         payload = {'username': username, 'password': password}
+        request_start = time.perf_counter()
+        logger.info(
+            "登录请求开始: url=%s username=%s timeout=%s",
+            login_url,
+            username,
+            LOGIN_TIMEOUT,
+        )
         try:
             response = self.session.post(
                 login_url,
                 json=payload,
                 timeout=LOGIN_TIMEOUT
+            )
+            elapsed_ms = (time.perf_counter() - request_start) * 1000
+            logger.info(
+                "登录请求响应: url=%s username=%s timeout=%s status_code=%s response_preview=%s elapsed_ms=%.2f",
+                login_url,
+                username,
+                LOGIN_TIMEOUT,
+                response.status_code,
+                (response.text or '')[:200],
+                elapsed_ms,
             )
 
             if response.status_code == 200:
