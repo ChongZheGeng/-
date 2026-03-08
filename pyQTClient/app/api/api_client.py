@@ -8,6 +8,7 @@ from ..common import config
 API_BASE_URL = "http://127.0.0.1:8000/api"
 DEFAULT_TIMEOUT = (2, 5)
 HEALTH_TIMEOUT = (3, 5)
+LOGIN_TIMEOUT = (3, 10)
 HEALTH_MAX_ATTEMPTS = 3
 HEALTH_RETRY_INTERVAL_SECONDS = 0.7
 
@@ -105,11 +106,12 @@ class ApiClient:
     def login(self, username, password):
         """ 调用新的JSON登录接口 """
         login_url = f"{API_BASE_URL}/login/"
+        payload = {'username': username, 'password': password}
         try:
             response = self.session.post(
                 login_url,
-                json={'username': username, 'password': password},
-                timeout=DEFAULT_TIMEOUT
+                json=payload,
+                timeout=LOGIN_TIMEOUT
             )
 
             if response.status_code == 200:
@@ -121,11 +123,55 @@ class ApiClient:
                 config.set_admin_status(is_superuser)
                 return True, "登录成功"
 
-            error_message = response.json().get('error', '未知错误')
+            try:
+                error_message = response.json().get('error', '未知错误')
+            except ValueError:
+                error_message = (response.text or '未知错误')[:200]
+
+            logger.warning(
+                "登录请求失败: url=%s username=%s timeout=%s status_code=%s response_preview=%s",
+                login_url,
+                username,
+                LOGIN_TIMEOUT,
+                response.status_code,
+                (response.text or '')[:200],
+            )
             return False, error_message
 
+        except requests.exceptions.ReadTimeout as e:
+            logger.error(
+                "登录请求读取超时: url=%s username=%s timeout=%s status_code=%s response_preview=%s error=%s",
+                login_url,
+                username,
+                LOGIN_TIMEOUT,
+                None,
+                "",
+                e,
+            )
+            return False, "登录接口超时，请稍后重试。"
+        except requests.exceptions.ConnectionError as e:
+            logger.error(
+                "登录请求连接失败: url=%s username=%s timeout=%s status_code=%s response_preview=%s error=%s",
+                login_url,
+                username,
+                LOGIN_TIMEOUT,
+                None,
+                "",
+                e,
+            )
+            return False, "后端未启动或连接失败，请检查 Django 服务。"
         except requests.exceptions.RequestException as e:
-            print(f"API 登录错误: {e}")
+            status_code = getattr(getattr(e, "response", None), "status_code", None)
+            response_preview = getattr(getattr(e, "response", None), "text", "")
+            logger.error(
+                "登录请求异常: url=%s username=%s timeout=%s status_code=%s response_preview=%s error=%s",
+                login_url,
+                username,
+                LOGIN_TIMEOUT,
+                status_code,
+                (response_preview or "")[:200],
+                e,
+            )
             return False, "网络错误，请检查后端服务是否运行。"
 
     def _request(self, method, endpoint, **kwargs):

@@ -347,12 +347,9 @@ class LoginWindow(Window):
         box.setText(message)
 
         powershell_command = manual_command or backend_launcher.build_powershell_manual_command()
-        cmd_command = backend_launcher.build_cmd_manual_command()
         box.setInformativeText(
             "PowerShell 启动命令：\n"
-            f"{powershell_command}\n\n"
-            "CMD 启动命令：\n"
-            f"{cmd_command}"
+            f"{powershell_command}"
         )
 
         if allow_retry:
@@ -362,7 +359,6 @@ class LoginWindow(Window):
             box.setStandardButtons(QMessageBox.Ok)
 
         copy_ps_button = box.addButton("复制 PowerShell 命令", QMessageBox.ActionRole)
-        copy_cmd_button = box.addButton("复制 CMD 命令", QMessageBox.ActionRole)
 
         box.exec_()
         clicked = box.clickedButton()
@@ -371,17 +367,6 @@ class LoginWindow(Window):
             InfoBar.success(
                 "已复制",
                 "PowerShell 启动命令已复制到剪贴板",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=2500,
-                parent=self
-            )
-        elif clicked == copy_cmd_button:
-            QApplication.clipboard().setText(cmd_command)
-            InfoBar.success(
-                "已复制",
-                "CMD 启动命令已复制到剪贴板",
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
