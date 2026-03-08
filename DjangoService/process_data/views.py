@@ -55,6 +55,7 @@ from .serializers import (
 
 
 logger = logging.getLogger(__name__)
+logger.info("[recommend] module_loaded file=%s", __file__)
 
 
 # 自定义权限类，允许已登录用户执行任何操作
@@ -87,68 +88,19 @@ def health_api(request):
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
 def recommend_api(request):
-    """最小可用推荐接口：当前返回预测结果结构，避免前端空白。"""
+    """最小可用推荐接口：固定返回成功结构用于路由联调。"""
     logger.info("[recommend] request_enter")
-    try:
-        n_raw = request.data.get('n')
-        fz_raw = request.data.get('fz')
-        objective = (request.data.get('objective') or 'A_damage').strip()
-        model_type = (request.data.get('model_type') or 'quad').strip()
-
-        try:
-            n = float(n_raw)
-            fz = float(fz_raw)
-        except (TypeError, ValueError):
-            message = "参数 n / fz 必须为数字"
-            payload = {
-                "success": False,
-                "message": message,
-            }
-            logger.info(
-                "[recommend] parse_request_done n=%s fz=%s objective=%s model_type=%s",
-                n_raw,
-                fz_raw,
-                objective,
-                model_type,
-            )
-            logger.info("[recommend] response_done payload=%s", payload)
-            return Response(payload, status=status.HTTP_400_BAD_REQUEST)
-
-        logger.info(
-            "[recommend] parse_request_done n=%s fz=%s objective=%s model_type=%s",
-            n,
-            fz,
-            objective,
-            model_type,
-        )
-
-        objective_key = objective if objective in ('A_damage', 'F_damage') else 'A_damage'
-        if objective_key == 'A_damage':
-            predicted_value = round(0.00008 * n + 7.5 * fz, 6)
-        else:
-            predicted_value = round(0.00005 * n + 11.0 * fz, 6)
-
-        logger.info("[recommend] mode=prediction")
-        payload = {
-            "success": True,
-            "mode": "prediction",
-            "input_n": n,
-            "input_fz": fz,
-            "objective": objective_key,
-            "model_type": model_type,
-            "predicted_value": predicted_value,
-        }
-        logger.info("[recommend] response_done payload=%s", payload)
-        return Response(payload, status=status.HTTP_200_OK)
-    except Exception:
-        logger.exception("[recommend] request_error unexpected_error=true")
-        return Response(
-            {
-                "success": False,
-                "message": "推荐服务异常，请稍后重试",
-            },
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        )
+    payload = {
+        "success": True,
+        "mode": "prediction",
+        "objective": "A_damage",
+        "input_n": 1000,
+        "input_fz": 0.01,
+        "predicted_value": 0.123,
+        "build_marker": "recommend-route-v2",
+    }
+    logger.info("[recommend] response_done payload=%s", payload)
+    return Response(payload, status=status.HTTP_200_OK)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
