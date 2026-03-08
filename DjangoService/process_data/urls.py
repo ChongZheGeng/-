@@ -1,4 +1,5 @@
 import logging
+import os
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
@@ -24,7 +25,7 @@ from .views import (
 
 
 logger = logging.getLogger(__name__)
-logger.info("[process_data.urls] module_loaded file=%s", __file__)
+logger.info("[process_data.urls] loaded file=%s", os.path.abspath(__file__))
 
 # 创建路由器并注册视图集
 router = DefaultRouter()
@@ -54,3 +55,4 @@ urlpatterns = [
 ]
 
 logger.info("[process_data.urls] recommend route registered path=/api/recommend/")
+logger.info("[process_data.urls] recommend urlpattern=%s", next((str(p.pattern) for p in urlpatterns if getattr(p, "name", "") == "recommend"), "missing"))
