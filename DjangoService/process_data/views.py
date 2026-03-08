@@ -1,3 +1,5 @@
+import logging
+import time
 from django.shortcuts import render
 from rest_framework import viewsets, permissions, filters, status, views
 from rest_framework.decorators import action, api_view, permission_classes
@@ -52,6 +54,9 @@ from .serializers import (
 )
 
 
+logger = logging.getLogger(__name__)
+
+
 # 自定义权限类，允许已登录用户执行任何操作
 class IsAuthenticatedOrReadOnly(permissions.BasePermission):
     """
@@ -88,20 +93,50 @@ class LoginView(views.APIView):
     permission_classes = [permissions.AllowAny]  # 允许任何用户访问此视图
 
     def post(self, request, *args, **kwargs):
+        request_start = time.perf_counter()
         username = request.data.get('username')
         password = request.data.get('password')
+        client_ip = request.META.get('REMOTE_ADDR')
+
+        logger.info("[LoginView] 请求进入 username=%s ip=%s", username, client_ip)
         
         from django.contrib.auth import authenticate
-        user = authenticate(request, username=username, password=password)
+        auth_start = time.perf_counter()
+        logger.info("[LoginView] 开始认证 username=%s", username)
+
+        try:
+            user = authenticate(request, username=username, password=password)
+        except Exception:
+            elapsed_ms = (time.perf_counter() - request_start) * 1000
+            logger.exception("[LoginView] 认证异常 username=%s elapsed_ms=%.2f", username, elapsed_ms)
+            return Response(
+                {"error": "登录处理异常，请稍后重试"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+        auth_elapsed_ms = (time.perf_counter() - auth_start) * 1000
+        logger.info("[LoginView] 认证结束 username=%s elapsed_ms=%.2f authenticated=%s", username, auth_elapsed_ms, user is not None)
         
         if user is not None:
+            login_start = time.perf_counter()
             login(request, user)
+            login_elapsed_ms = (time.perf_counter() - login_start) * 1000
+            total_elapsed_ms = (time.perf_counter() - request_start) * 1000
+            logger.info(
+                "[LoginView] 登录成功 username=%s login_elapsed_ms=%.2f total_elapsed_ms=%.2f",
+                username,
+                login_elapsed_ms,
+                total_elapsed_ms,
+            )
             return Response({
                 'id': user.id,
                 'username': user.username,
-                'email': user.email
+                'email': user.email,
+                'is_superuser': user.is_superuser,
             }, status=status.HTTP_200_OK)
         else:
+            total_elapsed_ms = (time.perf_counter() - request_start) * 1000
+            logger.warning("[LoginView] 登录失败 username=%s total_elapsed_ms=%.2f", username, total_elapsed_ms)
             return Response(
                 {"error": "用户名或密码错误"}, 
                 status=status.HTTP_400_BAD_REQUEST

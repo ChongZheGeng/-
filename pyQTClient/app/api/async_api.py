@@ -41,7 +41,10 @@ class AsyncApiWorker(QThread):
                 logger.debug(f"异步API调用在完成后被取消: {self.api_method.__name__}")
                 return
                 
-            logger.debug(f"异步API调用成功: {self.api_method.__name__}")
+            if self._is_result_failed(result):
+                logger.warning(f"异步API调用失败: {self.api_method.__name__}, result={result}")
+            else:
+                logger.debug(f"异步API调用成功: {self.api_method.__name__}")
             self.finished.emit(result)
         except Exception as e:
             if self._is_cancelled:
@@ -52,6 +55,25 @@ class AsyncApiWorker(QThread):
             error_msg = f"异步API调用失败 {self.api_method.__name__}: {str(e)}\n{traceback.format_exc()}"
             logger.error(error_msg)
             self.error.emit(str(e))
+
+    @staticmethod
+    def _is_result_failed(result):
+        """根据约定返回值判断调用是否失败，避免失败被误记为成功。"""
+        if result is None:
+            return True
+
+        if isinstance(result, tuple) and result:
+            first_item = result[0]
+            if isinstance(first_item, bool):
+                return not first_item
+
+        if isinstance(result, dict):
+            if "ok" in result and isinstance(result["ok"], bool):
+                return not result["ok"]
+            if "success" in result and isinstance(result["success"], bool):
+                return not result["success"]
+
+        return False
     
     def cancel(self):
         """取消异步调用"""
