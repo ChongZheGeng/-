@@ -1,4 +1,5 @@
 import logging
+import os
 import time
 from django.shortcuts import render
 from django.db import DatabaseError
@@ -55,7 +56,29 @@ from .serializers import (
 
 
 logger = logging.getLogger(__name__)
-logger.info("[recommend] module_loaded file=%s", __file__)
+BUILD_MARKER = "recommend-route-v3"
+
+logger.info("[process_data.views] loaded file=%s", os.path.abspath(__file__))
+
+
+def _has_recommend_route() -> bool:
+    """运行时检查 URLConf 是否包含 recommend 路由。"""
+    try:
+        from django.urls import URLPattern, URLResolver, get_resolver
+
+        def walk(patterns):
+            for pattern in patterns:
+                if isinstance(pattern, URLPattern):
+                    yield str(pattern.pattern)
+                elif isinstance(pattern, URLResolver):
+                    for nested in walk(pattern.url_patterns):
+                        yield f"{pattern.pattern}{nested}"
+
+        resolver = get_resolver()
+        return any("recommend/" in item for item in walk(resolver.url_patterns))
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("[health] has_recommend_route_check_failed err=%s", exc)
+        return False
 
 
 # 自定义权限类，允许已登录用户执行任何操作
@@ -80,6 +103,8 @@ def health_api(request):
         {
             "status": "ok",
             "service": "DjangoService",
+            "build_marker": BUILD_MARKER,
+            "has_recommend_route": _has_recommend_route(),
         },
         status=status.HTTP_200_OK,
     )
@@ -89,7 +114,7 @@ def health_api(request):
 @permission_classes([permissions.AllowAny])
 def recommend_api(request):
     """最小可用推荐接口：固定返回成功结构用于路由联调。"""
-    logger.info("[recommend] request_enter")
+    logger.info("[recommend] request_enter file=%s", os.path.abspath(__file__))
     payload = {
         "success": True,
         "mode": "prediction",
@@ -97,7 +122,7 @@ def recommend_api(request):
         "input_n": 1000,
         "input_fz": 0.01,
         "predicted_value": 0.123,
-        "build_marker": "recommend-route-v2",
+        "build_marker": BUILD_MARKER,
     }
     logger.info("[recommend] response_done payload=%s", payload)
     return Response(payload, status=status.HTTP_200_OK)
