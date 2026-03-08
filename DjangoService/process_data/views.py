@@ -56,7 +56,7 @@ from .serializers import (
 
 
 logger = logging.getLogger(__name__)
-BUILD_MARKER = "recommend-route-local-fix-v1"
+BUILD_MARKER = "dev-sqlite-fallback-v1"
 
 logger.info("[process_data.views] loaded file=%s", os.path.abspath(__file__))
 
@@ -84,9 +84,11 @@ def _has_recommend_route() -> bool:
 def _probe_database_connection() -> dict:
     """最小数据库探测：尝试建立连接并执行 SELECT 1。"""
     db_settings = connections["default"].settings_dict
+    raw_engine = db_settings.get("ENGINE", "")
+    normalized_engine = "sqlite" if "sqlite" in raw_engine else "mysql" if "mysql" in raw_engine else raw_engine
     result = {
         "db_ok": False,
-        "db_engine": db_settings.get("ENGINE", ""),
+        "db_engine": normalized_engine,
         "db_host": db_settings.get("HOST", ""),
         "db_port": str(db_settings.get("PORT", "")),
     }
@@ -133,7 +135,7 @@ def health_api(request):
     return Response(body, status=status.HTTP_200_OK)
 
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
 @permission_classes([permissions.AllowAny])
 def recommend_api(request):
     """最小可用推荐接口：不依赖数据库，仅用于联调。"""
