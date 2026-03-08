@@ -1,8 +1,18 @@
 # coding:utf-8
 import logging
+from typing import Dict, Optional
 
 from PyQt5.QtCore import QObject, QThread, pyqtSignal
-from PyQt5.QtWidgets import QHBoxLayout, QSpinBox, QVBoxLayout
+from PyQt5.QtWidgets import (
+    QAbstractItemView,
+    QFileDialog,
+    QHBoxLayout,
+    QHeaderView,
+    QSpinBox,
+    QTableWidget,
+    QTableWidgetItem,
+    QVBoxLayout,
+)
 from qfluentwidgets import (
     BodyLabel,
     CardWidget,
@@ -15,7 +25,7 @@ from qfluentwidgets import (
     SubtitleLabel,
 )
 
-from ..services.signal_processing_service import SignalProcessingService, SignalData
+from ..services.signal_processing_service import SignalData, SignalProcessingService
 from .components.signal_plot_widget import SignalPlotWidget
 from .nav_interface import NavInterface
 
@@ -58,7 +68,7 @@ class _ProcessSignalWorker(QObject):
 
 
 class SensorProcessingInterface(NavInterface):
-    """传感器处理页面（第二阶段：图表显示 + 基础信号处理）"""
+    """传感器处理页面（第三阶段：特征提取 + 导出 + 与数据管理联动）"""
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -66,6 +76,11 @@ class SensorProcessingInterface(NavInterface):
 
         self.signal_service = SignalProcessingService()
         self.loaded_signal_data = None
+        self.current_record: Optional[Dict] = None
+        self.current_processed_x = []
+        self.current_processed_y = []
+        self.current_features: Dict[str, float] = {}
+
         self.load_thread = None
         self.load_worker = None
         self.process_thread = None
@@ -92,7 +107,7 @@ class SensorProcessingInterface(NavInterface):
         self.record_info_label = BodyLabel("当前数据记录：未选择")
         self.filename_info_label = BodyLabel("文件名：--")
         self.task_info_label = BodyLabel("任务编号：--")
-        self.sample_info_label = BodyLabel("采样时间：--")
+        self.sample_info_label = BodyLabel("采样率：--")
 
         info_layout.addWidget(self.record_info_label)
         info_layout.addWidget(self.filename_info_label)
@@ -162,8 +177,24 @@ class SensorProcessingInterface(NavInterface):
         self.raw_plot_widget = SignalPlotWidget("原始波形")
         self.processed_plot_widget = SignalPlotWidget("处理后波形")
 
+        feature_card = CardWidget(self)
+        feature_layout = QVBoxLayout(feature_card)
+        feature_layout.setContentsMargins(16, 12, 16, 12)
+        feature_layout.setSpacing(8)
+        feature_layout.addWidget(BodyLabel("特征表"))
+
+        self.feature_table = QTableWidget(feature_card)
+        self.feature_table.setColumnCount(2)
+        self.feature_table.setHorizontalHeaderLabels(["特征", "值"])
+        self.feature_table.verticalHeader().hide()
+        self.feature_table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.feature_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
+        self.feature_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
+        feature_layout.addWidget(self.feature_table)
+
         chart_layout.addWidget(self.raw_plot_widget, 1)
         chart_layout.addWidget(self.processed_plot_widget, 1)
+        chart_layout.addWidget(feature_card, 1)
 
         content_layout.addWidget(control_card, 0)
         content_layout.addLayout(chart_layout, 1)
@@ -176,13 +207,20 @@ class SensorProcessingInterface(NavInterface):
         self.load_btn = PushButton("加载数据")
         self.apply_btn = PrimaryPushButton("应用处理")
         self.reset_btn = PushButton("重置")
-        self.export_btn = PushButton("导出结果")
-        self.export_btn.setEnabled(False)
+        self.export_signal_btn = PushButton("导出处理信号 CSV")
+        self.export_features_btn = PushButton("导出特征 CSV/JSON")
+        self.send_to_recommend_btn = PushButton("发送到推荐模块")
+
+        self.export_signal_btn.setEnabled(False)
+        self.export_features_btn.setEnabled(False)
+        self.send_to_recommend_btn.setEnabled(False)
 
         button_layout.addWidget(self.load_btn)
         button_layout.addWidget(self.apply_btn)
         button_layout.addWidget(self.reset_btn)
-        button_layout.addWidget(self.export_btn)
+        button_layout.addWidget(self.export_signal_btn)
+        button_layout.addWidget(self.export_features_btn)
+        button_layout.addWidget(self.send_to_recommend_btn)
         button_layout.addStretch(1)
 
         self.main_layout.addLayout(button_layout)
@@ -191,13 +229,36 @@ class SensorProcessingInterface(NavInterface):
         self.load_btn.clicked.connect(self._on_load_clicked)
         self.apply_btn.clicked.connect(self._on_apply_clicked)
         self.reset_btn.clicked.connect(self._on_reset_clicked)
+        self.export_signal_btn.clicked.connect(self._on_export_signal)
+        self.export_features_btn.clicked.connect(self._on_export_features)
+        self.send_to_recommend_btn.clicked.connect(self._on_send_to_recommend)
+
+    def set_current_record(self, record: Dict):
+        """供数据管理页调用，设置当前记录并预填 UI。"""
+        self.current_record = record
+        record_id = record.get("id", "--")
+        file_url = record.get("file_url", "")
+        task_info = record.get("task_info") or {}
+        task_code = task_info.get("task_code", "--")
+
+        self.record_info_label.setText(f"当前数据记录ID：{record_id}")
+        self.filename_info_label.setText(f"文件名：{file_url or '--'}")
+        self.task_info_label.setText(f"任务编号：{task_code}")
+
+        if file_url:
+            self.data_selector.setCurrentText(file_url)
+        self._set_status("已接收记录，可点击“加载数据”")
+
+    def load_record(self, record_id: int):
+        self.set_current_record({"id": record_id})
 
     def _on_load_clicked(self):
         self._set_status("处理中... 正在加载数据")
         self.load_btn.setEnabled(False)
 
+        source = self.data_selector.currentText().strip()
         self.load_thread = QThread(self)
-        self.load_worker = _LoadSignalWorker(self.signal_service, self.data_selector.currentText())
+        self.load_worker = _LoadSignalWorker(self.signal_service, source)
         self.load_worker.moveToThread(self.load_thread)
 
         self.load_thread.started.connect(self.load_worker.run)
@@ -215,6 +276,9 @@ class SensorProcessingInterface(NavInterface):
     def _on_load_success(self, signal_data: SignalData):
         self.load_btn.setEnabled(True)
         self.loaded_signal_data = signal_data
+        self.current_processed_x = []
+        self.current_processed_y = []
+        self.current_features = {}
 
         channel = self.channel_selector.currentText()
         if channel == "F" and "F" not in signal_data.channels:
@@ -224,11 +288,15 @@ class SensorProcessingInterface(NavInterface):
         x_data = list(range(len(values)))
         self.raw_plot_widget.set_signal_data(x_data, values, "#4C8DFF")
         self.processed_plot_widget.clear()
+        self.feature_table.setRowCount(0)
 
         self.end_index_spin.setValue(min(len(values), 2000))
 
         source_text = "MOCK/SAMPLE 数据" if signal_data.source == "mock" else signal_data.source
-        self.record_info_label.setText(f"当前数据记录：{self.data_selector.currentText() or '默认'}")
+        if self.current_record:
+            self.record_info_label.setText(f"当前数据记录ID：{self.current_record.get('id', '--')}")
+        else:
+            self.record_info_label.setText(f"当前数据记录：{self.data_selector.currentText() or '默认'}")
         self.filename_info_label.setText(f"文件名：{source_text}")
         self.sample_info_label.setText(f"采样率：{signal_data.sample_rate:.1f} Hz")
         self._set_status("已加载数据（若显示 MOCK/SAMPLE 即为示例数据）")
@@ -274,8 +342,20 @@ class SensorProcessingInterface(NavInterface):
 
     def _on_process_success(self, x_data, y_data):
         self.apply_btn.setEnabled(True)
+        self.current_processed_x = list(x_data)
+        self.current_processed_y = list(y_data)
         self.processed_plot_widget.set_signal_data(x_data, y_data, "#00BFA5")
-        self._set_status("处理完成")
+
+        self.current_features = self.signal_service.extract_features(
+            self.current_processed_y,
+            sampling_rate=self.loaded_signal_data.sample_rate if self.loaded_signal_data else None,
+        )
+        self._update_feature_table(self.current_features)
+
+        self.export_signal_btn.setEnabled(True)
+        self.export_features_btn.setEnabled(True)
+        self.send_to_recommend_btn.setEnabled(True)
+        self._set_status("处理完成，特征已更新")
 
     def _on_process_failed(self, message: str):
         self.apply_btn.setEnabled(True)
@@ -301,7 +381,93 @@ class SensorProcessingInterface(NavInterface):
             self.raw_plot_widget.clear()
 
         self.processed_plot_widget.clear()
+        self.feature_table.setRowCount(0)
+        self.current_processed_x = []
+        self.current_processed_y = []
+        self.current_features = {}
+        self.export_signal_btn.setEnabled(False)
+        self.export_features_btn.setEnabled(False)
+        self.send_to_recommend_btn.setEnabled(False)
         self._set_status("已重置参数")
+
+    def _on_export_signal(self):
+        if not self.current_processed_y:
+            InfoBar.warning("提示", "请先完成处理再导出", parent=self)
+            return
+
+        save_path, _ = QFileDialog.getSaveFileName(self, "导出处理信号", "processed_signal.csv", "CSV Files (*.csv)")
+        if not save_path:
+            return
+
+        try:
+            channel = self.channel_selector.currentText()
+            self.signal_service.export_signal_to_csv(save_path, self.current_processed_x, self.current_processed_y, channel)
+            InfoBar.success("导出成功", f"处理信号已导出：{save_path}", parent=self)
+        except Exception as exc:
+            logger.error("导出处理信号失败: %s", exc)
+            InfoBar.error("导出失败", str(exc), parent=self)
+
+    def _on_export_features(self):
+        if not self.current_features:
+            InfoBar.warning("提示", "暂无可导出的特征", parent=self)
+            return
+
+        save_path, selected_filter = QFileDialog.getSaveFileName(
+            self,
+            "导出特征",
+            "signal_features.csv",
+            "CSV Files (*.csv);;JSON Files (*.json)",
+        )
+        if not save_path:
+            return
+
+        try:
+            if selected_filter.startswith("JSON") or save_path.lower().endswith(".json"):
+                if not save_path.lower().endswith(".json"):
+                    save_path += ".json"
+                self.signal_service.export_features_to_json(save_path, self.current_features)
+            else:
+                if not save_path.lower().endswith(".csv"):
+                    save_path += ".csv"
+                self.signal_service.export_features_to_csv(save_path, self.current_features)
+
+            InfoBar.success("导出成功", f"特征已导出：{save_path}", parent=self)
+        except Exception as exc:
+            logger.error("导出特征失败: %s", exc)
+            InfoBar.error("导出失败", str(exc), parent=self)
+
+    def _on_send_to_recommend(self):
+        if not self.current_features:
+            InfoBar.warning("提示", "请先完成处理并生成特征", parent=self)
+            return
+
+        payload = {
+            "record_id": self.current_record.get("id") if self.current_record else None,
+            "channel": self.channel_selector.currentText(),
+            "features": self.current_features,
+        }
+        logger.info("TODO: 发送到推荐模块 payload=%s", payload)
+        InfoBar.info("预留接口", "已生成结构化特征对象（见日志，后续对接推荐模块）", parent=self)
+
+    def _update_feature_table(self, features: Dict[str, float]):
+        ordered_feature_labels = [
+            ("max", "最大值"),
+            ("min", "最小值"),
+            ("mean", "均值"),
+            ("rms", "RMS"),
+            ("peak_to_peak", "峰峰值"),
+            ("std", "标准差"),
+            ("energy", "能量"),
+            ("dominant_frequency", "主频(Hz)"),
+        ]
+
+        available_items = [(key, label) for key, label in ordered_feature_labels if key in features]
+        self.feature_table.setRowCount(len(available_items))
+
+        for row, (key, label) in enumerate(available_items):
+            value = features[key]
+            self.feature_table.setItem(row, 0, QTableWidgetItem(label))
+            self.feature_table.setItem(row, 1, QTableWidgetItem(f"{value:.6f}"))
 
     def _set_status(self, text: str):
         self.processing_status_label.setText(f"状态：{text}")

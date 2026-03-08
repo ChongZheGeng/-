@@ -49,7 +49,7 @@ class SensorDataInterface(NavInterface):
         self.add_button.setIcon(FIF.ADD)
         title_layout.addWidget(self.add_button)
 
-        self.analyze_button = PushButton("分析/处理")
+        self.analyze_button = PushButton("打开处理页面")
         self.analyze_button.setIcon(FIF.SEARCH)
         title_layout.addWidget(self.analyze_button)
 
@@ -75,7 +75,7 @@ class SensorDataInterface(NavInterface):
         # --- 信号连接 ---
         self.add_button.clicked.connect(self.upload_data_file)
         self.sync_button.clicked.connect(self.sync_files_with_database)
-        self.analyze_button.clicked.connect(self.open_analysis_dialog)
+        self.analyze_button.clicked.connect(self.open_processing_interface)
 
         # --- 移除初始化时的数据加载调用，改为在on_activated中加载 ---
 
@@ -235,6 +235,28 @@ class SensorDataInterface(NavInterface):
         record = self.current_records[row]
         dialog = SensorDataAnalysisDialog(sensor_data=record, parent=self.window())
         dialog.exec()
+
+
+    def open_processing_interface(self):
+        row = self.table.currentRow()
+        if row < 0:
+            InfoBar.warning("提示", "请先选中一条传感器数据", parent=self)
+            return
+
+        if row >= len(self.current_records):
+            InfoBar.warning("提示", "未找到选中记录的原始数据，请刷新后重试", parent=self)
+            return
+
+        record = self.current_records[row]
+        main_window = self.window()
+
+        if not hasattr(main_window, "sensor_processing_interface"):
+            InfoBar.error("错误", "传感器处理页面不可用", parent=self)
+            return
+
+        processing_interface = main_window.sensor_processing_interface
+        processing_interface.set_current_record(record)
+        main_window.switchTo(processing_interface)
 
     def upload_data_file(self):
         """ 上传数据文件 """
