@@ -57,7 +57,7 @@ from .serializers import (
 
 
 logger = logging.getLogger(__name__)
-BUILD_MARKER = "sqlite-init-fix-v1"
+BUILD_MARKER = "dev-db-init-v1"
 
 logger.info("[process_data.views] loaded file=%s", os.path.abspath(__file__))
 

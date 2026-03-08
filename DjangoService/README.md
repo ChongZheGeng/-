@@ -73,7 +73,16 @@ python manage.py runserver
 
 当 `USE_MYSQL` 未设置为 `1` 时，项目会使用 SQLite（默认数据库文件：`DjangoService/db.sqlite3`）。
 
-1. 初始化开发数据库（迁移 + 开发管理员）
+1. 初始化开发数据库（推荐一键脚本）
+
+```powershell
+cd DjangoService
+powershell -ExecutionPolicy Bypass -File .\dev_init.ps1
+```
+
+> 脚本会自动执行 `python manage.py init_dev_data`，完成迁移并创建开发管理员。
+
+2. 或使用管理命令初始化（等价）
 
 ```bash
 cd DjangoService
@@ -85,32 +94,35 @@ python manage.py init_dev_data
 > - Linux/macOS: `export DEV_ADMIN_PASSWORD=你的密码`
 > - PowerShell: `$env:DEV_ADMIN_PASSWORD="你的密码"`
 
-2. 启动 Django
+3. 启动 Django
 
 ```bash
 python manage.py runserver 127.0.0.1:8000
 ```
 
-3. 启动前端（PyQt）
+4. 启动前端（PyQt）
 
 ```bash
 cd ..\pyQTClient
 python demo.py
 ```
 
-4. 默认开发管理员账号
+5. 默认开发管理员账号
 
 - 用户名：`hedgehog`
 - 密码：读取 `DEV_ADMIN_PASSWORD`，未设置时为 `hedgehog123`
 
-### PowerShell 一键初始化示例
+### 初始化成功后的验证
 
-```powershell
-cd DjangoService
-$env:DEV_ADMIN_PASSWORD = "hedgehog123"
-python manage.py init_dev_data
-python manage.py runserver 127.0.0.1:8000
+```bash
+curl http://127.0.0.1:8000/api/health/
 ```
+
+应看到：
+
+- `"db_ok": true`
+- `"db_initialized": true`
+- `"auth_user_table_exists": true`
 
 ## API接口
 
