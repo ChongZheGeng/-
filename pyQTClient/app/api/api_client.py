@@ -1,10 +1,17 @@
+import logging
+import time
+
 import requests
 from ..common import config
 
 # API 服务器的基础URL
 API_BASE_URL = "http://127.0.0.1:8000/api"
 DEFAULT_TIMEOUT = (2, 5)
-HEALTH_TIMEOUT = (1, 2)
+HEALTH_TIMEOUT = (3, 5)
+HEALTH_MAX_ATTEMPTS = 5
+HEALTH_RETRY_INTERVAL_SECONDS = 0.8
+
+logger = logging.getLogger(__name__)
 
 
 class ApiClient:
@@ -42,16 +49,58 @@ class ApiClient:
         self.session.mount("http://", adapter)
         self.session.mount("https://", adapter)
 
-    def ping_health(self):
-        """快速探活后端服务"""
+    def _format_health_error(self, exc):
+        """根据异常类型生成更准确的健康检查提示。"""
+        if isinstance(exc, requests.exceptions.ConnectTimeout):
+            return "后端未就绪或端口无响应（connect timeout）"
+        if isinstance(exc, requests.exceptions.ReadTimeout):
+            return "后端响应超时（read timeout）"
+        if isinstance(exc, requests.exceptions.ConnectionError):
+            detail = str(exc).lower()
+            if "connection refused" in detail or "winerror 10061" in detail:
+                return "后端未启动（connection refused）"
+            return "后端连接失败（connection error）"
+        if isinstance(exc, requests.exceptions.HTTPError) and getattr(exc, "response", None) is not None:
+            status_code = exc.response.status_code
+            if status_code == 404:
+                return "/api/health/ 未配置（404）"
+            return f"健康检查返回异常状态码（{status_code}）"
+        return f"健康检查失败：{exc}"
+
+    def ping_health(self, attempts=HEALTH_MAX_ATTEMPTS, retry_interval=HEALTH_RETRY_INTERVAL_SECONDS):
+        """启动阶段健康检查：短轮询等待后端就绪。"""
         health_url = f"{API_BASE_URL}/health/"
-        try:
-            response = self.session.get(health_url, timeout=HEALTH_TIMEOUT)
-            response.raise_for_status()
-            return True, response.json()
-        except requests.exceptions.RequestException as e:
-            print(f"Health check failed: {e}")
-            return False, f"后端未启动/连接失败: {e}"
+        last_exception = None
+
+        for attempt in range(1, max(1, attempts) + 1):
+            logger.info(
+                "Health check attempt %s/%s url=%s timeout=%s",
+                attempt,
+                attempts,
+                health_url,
+                HEALTH_TIMEOUT,
+            )
+            try:
+                response = self.session.get(health_url, timeout=HEALTH_TIMEOUT)
+                logger.info("Health check response status_code=%s", response.status_code)
+                response.raise_for_status()
+                return True, response.json()
+            except requests.exceptions.RequestException as exc:
+                last_exception = exc
+                logger.warning(
+                    "Health check failed attempt=%s/%s type=%s url=%s timeout=%s status_code=%s detail=%s",
+                    attempt,
+                    attempts,
+                    type(exc).__name__,
+                    health_url,
+                    HEALTH_TIMEOUT,
+                    getattr(getattr(exc, "response", None), "status_code", None),
+                    exc,
+                )
+                if attempt < attempts:
+                    time.sleep(retry_interval)
+
+        return False, self._format_health_error(last_exception)
 
     def login(self, username, password):
         """ 调用新的JSON登录接口 """
