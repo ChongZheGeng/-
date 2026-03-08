@@ -68,6 +68,50 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
+
+## 开发环境 SQLite 启动步骤
+
+当 `USE_MYSQL` 未设置为 `1` 时，项目会使用 SQLite（默认数据库文件：`DjangoService/db.sqlite3`）。
+
+1. 初始化开发数据库（迁移 + 开发管理员）
+
+```bash
+cd DjangoService
+python manage.py init_dev_data
+```
+
+> 可选：通过环境变量配置开发管理员密码（默认 `hedgehog123`）
+>
+> - Linux/macOS: `export DEV_ADMIN_PASSWORD=你的密码`
+> - PowerShell: `$env:DEV_ADMIN_PASSWORD="你的密码"`
+
+2. 启动 Django
+
+```bash
+python manage.py runserver 127.0.0.1:8000
+```
+
+3. 启动前端（PyQt）
+
+```bash
+cd ..\pyQTClient
+python demo.py
+```
+
+4. 默认开发管理员账号
+
+- 用户名：`hedgehog`
+- 密码：读取 `DEV_ADMIN_PASSWORD`，未设置时为 `hedgehog123`
+
+### PowerShell 一键初始化示例
+
+```powershell
+cd DjangoService
+$env:DEV_ADMIN_PASSWORD = "hedgehog123"
+python manage.py init_dev_data
+python manage.py runserver 127.0.0.1:8000
+```
+
 ## API接口
 
 系统提供以下API接口：
