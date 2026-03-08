@@ -96,7 +96,7 @@ class SensorProcessingInterface(NavInterface):
         self._connect_signals()
 
     def _build_header(self):
-        title_label = SubtitleLabel("传感器处理")
+        title_label = SubtitleLabel("传感器数据处理")
         self.main_layout.addWidget(title_label)
 
         info_card = CardWidget(self)
