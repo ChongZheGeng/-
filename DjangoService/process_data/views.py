@@ -1,6 +1,7 @@
 import logging
 import time
 from django.shortcuts import render
+from django.db import DatabaseError
 from rest_framework import viewsets, permissions, filters, status, views
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
@@ -94,53 +95,66 @@ class LoginView(views.APIView):
 
     def post(self, request, *args, **kwargs):
         request_start = time.perf_counter()
-        username = request.data.get('username')
-        password = request.data.get('password')
-        client_ip = request.META.get('REMOTE_ADDR')
-
-        logger.info("[LoginView] 请求进入 username=%s ip=%s", username, client_ip)
-        
-        from django.contrib.auth import authenticate
-        auth_start = time.perf_counter()
-        logger.info("[LoginView] 开始认证 username=%s", username)
-
+        username = ""
         try:
-            user = authenticate(request, username=username, password=password)
-        except Exception:
-            elapsed_ms = (time.perf_counter() - request_start) * 1000
-            logger.exception("[LoginView] 认证异常 username=%s elapsed_ms=%.2f", username, elapsed_ms)
-            return Response(
-                {"error": "登录处理异常，请稍后重试"},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            logger.info(
+                "[login] request_enter method=%s path=%s",
+                request.method,
+                request.path,
             )
 
-        auth_elapsed_ms = (time.perf_counter() - auth_start) * 1000
-        logger.info("[LoginView] 认证结束 username=%s elapsed_ms=%.2f authenticated=%s", username, auth_elapsed_ms, user is not None)
-        
-        if user is not None:
-            login_start = time.perf_counter()
-            login(request, user)
-            login_elapsed_ms = (time.perf_counter() - login_start) * 1000
-            total_elapsed_ms = (time.perf_counter() - request_start) * 1000
+            logger.info("[login] parse_request_start")
+            username = (request.data.get('username') or '').strip()
+            password = request.data.get('password') or ''
+            logger.info("[login] parse_request_done username=%s has_password=%s", username, bool(password))
+
+            if not username or not password:
+                logger.warning("[login] parse_request_invalid username=%s", username)
+                return Response({"error": "用户名和密码不能为空"}, status=status.HTTP_400_BAD_REQUEST)
+
+            query_start = time.perf_counter()
+            logger.info("[login] user_query_start username=%s", username)
+            user = User.objects.only('id', 'username', 'email', 'is_superuser', 'password').filter(username=username).first()
             logger.info(
-                "[LoginView] 登录成功 username=%s login_elapsed_ms=%.2f total_elapsed_ms=%.2f",
+                "[login] user_query_done username=%s found=%s elapsed_ms=%.2f",
                 username,
-                login_elapsed_ms,
-                total_elapsed_ms,
+                user is not None,
+                (time.perf_counter() - query_start) * 1000,
             )
-            return Response({
+
+            if user is None:
+                return Response({"error": "用户名或密码错误"}, status=status.HTTP_401_UNAUTHORIZED)
+
+            pwd_start = time.perf_counter()
+            logger.info("[login] password_check_start username=%s", username)
+            password_ok = user.check_password(password)
+            logger.info(
+                "[login] password_check_done username=%s ok=%s elapsed_ms=%.2f",
+                username,
+                password_ok,
+                (time.perf_counter() - pwd_start) * 1000,
+            )
+            if not password_ok:
+                return Response({"error": "用户名或密码错误"}, status=status.HTTP_401_UNAUTHORIZED)
+
+            logger.info("[login] build_response_start username=%s", username)
+            login(request, user)
+            response_data = {
                 'id': user.id,
                 'username': user.username,
                 'email': user.email,
                 'is_superuser': user.is_superuser,
-            }, status=status.HTTP_200_OK)
-        else:
-            total_elapsed_ms = (time.perf_counter() - request_start) * 1000
-            logger.warning("[LoginView] 登录失败 username=%s total_elapsed_ms=%.2f", username, total_elapsed_ms)
-            return Response(
-                {"error": "用户名或密码错误"}, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            }
+            logger.info("[login] build_response_done username=%s", username)
+            return Response(response_data, status=status.HTTP_200_OK)
+        except DatabaseError:
+            logger.exception("[login] request_error username=%s database_error=true", username)
+            return Response({"error": "数据库连接异常，请稍后重试"}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+        except Exception:
+            logger.exception("[login] request_error username=%s", username)
+            return Response({"error": "登录处理异常，请稍后重试"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        finally:
+            logger.info("[login] request_exit username=%s total_elapsed_ms=%.2f", username, (time.perf_counter() - request_start) * 1000)
 
 
 class UserViewSet(viewsets.ModelViewSet):
