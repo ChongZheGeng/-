@@ -215,8 +215,8 @@ class LoginWindow(Window):
         self.health_dialog_visible = True
         should_retry = self.show_backend_error_dialog(
             title="连接失败",
-            message=f"后端未启动/连接失败。\n\n{error_message}\n\n请先启动 Django 服务后重试。",
-            manual_command=backend_launcher.build_manual_command(),
+            message=f"后端连接检查未通过。\n\n{error_message}\n\n请确认 Django 服务已启动并监听 127.0.0.1:8000。",
+            manual_command=backend_launcher.build_powershell_manual_command(),
             allow_retry=True
         )
         self.health_dialog_visible = False
@@ -312,7 +312,7 @@ class LoginWindow(Window):
         self.show_backend_error_dialog(
             title="自动启动失败",
             message=f"自动启动后端失败：{error_message}",
-            manual_command=backend_launcher.build_manual_command(),
+            manual_command=backend_launcher.build_powershell_manual_command(),
             allow_retry=False
         )
 
@@ -347,16 +347,13 @@ class LoginWindow(Window):
         box.setText(message)
 
         powershell_command = manual_command
-        cmd_command = None
         if manual_command:
             powershell_command = backend_launcher.build_powershell_manual_command()
-            cmd_command = backend_launcher.build_cmd_manual_command()
 
         if manual_command:
             box.setInformativeText(
-                "可手动执行（复制后可直接粘贴运行）：\n"
-                f"PowerShell 命令：\n{powershell_command}\n\n"
-                f"CMD 命令：\n{cmd_command}"
+                "可手动执行（PowerShell）：\n"
+                f"{powershell_command}"
             )
 
         if allow_retry:
@@ -366,10 +363,8 @@ class LoginWindow(Window):
             box.setStandardButtons(QMessageBox.Ok)
 
         copy_ps_button = None
-        copy_cmd_button = None
         if manual_command:
             copy_ps_button = box.addButton("复制 PowerShell 命令", QMessageBox.ActionRole)
-            copy_cmd_button = box.addButton("复制 CMD 命令", QMessageBox.ActionRole)
 
         box.exec_()
         clicked = box.clickedButton()
@@ -378,17 +373,6 @@ class LoginWindow(Window):
             InfoBar.success(
                 "已复制",
                 "PowerShell 启动命令已复制到剪贴板",
-                orient=Qt.Horizontal,
-                isClosable=True,
-                position=InfoBarPosition.TOP,
-                duration=2500,
-                parent=self
-            )
-        elif copy_cmd_button and clicked == copy_cmd_button:
-            QApplication.clipboard().setText(cmd_command)
-            InfoBar.success(
-                "已复制",
-                "CMD 启动命令已复制到剪贴板",
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,

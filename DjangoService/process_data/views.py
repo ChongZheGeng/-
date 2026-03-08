@@ -7,8 +7,6 @@ from django.db.models import Q
 from django.contrib.auth import login, logout, get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from django.utils import timezone
-from django.db import connection
 from django.contrib.auth.models import User
 
 from .models import (
@@ -71,20 +69,14 @@ class IsAuthenticatedOrReadOnly(permissions.BasePermission):
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def health_api(request):
-    """轻量健康检查接口，用于客户端快速探活。"""
-    payload = {
-        "status": "ok",
-        "service": "DjangoService",
-        "time": timezone.now().isoformat(),
-    }
-
-    try:
-        connection.ensure_connection()
-    except Exception as exc:
-        payload["status"] = "degraded"
-        payload["error"] = str(exc)
-
-    return Response(payload, status=status.HTTP_200_OK)
+    """极简健康检查接口：只返回静态状态，不做任何外部依赖检查。"""
+    return Response(
+        {
+            "status": "ok",
+            "service": "DjangoService",
+        },
+        status=status.HTTP_200_OK,
+    )
 
 
 @method_decorator(csrf_exempt, name='dispatch')

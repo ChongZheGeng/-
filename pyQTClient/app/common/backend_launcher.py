@@ -30,13 +30,16 @@ def find_repo_root(start_path: Optional[Path] = None) -> Optional[Path]:
     return None
 
 
-def quick_health_check(timeout: Tuple[float, float] = (1, 2.5)) -> Tuple[bool, str]:
-    """执行一次快速健康检查，尽量减少重试等待。"""
+def quick_health_check(timeout: Tuple[float, float] = (3, 5)) -> Tuple[bool, str]:
+    """执行一次快速健康检查，尽量减少误判。"""
     try:
+        logger.info("后台健康检查请求: url=%s timeout=%s", HEALTH_URL, timeout)
         response = requests.get(HEALTH_URL, timeout=timeout)
+        logger.info("后台健康检查响应: status_code=%s", response.status_code)
         response.raise_for_status()
         return True, "OK"
     except requests.exceptions.RequestException as e:
+        logger.warning("后台健康检查失败: type=%s detail=%s", type(e).__name__, e)
         return False, str(e)
 
 
@@ -108,7 +111,7 @@ def wait_for_health(timeout_seconds: float = 25.0, interval_seconds: float = 0.5
     last_error = ""
 
     while time.monotonic() - start <= timeout_seconds:
-        ok, message = quick_health_check(timeout=(1, 2.5))
+        ok, message = quick_health_check(timeout=(3, 5))
         if ok:
             elapsed = time.monotonic() - start
             logger.info("后端健康检查通过，耗时 %.2fs", elapsed)
