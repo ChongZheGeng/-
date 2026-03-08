@@ -56,7 +56,7 @@ from .serializers import (
 
 
 logger = logging.getLogger(__name__)
-BUILD_MARKER = "recommend-db-diagnose-v1"
+BUILD_MARKER = "recommend-route-local-fix-v1"
 
 logger.info("[process_data.views] loaded file=%s", os.path.abspath(__file__))
 
@@ -121,6 +121,7 @@ class IsAuthenticatedOrReadOnly(permissions.BasePermission):
 @permission_classes([permissions.AllowAny])
 def health_api(request):
     """健康检查：包含匿名可访问的数据库最小探测与路由注册状态。"""
+    logger.info("[health] request_enter")
     db_result = _probe_database_connection()
     body = {
         "status": "ok",
@@ -136,22 +137,18 @@ def health_api(request):
 @permission_classes([permissions.AllowAny])
 def recommend_api(request):
     """最小可用推荐接口：不依赖数据库，仅用于联调。"""
-    logger.info("[recommend] request_enter file=%s", os.path.abspath(__file__))
+    logger.info("[recommend] request_enter")
     input_n = request.data.get("n", 1000)
     input_fz = request.data.get("fz", 0.01)
-    objective = request.data.get("objective", "A_damage")
-    model_type = request.data.get("model_type", "default")
     payload = {
         "success": True,
         "mode": "prediction",
-        "objective": objective,
-        "model_type": model_type,
+        "objective": "A_damage",
         "input_n": input_n,
         "input_fz": input_fz,
         "predicted_value": 0.123,
         "build_marker": BUILD_MARKER,
     }
-    logger.info("[recommend] response_done payload=%s", payload)
     return Response(payload, status=status.HTTP_200_OK)
 
 
