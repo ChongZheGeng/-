@@ -26,6 +26,7 @@ class ParsedResult:
     kind: str
     status_text: str
     message: str = ""
+    mode: str = ""
     input_n: Optional[float] = None
     input_fz: Optional[float] = None
     recommended_n: Optional[float] = None
@@ -66,7 +67,7 @@ def parse_recommendation_response(data: Optional[Dict[str, Any]], payload: Dict[
             "recommended_n", "recommended_fz", "best_point", "optimum", "recommended_params",
             "predicted_value", "predicted_A_damage", "predicted_F_damage", "objective_value", "result",
             "best", "prediction", "uncertainty", "n", "fz", "A_damage", "F_damage",
-            "success", "message", "detail", "error",
+            "mode", "success", "message", "detail", "error",
         )
         if key in data
     ]
@@ -122,6 +123,7 @@ def parse_recommendation_response(data: Optional[Dict[str, Any]], payload: Dict[
             predicted_values[key] = data.get(key)
 
     objective = str(data.get("objective") or payload.get("objective") or "")
+    mode = str(data.get("mode") or "")
     objective_value = data.get("objective_value")
     if objective_value is None and objective == "A_damage":
         objective_value = data.get("predicted_A_damage")
@@ -135,6 +137,7 @@ def parse_recommendation_response(data: Optional[Dict[str, Any]], payload: Dict[
             kind="recommendation",
             status_text="推荐完成",
             message=raw_message or "已返回推荐参数",
+            mode=mode,
             input_n=payload.get("n"),
             input_fz=payload.get("fz"),
             recommended_n=recommended_n,
@@ -152,6 +155,7 @@ def parse_recommendation_response(data: Optional[Dict[str, Any]], payload: Dict[
             kind="prediction",
             status_text="预测完成",
             message="当前接口返回的是预测结果，未返回新的推荐参数",
+            mode=mode or "prediction",
             input_n=payload.get("n"),
             input_fz=payload.get("fz"),
             objective=objective,
@@ -166,6 +170,7 @@ def parse_recommendation_response(data: Optional[Dict[str, Any]], payload: Dict[
         kind="empty",
         status_text="未返回有效结果",
         message=raw_message or "接口未返回可识别的推荐/预测字段",
+        mode=mode,
         input_n=payload.get("n"),
         input_fz=payload.get("fz"),
         objective=objective,
@@ -370,6 +375,8 @@ class RecommendationInterface(NavInterface):
             )
 
         objective_lines = [f"优化目标 objective: {parsed.objective or self.objective_combo.currentText()}"]
+        if parsed.mode:
+            objective_lines.append(f"mode: {parsed.mode}")
         if parsed.objective_value is not None:
             objective_lines.append(f"目标值: {parsed.objective_value}")
         for key, value in parsed.predicted_values.items():
