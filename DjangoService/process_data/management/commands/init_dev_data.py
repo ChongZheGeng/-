@@ -54,3 +54,5 @@ class Command(BaseCommand):
         self.stdout.write(
             f"[dev-init] db_engine={getattr(settings, 'DB_RUNTIME_ENGINE', 'unknown')} username={username}"
         )
+
+        self.stdout.write("[dev-init] initialization success")

@@ -80,6 +80,13 @@ cd DjangoService
 powershell -ExecutionPolicy Bypass -File .\dev_init.ps1
 ```
 
+Windows 固定路径示例（可直接复制）：
+
+```powershell
+Set-Location "F:\python\dachuang\DjangoService"
+powershell -ExecutionPolicy Bypass -File .\dev_init.ps1
+```
+
 > 脚本会自动执行 `python manage.py init_dev_data`，完成迁移并创建开发管理员。
 
 2. 或使用管理命令初始化（等价）
