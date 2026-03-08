@@ -10,7 +10,6 @@ from django.db.models import Q
 from django.contrib.auth import login, logout, get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from django.contrib.auth.models import User
 
 from .models import (
     ProcessCategory,
@@ -112,18 +111,41 @@ class LoginView(views.APIView):
                 logger.warning("[login] parse_request_invalid username=%s", username)
                 return Response({"error": "用户名和密码不能为空"}, status=status.HTTP_400_BAD_REQUEST)
 
+            user_model = get_user_model()
+            login_field = user_model.USERNAME_FIELD
+            login_lookup = {login_field: username}
+            login_only_fields = [
+                'id',
+                login_field,
+                'password',
+                'is_active',
+                'is_staff',
+                'is_superuser',
+                'email',
+            ]
+
             query_start = time.perf_counter()
             logger.info("[login] user_query_start username=%s", username)
-            user = User.objects.only('id', 'username', 'email', 'is_superuser', 'password').filter(username=username).first()
+            try:
+                user = user_model.objects.only(*login_only_fields).get(**login_lookup)
+            except user_model.DoesNotExist:
+                logger.info(
+                    "[login] user_query_done username=%s model=%s query_field=%s found=%s elapsed_ms=%.2f",
+                    username,
+                    user_model.__name__,
+                    login_field,
+                    False,
+                    (time.perf_counter() - query_start) * 1000,
+                )
+                return Response({"error": "用户名或密码错误"}, status=status.HTTP_401_UNAUTHORIZED)
             logger.info(
-                "[login] user_query_done username=%s found=%s elapsed_ms=%.2f",
+                "[login] user_query_done username=%s model=%s query_field=%s found=%s elapsed_ms=%.2f",
                 username,
-                user is not None,
+                user_model.__name__,
+                login_field,
+                True,
                 (time.perf_counter() - query_start) * 1000,
             )
-
-            if user is None:
-                return Response({"error": "用户名或密码错误"}, status=status.HTTP_401_UNAUTHORIZED)
 
             pwd_start = time.perf_counter()
             logger.info("[login] password_check_start username=%s", username)
