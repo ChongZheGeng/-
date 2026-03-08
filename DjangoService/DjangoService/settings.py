@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -82,18 +83,32 @@ WSGI_APPLICATION = "DjangoService.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+DB_ENGINE = os.getenv("DB_ENGINE", "django.db.backends.mysql")
+DB_NAME = os.getenv("DB_NAME", "ProcessData")
+DB_USER = os.getenv("DB_USER", "ProcessData")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "")
+DB_HOST = os.getenv("DB_HOST", "127.0.0.1")
+DB_PORT = os.getenv("DB_PORT", "3306")
+DB_CONN_MAX_AGE = int(os.getenv("DB_CONN_MAX_AGE", "60"))
+DB_CONNECT_TIMEOUT = int(os.getenv("DB_CONNECT_TIMEOUT", "5"))
+DB_READ_TIMEOUT = int(os.getenv("DB_READ_TIMEOUT", "10"))
+DB_WRITE_TIMEOUT = int(os.getenv("DB_WRITE_TIMEOUT", "10"))
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "ProcessData",  # 数据库名称
-        "USER": "ProcessData",  # 用户名
-        "PASSWORD": "zsw22204016.",  # 密码
-        "HOST": "123.56.17.158",  # 主机地址
-        "PORT": "3306",  # 端口
+        "ENGINE": DB_ENGINE,
+        "NAME": DB_NAME,
+        "USER": DB_USER,
+        "PASSWORD": DB_PASSWORD,
+        "HOST": DB_HOST,
+        "PORT": DB_PORT,
+        "CONN_MAX_AGE": DB_CONN_MAX_AGE,
         "OPTIONS": {
             "charset": "utf8mb4",
             "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
-            "connect_timeout": 3,
+            "connect_timeout": DB_CONNECT_TIMEOUT,
+            "read_timeout": DB_READ_TIMEOUT,
+            "write_timeout": DB_WRITE_TIMEOUT,
         },
     }
 }
@@ -184,6 +199,15 @@ LOGGING = {
 # 确保日志目录存在
 os.makedirs(os.path.join(BASE_DIR, 'logs'), exist_ok=True)
 
+logging.getLogger("django").info(
+    "[db] engine=%s host=%s port=%s name=%s conn_max_age=%s",
+    DB_ENGINE,
+    DB_HOST,
+    DB_PORT,
+    DB_NAME,
+    DB_CONN_MAX_AGE,
+)
+
 # REST Framework 设置
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -197,7 +221,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'
-    ]
+    ],
+    'EXCEPTION_HANDLER': 'process_data.exception_handlers.custom_exception_handler',
 }
 
 # CSRF设置

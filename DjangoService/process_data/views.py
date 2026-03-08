@@ -2,7 +2,7 @@ import logging
 import os
 import time
 from django.shortcuts import render
-from django.db import DatabaseError
+from django.db import DatabaseError, connections
 from rest_framework import viewsets, permissions, filters, status, views
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
@@ -56,7 +56,7 @@ from .serializers import (
 
 
 logger = logging.getLogger(__name__)
-BUILD_MARKER = "recommend-route-v3"
+BUILD_MARKER = "recommend-db-diagnose-v1"
 
 logger.info("[process_data.views] loaded file=%s", os.path.abspath(__file__))
 
@@ -81,6 +81,28 @@ def _has_recommend_route() -> bool:
         return False
 
 
+def _probe_database_connection() -> dict:
+    """最小数据库探测：尝试建立连接并执行 SELECT 1。"""
+    db_settings = connections["default"].settings_dict
+    result = {
+        "db_ok": False,
+        "db_engine": db_settings.get("ENGINE", ""),
+        "db_host": db_settings.get("HOST", ""),
+        "db_port": str(db_settings.get("PORT", "")),
+    }
+
+    try:
+        with connections["default"].cursor() as cursor:
+            cursor.execute("SELECT 1")
+            cursor.fetchone()
+        result["db_ok"] = True
+    except Exception as exc:  # noqa: BLE001
+        result["db_error"] = f"{exc.__class__.__name__}: {exc}"
+        logger.warning("[health] db_probe_failed engine=%s host=%s port=%s error=%s", result["db_engine"], result["db_host"], result["db_port"], result["db_error"])
+
+    return result
+
+
 # 自定义权限类，允许已登录用户执行任何操作
 class IsAuthenticatedOrReadOnly(permissions.BasePermission):
     """
@@ -98,29 +120,34 @@ class IsAuthenticatedOrReadOnly(permissions.BasePermission):
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def health_api(request):
-    """极简健康检查接口：只返回静态状态，不做任何外部依赖检查。"""
-    return Response(
-        {
-            "status": "ok",
-            "service": "DjangoService",
-            "build_marker": BUILD_MARKER,
-            "has_recommend_route": _has_recommend_route(),
-        },
-        status=status.HTTP_200_OK,
-    )
+    """健康检查：包含匿名可访问的数据库最小探测与路由注册状态。"""
+    db_result = _probe_database_connection()
+    body = {
+        "status": "ok",
+        "service": "DjangoService",
+        "build_marker": BUILD_MARKER,
+        "has_recommend_route": _has_recommend_route(),
+        **db_result,
+    }
+    return Response(body, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
 def recommend_api(request):
-    """最小可用推荐接口：固定返回成功结构用于路由联调。"""
+    """最小可用推荐接口：不依赖数据库，仅用于联调。"""
     logger.info("[recommend] request_enter file=%s", os.path.abspath(__file__))
+    input_n = request.data.get("n", 1000)
+    input_fz = request.data.get("fz", 0.01)
+    objective = request.data.get("objective", "A_damage")
+    model_type = request.data.get("model_type", "default")
     payload = {
         "success": True,
         "mode": "prediction",
-        "objective": "A_damage",
-        "input_n": 1000,
-        "input_fz": 0.01,
+        "objective": objective,
+        "model_type": model_type,
+        "input_n": input_n,
+        "input_fz": input_fz,
         "predicted_value": 0.123,
         "build_marker": BUILD_MARKER,
     }
