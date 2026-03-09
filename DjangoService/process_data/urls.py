@@ -1,6 +1,3 @@
-import logging
-import os
-
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
@@ -20,12 +17,7 @@ from .views import (
     TaskGroupViewSet,
     UserInfoView,
     health_api,
-    recommend_api,
 )
-
-
-logger = logging.getLogger(__name__)
-logger.info("[process_data.urls] loaded file=%s", os.path.abspath(__file__))
 
 # 创建路由器并注册视图集
 router = DefaultRouter()
@@ -49,10 +41,6 @@ router.register(r'task-groups', TaskGroupViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('health/', health_api, name='health'),
-    path('recommend/', recommend_api, name='recommend'),
     path('login/', LoginView.as_view(), name='api_login'),
     path('user-info/', UserInfoView.as_view(), name='user_info'),
 ]
-
-logger.info("[process_data.urls] recommend route registered path=/api/recommend/")
-logger.info("[process_data.urls] recommend urlpattern=%s", next((str(p.pattern) for p in urlpatterns if getattr(p, "name", "") == "recommend"), "missing"))

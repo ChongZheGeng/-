@@ -1,9 +1,7 @@
 import logging
-import os
 import time
-from django.conf import settings
 from django.shortcuts import render
-from django.db import DatabaseError, connections
+from django.db import DatabaseError
 from rest_framework import viewsets, permissions, filters, status, views
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
@@ -57,71 +55,6 @@ from .serializers import (
 
 
 logger = logging.getLogger(__name__)
-BUILD_MARKER = "dev-db-init-v1"
-
-logger.info("[process_data.views] loaded file=%s", os.path.abspath(__file__))
-
-
-def _has_recommend_route() -> bool:
-    """运行时检查 URLConf 是否包含 recommend 路由。"""
-    try:
-        from django.urls import URLPattern, URLResolver, get_resolver
-
-        def walk(patterns):
-            for pattern in patterns:
-                if isinstance(pattern, URLPattern):
-                    yield str(pattern.pattern)
-                elif isinstance(pattern, URLResolver):
-                    for nested in walk(pattern.url_patterns):
-                        yield f"{pattern.pattern}{nested}"
-
-        resolver = get_resolver()
-        return any("recommend/" in item for item in walk(resolver.url_patterns))
-    except Exception as exc:  # noqa: BLE001
-        logger.warning("[health] has_recommend_route_check_failed err=%s", exc)
-        return False
-
-
-def _probe_database_connection() -> dict:
-    """最小数据库探测：尝试建立连接并执行 SELECT 1。"""
-    db_settings = connections["default"].settings_dict
-    raw_engine = db_settings.get("ENGINE", "")
-    normalized_engine = "sqlite" if "sqlite" in raw_engine else "mysql" if "mysql" in raw_engine else raw_engine
-    result = {
-        "db_ok": False,
-        "db_engine": normalized_engine,
-        "db_host": db_settings.get("HOST", ""),
-        "db_port": str(db_settings.get("PORT", "")),
-    }
-
-    try:
-        with connections["default"].cursor() as cursor:
-            cursor.execute("SELECT 1")
-            cursor.fetchone()
-        result["db_ok"] = True
-    except Exception as exc:  # noqa: BLE001
-        result["db_error"] = f"{exc.__class__.__name__}: {exc}"
-        logger.warning("[health] db_probe_failed engine=%s host=%s port=%s error=%s", result["db_engine"], result["db_host"], result["db_port"], result["db_error"])
-
-    return result
-
-
-def _probe_db_initialization() -> dict:
-    """探测数据库是否完成初始化（迁移）。"""
-    result = {
-        "db_initialized": False,
-        "auth_user_table_exists": False,
-    }
-
-    try:
-        table_names = set(connections["default"].introspection.table_names())
-        auth_table = get_user_model()._meta.db_table
-        result["auth_user_table_exists"] = auth_table in table_names
-        result["db_initialized"] = result["auth_user_table_exists"]
-    except Exception as exc:  # noqa: BLE001
-        logger.warning("[health] db_initialization_probe_failed err=%s", exc)
-
-    return result
 
 
 # 自定义权限类，允许已登录用户执行任何操作
@@ -141,37 +74,14 @@ class IsAuthenticatedOrReadOnly(permissions.BasePermission):
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def health_api(request):
-    """健康检查：包含匿名可访问的数据库最小探测与路由注册状态。"""
-    logger.info("[health] request_enter")
-    db_result = _probe_database_connection()
-    body = {
-        "status": "ok",
-        "service": "DjangoService",
-        "build_marker": BUILD_MARKER,
-        "has_recommend_route": _has_recommend_route(),
-        **db_result,
-        **_probe_db_initialization(),
-    }
-    return Response(body, status=status.HTTP_200_OK)
-
-
-@api_view(['GET', 'POST'])
-@permission_classes([permissions.AllowAny])
-def recommend_api(request):
-    """最小可用推荐接口：不依赖数据库，仅用于联调。"""
-    logger.info("[recommend] request_enter")
-    input_n = request.data.get("n", 1000)
-    input_fz = request.data.get("fz", 0.01)
-    payload = {
-        "success": True,
-        "mode": "prediction",
-        "objective": "A_damage",
-        "input_n": input_n,
-        "input_fz": input_fz,
-        "predicted_value": 0.123,
-        "build_marker": BUILD_MARKER,
-    }
-    return Response(payload, status=status.HTTP_200_OK)
+    """极简健康检查接口：只返回静态状态，不做任何外部依赖检查。"""
+    return Response(
+        {
+            "status": "ok",
+            "service": "DjangoService",
+        },
+        status=status.HTTP_200_OK,
+    )
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -259,27 +169,8 @@ class LoginView(views.APIView):
             }
             logger.info("[login] build_response_done username=%s", username)
             return Response(response_data, status=status.HTTP_200_OK)
-        except DatabaseError as exc:
+        except DatabaseError:
             logger.exception("[login] request_error username=%s database_error=true", username)
-            err_text = str(exc)
-            err_type = exc.__class__.__name__
-
-            sqlite_missing_table = (
-                settings.DB_RUNTIME_ENGINE == "sqlite"
-                and ("no such table" in err_text.lower())
-            )
-            if sqlite_missing_table:
-                logger.error(
-                    "[login] uninitialized_sqlite_detected username=%s err_type=%s err=%s",
-                    username,
-                    err_type,
-                    err_text,
-                )
-                return Response(
-                    {"error": "开发数据库未初始化，请先运行开发初始化脚本"},
-                    status=status.HTTP_503_SERVICE_UNAVAILABLE,
-                )
-
             return Response({"error": "数据库连接异常，请稍后重试"}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
         except Exception:
             logger.exception("[login] request_error username=%s", username)
