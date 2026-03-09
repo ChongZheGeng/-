@@ -1,7 +1,6 @@
 # coding:utf-8
 import sys
 import logging
-import time
 
 from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QByteArray
 from PyQt5.QtGui import QIcon, QPixmap, QPainter, QColor, QBrush
@@ -44,11 +43,6 @@ class LoginWindow(Window):
         self.backend_starting = False
         self.health_dialog_visible = False
         self.auto_start_worker = None
-        self.login_request_in_progress = False
-        self.active_error_toast_message = None
-        self.last_error_toast_message = None
-        self.last_error_toast_at = 0.0
-        self.error_toast_cooldown_seconds = 2.0
 
         # --- 主布局 (分栏) ---
         mainLayout = QHBoxLayout()
@@ -181,10 +175,6 @@ class LoginWindow(Window):
 
     def login(self):
         """登录处理：先健康检查，再异步登录"""
-        if self.login_request_in_progress:
-            logger.info("[login-ui] submit ignored because request is in progress")
-            return
-
         username = self.username_edit.text().strip()
         password = self.password_edit.text().strip()
 
@@ -193,7 +183,6 @@ class LoginWindow(Window):
                           position=InfoBarPosition.TOP, duration=3000, parent=self)
             return
 
-        self.login_request_in_progress = True
         self.pending_credentials = (username, password)
         self.set_loading_state(True, "检测后端中...")
 
@@ -220,7 +209,6 @@ class LoginWindow(Window):
 
     def on_health_check_error(self, error_message):
         self.set_loading_state(False)
-        self.login_request_in_progress = False
         if self.health_dialog_visible:
             return
 
@@ -237,11 +225,9 @@ class LoginWindow(Window):
 
     def retry_health_check(self):
         """点击 Retry 后的流程：先快速探活，再视配置自动拉起后端。"""
-        if self.backend_starting or self.login_request_in_progress:
-            logger.info("[login-ui] submit ignored because request is in progress")
+        if self.backend_starting:
             return
 
-        self.login_request_in_progress = True
         self.set_loading_state(True, "重试检测后端中...")
         self.health_worker = async_api.ping_health_async(
             success_callback=self.on_retry_health_finished,
@@ -260,7 +246,6 @@ class LoginWindow(Window):
 
         if not is_auto_start_backend_enabled():
             self.set_loading_state(False)
-            self.login_request_in_progress = False
             logger.info("自动拉起后端未启用，保持原有重试提示")
             self.on_health_check_error(payload)
             return
@@ -322,7 +307,6 @@ class LoginWindow(Window):
 
     def on_backend_auto_flow_error(self, error_message):
         self.backend_starting = False
-        self.login_request_in_progress = False
         self.set_loading_state(False)
         logger.error("后端自动拉起流程线程异常: %s", error_message)
         self.show_backend_error_dialog(
@@ -346,7 +330,6 @@ class LoginWindow(Window):
             )
             return
 
-        self.login_request_in_progress = False
         self.set_loading_state(False)
         logger.warning("自动启动失败: %s", result.get("message"))
         self.show_backend_error_dialog(
@@ -395,7 +378,6 @@ class LoginWindow(Window):
 
     def on_login_finished(self, result):
         success, message = result
-        self.login_request_in_progress = False
         self.set_loading_state(False)
 
         if success:
@@ -414,54 +396,13 @@ class LoginWindow(Window):
             self.login_successful = True
             self.loginSuccess.emit()
         else:
-            self.show_login_error_toast(message)
-
-    def show_login_error_toast(self, message):
-        normalized_message = self.normalize_login_error_message(message)
-        now = time.monotonic()
-
-        if self.active_error_toast_message == normalized_message:
-            logger.info("[login-ui] show error toast skipped because same message already active")
-            return
-
-        if (
-            self.last_error_toast_message == normalized_message
-            and now - self.last_error_toast_at < self.error_toast_cooldown_seconds
-        ):
-            logger.info("[login-ui] show error toast skipped because same message in cooldown")
-            return
-
-        toast = InfoBar.error(
-            "登录失败",
-            normalized_message,
-            orient=Qt.Horizontal,
-            isClosable=True,
-            position=InfoBarPosition.TOP,
-            duration=3000,
-            parent=self
-        )
-        self.active_error_toast_message = normalized_message
-        self.last_error_toast_message = normalized_message
-        self.last_error_toast_at = now
-
-        if toast is not None:
-            toast.destroyed.connect(lambda *_: self.clear_active_error_toast(normalized_message))
-
-    def clear_active_error_toast(self, message):
-        if self.active_error_toast_message == message:
-            self.active_error_toast_message = None
-
-    @staticmethod
-    def normalize_login_error_message(message):
-        text = str(message)
-        if "开发数据库未初始化" in text:
-            return "开发数据库未初始化。请先在 DjangoService 目录执行 dev_init.ps1 或 python manage.py init_dev_data。"
-        return text
+            InfoBar.error("登录失败", message, orient=Qt.Horizontal, isClosable=True,
+                          position=InfoBarPosition.TOP, duration=3000, parent=self)
 
     def on_login_error(self, error_message):
-        self.login_request_in_progress = False
         self.set_loading_state(False)
-        self.show_login_error_toast(str(error_message))
+        InfoBar.error("登录失败", str(error_message), orient=Qt.Horizontal, isClosable=True,
+                      position=InfoBarPosition.TOP, duration=3000, parent=self)
 
     def accept(self):
         """模拟Dialog的accept方法"""
