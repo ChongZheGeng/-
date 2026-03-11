@@ -85,7 +85,7 @@ class MainWindow(FluentWindow):
         self.addSubInterface(self.processing_task_interface, FIF.CALENDAR, "加工任务",
                              position=NavigationItemPosition.SCROLL)
         self.addSubInterface(self.task_group_interface, FIF.TAG, "任务分组", position=NavigationItemPosition.SCROLL)
-        self.addSubInterface(self.recommendation_interface, FIF.ROBOT, "参数推荐",
+        self.addSubInterface(self.recommendation_interface, FIF.ROBOT, "损伤预测与参数推荐",
                              position=NavigationItemPosition.SCROLL)
         # self.navigationInterface.addSeparator(35)
 

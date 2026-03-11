@@ -515,6 +515,20 @@ class ApiClient:
         """调用参数推荐接口"""
         return self._request('post', 'recommend', json=data, timeout=timeout)
 
+
+    def train_damage_model(self, timeout=60):
+        """训练 A 损伤模型"""
+        return self._request('post', 'model/train-damage', json={}, timeout=timeout)
+
+    def predict_damage(self, data, timeout=10):
+        """预测 A 损伤"""
+        return self._request('post', 'model/predict-damage', json=data, timeout=timeout)
+
+    def recommend_by_level(self, data, timeout=10):
+        """按目标等级推荐参数"""
+        return self._request('post', 'model/recommend-by-level', json=data, timeout=timeout)
+
+
     def get_current_user_info(self):
         """ 获取当前登录用户信息 """
         try:
