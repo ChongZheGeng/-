@@ -52,26 +52,35 @@ def _resolve_paths(repo_root: Optional[Path] = None, python_exe: Optional[str] =
     return django_dir, py
 
 
-def build_powershell_manual_command(repo_root: Optional[Path] = None, python_exe: Optional[str] = None) -> str:
-    """生成 PowerShell 手动启动 Django 的命令。"""
+def build_powershell_runserver_command(repo_root: Optional[Path] = None, python_exe: Optional[str] = None) -> str:
+    """生成 PowerShell 手动启动 Django 的纯命令字符串。"""
     django_dir, py = _resolve_paths(repo_root, python_exe)
-    return f'Set-Location "{django_dir}"; & "{py}" manage.py runserver 127.0.0.1:8000'
+    return f'Set-Location "{django_dir}"\n& "{py}" manage.py runserver 127.0.0.1:8000'
 
 
-def build_cmd_manual_command(repo_root: Optional[Path] = None, python_exe: Optional[str] = None) -> str:
-    """生成 CMD 手动启动 Django 的命令。"""
+def build_cmd_runserver_command(repo_root: Optional[Path] = None, python_exe: Optional[str] = None) -> str:
+    """生成 CMD 手动启动 Django 的纯命令字符串。"""
     django_dir, py = _resolve_paths(repo_root, python_exe)
-    return f'cd /d "{django_dir}" && "{py}" manage.py runserver 127.0.0.1:8000'
+    return f'cd /d "{django_dir}"\n"{py}" manage.py runserver 127.0.0.1:8000'
 
 
 def build_manual_command(repo_root: Optional[Path] = None, python_exe: Optional[str] = None) -> str:
     """生成手动启动 Django 的命令（Windows 默认 PowerShell）。"""
-    django_dir, py = _resolve_paths(repo_root, python_exe)
-
     if os.name == "nt":
-        return f'Set-Location "{django_dir}"; & "{py}" manage.py runserver 127.0.0.1:8000'
+        return build_powershell_runserver_command(repo_root, python_exe)
 
-    return f"cd '{django_dir}' && '{py}' manage.py runserver 127.0.0.1:8000"
+    django_dir, py = _resolve_paths(repo_root, python_exe)
+    return f"cd '{django_dir}'\n'{py}' manage.py runserver 127.0.0.1:8000"
+
+
+def build_powershell_manual_command(repo_root: Optional[Path] = None, python_exe: Optional[str] = None) -> str:
+    """兼容旧调用：生成 PowerShell 启动命令。"""
+    return build_powershell_runserver_command(repo_root, python_exe)
+
+
+def build_cmd_manual_command(repo_root: Optional[Path] = None, python_exe: Optional[str] = None) -> str:
+    """兼容旧调用：生成 CMD 启动命令。"""
+    return build_cmd_runserver_command(repo_root, python_exe)
 
 
 def start_django_server(repo_root: Path, python_exe: Optional[str] = None) -> subprocess.Popen:
