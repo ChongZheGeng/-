@@ -124,3 +124,56 @@ Invoke-RestMethod -Uri "http://127.0.0.1:8000/api/health/" -Method GET
    cd ..\pyQTClient
    python demo.py
    ```
+
+
+## A_damage 训练与推荐（基于论文表2 9组数据）
+
+推荐模块目录：`DjangoService/process_data/recommendation/`
+
+### 保留的源码与配置
+- `seed_damage_points.py`：论文表2的 9 组种子数据（硬编码）
+- `generate_damage_dataset.py`：生成扩增训练集（默认 2000 条）
+- `train_damage_model.py`：训练并对比模型，输出报告
+- `infer_damage_model.py`：单点预测
+- `recommend_by_level.py`：按损伤等级推荐参数
+- `level_config.json`：损伤等级阈值配置
+- `training_report.md`：训练说明与指标
+
+### 1) 生成训练数据
+在 `DjangoService/` 目录执行：
+
+```bash
+python -m process_data.recommendation.generate_damage_dataset
+```
+
+默认会生成：
+- `process_data/recommendation/generated_damage_dataset.csv`
+- `process_data/recommendation/level_config.json`
+
+### 2) 训练模型
+在 `DjangoService/` 目录执行：
+
+```bash
+python -m process_data.recommendation.train_damage_model
+```
+
+默认会生成模型文件：
+- `process_data/recommendation/model.pkl`
+
+> 注意：`model.pkl` / `*.joblib` 属于训练产物，默认不提交到 Git（已在 `.gitignore` 排除）。
+
+### 3) 推荐功能依赖文件
+推荐相关 API / 前端页面依赖以下文件：
+- `generated_damage_dataset.csv`（用于训练输入）
+- `level_config.json`（等级区间映射）
+- `model.pkl`（已训练模型）
+
+如果 `model.pkl` 不存在：
+- 后端会返回可理解错误（提示“请先训练模型”）
+- 前端会显示失败提示，而不会崩溃
+
+### 4) 后端接口
+- `POST /api/model/generate-damage-dataset/`
+- `POST /api/model/train-damage-model/`
+- `POST /api/model/predict-damage/`
+- `POST /api/model/recommend-by-level/`

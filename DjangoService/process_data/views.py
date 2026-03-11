@@ -1,5 +1,6 @@
 import logging
 import time
+import traceback
 from django.shortcuts import render
 from django.db import DatabaseError
 from rest_framework import viewsets, permissions, filters, status, views
@@ -10,6 +11,12 @@ from django.db.models import Q
 from django.contrib.auth import login, logout, get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from pathlib import Path
+
+from .recommendation.generate_damage_dataset import generate_damage_dataset, DATASET_PATH
+from .recommendation.train_damage_model import train_damage_model, MODEL_PATH
+from .recommendation.infer_damage_model import predict_damage
+from .recommendation.recommend_by_level import recommend_parameters_by_level
 
 from .models import (
     ProcessCategory,
@@ -82,6 +89,85 @@ def health_api(request):
         },
         status=status.HTTP_200_OK,
     )
+
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def generate_damage_dataset_api(request):
+    """根据论文 9 个种子点生成扩增训练数据。"""
+    try:
+        num_samples = int(request.data.get("num_samples", 2000))
+        result = generate_damage_dataset(num_samples=num_samples)
+        logger.info("damage dataset generated: samples=%s path=%s", result.get("total_samples"), result.get("dataset_path"))
+        return Response({"success": True, **result}, status=status.HTTP_200_OK)
+    except Exception as exc:
+        logger.error("generate_damage_dataset_api failed: %s\n%s", exc, traceback.format_exc())
+        return Response({"success": False, "error": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def train_damage_model_api(request):
+    """训练模型并保存 model.pkl/level_config.json/training_report.md。"""
+    try:
+        if not DATASET_PATH.exists():
+            return Response(
+                {"success": False, "error": f"扩增数据不存在，请先调用生成接口: {DATASET_PATH}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        result = train_damage_model()
+        logger.info("damage model trained: best=%s path=%s", result.get("best_model"), result.get("model_path"))
+        return Response({"success": True, **result}, status=status.HTTP_200_OK)
+    except Exception as exc:
+        logger.error("train_damage_model_api failed: %s\n%s", exc, traceback.format_exc())
+        return Response({"success": False, "error": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def predict_damage_api(request):
+    """单点预测 A_damage 和损伤等级。"""
+    try:
+        if not MODEL_PATH.exists():
+            return Response(
+                {"success": False, "error": f"模型文件不存在，请先训练模型: {MODEL_PATH}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        speed = float(request.data.get("speed"))
+        fz = float(request.data.get("fz"))
+        result = predict_damage(speed=speed, fz=fz)
+        return Response({"success": True, **result}, status=status.HTTP_200_OK)
+    except (TypeError, ValueError):
+        return Response(
+            {"success": False, "error": "请求参数错误，必须提供数值型 speed 和 fz"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    except Exception as exc:
+        logger.error("predict_damage_api failed: %s\n%s", exc, traceback.format_exc())
+        return Response({"success": False, "error": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def recommend_by_level_api(request):
+    """按目标损伤等级返回推荐参数。"""
+    try:
+        if not MODEL_PATH.exists():
+            return Response(
+                {"success": False, "error": f"模型文件不存在，请先训练模型: {MODEL_PATH}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        damage_level = request.data.get("damage_level", "").strip().lower()
+        top_k = int(request.data.get("top_k", 5))
+        results = recommend_parameters_by_level(damage_level=damage_level, top_k=top_k)
+        return Response({"success": True, "results": results}, status=status.HTTP_200_OK)
+    except ValueError as exc:
+        return Response({"success": False, "error": str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as exc:
+        logger.error("recommend_by_level_api failed: %s\n%s", exc, traceback.format_exc())
+        return Response({"success": False, "error": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
