@@ -1,5 +1,6 @@
 import logging
 import time
+from dataclasses import asdict
 from django.shortcuts import render
 from django.db import DatabaseError
 from rest_framework import viewsets, permissions, filters, status, views
@@ -82,6 +83,85 @@ def health_api(request):
         },
         status=status.HTTP_200_OK,
     )
+
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def train_damage_model_api(request):
+    """开发用：从仓库根目录读取 A.xlsx 训练损伤模型。"""
+    try:
+        from .recommendation.train_damage_model import train_and_save
+        result = train_and_save("A.xlsx")
+        payload = asdict(result)
+        return Response({"success": True, **payload}, status=status.HTTP_200_OK)
+    except Exception as exc:
+        logger.exception("train_damage_model_api error")
+        return Response(
+            {"success": False, "error": str(exc)},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def predict_damage_api(request):
+    try:
+        speed = float(request.data.get("speed"))
+        feed = float(request.data.get("feed"))
+    except (TypeError, ValueError):
+        return Response(
+            {"success": False, "error": "speed/feed 必须是数字"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    try:
+        from .recommendation.infer_damage_model import predict_damage
+        result = predict_damage(speed, feed)
+        return Response({"success": True, **result}, status=status.HTTP_200_OK)
+    except FileNotFoundError as exc:
+        return Response(
+            {"success": False, "error": str(exc)},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+    except Exception as exc:
+        logger.exception("predict_damage_api error")
+        return Response(
+            {"success": False, "error": str(exc)},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def recommend_by_level_api(request):
+    level = str(request.data.get("level", "")).strip().lower()
+    try:
+        from .recommendation.recommend_params import recommend_by_level
+        recs = recommend_by_level(level=level, top_k=5)
+        return Response(
+            {
+                "success": True,
+                "level": level,
+                "recommendations": recs,
+            },
+            status=status.HTTP_200_OK,
+        )
+    except FileNotFoundError as exc:
+        return Response(
+            {"success": False, "error": str(exc)},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+    except ValueError as exc:
+        return Response(
+            {"success": False, "error": str(exc)},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    except Exception as exc:
+        logger.exception("recommend_by_level_api error")
+        return Response(
+            {"success": False, "error": str(exc)},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
 
 @method_decorator(csrf_exempt, name='dispatch')

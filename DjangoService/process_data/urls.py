@@ -17,6 +17,9 @@ from .views import (
     TaskGroupViewSet,
     UserInfoView,
     health_api,
+    train_damage_model_api,
+    predict_damage_api,
+    recommend_by_level_api,
 )
 
 # 创建路由器并注册视图集
@@ -43,4 +46,8 @@ urlpatterns = [
     path('health/', health_api, name='health'),
     path('login/', LoginView.as_view(), name='api_login'),
     path('user-info/', UserInfoView.as_view(), name='user_info'),
+
+    path('model/train-damage/', train_damage_model_api, name='train_damage_model_api'),
+    path('model/predict-damage/', predict_damage_api, name='predict_damage_api'),
+    path('model/recommend-by-level/', recommend_by_level_api, name='recommend_by_level_api'),
 ]
