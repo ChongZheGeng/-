@@ -214,7 +214,15 @@ class ApiClient:
             return response.json()
         except requests.exceptions.RequestException as e:
             print(f"API Error ({method.upper()} {url}): {e}")
-            return None
+            if getattr(e, "response", None) is not None:
+                try:
+                    return e.response.json()
+                except Exception:
+                    return {
+                        "success": False,
+                        "error": f"HTTP {e.response.status_code}: {(e.response.text or '')[:200]}"
+                    }
+            return {"success": False, "error": str(e)}
 
     # --- Tool Management ---
 
@@ -514,6 +522,24 @@ class ApiClient:
     def recommend_parameters(self, data, timeout=10):
         """调用参数推荐接口"""
         return self._request('post', 'recommend', json=data, timeout=timeout)
+
+    def generate_damage_dataset(self, num_samples=2000, timeout=20):
+        """生成损伤扩增训练数据"""
+        return self._request('post', 'model/generate-damage-dataset', json={'num_samples': num_samples}, timeout=timeout)
+
+    def train_damage_model(self, timeout=60):
+        """训练损伤预测模型"""
+        return self._request('post', 'model/train-damage-model', json={}, timeout=timeout)
+
+    def predict_damage(self, speed, fz, timeout=15):
+        """单点预测损伤值与等级"""
+        payload = {'speed': speed, 'fz': fz}
+        return self._request('post', 'model/predict-damage', json=payload, timeout=timeout)
+
+    def recommend_by_level(self, damage_level, top_k=5, timeout=20):
+        """按等级推荐参数"""
+        payload = {'damage_level': damage_level, 'top_k': top_k}
+        return self._request('post', 'model/recommend-by-level', json=payload, timeout=timeout)
 
     def get_current_user_info(self):
         """ 获取当前登录用户信息 """

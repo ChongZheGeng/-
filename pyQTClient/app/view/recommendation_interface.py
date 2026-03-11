@@ -1,7 +1,7 @@
 # coding:utf-8
 import logging
 
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QGridLayout
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QGridLayout, QTableWidget, QTableWidgetItem, QHeaderView
 from qfluentwidgets import (
     SubtitleLabel,
     StrongBodyLabel,
@@ -9,6 +9,7 @@ from qfluentwidgets import (
     LineEdit,
     ComboBox,
     PrimaryPushButton,
+    PushButton,
     CardWidget,
     InfoBar,
 )
@@ -21,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 class RecommendationInterface(NavInterface):
-    """参数推荐主页面"""
+    """参数推荐主页面（单点预测 + 按等级推荐）"""
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -30,53 +31,93 @@ class RecommendationInterface(NavInterface):
 
         self.main_layout = QVBoxLayout(self.view)
         self.main_layout.setContentsMargins(40, 30, 40, 30)
-        self.main_layout.setSpacing(20)
+        self.main_layout.setSpacing(18)
 
         self.main_layout.addWidget(SubtitleLabel("参数推荐"))
 
-        form_card = CardWidget(self)
-        form_layout = QGridLayout(form_card)
-        form_layout.setContentsMargins(24, 24, 24, 24)
-        form_layout.setHorizontalSpacing(16)
-        form_layout.setVerticalSpacing(12)
+        self._build_dev_card()
+        self._build_predict_card()
+        self._build_recommend_card()
+        self.main_layout.addStretch(1)
 
-        self.n_edit = LineEdit(self)
-        self.n_edit.setPlaceholderText("请输入转速 n")
+    def _build_dev_card(self):
+        card = CardWidget(self)
+        layout = QHBoxLayout(card)
+        layout.setContentsMargins(24, 18, 24, 18)
+        layout.setSpacing(12)
+
+        layout.addWidget(StrongBodyLabel("开发工具"))
+        self.btn_generate = PushButton("生成训练数据")
+        self.btn_train = PushButton("训练模型")
+        self.btn_generate.clicked.connect(self.generate_dataset)
+        self.btn_train.clicked.connect(self.train_model)
+        layout.addWidget(self.btn_generate)
+        layout.addWidget(self.btn_train)
+        layout.addStretch(1)
+
+        self.main_layout.addWidget(card)
+
+    def _build_predict_card(self):
+        card = CardWidget(self)
+        layout = QGridLayout(card)
+        layout.setContentsMargins(24, 20, 24, 20)
+        layout.setHorizontalSpacing(16)
+        layout.setVerticalSpacing(12)
+
+        layout.addWidget(StrongBodyLabel("单点预测"), 0, 0, 1, 4)
+
+        self.speed_edit = LineEdit(self)
+        self.speed_edit.setPlaceholderText("输入转速 speed，例如 5000")
         self.fz_edit = LineEdit(self)
-        self.fz_edit.setPlaceholderText("请输入每齿进给 fz")
+        self.fz_edit.setPlaceholderText("输入每齿进给 fz，例如 0.05")
 
-        self.objective_combo = ComboBox(self)
-        self.objective_combo.addItems(["A_damage", "F_damage"])
+        self.btn_predict = PrimaryPushButton("预测 A损伤")
+        self.btn_predict.clicked.connect(self.predict_damage)
 
-        self.model_type_combo = ComboBox(self)
-        self.model_type_combo.addItems(["quad", "gp"])
+        self.predict_result = BodyLabel("预测结果将在此显示")
+        self.predict_result.setWordWrap(True)
 
-        form_layout.addWidget(StrongBodyLabel("转速 n"), 0, 0)
-        form_layout.addWidget(self.n_edit, 0, 1)
-        form_layout.addWidget(StrongBodyLabel("每齿进给 fz"), 0, 2)
-        form_layout.addWidget(self.fz_edit, 0, 3)
+        layout.addWidget(StrongBodyLabel("转速 speed"), 1, 0)
+        layout.addWidget(self.speed_edit, 1, 1)
+        layout.addWidget(StrongBodyLabel("每齿进给 fz"), 1, 2)
+        layout.addWidget(self.fz_edit, 1, 3)
+        layout.addWidget(self.btn_predict, 2, 3)
+        layout.addWidget(self.predict_result, 3, 0, 1, 4)
 
-        form_layout.addWidget(StrongBodyLabel("优化目标"), 1, 0)
-        form_layout.addWidget(self.objective_combo, 1, 1)
-        form_layout.addWidget(StrongBodyLabel("模型类型"), 1, 2)
-        form_layout.addWidget(self.model_type_combo, 1, 3)
+        self.main_layout.addWidget(card)
 
-        action_layout = QHBoxLayout()
-        action_layout.addStretch(1)
-        self.recommend_button = PrimaryPushButton("获取推荐")
-        self.recommend_button.clicked.connect(self.fetch_recommendation)
-        action_layout.addWidget(self.recommend_button)
+    def _build_recommend_card(self):
+        card = CardWidget(self)
+        outer = QVBoxLayout(card)
+        outer.setContentsMargins(24, 20, 24, 20)
+        outer.setSpacing(12)
+
+        outer.addWidget(StrongBodyLabel("按等级推荐"))
+
+        top = QHBoxLayout()
+        self.level_combo = ComboBox(self)
+        self.level_combo.addItems(["low（低损伤）", "medium（中损伤）", "high（高损伤）"])
+        self.btn_recommend = PrimaryPushButton("获取推荐参数")
+        self.btn_recommend.clicked.connect(self.fetch_recommendation)
+
+        top.addWidget(StrongBodyLabel("目标等级"))
+        top.addWidget(self.level_combo)
+        top.addStretch(1)
+        top.addWidget(self.btn_recommend)
 
         self.status_label = BodyLabel("等待请求")
 
-        self.result_label = BodyLabel("推荐结果将在此显示")
-        self.result_label.setWordWrap(True)
+        self.result_table = QTableWidget(self)
+        self.result_table.setColumnCount(4)
+        self.result_table.setHorizontalHeaderLabels(["转速", "每齿进给", "预测A损伤", "损伤等级"])
+        self.result_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.result_table.setAlternatingRowColors(True)
 
-        self.main_layout.addWidget(form_card)
-        self.main_layout.addLayout(action_layout)
-        self.main_layout.addWidget(self.status_label)
-        self.main_layout.addWidget(self.result_label)
-        self.main_layout.addStretch(1)
+        outer.addLayout(top)
+        outer.addWidget(self.status_label)
+        outer.addWidget(self.result_table)
+
+        self.main_layout.addWidget(card)
 
     def on_activated(self):
         pass
@@ -87,77 +128,110 @@ class RecommendationInterface(NavInterface):
             self.worker = None
 
     def _set_loading(self, loading, text=""):
-        self.recommend_button.setEnabled(not loading)
+        self.btn_generate.setEnabled(not loading)
+        self.btn_train.setEnabled(not loading)
+        self.btn_predict.setEnabled(not loading)
+        self.btn_recommend.setEnabled(not loading)
         self.status_label.setText(text or ("请求中..." if loading else "等待请求"))
 
-    def fetch_recommendation(self):
-        try:
-            n = float(self.n_edit.text().strip())
-            fz = float(self.fz_edit.text().strip())
-        except ValueError:
-            InfoBar.warning("输入错误", "请输入合法的 n 和 fz 数值", parent=self)
-            return
+    def _level_en(self):
+        raw = self.level_combo.currentText()
+        if raw.startswith("low"):
+            return "low"
+        if raw.startswith("medium"):
+            return "medium"
+        return "high"
 
-        payload = {
-            "n": n,
-            "fz": fz,
-            "objective": self.objective_combo.currentText(),
-            "model_type": self.model_type_combo.currentText(),
-        }
-
-        self._set_loading(True, "正在检查服务状态...")
-
-        def call_recommend():
-            self._set_loading(True, "正在请求参数推荐...")
-            self.worker = AsyncApiHelper.call_async(
-                api_client.recommend_parameters,
-                self.on_recommend_success,
-                self.on_recommend_error,
-                payload,
-                timeout=10,
-            )
-
-        def on_health(_):
-            call_recommend()
-
-        def on_health_error(_):
-            # health接口不可用不阻断推荐，直接尝试推荐
-            call_recommend()
-
+    def generate_dataset(self):
+        self._set_loading(True, "正在生成训练数据...")
         self.worker = AsyncApiHelper.call_async(
-            api_client.health_check,
-            on_health,
-            on_health_error,
-            timeout=3,
+            api_client.generate_damage_dataset,
+            self._on_generate_success,
+            self._on_error,
+            2000,
+            timeout=30,
         )
 
-    def on_recommend_success(self, response):
-        self._set_loading(False, "推荐完成")
-        if not response:
-            self.result_label.setText("未获取到推荐结果")
+    def train_model(self):
+        self._set_loading(True, "正在训练模型...")
+        self.worker = AsyncApiHelper.call_async(
+            api_client.train_damage_model,
+            self._on_train_success,
+            self._on_error,
+            timeout=90,
+        )
+
+    def predict_damage(self):
+        try:
+            speed = float(self.speed_edit.text().strip())
+            fz = float(self.fz_edit.text().strip())
+        except ValueError:
+            InfoBar.warning("输入错误", "请输入合法的 speed 和 fz 数值", parent=self)
             return
 
-        best = response.get("best") or {}
-        prediction = response.get("prediction") or {}
-        uncertainty = response.get("uncertainty")
+        self._set_loading(True, "正在预测 A损伤...")
+        self.worker = AsyncApiHelper.call_async(
+            api_client.predict_damage,
+            self._on_predict_success,
+            self._on_error,
+            speed,
+            fz,
+            timeout=20,
+        )
 
-        best_n = best.get("n", response.get("n", "-"))
-        best_fz = best.get("fz", response.get("fz", "-"))
-        a_damage = prediction.get("A_damage", response.get("A_damage", "-"))
-        f_damage = prediction.get("F_damage", response.get("F_damage", "-"))
+    def fetch_recommendation(self):
+        self._set_loading(True, "正在请求等级推荐...")
+        self.worker = AsyncApiHelper.call_async(
+            api_client.recommend_by_level,
+            self._on_recommend_success,
+            self._on_error,
+            self._level_en(),
+            5,
+            timeout=20,
+        )
 
-        lines = [
-            f"推荐参数: n={best_n}, fz={best_fz}",
-            f"预测 A_damage: {a_damage}",
-            f"预测 F_damage: {f_damage}",
-        ]
-        if uncertainty is not None:
-            lines.append(f"不确定性: {uncertainty}")
+    def _on_generate_success(self, response):
+        self._set_loading(False, "训练数据生成完成")
+        if response and response.get("success"):
+            InfoBar.success("成功", f"已生成 {response.get('total_samples')} 条样本", parent=self)
+        else:
+            InfoBar.error("失败", (response or {}).get("error", "生成失败"), parent=self)
 
-        self.result_label.setText("\n".join(lines))
+    def _on_train_success(self, response):
+        self._set_loading(False, "模型训练完成")
+        if response and response.get("success"):
+            InfoBar.success("成功", f"最佳模型: {response.get('best_model')}", parent=self)
+        else:
+            InfoBar.error("失败", (response or {}).get("error", "训练失败"), parent=self)
 
-    def on_recommend_error(self, error):
-        logger.error(f"recommend error: {error}")
+    def _on_predict_success(self, response):
+        self._set_loading(False, "预测完成")
+        if not response or not response.get("success"):
+            self.predict_result.setText(f"预测失败: {(response or {}).get('error', '未知错误')}")
+            return
+
+        self.predict_result.setText(
+            f"预测A损伤: {response.get('predicted_A_damage'):.6f}\n"
+            f"损伤等级: {response.get('damage_level')}"
+        )
+
+    def _on_recommend_success(self, response):
+        self._set_loading(False, "推荐完成")
+        results = (response or {}).get("results", []) if response and response.get("success") else []
+
+        self.result_table.setRowCount(len(results))
+        for row_idx, item in enumerate(results):
+            self.result_table.setItem(row_idx, 0, QTableWidgetItem(str(item.get("speed"))))
+            self.result_table.setItem(row_idx, 1, QTableWidgetItem(str(item.get("fz"))))
+            self.result_table.setItem(row_idx, 2, QTableWidgetItem(str(item.get("predicted_A_damage"))))
+            self.result_table.setItem(row_idx, 3, QTableWidgetItem(str(item.get("damage_level"))))
+
+        if results:
+            InfoBar.success("成功", f"已返回 {len(results)} 组推荐参数", parent=self)
+        else:
+            InfoBar.warning("提示", (response or {}).get("error", "未找到符合等级的参数"), parent=self)
+
+    def _on_error(self, error):
+        logger.error(f"recommendation error: {error}")
         self._set_loading(False, "请求失败")
-        InfoBar.error("请求失败", "无法连接后端推荐服务，请检查后端是否启动", parent=self)
-        self.result_label.setText(f"请求失败: {error}")
+        InfoBar.error("请求失败", str(error), parent=self)

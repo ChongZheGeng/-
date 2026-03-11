@@ -1,0 +1,1 @@
+"""Damage recommendation module."""
