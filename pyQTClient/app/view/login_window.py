@@ -216,7 +216,8 @@ class LoginWindow(Window):
         should_retry = self.show_backend_error_dialog(
             title="连接失败",
             message=f"后端连接检查未通过。\n\n{error_message}\n\n请确认 Django 服务已启动并监听 127.0.0.1:8000。",
-            manual_command=backend_launcher.build_powershell_manual_command(),
+            powershell_command=backend_launcher.build_powershell_runserver_command(),
+            cmd_command=backend_launcher.build_cmd_runserver_command(),
             allow_retry=True
         )
         self.health_dialog_visible = False
@@ -269,16 +270,24 @@ class LoginWindow(Window):
 
     def _start_backend_and_wait(self, last_error):
         repo_root = backend_launcher.find_repo_root()
+        manage_py_path = ""
+        if repo_root:
+            manage_py_path = str(repo_root / "DjangoService" / "manage.py")
+
         if not repo_root:
-            manual_cmd = backend_launcher.build_manual_command()
+            powershell_command = backend_launcher.build_powershell_runserver_command()
+            cmd_command = backend_launcher.build_cmd_runserver_command()
             logger.warning("自动拉起失败：未找到 manage.py")
             return {
                 "ok": False,
                 "message": f"未找到 DjangoService/manage.py。最后错误: {last_error}",
-                "manual_command": manual_cmd
+                "manage_py_path": manage_py_path,
+                "powershell_command": powershell_command,
+                "cmd_command": cmd_command,
             }
 
-        manual_cmd = backend_launcher.build_manual_command(repo_root)
+        powershell_command = backend_launcher.build_powershell_runserver_command(repo_root)
+        cmd_command = backend_launcher.build_cmd_runserver_command(repo_root)
         try:
             process = backend_launcher.start_django_server(repo_root)
             ok, elapsed, wait_message = backend_launcher.wait_for_health(timeout_seconds=25, interval_seconds=0.5)
@@ -287,14 +296,18 @@ class LoginWindow(Window):
                 return {
                     "ok": True,
                     "message": f"后端已就绪，耗时 {elapsed:.1f}s",
-                    "manual_command": manual_cmd,
+                    "manage_py_path": manage_py_path,
+                    "powershell_command": powershell_command,
+                    "cmd_command": cmd_command,
                     "pid": process.pid,
                 }
 
             return {
                 "ok": False,
                 "message": f"自动启动后端后等待超时（{elapsed:.1f}s）：{wait_message}",
-                "manual_command": manual_cmd,
+                "manage_py_path": manage_py_path,
+                "powershell_command": powershell_command,
+                "cmd_command": cmd_command,
                 "pid": process.pid,
             }
         except Exception as e:
@@ -302,7 +315,9 @@ class LoginWindow(Window):
             return {
                 "ok": False,
                 "message": f"自动启动后端异常: {e}",
-                "manual_command": manual_cmd,
+                "manage_py_path": manage_py_path,
+                "powershell_command": powershell_command,
+                "cmd_command": cmd_command,
             }
 
     def on_backend_auto_flow_error(self, error_message):
@@ -312,7 +327,8 @@ class LoginWindow(Window):
         self.show_backend_error_dialog(
             title="自动启动失败",
             message=f"自动启动后端失败：{error_message}",
-            manual_command=backend_launcher.build_powershell_manual_command(),
+            powershell_command=backend_launcher.build_powershell_runserver_command(),
+            cmd_command=backend_launcher.build_cmd_runserver_command(),
             allow_retry=False
         )
 
@@ -335,21 +351,38 @@ class LoginWindow(Window):
         self.show_backend_error_dialog(
             title="自动启动失败",
             message=result.get("message", "未知错误"),
-            manual_command=result.get("manual_command"),
+            manage_py_path=result.get("manage_py_path"),
+            powershell_command=result.get("powershell_command"),
+            cmd_command=result.get("cmd_command"),
             allow_retry=True
         )
 
-    def show_backend_error_dialog(self, title, message, manual_command=None, allow_retry=True):
+    def show_backend_error_dialog(self, title, message, manage_py_path=None, powershell_command=None, cmd_command=None, allow_retry=True):
         """统一显示后端失败提示，并支持复制手动启动命令。"""
         box = QMessageBox(self)
         box.setIcon(QMessageBox.Warning)
-        box.setWindowTitle(title)
-        box.setText(message)
+        box.setWindowTitle("后端未启动")
+        box.setText("后端未启动")
 
-        powershell_command = manual_command or backend_launcher.build_powershell_manual_command()
+        detected_manage_py = manage_py_path
+        if not detected_manage_py:
+            repo_root = backend_launcher.find_repo_root()
+            if repo_root:
+                detected_manage_py = str(repo_root / "DjangoService" / "manage.py")
+
+        powershell_command = powershell_command or backend_launcher.build_powershell_runserver_command()
+        cmd_command = cmd_command or backend_launcher.build_cmd_runserver_command()
+
+        detection_text = detected_manage_py or "未检测到 DjangoService/manage.py"
         box.setInformativeText(
-            "PowerShell 启动命令：\n"
-            f"{powershell_command}"
+            f"{message}\n\n"
+            "已检测到 Django 项目：\n"
+            f"{detection_text}\n\n"
+            "请在 PowerShell 中执行以下命令启动后端：\n\n"
+            "PowerShell：\n"
+            f"{powershell_command}\n\n"
+            "CMD：\n"
+            f"{cmd_command}"
         )
 
         if allow_retry:
@@ -359,6 +392,7 @@ class LoginWindow(Window):
             box.setStandardButtons(QMessageBox.Ok)
 
         copy_ps_button = box.addButton("复制 PowerShell 命令", QMessageBox.ActionRole)
+        copy_cmd_button = box.addButton("复制 CMD 命令", QMessageBox.ActionRole)
 
         box.exec_()
         clicked = box.clickedButton()
@@ -366,7 +400,18 @@ class LoginWindow(Window):
             QApplication.clipboard().setText(powershell_command)
             InfoBar.success(
                 "已复制",
-                "PowerShell 启动命令已复制到剪贴板",
+                "已复制 PowerShell 命令",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=2500,
+                parent=self
+            )
+        elif clicked == copy_cmd_button:
+            QApplication.clipboard().setText(cmd_command)
+            InfoBar.success(
+                "已复制",
+                "已复制 CMD 命令",
                 orient=Qt.Horizontal,
                 isClosable=True,
                 position=InfoBarPosition.TOP,
