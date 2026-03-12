@@ -2,7 +2,7 @@
 import logging
 from datetime import datetime
 
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, pyqtSignal
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import (
     QWidget,
@@ -30,6 +30,10 @@ from qfluentwidgets import (
 
 from .nav_interface import NavInterface
 from ..api.data_manager import data_manager
+from .components.parameter_recommend_overview_component import (
+    ParameterRecommendOverviewWidget,
+    MOCK_RECOMMENDATION_RECORDS,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -287,6 +291,8 @@ class QuickActionsCard(ShadowCard):
 class DashboardInterface(NavInterface):
     """复合材料加工决策驾驶舱主页"""
 
+    recommendationTaskRequested = pyqtSignal(str)
+
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.setObjectName("DashboardInterface")
@@ -300,6 +306,7 @@ class DashboardInterface(NavInterface):
         self._build_stat_cards()
         self._build_analysis_overview()
         self._build_status_and_activity()
+        self._build_recommendation_overview()
         self._build_quick_actions()
         self.main_layout.addStretch()
 
@@ -369,6 +376,12 @@ class DashboardInterface(NavInterface):
         row.addWidget(self.activity_card, 2)
         self.main_layout.addLayout(row)
 
+
+    def _build_recommendation_overview(self):
+        self.recommendation_overview_widget = ParameterRecommendOverviewWidget(self)
+        self.recommendation_overview_widget.recordActivated.connect(self.recommendationTaskRequested.emit)
+        self.main_layout.addWidget(self.recommendation_overview_widget)
+
     def _build_quick_actions(self):
         self.quick_actions_card = QuickActionsCard()
         self.main_layout.addWidget(self.quick_actions_card)
@@ -391,6 +404,7 @@ class DashboardInterface(NavInterface):
                 "hit_rate": {"value": "74%", "ratio": 74},
                 "closed_loop": {"value": "68%", "ratio": 68},
             },
+            "recommendation_records": MOCK_RECOMMENDATION_RECORDS,
             "activities": [
                 {"type": "completed", "description": "任务 TK-105 完成参数回写", "time": now},
                 {"type": "running", "description": "批次 B-302 触发振动异常预警", "time": now},
@@ -441,6 +455,7 @@ class DashboardInterface(NavInterface):
         self.sensor_overview.update_metrics(payload["sensor_overview"])
         self.recommend_overview.update_metrics(payload["recommend_overview"])
         self.activity_card.update_activities(payload["activities"])
+        self.recommendation_overview_widget.set_records(payload.get("recommendation_records", []))
 
     def on_users_data_received(self, users_data):
         if users_data and "count" in users_data:
