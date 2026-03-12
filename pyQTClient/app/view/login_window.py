@@ -1,5 +1,6 @@
 # coding:utf-8
 import sys
+import logging
 
 from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QByteArray
 from PyQt5.QtGui import QIcon, QPixmap, QPainter, QColor, QBrush
@@ -31,6 +32,7 @@ class LoginWindow(Window):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.login_successful = False
+        self.logger = logging.getLogger(__name__)
 
         # --- 主布局 (分栏) ---
         mainLayout = QHBoxLayout()
@@ -160,7 +162,7 @@ class LoginWindow(Window):
         # 切换到加载状态
         self.username_edit.setEnabled(False)
         self.password_edit.setEnabled(False)
-        self.loginButton.hide()
+        self.loginButton.setEnabled(False)
         self.progressRing.show()
         QApplication.processEvents()
 
@@ -169,7 +171,7 @@ class LoginWindow(Window):
         # 恢复正常状态
         self.username_edit.setEnabled(True)
         self.password_edit.setEnabled(True)
-        self.loginButton.show()
+        self.loginButton.setEnabled(True)
         self.progressRing.hide()
 
         if success:
