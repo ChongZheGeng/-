@@ -69,6 +69,7 @@ class MainWindow(FluentWindow):
         self.setting_interface.logoutSignal.connect(self.logout)
         self.dashboard_interface.recommendationTaskRequested.connect(self.open_recommendation_for_task)
         self.dashboard_interface.warningTodoNavigateRequested.connect(self.open_by_warning_route)
+        self.dashboard_interface.statCardNavigateRequested.connect(self.open_by_stat_card_route)
 
         # 应用主窗口样式
         self._apply_main_window_style()
@@ -168,6 +169,23 @@ class MainWindow(FluentWindow):
         self.switchTo(self.recommendation_interface)
         if hasattr(self.recommendation_interface, "open_task_from_dashboard"):
             self.recommendation_interface.open_task_from_dashboard(task_code)
+
+
+    def open_by_stat_card_route(self, route_key: str, filter_spec):
+        """首页统计卡跳转并触发目标页面筛选。"""
+        mapping = {
+            "processing_task": self.processing_task_interface,
+            "sensor_data": self.sensor_data_interface,
+            "recommendation": self.recommendation_interface,
+        }
+        target = mapping.get(route_key)
+        if not target:
+            return
+
+        self.switchTo(target)
+        filter_key = getattr(filter_spec, "key", "") if filter_spec else ""
+        if filter_key and hasattr(target, "apply_dashboard_filter"):
+            target.apply_dashboard_filter(filter_key)
 
     def open_by_warning_route(self, route_key: str):
         """从首页预警与待办中心跳转到对应页面。"""
