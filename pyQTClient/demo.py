@@ -1,14 +1,17 @@
 # coding:utf-8
 import os
 import sys
+import traceback
+import logging
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
-from qfluentwidgets import FluentTranslator, qconfig
+from qfluentwidgets import FluentTranslator, qconfig, InfoBar, InfoBarPosition
 
 from app.common.config import cfg
 from app.view.login_window import LoginWindow
 from app.view.main_window import MainWindow
+from app.api.api_client import api_client
     
 
 class ApplicationManager:
@@ -97,17 +100,35 @@ class ApplicationManager:
 
     def show_main_window(self):
         """显示主窗口"""
-        self.main_window = MainWindow()
-        # Connect the logout signal after showing the main window
-        self.main_window.setting_interface.logoutSignal.connect(self.show_login_window)
-        
-        # 看板界面会在初始化时自动加载数据（现在改为每次切换都自动刷新，不需要标记）
-        # 移除了 loaded_interfaces 的使用，因为现在每次切换导航都会自动刷新数据
-        
-        self.main_window.show()
+        self.logger.info("[login] success, preparing main window")
+        try:
+            self.main_window = MainWindow()
+            self.logger.info("MainWindow 创建成功")
 
-        if self.login_window:
-            self.login_window.close()
+            # Connect the logout signal after showing the main window
+            self.main_window.setting_interface.logoutSignal.connect(self.show_login_window)
+            self.main_window.show()
+
+            if self.login_window:
+                self.login_window.close()
+        except Exception as e:
+            error_msg = ''.join(traceback.format_exception(type(e), e, e.__traceback__))
+            self.logger.error(f"MainWindow 创建失败:\n{error_msg}")
+
+            api_client.clear_login_state()
+            self.main_window = None
+
+            if self.login_window:
+                self.login_window.show()
+                InfoBar.error(
+                    "错误",
+                    "主界面初始化失败，请查看日志后重试",
+                    orient=Qt.Horizontal,
+                    isClosable=True,
+                    position=InfoBarPosition.TOP,
+                    duration=4000,
+                    parent=self.login_window
+                )
 
     def show_login_window(self):
         """显示登录窗口"""
