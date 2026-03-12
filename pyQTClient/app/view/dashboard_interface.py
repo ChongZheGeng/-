@@ -35,6 +35,7 @@ from .components.parameter_recommend_overview_component import (
     MOCK_RECOMMENDATION_RECORDS,
 )
 from .components.recent_activity_timeline_component import RecentActivityTimelineCard
+from .components.warning_todo_center_widget import WarningTodoCenterWidget
 
 logger = logging.getLogger(__name__)
 
@@ -250,6 +251,7 @@ class DashboardInterface(NavInterface):
     """复合材料加工决策驾驶舱主页"""
 
     recommendationTaskRequested = pyqtSignal(str)
+    warningTodoNavigateRequested = pyqtSignal(str)
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -262,6 +264,7 @@ class DashboardInterface(NavInterface):
 
         self._build_header()
         self._build_stat_cards()
+        self._build_warning_todo_center()
         self._build_analysis_overview()
         self._build_status_and_activity()
         self._build_recommendation_overview()
@@ -300,6 +303,11 @@ class DashboardInterface(NavInterface):
             stat_grid.addWidget(self.stat_cards[key], row, col)
 
         self.main_layout.addLayout(stat_grid)
+
+    def _build_warning_todo_center(self):
+        self.warning_todo_center = WarningTodoCenterWidget(self)
+        self.warning_todo_center.itemClicked.connect(self.warningTodoNavigateRequested.emit)
+        self.main_layout.addWidget(self.warning_todo_center)
 
     def _build_analysis_overview(self):
         row = QHBoxLayout()
@@ -350,6 +358,9 @@ class DashboardInterface(NavInterface):
         return {
             "pending_analysis": 24,
             "alerts": 6,
+            "pending_recommend": 9,
+            "unconfirmed_recommend": 3,
+            "tool_wear_over_threshold": 2,
             "recommend_today": 13,
             "adoption": 78.6,
             "sensor_overview": {
@@ -443,6 +454,14 @@ class DashboardInterface(NavInterface):
         self.stat_cards["recommend_today"].update_value(payload["recommend_today"], "较昨日 +18%")
         self.stat_cards["adoption"].update_value(payload["adoption"], "目标值 ≥ 75%")
 
+        self.warning_todo_center.set_data({
+            "pending_analysis": payload.get("pending_analysis", 0),
+            "alerts": payload.get("alerts", 0),
+            "pending_recommend": payload.get("pending_recommend", 0),
+            "unconfirmed_recommend": payload.get("unconfirmed_recommend", 0),
+            "tool_wear_over_threshold": payload.get("tool_wear_over_threshold", 0),
+        })
+
         self.sensor_overview.update_metrics(payload["sensor_overview"])
         self.recommend_overview.update_metrics(payload["recommend_overview"])
         self.activity_card.update_activities(payload["activities"])
@@ -481,6 +500,7 @@ class DashboardInterface(NavInterface):
 
             pending_analysis = min(max(int(total_sensor * 0.12), 8), 200)
             self.stat_cards["pending_analysis"].update_value(pending_analysis, "依据待处理队列估算")
+            self.warning_todo_center.update_item("pending_analysis", pending_analysis)
 
     def on_api_error(self, error_message):
         logger.warning(f"看板部分数据加载失败: {error_message}")
