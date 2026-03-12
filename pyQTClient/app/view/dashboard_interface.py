@@ -267,12 +267,14 @@ class DashboardInterface(NavInterface):
 
         self.main_layout = QVBoxLayout(self.view)
         self.main_layout.setContentsMargins(32, 24, 32, 24)
-        self.main_layout.setSpacing(18)
+        self.main_layout.setSpacing(16)
 
         self._build_header()
         self._build_stat_cards()
+        self._build_data_chain_view()
         self._build_warning_todo_center()
         self._build_analysis_overview()
+        self._build_trend_and_summary()
         self._build_status_and_activity()
         self._build_recommendation_overview()
         self._build_quick_actions()
@@ -282,16 +284,38 @@ class DashboardInterface(NavInterface):
         self.refresh_timer.timeout.connect(self.refresh_data)
 
     def _build_header(self):
-        title = SubtitleLabel("系统概览 · 复合材料加工决策驾驶舱")
+        title = SubtitleLabel("系统概览 · 复合材料加工智能决策驾驶舱")
         setFont(title, 24)
-        subtitle = CaptionLabel("面向项目答辩展示：融合任务、传感器、推荐闭环指标")
+        subtitle = CaptionLabel("答辩展示视角：数据库入库 → 传感器分析 → 参数推荐 → 闭环验证")
         subtitle.setStyleSheet("color:#6f6f6f;")
-        self.main_layout.addWidget(title)
-        self.main_layout.addWidget(subtitle)
+
+        self.badge_chain = PushButton("数据链路完整")
+        self.badge_chain.setEnabled(False)
+        self.badge_chain.setStyleSheet("background:#e8f8ee;color:#1f7a3f;border:1px solid #cdeed6;")
+        self.badge_ai = PushButton("智能推荐引擎在线")
+        self.badge_ai.setEnabled(False)
+        self.badge_ai.setStyleSheet("background:#eef5ff;color:#3159c9;border:1px solid #dbe7ff;")
+
+        title_row = QHBoxLayout()
+        text_col = QVBoxLayout()
+        text_col.setSpacing(2)
+        text_col.addWidget(title)
+        text_col.addWidget(subtitle)
+
+        badge_row = QHBoxLayout()
+        badge_row.setSpacing(8)
+        badge_row.addWidget(self.badge_chain)
+        badge_row.addWidget(self.badge_ai)
+        badge_row.addStretch()
+        text_col.addLayout(badge_row)
+
+        title_row.addLayout(text_col)
+        title_row.addStretch()
+        self.main_layout.addLayout(title_row)
 
     def _build_stat_cards(self):
         stat_grid = QGridLayout()
-        stat_grid.setSpacing(14)
+        stat_grid.setSpacing(12)
 
         self.stat_cards = {
             "users": StatCard("总用户数", "0", FIF.PEOPLE, "#0078d4"),
@@ -317,6 +341,71 @@ class DashboardInterface(NavInterface):
             stat_grid.addWidget(self.stat_cards[key], row, col)
 
         self.main_layout.addLayout(stat_grid)
+
+    def _build_data_chain_view(self):
+        card = ShadowCard(self)
+        layout = QVBoxLayout(card)
+        layout.setContentsMargins(20, 16, 20, 16)
+        layout.setSpacing(8)
+
+        title = StrongBodyLabel("智能链路总览")
+        setFont(title, 15)
+        desc = CaptionLabel("突出数据库管理、传感器分析与参数推荐的一体化流程")
+        desc.setStyleSheet("color:#6f6f6f;")
+        layout.addWidget(title)
+        layout.addWidget(desc)
+
+        row = QHBoxLayout()
+        row.setSpacing(10)
+        self.chain_items = {}
+        configs = [
+            ("db", FIF.DOCUMENT, "数据库接入", "任务与传感数据同步入库", "#1f7a3f"),
+            ("analysis", FIF.SPEED_HIGH, "传感器分析", "特征提取与异常定位", "#0078d4"),
+            ("recommend", FIF.ROBOT, "参数推荐", "模型推荐与闭环验证", "#5c2d91"),
+        ]
+
+        for index, (key, icon, name, hint, color) in enumerate(configs):
+            block = QFrame(card)
+            block.setStyleSheet("background:#f7fbf8;border:1px solid #e6efe8;border-radius:10px;")
+            block_layout = QVBoxLayout(block)
+            block_layout.setContentsMargins(12, 10, 12, 10)
+            block_layout.setSpacing(4)
+
+            top = QHBoxLayout()
+            iw = IconWidget(icon, block)
+            iw.setFixedSize(18, 18)
+            iw.setStyleSheet(f"color:{color};")
+            name_label = StrongBodyLabel(name)
+            name_label.setStyleSheet(f"color:{color};")
+            top.addWidget(iw)
+            top.addWidget(name_label)
+            top.addStretch()
+
+            value = TitleLabel("0")
+            setFont(value, 24)
+            value.setStyleSheet(f"color:{color};")
+            hint_label = CaptionLabel(hint)
+            hint_label.setStyleSheet("color:#6f6f6f;")
+
+            progress = ProgressBar(block)
+            progress.setValue(0)
+            progress.setFixedHeight(5)
+
+            block_layout.addLayout(top)
+            block_layout.addWidget(value)
+            block_layout.addWidget(hint_label)
+            block_layout.addWidget(progress)
+
+            row.addWidget(block, 1)
+            if index < len(configs) - 1:
+                arrow = CaptionLabel("→")
+                arrow.setStyleSheet("color:#8aa198;font-size:20px;font-weight:700;")
+                row.addWidget(arrow)
+
+            self.chain_items[key] = {"value": value, "progress": progress}
+
+        layout.addLayout(row)
+        self.main_layout.addWidget(card)
 
     def _build_warning_todo_center(self):
         self.warning_todo_center = WarningTodoCenterWidget(self)
@@ -345,6 +434,64 @@ class DashboardInterface(NavInterface):
         row.addWidget(self.recommend_overview)
         self.main_layout.addLayout(row)
 
+    def _build_trend_and_summary(self):
+        row = QHBoxLayout()
+        row.setSpacing(14)
+
+        self.trend_card = ShadowCard(self)
+        trend_layout = QVBoxLayout(self.trend_card)
+        trend_layout.setContentsMargins(20, 18, 20, 18)
+        trend_layout.setSpacing(10)
+        trend_title = StrongBodyLabel("关键指标趋势")
+        setFont(trend_title, 15)
+        trend_layout.addWidget(trend_title)
+
+        self.trend_items = {}
+        for key, label_text, color in [
+            ("analysis_quality", "分析有效率", "#0078d4"),
+            ("recommend_confidence", "推荐置信度", "#5c2d91"),
+            ("closed_loop", "闭环验证率", "#107c10"),
+        ]:
+            text_row = QHBoxLayout()
+            name = BodyLabel(label_text)
+            value = StrongBodyLabel("0%")
+            value.setStyleSheet(f"color:{color};")
+            text_row.addWidget(name)
+            text_row.addStretch()
+            text_row.addWidget(value)
+
+            bar = ProgressBar(self.trend_card)
+            bar.setFixedHeight(7)
+            bar.setValue(0)
+
+            trend_layout.addLayout(text_row)
+            trend_layout.addWidget(bar)
+            self.trend_items[key] = (value, bar)
+
+        self.recommend_summary_card = ShadowCard(self)
+        summary_layout = QVBoxLayout(self.recommend_summary_card)
+        summary_layout.setContentsMargins(20, 18, 20, 18)
+        summary_layout.setSpacing(10)
+
+        summary_title = StrongBodyLabel("推荐摘要与答辩亮点")
+        setFont(summary_title, 15)
+        self.summary_task = BodyLabel("重点任务：-")
+        self.summary_conf = BodyLabel("置信度：-")
+        self.summary_effect = BodyLabel("预期效果：-")
+        self.summary_warning = CaptionLabel("当前暂无高优先级预警")
+        self.summary_warning.setStyleSheet("color:#d18400;background:#fff5db;padding:6px 10px;border-radius:8px;")
+
+        summary_layout.addWidget(summary_title)
+        summary_layout.addWidget(self.summary_task)
+        summary_layout.addWidget(self.summary_conf)
+        summary_layout.addWidget(self.summary_effect)
+        summary_layout.addWidget(self.summary_warning)
+        summary_layout.addStretch()
+
+        row.addWidget(self.trend_card, 3)
+        row.addWidget(self.recommend_summary_card, 2)
+        self.main_layout.addLayout(row)
+
     def _build_status_and_activity(self):
         row = QHBoxLayout()
         row.setSpacing(14)
@@ -355,7 +502,6 @@ class DashboardInterface(NavInterface):
         row.addWidget(self.task_status_card, 3)
         row.addWidget(self.activity_card, 2)
         self.main_layout.addLayout(row)
-
 
     def _build_recommendation_overview(self):
         self.recommendation_overview_widget = ParameterRecommendOverviewWidget(self)
@@ -405,6 +551,58 @@ class DashboardInterface(NavInterface):
         self.recommend_overview.update_metrics(payload.get("recommend_overview", {}))
         self.activity_card.update_activities(payload.get("activities", {}))
         self.recommendation_overview_widget.set_records(payload.get("recommendation_records", []))
+
+        self._update_chain(payload)
+        self._update_trend_and_summary(payload)
+
+    def _update_chain(self, payload):
+        tasks = int(payload.get("tasks", 0) or 0)
+        sensors = int(payload.get("sensor", 0) or 0)
+        recommend_today = int(payload.get("recommend_today", 0) or 0)
+        pending_analysis = int(payload.get("pending_analysis", 0) or 0)
+
+        db_ratio = min(100, int(tasks * 4)) if tasks else 0
+        analysis_ratio = max(0, min(100, 100 - int(pending_analysis * 100 / max(1, sensors))))
+        rec_ratio = min(100, int(float(payload.get("adoption", 0) or 0)))
+
+        self.chain_items["db"]["value"].setText(str(tasks))
+        self.chain_items["db"]["progress"].setValue(db_ratio)
+        self.chain_items["analysis"]["value"].setText(str(sensors))
+        self.chain_items["analysis"]["progress"].setValue(analysis_ratio)
+        self.chain_items["recommend"]["value"].setText(str(recommend_today))
+        self.chain_items["recommend"]["progress"].setValue(rec_ratio)
+
+    def _update_trend_and_summary(self, payload):
+        sensor_overview = payload.get("sensor_overview", {})
+        recommend_overview = payload.get("recommend_overview", {})
+
+        quality_ratio = int((sensor_overview.get("quality") or {}).get("ratio", 0))
+        conf_ratio = int((recommend_overview.get("confidence") or {}).get("ratio", 0))
+        closed_ratio = int((recommend_overview.get("closed_loop") or {}).get("ratio", 0))
+
+        self.trend_items["analysis_quality"][0].setText(f"{quality_ratio}%")
+        self.trend_items["analysis_quality"][1].setValue(quality_ratio)
+        self.trend_items["recommend_confidence"][0].setText(f"{conf_ratio}%")
+        self.trend_items["recommend_confidence"][1].setValue(conf_ratio)
+        self.trend_items["closed_loop"][0].setText(f"{closed_ratio}%")
+        self.trend_items["closed_loop"][1].setValue(closed_ratio)
+
+        records = payload.get("recommendation_records", [])
+        top_record = records[0] if records else {}
+        task_code = top_record.get("task_code", "暂无")
+        confidence = float(top_record.get("confidence", 0) or 0)
+        target_level = top_record.get("target_damage_level", "-")
+        self.summary_task.setText(f"重点任务：{task_code}")
+        self.summary_conf.setText(f"置信度：{confidence * 100:.1f}%  | 目标损伤等级：{target_level}")
+        self.summary_effect.setText(
+            f"预期效果：采纳率 {payload.get('adoption', 0)}% · 今日新增推荐 {payload.get('recommend_today', 0)} 次"
+        )
+
+        alerts = int(payload.get("alerts", 0) or 0)
+        if alerts > 0:
+            self.summary_warning.setText(f"预警提示：当前存在 {alerts} 条异常事件，建议优先复核传感器异常任务。")
+        else:
+            self.summary_warning.setText("当前暂无高优先级预警")
 
     def start_refresh_timer(self):
         if not self.refresh_timer.isActive():
