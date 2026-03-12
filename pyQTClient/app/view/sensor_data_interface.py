@@ -8,6 +8,7 @@ from qfluentwidgets import (TableWidget, PrimaryPushButton, MessageBox, InfoBar,
 from .nav_interface import NavInterface
 from ..api.api_client import api_client
 from ..api.data_manager import interface_loader
+from ..services.system_overview_linkage_manager import system_overview_linkage_manager
 
 # 设置logger
 logger = logging.getLogger(__name__)
@@ -221,6 +222,25 @@ class SensorDataInterface(NavInterface):
         # InfoBar 错误提示已由 InterfaceDataLoader 自动处理
         logger.error(f"传感器数据加载失败: {error_message}")
 
+
+
+    def apply_dashboard_filter(self, filter_key: str):
+        """应用来自首页统计卡的筛选。"""
+        try:
+            response = api_client.get_sensor_data() or {}
+            records = response.get("results", []) if isinstance(response, dict) else []
+            if filter_key == "pending_analysis":
+                records = system_overview_linkage_manager.filter_pending_analysis_records(records)
+
+            # 重用列映射，快速刷新表格
+            fake_response = {"results": records, "count": len(records)}
+            interface_loader._prepare_table(self.table, self.column_mapping)
+            interface_loader._populate_table_automatically(self.table, self.column_mapping, fake_response)
+            self.current_records = records
+            InfoBar.success("筛选已应用", f"{filter_key}：{len(records)} 条", parent=self)
+        except Exception as e:
+            logger.error(f"应用首页筛选失败: {e}")
+            self.on_data_error(str(e))
 
     def open_analysis_dialog(self):
         row = self.table.currentRow()

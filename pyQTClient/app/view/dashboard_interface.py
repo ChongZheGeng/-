@@ -1,8 +1,6 @@
 # coding:utf-8
 import logging
-from datetime import datetime
-
-from PyQt5.QtCore import QTimer, pyqtSignal
+from PyQt5.QtCore import QTimer, pyqtSignal, Qt
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import (
     QWidget,
@@ -29,11 +27,10 @@ from qfluentwidgets import (
 )
 
 from .nav_interface import NavInterface
-from ..api.data_manager import data_manager
 from .components.parameter_recommend_overview_component import (
     ParameterRecommendOverviewWidget,
-    MOCK_RECOMMENDATION_RECORDS,
 )
+from ..services.system_overview_linkage_manager import system_overview_linkage_manager
 from .components.recent_activity_timeline_component import RecentActivityTimelineCard
 from .components.warning_todo_center_widget import WarningTodoCenterWidget
 
@@ -60,10 +57,13 @@ class ShadowCard(CardWidget):
 class StatCard(ShadowCard):
     """指标统计卡"""
 
+    clicked = pyqtSignal()
+
     def __init__(self, title, value, icon, color="#0078d4", suffix="", parent=None):
         super().__init__(parent)
         self.suffix = suffix
         self.color = color
+        self.setCursor(Qt.PointingHandCursor)
         self.setMinimumHeight(128)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
@@ -100,6 +100,11 @@ class StatCard(ShadowCard):
         self.value_label.setText(text)
         if trend_text:
             self.tip_label.setText(trend_text)
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.clicked.emit()
+        super().mousePressEvent(event)
 
 
 class StatusDistributionCard(ShadowCard):
@@ -252,11 +257,13 @@ class DashboardInterface(NavInterface):
 
     recommendationTaskRequested = pyqtSignal(str)
     warningTodoNavigateRequested = pyqtSignal(str)
+    statCardNavigateRequested = pyqtSignal(str, object)
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.setObjectName("DashboardInterface")
-        self.active_workers = []
+        self.overview_manager = system_overview_linkage_manager
+        self.latest_payload = {}
 
         self.main_layout = QVBoxLayout(self.view)
         self.main_layout.setContentsMargins(32, 24, 32, 24)
@@ -289,13 +296,20 @@ class DashboardInterface(NavInterface):
         self.stat_cards = {
             "users": StatCard("总用户数", "0", FIF.PEOPLE, "#0078d4"),
             "tasks": StatCard("总任务数", "0", FIF.CALENDAR, "#107c10"),
-            "pending": StatCard("待处理任务", "0", FIF.DATE_TIME, "#ffaa44"),
+            "pending_recommend": StatCard("待推荐任务数", "0", FIF.DATE_TIME, "#ffaa44"),
             "sensor": StatCard("传感器数据", "0", FIF.IOT, "#8764b8"),
             "pending_analysis": StatCard("待分析数据数", "0", FIF.ALIGNMENT, "#008575"),
             "alerts": StatCard("异常预警数", "0", FIF.WARNING, "#d13438"),
             "recommend_today": StatCard("今日推荐次数", "0", FIF.ROBOT, "#5c2d91"),
             "adoption": StatCard("推荐采纳率", "0", FIF.ACCEPT_MEDIUM, "#0f7b0f", "%"),
         }
+
+        self.stat_cards["pending_recommend"].clicked.connect(
+            lambda: self._emit_stat_navigation("pending_recommend")
+        )
+        self.stat_cards["pending_analysis"].clicked.connect(
+            lambda: self._emit_stat_navigation("pending_analysis")
+        )
 
         keys = list(self.stat_cards.keys())
         for idx, key in enumerate(keys):
@@ -352,107 +366,31 @@ class DashboardInterface(NavInterface):
         self.quick_actions_card = QuickActionsCard()
         self.main_layout.addWidget(self.quick_actions_card)
 
-    def _mock_dashboard_payload(self):
-        """后端未完全就绪时用于展示的数据"""
-        now = datetime.now().strftime("%Y-%m-%d")
-        return {
-            "pending_analysis": 24,
-            "alerts": 6,
-            "pending_recommend": 9,
-            "unconfirmed_recommend": 3,
-            "tool_wear_over_threshold": 2,
-            "recommend_today": 13,
-            "adoption": 78.6,
-            "sensor_overview": {
-                "coverage": {"value": "92%", "ratio": 92},
-                "quality": {"value": "87%", "ratio": 87},
-                "alerts": {"value": "81%", "ratio": 81},
-            },
-            "recommend_overview": {
-                "confidence": {"value": "0.86", "ratio": 86},
-                "hit_rate": {"value": "74%", "ratio": 74},
-                "closed_loop": {"value": "68%", "ratio": 68},
-            },
-            "recommendation_records": MOCK_RECOMMENDATION_RECORDS,
-            "activities": {
-                "task": [
-                    {
-                        "title": "任务 TK-105 完成参数回写",
-                        "description": "工艺卡同步至任务看板，等待归档。",
-                        "time": now,
-                    },
-                    {
-                        "title": "任务 TK-108 切换进行中",
-                        "description": "现场班组已确认并开始执行。",
-                        "time": now,
-                    },
-                ],
-                "analysis": [
-                    {
-                        "title": "批次 B-302 触发振动异常预警",
-                        "description": "异常点位已自动标注，等待复核。",
-                        "time": now,
-                    },
-                    {
-                        "title": "传感器 S-22 完成清洗",
-                        "description": "有效信号占比提升至 87%。",
-                        "time": now,
-                    },
-                ],
-                "recommendation": [
-                    {
-                        "title": "系统生成新推荐方案 R-018",
-                        "description": "建议调整进给速率 +6%，置信度 0.86。",
-                        "time": now,
-                    },
-                    {
-                        "title": "推荐方案 R-013 被采纳",
-                        "description": "已进入闭环验证阶段。",
-                        "time": now,
-                    },
-                ],
-            },
-        }
+    def _emit_stat_navigation(self, filter_key: str):
+        payload = self.latest_payload.get("filters", {})
+        target = payload.get(filter_key, {})
+        route = target.get("route", "")
+        spec = target.get("spec")
+        if route:
+            self.statCardNavigateRequested.emit(route, spec)
 
     def refresh_data(self):
-        try:
-            self.cancel_active_workers()
+        payload = self.overview_manager.load_dashboard_payload(use_mock=False)
+        if not payload:
+            payload = self.overview_manager.load_dashboard_payload(use_mock=True)
+        self.latest_payload = payload
+        self.apply_payload(payload)
 
-            worker_users = data_manager.get_data_async(
-                data_type="users",
-                success_callback=self.on_users_data_received,
-                error_callback=self.on_api_error,
-            )
-            if worker_users:
-                self.active_workers.append(worker_users)
-
-            worker_tasks = data_manager.get_data_async(
-                data_type="processing_tasks",
-                success_callback=self.on_tasks_data_received,
-                error_callback=self.on_api_error,
-            )
-            if worker_tasks:
-                self.active_workers.append(worker_tasks)
-
-            worker_sensor = data_manager.get_data_async(
-                data_type="sensor_data",
-                success_callback=self.on_sensor_data_received,
-                error_callback=self.on_api_error,
-            )
-            if worker_sensor:
-                self.active_workers.append(worker_sensor)
-
-            self.apply_mock_data()
-        except Exception as e:
-            logger.error(f"看板刷新失败: {e}")
-            self.apply_mock_data()
-
-    def apply_mock_data(self):
-        payload = self._mock_dashboard_payload()
-        self.stat_cards["pending_analysis"].update_value(payload["pending_analysis"], "来自最近24小时")
-        self.stat_cards["alerts"].update_value(payload["alerts"], "需人工复核")
-        self.stat_cards["recommend_today"].update_value(payload["recommend_today"], "较昨日 +18%")
-        self.stat_cards["adoption"].update_value(payload["adoption"], "目标值 ≥ 75%")
+    def apply_payload(self, payload):
+        payload = payload or {}
+        self.stat_cards["users"].update_value(payload.get("users", 0))
+        self.stat_cards["tasks"].update_value(payload.get("tasks", 0))
+        self.stat_cards["pending_recommend"].update_value(payload.get("pending_recommend", 0), "待进入参数推荐")
+        self.stat_cards["sensor"].update_value(payload.get("sensor", 0))
+        self.stat_cards["pending_analysis"].update_value(payload.get("pending_analysis", 0), "来自传感器待分析队列")
+        self.stat_cards["alerts"].update_value(payload.get("alerts", 0), "需人工复核")
+        self.stat_cards["recommend_today"].update_value(payload.get("recommend_today", 0), "来自统一推荐记录")
+        self.stat_cards["adoption"].update_value(payload.get("adoption", 0), "目标值 ≥ 75%")
 
         self.warning_todo_center.set_data({
             "pending_analysis": payload.get("pending_analysis", 0),
@@ -462,64 +400,11 @@ class DashboardInterface(NavInterface):
             "tool_wear_over_threshold": payload.get("tool_wear_over_threshold", 0),
         })
 
-        self.sensor_overview.update_metrics(payload["sensor_overview"])
-        self.recommend_overview.update_metrics(payload["recommend_overview"])
-        self.activity_card.update_activities(payload["activities"])
+        self.task_status_card.update_status_counts(payload.get("task_status_counts", {}))
+        self.sensor_overview.update_metrics(payload.get("sensor_overview", {}))
+        self.recommend_overview.update_metrics(payload.get("recommend_overview", {}))
+        self.activity_card.update_activities(payload.get("activities", {}))
         self.recommendation_overview_widget.set_records(payload.get("recommendation_records", []))
-
-    def on_users_data_received(self, users_data):
-        if users_data and "count" in users_data:
-            self.stat_cards["users"].update_value(users_data["count"])
-
-    def on_tasks_data_received(self, tasks_data):
-        if not tasks_data:
-            return
-
-        total_tasks = tasks_data.get("count", 0)
-        self.stat_cards["tasks"].update_value(total_tasks)
-
-        tasks_list = tasks_data.get("results", [])
-        status_counts = {}
-        pending = 0
-        for task in tasks_list:
-            status = task.get("status", "planned")
-            status_counts[status] = status_counts.get(status, 0) + 1
-            if status in ["planned", "in_progress"]:
-                pending += 1
-
-        self.stat_cards["pending"].update_value(pending)
-        self.task_status_card.update_status_counts(status_counts)
-
-        if tasks_list:
-            self.activity_card.update_activities(self.generate_recent_activities(tasks_data))
-
-    def on_sensor_data_received(self, sensor_data):
-        if sensor_data and "count" in sensor_data:
-            total_sensor = sensor_data["count"]
-            self.stat_cards["sensor"].update_value(total_sensor)
-
-            pending_analysis = min(max(int(total_sensor * 0.12), 8), 200)
-            self.stat_cards["pending_analysis"].update_value(pending_analysis, "依据待处理队列估算")
-            self.warning_todo_center.update_item("pending_analysis", pending_analysis)
-
-    def on_api_error(self, error_message):
-        logger.warning(f"看板部分数据加载失败: {error_message}")
-
-    def generate_recent_activities(self, tasks_data):
-        activities = {"task": [], "analysis": [], "recommendation": []}
-        if tasks_data and "results" in tasks_data:
-            tasks = sorted(tasks_data["results"], key=lambda x: x.get("updated_at", ""), reverse=True)
-            for task in tasks[:10]:
-                task_code = task.get("task_code", "N/A")
-                status_text = task.get("status_display", "状态更新")
-                activities["task"].append(
-                    {
-                        "title": f"任务 {task_code} 状态更新",
-                        "description": f"当前状态：{status_text}",
-                        "time": task.get("updated_at", "")[:10],
-                    }
-                )
-        return activities
 
     def start_refresh_timer(self):
         if not self.refresh_timer.isActive():
@@ -528,19 +413,9 @@ class DashboardInterface(NavInterface):
     def stop_refresh_timer(self):
         if self.refresh_timer.isActive():
             self.refresh_timer.stop()
-        self.cancel_active_workers()
 
     def cancel_active_workers(self):
-        for worker in self.active_workers:
-            try:
-                if hasattr(worker, "cancel"):
-                    worker.cancel()
-                if worker.isRunning():
-                    worker.quit()
-                    worker.wait(1000)
-            except Exception as e:
-                logger.warning(f"取消异步任务失败: {e}")
-        self.active_workers.clear()
+        return
 
     def closeEvent(self, event):
         self.stop_refresh_timer()
@@ -556,4 +431,4 @@ class DashboardInterface(NavInterface):
         self.refresh_data()
 
     def on_deactivated(self):
-        self.cancel_active_workers()
+        pass
