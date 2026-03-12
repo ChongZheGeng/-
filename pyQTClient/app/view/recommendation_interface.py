@@ -310,6 +310,25 @@ class RecommendationInterface(NavInterface):
             return "high"
         return "medium"
 
+
+    def open_task_from_dashboard(self, task_code):
+        """从系统概览跳转时，打开对应任务上下文（当前版本为页面内定位）。"""
+        if not task_code:
+            return
+
+        self.result_hint.setText(f"已从系统概览定位到任务 {task_code}，请确认工况后生成或复核推荐参数。")
+        existing = self.remark.toPlainText().strip()
+        prefix = f"[任务上下文] {task_code}"
+        if prefix not in existing:
+            self.remark.setPlainText(f"{prefix}\n{existing}".strip())
+
+        InfoBar.success(
+            title="已打开任务",
+            content=f"任务 {task_code} 已带入参数推荐页",
+            parent=self,
+            duration=2000,
+        )
+
     def _set_loading(self, loading, hint=""):
         self.recommend_btn.setEnabled(not loading)
         self.btn_generate.setEnabled(not loading)

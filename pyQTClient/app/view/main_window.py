@@ -67,6 +67,7 @@ class MainWindow(FluentWindow):
         # connect signal to slot
         signalBus.micaEnableChanged.connect(self.setMicaEffectEnabled)
         self.setting_interface.logoutSignal.connect(self.logout)
+        self.dashboard_interface.recommendationTaskRequested.connect(self.open_recommendation_for_task)
 
         # 应用主窗口样式
         self._apply_main_window_style()
@@ -157,6 +158,15 @@ class MainWindow(FluentWindow):
         # retry to enable mica effect
         if self.isMicaEffectEnabled():
             QTimer.singleShot(100, lambda: self.windowEffect.setMicaEffect(self.winId(), isDarkTheme()))
+
+
+    def open_recommendation_for_task(self, task_code):
+        """从首页推荐概览跳转到参数推荐页并打开对应任务。"""
+        if not task_code:
+            return
+        self.switchTo(self.recommendation_interface)
+        if hasattr(self.recommendation_interface, "open_task_from_dashboard"):
+            self.recommendation_interface.open_task_from_dashboard(task_code)
 
     def logout(self):
         """ 触发退出登录 """
