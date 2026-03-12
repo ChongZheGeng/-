@@ -2,7 +2,9 @@ import logging
 import time
 from django.shortcuts import render
 from django.db import DatabaseError
+from django.core.exceptions import PermissionDenied
 from rest_framework import viewsets, permissions, filters, status, views
+from rest_framework.exceptions import PermissionDenied as DRFPermissionDenied
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
@@ -91,6 +93,18 @@ class LoginView(views.APIView):
     接收用户名和密码，成功则登录并返回用户信息，失败则返回错误信息。
     """
     permission_classes = [permissions.AllowAny]  # 允许任何用户访问此视图
+    authentication_classes = []  # 桌面客户端 JSON 登录不使用 SessionAuthentication，避免 CSRF 二次拦截
+
+    def handle_exception(self, exc):
+        if isinstance(exc, (PermissionDenied, DRFPermissionDenied)):
+            logger.warning(
+                "[login] permission_denied path=%s reason=%s",
+                getattr(self.request, "path", ""),
+                exc,
+            )
+            return Response({"detail": f"登录请求被拒绝: {exc}"}, status=status.HTTP_403_FORBIDDEN)
+
+        return super().handle_exception(exc)
 
     def post(self, request, *args, **kwargs):
         request_start = time.perf_counter()

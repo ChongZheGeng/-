@@ -1,6 +1,8 @@
 # coding:utf-8
 import os
 import sys
+import logging
+import traceback
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
@@ -9,6 +11,7 @@ from qfluentwidgets import FluentTranslator, qconfig
 from app.common.config import cfg
 from app.view.login_window import LoginWindow
 from app.view.main_window import MainWindow
+from app.api.api_client import api_client
     
 
 class ApplicationManager:
@@ -44,9 +47,6 @@ class ApplicationManager:
     
     def setup_exception_handling(self):
         """设置全局异常处理"""
-        import traceback
-        import logging
-        
         # 设置日志记录
         logging.basicConfig(
             level=logging.DEBUG,
@@ -101,17 +101,36 @@ class ApplicationManager:
 
     def show_main_window(self):
         """显示主窗口"""
-        self.main_window = MainWindow()
-        # Connect the logout signal after showing the main window
-        self.main_window.setting_interface.logoutSignal.connect(self.show_login_window)
-        
-        # 看板界面会在初始化时自动加载数据（现在改为每次切换都自动刷新，不需要标记）
-        # 移除了 loaded_interfaces 的使用，因为现在每次切换导航都会自动刷新数据
-        
-        self.main_window.show()
+        self.logger.info("[login] success, preparing main window")
 
-        if self.login_window:
-            self.login_window.close()
+        try:
+            self.main_window = MainWindow()
+            self.main_window.setting_interface.logoutSignal.connect(self.show_login_window)
+            self.main_window.show()
+            self.logger.info("MainWindow 创建成功")
+
+            if self.login_window:
+                self.login_window.close()
+        except Exception as e:
+            self.logger.error("MainWindow 创建失败: %s\n%s", e, traceback.format_exc())
+            self.main_window = None
+            api_client.reset_auth_state()
+
+            try:
+                from qfluentwidgets import InfoBar, InfoBarPosition
+                if self.login_window:
+                    self.login_window.set_loading_state(False)
+                    InfoBar.error(
+                        "主界面初始化失败",
+                        f"{e}",
+                        orient=Qt.Horizontal,
+                        isClosable=True,
+                        position=InfoBarPosition.TOP,
+                        duration=3000,
+                        parent=self.login_window
+                    )
+            except Exception:
+                self.logger.error("显示主界面初始化失败提示时出错", exc_info=True)
 
     def show_login_window(self):
         """显示登录窗口"""
