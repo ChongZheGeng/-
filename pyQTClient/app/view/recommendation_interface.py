@@ -41,7 +41,7 @@ class RecommendationInterface(NavInterface):
         self.main_layout.setSpacing(18)
 
         self.main_layout.addWidget(SubtitleLabel("参数推荐"))
-        self.main_layout.addWidget(BodyLabel("加工参数智能推荐工作台（演示版）"))
+        self.main_layout.addWidget(BodyLabel("加工参数智能推荐工作台"))
 
         self._build_input_section()
         self._build_result_section()
