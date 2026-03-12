@@ -34,6 +34,7 @@ from .components.parameter_recommend_overview_component import (
     ParameterRecommendOverviewWidget,
     MOCK_RECOMMENDATION_RECORDS,
 )
+from .components.recent_activity_timeline_component import RecentActivityTimelineCard
 
 logger = logging.getLogger(__name__)
 
@@ -161,49 +162,6 @@ class StatusDistributionCard(ShadowCard):
             count = status_counts.get(key, 0)
             value_label.setText(str(count))
             progress.setValue(int(count / total * 100))
-
-
-class ActivityCard(ShadowCard):
-    """最近活动"""
-
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(20, 18, 20, 18)
-        layout.setSpacing(10)
-
-        title = QHBoxLayout()
-        icon = IconWidget(FIF.HISTORY, self)
-        icon.setFixedSize(20, 20)
-        label = StrongBodyLabel("最近活动")
-        setFont(label, 15)
-        title.addWidget(icon)
-        title.addWidget(label)
-        title.addStretch()
-        layout.addLayout(title)
-
-        self.activity_layout = QVBoxLayout()
-        self.activity_layout.setSpacing(8)
-        layout.addLayout(self.activity_layout)
-
-    def update_activities(self, activities):
-        while self.activity_layout.count():
-            item = self.activity_layout.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
-
-        for act in activities[:6]:
-            row = QHBoxLayout()
-            icon = IconWidget(FIF.ACCEPT if act.get("type") == "completed" else FIF.SYNC, self)
-            icon.setFixedSize(16, 16)
-            text = BodyLabel(act.get("description", ""))
-            time = CaptionLabel(act.get("time", ""))
-            time.setStyleSheet("color:#999;")
-            row.addWidget(icon)
-            row.addWidget(text)
-            row.addStretch()
-            row.addWidget(time)
-            self.activity_layout.addLayout(row)
 
 
 class AnalysisOverviewCard(ShadowCard):
@@ -370,7 +328,7 @@ class DashboardInterface(NavInterface):
         row.setSpacing(14)
 
         self.task_status_card = StatusDistributionCard()
-        self.activity_card = ActivityCard()
+        self.activity_card = RecentActivityTimelineCard()
 
         row.addWidget(self.task_status_card, 3)
         row.addWidget(self.activity_card, 2)
@@ -405,11 +363,44 @@ class DashboardInterface(NavInterface):
                 "closed_loop": {"value": "68%", "ratio": 68},
             },
             "recommendation_records": MOCK_RECOMMENDATION_RECORDS,
-            "activities": [
-                {"type": "completed", "description": "任务 TK-105 完成参数回写", "time": now},
-                {"type": "running", "description": "批次 B-302 触发振动异常预警", "time": now},
-                {"type": "running", "description": "系统生成新推荐方案 R-018", "time": now},
-            ],
+            "activities": {
+                "task": [
+                    {
+                        "title": "任务 TK-105 完成参数回写",
+                        "description": "工艺卡同步至任务看板，等待归档。",
+                        "time": now,
+                    },
+                    {
+                        "title": "任务 TK-108 切换进行中",
+                        "description": "现场班组已确认并开始执行。",
+                        "time": now,
+                    },
+                ],
+                "analysis": [
+                    {
+                        "title": "批次 B-302 触发振动异常预警",
+                        "description": "异常点位已自动标注，等待复核。",
+                        "time": now,
+                    },
+                    {
+                        "title": "传感器 S-22 完成清洗",
+                        "description": "有效信号占比提升至 87%。",
+                        "time": now,
+                    },
+                ],
+                "recommendation": [
+                    {
+                        "title": "系统生成新推荐方案 R-018",
+                        "description": "建议调整进给速率 +6%，置信度 0.86。",
+                        "time": now,
+                    },
+                    {
+                        "title": "推荐方案 R-013 被采纳",
+                        "description": "已进入闭环验证阶段。",
+                        "time": now,
+                    },
+                ],
+            },
         }
 
     def refresh_data(self):
@@ -495,14 +486,16 @@ class DashboardInterface(NavInterface):
         logger.warning(f"看板部分数据加载失败: {error_message}")
 
     def generate_recent_activities(self, tasks_data):
-        activities = []
+        activities = {"task": [], "analysis": [], "recommendation": []}
         if tasks_data and "results" in tasks_data:
             tasks = sorted(tasks_data["results"], key=lambda x: x.get("updated_at", ""), reverse=True)
-            for task in tasks[:5]:
-                activities.append(
+            for task in tasks[:10]:
+                task_code = task.get("task_code", "N/A")
+                status_text = task.get("status_display", "状态更新")
+                activities["task"].append(
                     {
-                        "type": task.get("status", "planned"),
-                        "description": f"任务 {task.get('task_code', 'N/A')} - {task.get('status_display', 'N/A')}",
+                        "title": f"任务 {task_code} 状态更新",
+                        "description": f"当前状态：{status_text}",
                         "time": task.get("updated_at", "")[:10],
                     }
                 )
