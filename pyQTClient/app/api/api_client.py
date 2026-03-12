@@ -68,6 +68,31 @@ class ApiClient:
             return f"健康检查返回异常状态码（{status_code}）"
         return f"健康检查失败：{exc}"
 
+    def _extract_error_message(self, response, default_message="未知错误"):
+        """优先解析后端返回的可读错误信息。"""
+        try:
+            data = response.json()
+            if isinstance(data, dict):
+                for key in ("detail", "error", "message"):
+                    value = data.get(key)
+                    if value:
+                        return str(value)
+            if isinstance(data, list) and data:
+                return str(data[0])
+        except ValueError:
+            pass
+
+        text = (response.text or "").strip()
+        if text:
+            return text[:200]
+        return default_message
+
+    def reset_auth_state(self):
+        """清理本地会话认证状态，避免半登录态。"""
+        self.current_user = None
+        self.csrf_token = None
+        self.session.cookies.clear()
+
     def ping_health(self, attempts=HEALTH_MAX_ATTEMPTS, retry_interval=HEALTH_RETRY_INTERVAL_SECONDS):
         """启动阶段健康检查：短轮询等待后端就绪。"""
         health_url = f"{API_BASE_URL}/health/"
@@ -140,10 +165,10 @@ class ApiClient:
                 config.set_admin_status(is_superuser)
                 return True, "登录成功"
 
-            try:
-                error_message = response.json().get('error', '未知错误')
-            except ValueError:
-                error_message = (response.text or '未知错误')[:200]
+            error_message = self._extract_error_message(response, '未知错误')
+
+            if response.status_code == 403 and 'csrf' in error_message.lower():
+                error_message = f"{error_message}（请重新登录）"
 
             logger.warning(
                 "登录请求失败: url=%s username=%s timeout=%s status_code=%s response_preview=%s",
@@ -189,6 +214,8 @@ class ApiClient:
                 (response_preview or "")[:200],
                 e,
             )
+            if getattr(e, "response", None) is not None:
+                return False, self._extract_error_message(e.response, "登录请求失败")
             return False, "网络错误，请检查后端服务是否运行。"
 
     def _request(self, method, endpoint, **kwargs):
