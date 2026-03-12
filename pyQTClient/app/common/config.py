@@ -86,6 +86,7 @@ class Config(QConfig):
     rememberMe = ConfigItem("Login", "rememberMe", False)
     username = ConfigItem("Login", "username", "")
     password = ConfigItem("Login", "password", "")
+    autoStartBackend = ConfigItem("Login", "autoStartBackend", True, BoolValidator())
     
     # WebDAV
     webdavEnabled = ConfigItem("WebDAV", "Enabled", False, BoolValidator())
@@ -156,3 +157,20 @@ def test_webdav_connection(url, username, password):
         return True, "连接成功"
     except Exception as e:
         return False, f"连接失败: {str(e)}"
+
+def is_auto_start_backend_enabled():
+    """开发机专用：配置或环境变量开启后端自动拉起。"""
+    env_flag = os.getenv("AUTO_START_BACKEND", "").strip().lower()
+    if env_flag:
+        return env_flag in {"1", "true", "yes", "on"}
+
+    cfg_enabled = bool(cfg.get(cfg.autoStartBackend))
+    if cfg_enabled:
+        return True
+
+    debug_enabled = bool(getattr(cfg, "DEBUG", False))
+    if debug_enabled:
+        return True
+
+    # 未打包（源码开发）时默认启用，方便本地联调
+    return not getattr(sys, "frozen", False)

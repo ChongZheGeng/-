@@ -15,3 +15,15 @@ BannerWidget > #galleryLabel {
     color: white;
     padding-left: 28px;
 }
+
+
+#sensorDataOverviewWidget {
+    background-color: transparent;
+    border: 1px solid rgba(120, 120, 120, 45);
+    border-radius: 10px;
+}
+
+#sensorChartCard,
+#sensorStatCard {
+    border-radius: 8px;
+}

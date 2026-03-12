@@ -61,6 +61,10 @@ class ApplicationManager:
         
         # 设置Qt异常处理
         def qt_exception_hook(exctype, value, tb):
+            if issubclass(exctype, KeyboardInterrupt):
+                self.logger.info("收到 KeyboardInterrupt，应用即将退出")
+                return
+
             error_msg = ''.join(traceback.format_exception(exctype, value, tb))
             self.logger.error(f"未捕获的异常:\n{error_msg}")
             self.logger.critical(f"应用程序异常:\n{error_msg}")
@@ -148,6 +152,11 @@ if __name__ == '__main__':
 
         sys.exit(app.exec_())
         
+    except KeyboardInterrupt:
+        import logging
+        logging.basicConfig(level=logging.INFO)
+        logging.getLogger(__name__).info("用户中断启动流程，应用正常退出")
+        sys.exit(0)
     except Exception as e:
         import traceback
         import logging

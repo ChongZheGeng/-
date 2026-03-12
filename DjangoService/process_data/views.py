@@ -1,13 +1,22 @@
+import logging
+import time
+import traceback
 from django.shortcuts import render
+from django.db import DatabaseError
 from rest_framework import viewsets, permissions, filters, status, views
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Q
 from django.contrib.auth import login, logout, get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from django.contrib.auth.models import User
+from pathlib import Path
+
+from .recommendation.generate_damage_dataset import generate_damage_dataset, DATASET_PATH
+from .recommendation.train_damage_model import train_damage_model, MODEL_PATH
+from .recommendation.infer_damage_model import predict_damage
+from .recommendation.recommend_by_level import recommend_parameters_by_level
 
 from .models import (
     ProcessCategory,
@@ -52,6 +61,9 @@ from .serializers import (
 )
 
 
+logger = logging.getLogger(__name__)
+
+
 # 自定义权限类，允许已登录用户执行任何操作
 class IsAuthenticatedOrReadOnly(permissions.BasePermission):
     """
@@ -66,6 +78,98 @@ class IsAuthenticatedOrReadOnly(permissions.BasePermission):
         return request.user and request.user.is_authenticated
 
 
+@api_view(['GET'])
+@permission_classes([permissions.AllowAny])
+def health_api(request):
+    """极简健康检查接口：只返回静态状态，不做任何外部依赖检查。"""
+    return Response(
+        {
+            "status": "ok",
+            "service": "DjangoService",
+        },
+        status=status.HTTP_200_OK,
+    )
+
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def generate_damage_dataset_api(request):
+    """根据论文 9 个种子点生成扩增训练数据。"""
+    try:
+        num_samples = int(request.data.get("num_samples", 2000))
+        result = generate_damage_dataset(num_samples=num_samples)
+        logger.info("damage dataset generated: samples=%s path=%s", result.get("total_samples"), result.get("dataset_path"))
+        return Response({"success": True, **result}, status=status.HTTP_200_OK)
+    except Exception as exc:
+        logger.error("generate_damage_dataset_api failed: %s\n%s", exc, traceback.format_exc())
+        return Response({"success": False, "error": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def train_damage_model_api(request):
+    """训练模型并保存 model.pkl/level_config.json/training_report.md。"""
+    try:
+        if not DATASET_PATH.exists():
+            return Response(
+                {"success": False, "error": f"扩增数据不存在，请先调用生成接口: {DATASET_PATH}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        result = train_damage_model()
+        logger.info("damage model trained: best=%s path=%s", result.get("best_model"), result.get("model_path"))
+        return Response({"success": True, **result}, status=status.HTTP_200_OK)
+    except Exception as exc:
+        logger.error("train_damage_model_api failed: %s\n%s", exc, traceback.format_exc())
+        return Response({"success": False, "error": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def predict_damage_api(request):
+    """单点预测 A_damage 和损伤等级。"""
+    try:
+        if not MODEL_PATH.exists():
+            return Response(
+                {"success": False, "error": f"模型文件不存在，请先训练模型: {MODEL_PATH}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        speed = float(request.data.get("speed"))
+        fz = float(request.data.get("fz"))
+        result = predict_damage(speed=speed, fz=fz)
+        return Response({"success": True, **result}, status=status.HTTP_200_OK)
+    except (TypeError, ValueError):
+        return Response(
+            {"success": False, "error": "请求参数错误，必须提供数值型 speed 和 fz"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    except Exception as exc:
+        logger.error("predict_damage_api failed: %s\n%s", exc, traceback.format_exc())
+        return Response({"success": False, "error": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def recommend_by_level_api(request):
+    """按目标损伤等级返回推荐参数。"""
+    try:
+        if not MODEL_PATH.exists():
+            return Response(
+                {"success": False, "error": f"模型文件不存在，请先训练模型: {MODEL_PATH}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        damage_level = request.data.get("damage_level", "").strip().lower()
+        top_k = int(request.data.get("top_k", 5))
+        results = recommend_parameters_by_level(damage_level=damage_level, top_k=top_k)
+        return Response({"success": True, "results": results}, status=status.HTTP_200_OK)
+    except ValueError as exc:
+        return Response({"success": False, "error": str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as exc:
+        logger.error("recommend_by_level_api failed: %s\n%s", exc, traceback.format_exc())
+        return Response({"success": False, "error": str(exc)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 @method_decorator(csrf_exempt, name='dispatch')
 class LoginView(views.APIView):
     """
@@ -75,24 +179,90 @@ class LoginView(views.APIView):
     permission_classes = [permissions.AllowAny]  # 允许任何用户访问此视图
 
     def post(self, request, *args, **kwargs):
-        username = request.data.get('username')
-        password = request.data.get('password')
-        
-        from django.contrib.auth import authenticate
-        user = authenticate(request, username=username, password=password)
-        
-        if user is not None:
+        request_start = time.perf_counter()
+        username = ""
+        try:
+            logger.info(
+                "[login] request_enter method=%s path=%s",
+                request.method,
+                request.path,
+            )
+
+            logger.info("[login] parse_request_start")
+            username = (request.data.get('username') or '').strip()
+            password = request.data.get('password') or ''
+            logger.info("[login] parse_request_done username=%s has_password=%s", username, bool(password))
+
+            if not username or not password:
+                logger.warning("[login] parse_request_invalid username=%s", username)
+                return Response({"error": "用户名和密码不能为空"}, status=status.HTTP_400_BAD_REQUEST)
+
+            user_model = get_user_model()
+            login_field = user_model.USERNAME_FIELD
+            login_lookup = {login_field: username}
+            login_only_fields = [
+                'id',
+                login_field,
+                'password',
+                'is_active',
+                'is_staff',
+                'is_superuser',
+                'email',
+            ]
+
+            query_start = time.perf_counter()
+            logger.info("[login] user_query_start username=%s", username)
+            try:
+                user = user_model.objects.only(*login_only_fields).get(**login_lookup)
+            except user_model.DoesNotExist:
+                logger.info(
+                    "[login] user_query_done username=%s model=%s query_field=%s found=%s elapsed_ms=%.2f",
+                    username,
+                    user_model.__name__,
+                    login_field,
+                    False,
+                    (time.perf_counter() - query_start) * 1000,
+                )
+                return Response({"error": "用户名或密码错误"}, status=status.HTTP_401_UNAUTHORIZED)
+            logger.info(
+                "[login] user_query_done username=%s model=%s query_field=%s found=%s elapsed_ms=%.2f",
+                username,
+                user_model.__name__,
+                login_field,
+                True,
+                (time.perf_counter() - query_start) * 1000,
+            )
+
+            pwd_start = time.perf_counter()
+            logger.info("[login] password_check_start username=%s", username)
+            password_ok = user.check_password(password)
+            logger.info(
+                "[login] password_check_done username=%s ok=%s elapsed_ms=%.2f",
+                username,
+                password_ok,
+                (time.perf_counter() - pwd_start) * 1000,
+            )
+            if not password_ok:
+                return Response({"error": "用户名或密码错误"}, status=status.HTTP_401_UNAUTHORIZED)
+
+            logger.info("[login] build_response_start username=%s", username)
             login(request, user)
-            return Response({
+            response_data = {
                 'id': user.id,
                 'username': user.username,
-                'email': user.email
-            }, status=status.HTTP_200_OK)
-        else:
-            return Response(
-                {"error": "用户名或密码错误"}, 
-                status=status.HTTP_400_BAD_REQUEST
-            )
+                'email': user.email,
+                'is_superuser': user.is_superuser,
+            }
+            logger.info("[login] build_response_done username=%s", username)
+            return Response(response_data, status=status.HTTP_200_OK)
+        except DatabaseError:
+            logger.exception("[login] request_error username=%s database_error=true", username)
+            return Response({"error": "数据库连接异常，请稍后重试"}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+        except Exception:
+            logger.exception("[login] request_error username=%s", username)
+            return Response({"error": "登录处理异常，请稍后重试"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        finally:
+            logger.info("[login] request_exit username=%s total_elapsed_ms=%.2f", username, (time.perf_counter() - request_start) * 1000)
 
 
 class UserViewSet(viewsets.ModelViewSet):

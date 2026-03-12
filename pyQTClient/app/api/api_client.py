@@ -1,8 +1,18 @@
+import logging
+import time
+
 import requests
 from ..common import config
 
 # API 服务器的基础URL
 API_BASE_URL = "http://127.0.0.1:8000/api"
+DEFAULT_TIMEOUT = (2, 5)
+HEALTH_TIMEOUT = (3, 5)
+LOGIN_TIMEOUT = (3, 15)
+HEALTH_MAX_ATTEMPTS = 3
+HEALTH_RETRY_INTERVAL_SECONDS = 0.7
+
+logger = logging.getLogger(__name__)
 
 
 class ApiClient:
@@ -25,9 +35,10 @@ class ApiClient:
         
         # 配置重试策略
         retry_strategy = Retry(
-            total=3,
-            backoff_factor=0.1,
-            status_forcelist=[500, 502, 503, 504]
+            total=0,
+            connect=0,
+            read=0,
+            status=0
         )
         
         adapter = HTTPAdapter(
@@ -39,34 +50,146 @@ class ApiClient:
         self.session.mount("http://", adapter)
         self.session.mount("https://", adapter)
 
+    def _format_health_error(self, exc):
+        """根据异常类型生成更准确的健康检查提示。"""
+        if isinstance(exc, requests.exceptions.ConnectTimeout):
+            return "后端未就绪或端口无响应（connect timeout）"
+        if isinstance(exc, requests.exceptions.ReadTimeout):
+            return "后端响应超时（read timeout）"
+        if isinstance(exc, requests.exceptions.ConnectionError):
+            detail = str(exc).lower()
+            if "connection refused" in detail or "winerror 10061" in detail:
+                return "后端未启动（connection refused）"
+            return "后端连接失败（connection error）"
+        if isinstance(exc, requests.exceptions.HTTPError) and getattr(exc, "response", None) is not None:
+            status_code = exc.response.status_code
+            if status_code == 404:
+                return "/api/health/ 未配置（404）"
+            return f"健康检查返回异常状态码（{status_code}）"
+        return f"健康检查失败：{exc}"
+
+    def ping_health(self, attempts=HEALTH_MAX_ATTEMPTS, retry_interval=HEALTH_RETRY_INTERVAL_SECONDS):
+        """启动阶段健康检查：短轮询等待后端就绪。"""
+        health_url = f"{API_BASE_URL}/health/"
+        last_exception = None
+
+        for attempt in range(1, max(1, attempts) + 1):
+            logger.info(
+                "Health check attempt %s/%s url=%s timeout=%s",
+                attempt,
+                attempts,
+                health_url,
+                HEALTH_TIMEOUT,
+            )
+            try:
+                response = self.session.get(health_url, timeout=HEALTH_TIMEOUT)
+                logger.info("Health check response status_code=%s", response.status_code)
+                response.raise_for_status()
+                return True, response.json()
+            except requests.exceptions.RequestException as exc:
+                last_exception = exc
+                logger.warning(
+                    "Health check failed attempt=%s/%s type=%s url=%s timeout=%s status_code=%s detail=%s",
+                    attempt,
+                    attempts,
+                    type(exc).__name__,
+                    health_url,
+                    HEALTH_TIMEOUT,
+                    getattr(getattr(exc, "response", None), "status_code", None),
+                    exc,
+                )
+                if attempt < attempts:
+                    time.sleep(retry_interval)
+
+        return False, self._format_health_error(last_exception)
+
     def login(self, username, password):
         """ 调用新的JSON登录接口 """
         login_url = f"{API_BASE_URL}/login/"
+        payload = {'username': username, 'password': password}
+        request_start = time.perf_counter()
+        logger.info(
+            "登录请求开始: url=%s username=%s timeout=%s",
+            login_url,
+            username,
+            LOGIN_TIMEOUT,
+        )
         try:
-            # 首先获取CSRF令牌
-            self.session.get(API_BASE_URL)
-            
-            # 发送登录请求
-            response = self.session.post(login_url, json={'username': username, 'password': password})
-            
+            response = self.session.post(
+                login_url,
+                json=payload,
+                timeout=LOGIN_TIMEOUT
+            )
+            elapsed_ms = (time.perf_counter() - request_start) * 1000
+            logger.info(
+                "登录请求响应: url=%s username=%s timeout=%s status_code=%s response_preview=%s elapsed_ms=%.2f",
+                login_url,
+                username,
+                LOGIN_TIMEOUT,
+                response.status_code,
+                (response.text or '')[:200],
+                elapsed_ms,
+            )
+
             if response.status_code == 200:
-                # 登录成功，保存CSRF令牌（如果有）
                 if 'csrftoken' in self.session.cookies:
                     self.csrf_token = self.session.cookies['csrftoken']
-                
-                # 保存当前用户信息
+
                 self.current_user = response.json()
                 is_superuser = self.current_user.get('is_superuser', False)
                 config.set_admin_status(is_superuser)
                 return True, "登录成功"
-            
-            # 从响应中获取更详细的错误信息
-            error_message = response.json().get('error', '未知错误')
+
+            try:
+                error_message = response.json().get('error', '未知错误')
+            except ValueError:
+                error_message = (response.text or '未知错误')[:200]
+
+            logger.warning(
+                "登录请求失败: url=%s username=%s timeout=%s status_code=%s response_preview=%s",
+                login_url,
+                username,
+                LOGIN_TIMEOUT,
+                response.status_code,
+                (response.text or '')[:200],
+            )
             return False, error_message
 
+        except requests.exceptions.ReadTimeout as e:
+            logger.error(
+                "登录请求读取超时: url=%s username=%s timeout=%s status_code=%s response_preview=%s error=%s",
+                login_url,
+                username,
+                LOGIN_TIMEOUT,
+                None,
+                "",
+                e,
+            )
+            return False, "登录接口超时，请稍后重试。"
+        except requests.exceptions.ConnectionError as e:
+            logger.error(
+                "登录请求连接失败: url=%s username=%s timeout=%s status_code=%s response_preview=%s error=%s",
+                login_url,
+                username,
+                LOGIN_TIMEOUT,
+                None,
+                "",
+                e,
+            )
+            return False, "后端未启动或连接失败，请检查 Django 服务。"
         except requests.exceptions.RequestException as e:
-            print(f"API 登录错误: {e}")
-            return False, f"网络错误，请检查后端服务是否运行。"
+            status_code = getattr(getattr(e, "response", None), "status_code", None)
+            response_preview = getattr(getattr(e, "response", None), "text", "")
+            logger.error(
+                "登录请求异常: url=%s username=%s timeout=%s status_code=%s response_preview=%s error=%s",
+                login_url,
+                username,
+                LOGIN_TIMEOUT,
+                status_code,
+                (response_preview or "")[:200],
+                e,
+            )
+            return False, "网络错误，请检查后端服务是否运行。"
 
     def _request(self, method, endpoint, **kwargs):
         """ 使用会话封装请求逻辑 """
@@ -82,6 +205,7 @@ class ApiClient:
             
         try:
             # session对象会自动发送cookies
+            kwargs.setdefault("timeout", DEFAULT_TIMEOUT)
             response = self.session.request(method, url, **kwargs)
             
             response.raise_for_status()
@@ -90,7 +214,15 @@ class ApiClient:
             return response.json()
         except requests.exceptions.RequestException as e:
             print(f"API Error ({method.upper()} {url}): {e}")
-            return None
+            if getattr(e, "response", None) is not None:
+                try:
+                    return e.response.json()
+                except Exception:
+                    return {
+                        "success": False,
+                        "error": f"HTTP {e.response.status_code}: {(e.response.text or '')[:200]}"
+                    }
+            return {"success": False, "error": str(e)}
 
     # --- Tool Management ---
 
@@ -381,6 +513,33 @@ class ApiClient:
                 
         except Exception as e:
             return False, f"上传失败: {str(e)}"
+
+
+    def health_check(self, timeout=3):
+        """后端健康检查（可选）"""
+        return self._request('get', 'health', timeout=timeout)
+
+    def recommend_parameters(self, data, timeout=10):
+        """调用参数推荐接口"""
+        return self._request('post', 'recommend', json=data, timeout=timeout)
+
+    def generate_damage_dataset(self, num_samples=2000, timeout=20):
+        """生成损伤扩增训练数据"""
+        return self._request('post', 'model/generate-damage-dataset', json={'num_samples': num_samples}, timeout=timeout)
+
+    def train_damage_model(self, timeout=60):
+        """训练损伤预测模型"""
+        return self._request('post', 'model/train-damage-model', json={}, timeout=timeout)
+
+    def predict_damage(self, speed, fz, timeout=15):
+        """单点预测损伤值与等级"""
+        payload = {'speed': speed, 'fz': fz}
+        return self._request('post', 'model/predict-damage', json=payload, timeout=timeout)
+
+    def recommend_by_level(self, damage_level, top_k=5, timeout=20):
+        """按等级推荐参数"""
+        payload = {'damage_level': damage_level, 'top_k': top_k}
+        return self._request('post', 'model/recommend-by-level', json=payload, timeout=timeout)
 
     def get_current_user_info(self):
         """ 获取当前登录用户信息 """

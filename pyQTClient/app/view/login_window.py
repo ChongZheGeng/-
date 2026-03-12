@@ -1,18 +1,24 @@
 # coding:utf-8
 import sys
+import logging
 
 from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QByteArray
 from PyQt5.QtGui import QIcon, QPixmap, QPainter, QColor, QBrush
 from PyQt5.QtWidgets import (QApplication, QWidget, QVBoxLayout, QLabel, QHBoxLayout,
-                             QDesktopWidget, QGraphicsDropShadowEffect)
+                             QDesktopWidget, QGraphicsDropShadowEffect, QMessageBox)
 from qfluentwidgets import (setTheme, Theme, SplitTitleBar, isDarkTheme, SubtitleLabel, BodyLabel, LineEdit,
                             PasswordLineEdit, StrongBodyLabel, CheckBox, PrimaryPushButton, ProgressRing, InfoBar,
                             InfoBarPosition, setThemeColor)
 
 # 使用相对路径导入上级包的模块
 from ..api.api_client import api_client
-from ..common.config import cfg
+from ..api.async_api import async_api
+from ..common.config import cfg, is_auto_start_backend_enabled
+from ..common import backend_launcher
 from .. import resource_rc  # 导入编译后的资源文件
+
+
+logger = logging.getLogger(__name__)
 
 # 动态导入无边框窗口库
 def isWin11():
@@ -31,6 +37,12 @@ class LoginWindow(Window):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.login_successful = False
+        self.health_worker = None
+        self.login_worker = None
+        self.pending_credentials = None
+        self.backend_starting = False
+        self.health_dialog_visible = False
+        self.auto_start_worker = None
 
         # --- 主布局 (分栏) ---
         mainLayout = QHBoxLayout()
@@ -147,8 +159,22 @@ class LoginWindow(Window):
                 # 让UI有时间渲染，然后再自动登录
                 QTimer.singleShot(100, self.login)
 
+    def set_loading_state(self, loading, button_text="登录"):
+        """设置加载状态，避免阻塞 UI。"""
+        self.username_edit.setEnabled(not loading)
+        self.password_edit.setEnabled(not loading)
+        self.remember_checkbox.setEnabled(not loading)
+        self.loginButton.setEnabled(not loading)
+        self.loginButton.setText(button_text)
+
+        if loading:
+            self.progressRing.show()
+        else:
+            self.progressRing.hide()
+            self.loginButton.setText("登录")
+
     def login(self):
-        """登录处理"""
+        """登录处理：先健康检查，再异步登录"""
         username = self.username_edit.text().strip()
         password = self.password_edit.text().strip()
 
@@ -157,23 +183,250 @@ class LoginWindow(Window):
                           position=InfoBarPosition.TOP, duration=3000, parent=self)
             return
 
-        # 切换到加载状态
-        self.username_edit.setEnabled(False)
-        self.password_edit.setEnabled(False)
-        self.loginButton.hide()
-        self.progressRing.show()
-        QApplication.processEvents()
+        self.pending_credentials = (username, password)
+        self.set_loading_state(True, "检测后端中...")
 
-        success, message = api_client.login(username, password)
+        self.health_worker = async_api.ping_health_async(
+            success_callback=self.on_health_check_finished,
+            error_callback=self.on_health_check_error
+        )
 
-        # 恢复正常状态
-        self.username_edit.setEnabled(True)
-        self.password_edit.setEnabled(True)
-        self.loginButton.show()
-        self.progressRing.hide()
+    def on_health_check_finished(self, result):
+        """健康检查成功后再发起登录请求"""
+        is_ok, payload = result
+        if not is_ok:
+            self.on_health_check_error(payload)
+            return
+
+        self.set_loading_state(True, "登录中...")
+        username, password = self.pending_credentials
+        self.login_worker = async_api.login_async(
+            username,
+            password,
+            success_callback=self.on_login_finished,
+            error_callback=self.on_login_error
+        )
+
+    def on_health_check_error(self, error_message):
+        self.set_loading_state(False)
+        if self.health_dialog_visible:
+            return
+
+        self.health_dialog_visible = True
+        should_retry = self.show_backend_error_dialog(
+            title="连接失败",
+            message=f"后端连接检查未通过。\n\n{error_message}\n\n请确认 Django 服务已启动并监听 127.0.0.1:8000。",
+            powershell_command=backend_launcher.build_powershell_runserver_command(),
+            cmd_command=backend_launcher.build_cmd_runserver_command(),
+            allow_retry=True
+        )
+        self.health_dialog_visible = False
+        if should_retry:
+            self.retry_health_check()
+
+    def retry_health_check(self):
+        """点击 Retry 后的流程：先快速探活，再视配置自动拉起后端。"""
+        if self.backend_starting:
+            return
+
+        self.set_loading_state(True, "重试检测后端中...")
+        self.health_worker = async_api.ping_health_async(
+            success_callback=self.on_retry_health_finished,
+            error_callback=self.on_retry_health_error
+        )
+
+    def on_retry_health_error(self, error_message):
+        self.on_retry_health_finished((False, str(error_message)))
+
+    def on_retry_health_finished(self, result):
+        is_ok, payload = result
+        if is_ok:
+            logger.info("Retry 阶段健康检查成功，继续登录")
+            self.on_health_check_finished(result)
+            return
+
+        if not is_auto_start_backend_enabled():
+            self.set_loading_state(False)
+            logger.info("自动拉起后端未启用，保持原有重试提示")
+            self.on_health_check_error(payload)
+            return
+
+        self.start_backend_auto_flow(payload)
+
+    def start_backend_auto_flow(self, last_error):
+        if self.backend_starting:
+            logger.info("后端已在启动中，忽略重复启动请求")
+            return
+
+        self.backend_starting = True
+        self.set_loading_state(True, "正在自动启动后端...")
+        logger.info("开始执行后端自动拉起流程，最后一次健康检查错误: %s", last_error)
+        self.auto_start_worker = async_api.call_async(
+            self._start_backend_and_wait,
+            self.on_backend_auto_flow_finished,
+            self.on_backend_auto_flow_error,
+            str(last_error)
+        )
+
+    def _start_backend_and_wait(self, last_error):
+        repo_root = backend_launcher.find_repo_root()
+        manage_py_path = ""
+        if repo_root:
+            manage_py_path = str(repo_root / "DjangoService" / "manage.py")
+
+        if not repo_root:
+            powershell_command = backend_launcher.build_powershell_runserver_command()
+            cmd_command = backend_launcher.build_cmd_runserver_command()
+            logger.warning("自动拉起失败：未找到 manage.py")
+            return {
+                "ok": False,
+                "message": f"未找到 DjangoService/manage.py。最后错误: {last_error}",
+                "manage_py_path": manage_py_path,
+                "powershell_command": powershell_command,
+                "cmd_command": cmd_command,
+            }
+
+        powershell_command = backend_launcher.build_powershell_runserver_command(repo_root)
+        cmd_command = backend_launcher.build_cmd_runserver_command(repo_root)
+        try:
+            process = backend_launcher.start_django_server(repo_root)
+            ok, elapsed, wait_message = backend_launcher.wait_for_health(timeout_seconds=25, interval_seconds=0.5)
+            logger.info("后端自动拉起等待结果: ok=%s elapsed=%.2fs detail=%s", ok, elapsed, wait_message)
+            if ok:
+                return {
+                    "ok": True,
+                    "message": f"后端已就绪，耗时 {elapsed:.1f}s",
+                    "manage_py_path": manage_py_path,
+                    "powershell_command": powershell_command,
+                    "cmd_command": cmd_command,
+                    "pid": process.pid,
+                }
+
+            return {
+                "ok": False,
+                "message": f"自动启动后端后等待超时（{elapsed:.1f}s）：{wait_message}",
+                "manage_py_path": manage_py_path,
+                "powershell_command": powershell_command,
+                "cmd_command": cmd_command,
+                "pid": process.pid,
+            }
+        except Exception as e:
+            logger.exception("自动启动后端异常")
+            return {
+                "ok": False,
+                "message": f"自动启动后端异常: {e}",
+                "manage_py_path": manage_py_path,
+                "powershell_command": powershell_command,
+                "cmd_command": cmd_command,
+            }
+
+    def on_backend_auto_flow_error(self, error_message):
+        self.backend_starting = False
+        self.set_loading_state(False)
+        logger.error("后端自动拉起流程线程异常: %s", error_message)
+        self.show_backend_error_dialog(
+            title="自动启动失败",
+            message=f"自动启动后端失败：{error_message}",
+            powershell_command=backend_launcher.build_powershell_runserver_command(),
+            cmd_command=backend_launcher.build_cmd_runserver_command(),
+            allow_retry=False
+        )
+
+    def on_backend_auto_flow_finished(self, result):
+        self.backend_starting = False
+        if result.get("ok"):
+            logger.info("自动启动成功: pid=%s %s", result.get("pid"), result.get("message"))
+            self.set_loading_state(True, "后端已就绪，登录中...")
+            username, password = self.pending_credentials
+            self.login_worker = async_api.login_async(
+                username,
+                password,
+                success_callback=self.on_login_finished,
+                error_callback=self.on_login_error
+            )
+            return
+
+        self.set_loading_state(False)
+        logger.warning("自动启动失败: %s", result.get("message"))
+        self.show_backend_error_dialog(
+            title="自动启动失败",
+            message=result.get("message", "未知错误"),
+            manage_py_path=result.get("manage_py_path"),
+            powershell_command=result.get("powershell_command"),
+            cmd_command=result.get("cmd_command"),
+            allow_retry=True
+        )
+
+    def show_backend_error_dialog(self, title, message, manage_py_path=None, powershell_command=None, cmd_command=None, allow_retry=True):
+        """统一显示后端失败提示，并支持复制手动启动命令。"""
+        box = QMessageBox(self)
+        box.setIcon(QMessageBox.Warning)
+        box.setWindowTitle("后端未启动")
+        box.setText("后端未启动")
+
+        detected_manage_py = manage_py_path
+        if not detected_manage_py:
+            repo_root = backend_launcher.find_repo_root()
+            if repo_root:
+                detected_manage_py = str(repo_root / "DjangoService" / "manage.py")
+
+        powershell_command = powershell_command or backend_launcher.build_powershell_runserver_command()
+        cmd_command = cmd_command or backend_launcher.build_cmd_runserver_command()
+
+        detection_text = detected_manage_py or "未检测到 DjangoService/manage.py"
+        box.setInformativeText(
+            f"{message}\n\n"
+            "已检测到 Django 项目：\n"
+            f"{detection_text}\n\n"
+            "请在 PowerShell 中执行以下命令启动后端：\n\n"
+            "PowerShell：\n"
+            f"{powershell_command}\n\n"
+            "CMD：\n"
+            f"{cmd_command}"
+        )
+
+        if allow_retry:
+            box.setStandardButtons(QMessageBox.Retry | QMessageBox.Cancel)
+            box.setDefaultButton(QMessageBox.Retry)
+        else:
+            box.setStandardButtons(QMessageBox.Ok)
+
+        copy_ps_button = box.addButton("复制 PowerShell 命令", QMessageBox.ActionRole)
+        copy_cmd_button = box.addButton("复制 CMD 命令", QMessageBox.ActionRole)
+
+        box.exec_()
+        clicked = box.clickedButton()
+        if clicked == copy_ps_button:
+            QApplication.clipboard().setText(powershell_command)
+            InfoBar.success(
+                "已复制",
+                "已复制 PowerShell 命令",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=2500,
+                parent=self
+            )
+        elif clicked == copy_cmd_button:
+            QApplication.clipboard().setText(cmd_command)
+            InfoBar.success(
+                "已复制",
+                "已复制 CMD 命令",
+                orient=Qt.Horizontal,
+                isClosable=True,
+                position=InfoBarPosition.TOP,
+                duration=2500,
+                parent=self
+            )
+
+        return allow_retry and box.standardButton(clicked) == QMessageBox.Retry
+
+    def on_login_finished(self, result):
+        success, message = result
+        self.set_loading_state(False)
 
         if success:
-            # 保存或清除凭据
+            username, password = self.pending_credentials
             if self.remember_checkbox.isChecked():
                 password_bytes = QByteArray(password.encode('utf-8'))
                 encrypted_password = password_bytes.toBase64().data().decode('utf-8')
@@ -190,6 +443,11 @@ class LoginWindow(Window):
         else:
             InfoBar.error("登录失败", message, orient=Qt.Horizontal, isClosable=True,
                           position=InfoBarPosition.TOP, duration=3000, parent=self)
+
+    def on_login_error(self, error_message):
+        self.set_loading_state(False)
+        InfoBar.error("登录失败", str(error_message), orient=Qt.Horizontal, isClosable=True,
+                      position=InfoBarPosition.TOP, duration=3000, parent=self)
 
     def accept(self):
         """模拟Dialog的accept方法"""

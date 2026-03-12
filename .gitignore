@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*.log
+logs/
+.idea/
+.vscode/
+
+# ML training artifacts
+DjangoService/process_data/recommendation/*.pkl
+DjangoService/process_data/recommendation/*.joblib

@@ -1,489 +1,632 @@
 # coding:utf-8
-from PyQt5.QtCore import Qt, QTimer
+import logging
+from PyQt5.QtCore import QTimer, pyqtSignal, Qt
 from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGraphicsDropShadowEffect
+from PyQt5.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QGridLayout,
+    QFrame,
+    QSizePolicy,
+)
 
-from qfluentwidgets import (CardWidget, SubtitleLabel, BodyLabel, StrongBodyLabel, 
-                            IconWidget, FluentIcon as FIF, InfoBar, ProgressBar, 
-                            TitleLabel, CaptionLabel, setFont)
+from qfluentwidgets import (
+    CardWidget,
+    SubtitleLabel,
+    BodyLabel,
+    StrongBodyLabel,
+    IconWidget,
+    FluentIcon as FIF,
+    ProgressBar,
+    TitleLabel,
+    CaptionLabel,
+    PushButton,
+    PrimaryPushButton,
+    setFont,
+)
 
 from .nav_interface import NavInterface
+from .components.parameter_recommend_overview_component import (
+    ParameterRecommendOverviewWidget,
+)
+from ..services.system_overview_linkage_manager import system_overview_linkage_manager
+from .components.recent_activity_timeline_component import RecentActivityTimelineCard
+from .components.warning_todo_center_widget import WarningTodoCenterWidget
 
-from ..api.data_manager import data_manager
-import logging
-
-# 设置logger
 logger = logging.getLogger(__name__)
 
 
-class StatCard(CardWidget):
-    """统计卡片组件"""
-    
-    def __init__(self, title, value, icon, color="#0078d4", parent=None):
+class ShadowCard(CardWidget):
+    """带统一阴影效果的基础卡片"""
+
+    def __init__(self, parent=None):
         super().__init__(parent)
-        self.setFixedSize(280, 140)  # 固定大小，更美观
-        
+        self._apply_shadow()
+
+    def _apply_shadow(self):
+        from PyQt5.QtWidgets import QGraphicsDropShadowEffect
+
+        shadow = QGraphicsDropShadowEffect(self)
+        shadow.setColor(QColor(0, 0, 0, 15))
+        shadow.setBlurRadius(14)
+        shadow.setOffset(0, 2)
+        self.setGraphicsEffect(shadow)
+
+
+class StatCard(ShadowCard):
+    """指标统计卡"""
+
+    clicked = pyqtSignal()
+
+    def __init__(self, title, value, icon, color="#0078d4", suffix="", parent=None):
+        super().__init__(parent)
+        self.suffix = suffix
+        self.color = color
+        self.setCursor(Qt.PointingHandCursor)
+        self.setMinimumHeight(128)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(24, 20, 24, 20)
-        layout.setSpacing(12)
-        
-        # 顶部布局：图标和标题
-        top_layout = QHBoxLayout()
-        
-        self.icon_widget = IconWidget(icon, self)
-        self.icon_widget.setFixedSize(28, 28)
-        self.icon_widget.setStyleSheet(f"color: {color};")
-        
-        self.title_label = BodyLabel(title)
-        self.title_label.setStyleSheet("color: #666; font-size: 14px;")
-        
-        top_layout.addWidget(self.icon_widget)
-        top_layout.addWidget(self.title_label)
-        top_layout.addStretch()
-        
-        layout.addLayout(top_layout)
-        
-        # 数值显示
-        self.value_label = TitleLabel(str(value))
-        self.value_label.setStyleSheet(f"color: {color}; font-size: 32px; font-weight: bold;")
-        setFont(self.value_label, 32)
+        layout.setContentsMargins(20, 16, 20, 16)
+        layout.setSpacing(8)
+
+        top = QHBoxLayout()
+        icon_widget = IconWidget(icon, self)
+        icon_widget.setFixedSize(22, 22)
+        icon_widget.setStyleSheet(f"color:{color};")
+
+        title_label = BodyLabel(title)
+        title_label.setStyleSheet("color:#666;font-size:13px;")
+
+        top.addWidget(icon_widget)
+        top.addWidget(title_label)
+        top.addStretch()
+        layout.addLayout(top)
+
+        self.value_label = TitleLabel("0")
+        self.value_label.setStyleSheet(f"color:{color};font-weight:700;")
+        setFont(self.value_label, 28)
         layout.addWidget(self.value_label)
-        
-        layout.addStretch()
-        
-        # 添加阴影效果
-        self.setShadowEffect()
-    
-    def setShadowEffect(self):
-        """添加阴影效果"""
-        shadowEffect = QGraphicsDropShadowEffect(self)
-        shadowEffect.setColor(QColor(0, 0, 0, 15))
-        shadowEffect.setBlurRadius(10)
-        shadowEffect.setOffset(0, 0)
-        self.setGraphicsEffect(shadowEffect)
-    
-    def update_value(self, value):
-        """更新数值"""
-        self.value_label.setText(str(value))
+
+        self.tip_label = CaptionLabel("较昨日 +0.0%")
+        self.tip_label.setStyleSheet("color:#8a8a8a;")
+        layout.addWidget(self.tip_label)
+
+        self.update_value(value)
+
+    def update_value(self, value, trend_text=None):
+        text = f"{value}{self.suffix}" if self.suffix else str(value)
+        self.value_label.setText(text)
+        if trend_text:
+            self.tip_label.setText(trend_text)
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.clicked.emit()
+        super().mousePressEvent(event)
 
 
-class TaskStatusCard(CardWidget):
-    """任务状态卡片"""
-    
+class StatusDistributionCard(ShadowCard):
+    """任务状态分布"""
+
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setFixedSize(400, 240)  # 固定大小
-        
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(24, 20, 24, 20)
-        layout.setSpacing(16)
-        
-        # 标题
-        title_layout = QHBoxLayout()
-        icon_widget = IconWidget(FIF.CALENDAR, self)
-        icon_widget.setFixedSize(24, 24)
-        title_label = StrongBodyLabel("任务状态分布")
-        setFont(title_label, 16)
-        
-        title_layout.addWidget(icon_widget)
-        title_layout.addWidget(title_label)
-        title_layout.addStretch()
-        layout.addLayout(title_layout)
-        
-        # 状态项
-        self.status_items = []
-        status_configs = [
-            ("计划中", "#0078d4", "planned"),
-            ("进行中", "#107c10", "in_progress"),
-            ("已完成", "#0a805e", "completed"),
-            ("已暂停", "#ffaa44", "paused"),
-            ("已中止", "#d13438", "aborted")
+        layout.setContentsMargins(20, 18, 20, 18)
+        layout.setSpacing(12)
+
+        self._build_title(layout, FIF.CALENDAR, "任务状态分布")
+
+        self.status_items = {}
+        configs = [
+            ("planned", "计划中", "#0078d4"),
+            ("in_progress", "进行中", "#107c10"),
+            ("completed", "已完成", "#0a805e"),
+            ("paused", "已暂停", "#ffaa44"),
+            ("aborted", "已中止", "#d13438"),
         ]
-        
-        for status_name, color, status_key in status_configs:
-            item_layout = QHBoxLayout()
-            item_layout.setSpacing(12)
-            
-            # 状态指示器
-            indicator = QWidget()
-            indicator.setFixedSize(14, 14)
-            indicator.setStyleSheet(f"background-color: {color}; border-radius: 7px;")
-            
-            # 状态名称
-            name_label = BodyLabel(status_name)
-            name_label.setFixedWidth(80)
-            setFont(name_label, 14)
-            
-            # 数量
-            count_label = BodyLabel("0")
-            count_label.setStyleSheet(f"color: {color}; font-weight: bold;")
-            setFont(count_label, 14)
-            
-            item_layout.addWidget(indicator)
-            item_layout.addWidget(name_label)
-            item_layout.addStretch()
-            item_layout.addWidget(count_label)
-            
-            layout.addLayout(item_layout)
-            self.status_items.append((status_key, count_label))
-        
-        # 添加阴影效果
-        self.setShadowEffect()
-    
-    def setShadowEffect(self):
-        """添加阴影效果"""
-        shadowEffect = QGraphicsDropShadowEffect(self)
-        shadowEffect.setColor(QColor(0, 0, 0, 15))
-        shadowEffect.setBlurRadius(10)
-        shadowEffect.setOffset(0, 0)
-        self.setGraphicsEffect(shadowEffect)
-    
+
+        for key, text, color in configs:
+            row = QHBoxLayout()
+            dot = QFrame()
+            dot.setFixedSize(10, 10)
+            dot.setStyleSheet(f"background:{color};border-radius:5px;")
+
+            label = BodyLabel(text)
+            value = StrongBodyLabel("0")
+            value.setStyleSheet(f"color:{color};")
+
+            bar = ProgressBar(self)
+            bar.setFixedHeight(6)
+            bar.setValue(0)
+
+            row.addWidget(dot)
+            row.addWidget(label)
+            row.addStretch()
+            row.addWidget(value)
+
+            layout.addLayout(row)
+            layout.addWidget(bar)
+
+            self.status_items[key] = (value, bar)
+
+    def _build_title(self, layout, icon, text):
+        title = QHBoxLayout()
+        iw = IconWidget(icon, self)
+        iw.setFixedSize(20, 20)
+        label = StrongBodyLabel(text)
+        setFont(label, 15)
+        title.addWidget(iw)
+        title.addWidget(label)
+        title.addStretch()
+        layout.addLayout(title)
+
     def update_status_counts(self, status_counts):
-        """更新状态统计"""
-        for status_key, count_label in self.status_items:
-            count = status_counts.get(status_key, 0)
-            count_label.setText(str(count))
+        total = sum(status_counts.values()) or 1
+        for key, (value_label, progress) in self.status_items.items():
+            count = status_counts.get(key, 0)
+            value_label.setText(str(count))
+            progress.setValue(int(count / total * 100))
 
 
-class RecentActivityCard(CardWidget):
-    """最近活动卡片"""
-    
+class AnalysisOverviewCard(ShadowCard):
+    """通用分析概览卡片（支持 mock）"""
+
+    def __init__(self, title, icon, color, metrics, parent=None):
+        super().__init__(parent)
+        self.metrics = metrics
+        self.bars = {}
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(20, 18, 20, 18)
+        layout.setSpacing(12)
+
+        top = QHBoxLayout()
+        iw = IconWidget(icon, self)
+        iw.setFixedSize(20, 20)
+        iw.setStyleSheet(f"color:{color};")
+        label = StrongBodyLabel(title)
+        setFont(label, 15)
+        top.addWidget(iw)
+        top.addWidget(label)
+        top.addStretch()
+        layout.addLayout(top)
+
+        for item in metrics:
+            row = QHBoxLayout()
+            name = BodyLabel(item["name"])
+            value = StrongBodyLabel("0")
+            value.setStyleSheet(f"color:{color};")
+            row.addWidget(name)
+            row.addStretch()
+            row.addWidget(value)
+            layout.addLayout(row)
+
+            bar = ProgressBar(self)
+            bar.setFixedHeight(6)
+            bar.setValue(0)
+            layout.addWidget(bar)
+            self.bars[item["key"]] = (value, bar)
+
+    def update_metrics(self, payload):
+        for key, (value_label, bar) in self.bars.items():
+            info = payload.get(key, {})
+            value_label.setText(str(info.get("value", "0")))
+            bar.setValue(int(info.get("ratio", 0)))
+
+
+class QuickActionsCard(ShadowCard):
+    """快捷操作区"""
+
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setFixedSize(400, 240)  # 固定大小
-        
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(24, 20, 24, 20)
-        layout.setSpacing(16)
-        
-        # 标题
-        title_layout = QHBoxLayout()
-        icon_widget = IconWidget(FIF.HISTORY, self)
-        icon_widget.setFixedSize(24, 24)
-        title_label = StrongBodyLabel("最近活动")
-        setFont(title_label, 16)
-        
-        title_layout.addWidget(icon_widget)
-        title_layout.addWidget(title_label)
-        title_layout.addStretch()
-        layout.addLayout(title_layout)
-        
-        # 活动列表容器
-        self.activity_layout = QVBoxLayout()
-        self.activity_layout.setSpacing(8)
-        layout.addLayout(self.activity_layout)
-        
-        layout.addStretch()
-        
-        # 添加阴影效果
-        self.setShadowEffect()
-    
-    def setShadowEffect(self):
-        """添加阴影效果"""
-        shadowEffect = QGraphicsDropShadowEffect(self)
-        shadowEffect.setColor(QColor(0, 0, 0, 15))
-        shadowEffect.setBlurRadius(10)
-        shadowEffect.setOffset(0, 0)
-        self.setGraphicsEffect(shadowEffect)
-    
-    def update_activities(self, activities):
-        """更新活动列表"""
-        # 清空现有活动
-        while self.activity_layout.count():
-            child = self.activity_layout.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
-        
-        # 添加新活动
-        for activity in activities[:5]:  # 只显示最近5条
-            activity_layout = QHBoxLayout()
-            activity_layout.setSpacing(12)
-            
-            # 活动图标
-            icon = FIF.ACCEPT if activity.get('type') == 'completed' else FIF.EDIT
-            icon_widget = IconWidget(icon, self)
-            icon_widget.setFixedSize(18, 18)
-            
-            # 活动描述
-            desc_label = BodyLabel(activity.get('description', ''))
-            desc_label.setStyleSheet("color: #333;")
-            setFont(desc_label, 13)
-            
-            # 时间
-            time_label = CaptionLabel(activity.get('time', ''))
-            time_label.setStyleSheet("color: #999;")
-            setFont(time_label, 12)
-            
-            activity_layout.addWidget(icon_widget)
-            activity_layout.addWidget(desc_label)
-            activity_layout.addStretch()
-            activity_layout.addWidget(time_label)
-            
-            self.activity_layout.addLayout(activity_layout)
+        layout.setContentsMargins(20, 18, 20, 18)
+        layout.setSpacing(14)
+
+        title = StrongBodyLabel("快捷操作区")
+        setFont(title, 15)
+        layout.addWidget(title)
+
+        btn_layout = QHBoxLayout()
+        btn_layout.setSpacing(12)
+
+        self.btn_new_task = PrimaryPushButton("新建任务")
+        self.btn_upload = PushButton("上传传感器数据")
+        self.btn_analyze = PushButton("开始分析")
+        self.btn_recommend = PushButton("参数推荐")
+        self.btn_history = PushButton("查看历史记录")
+
+        for btn in [
+            self.btn_new_task,
+            self.btn_upload,
+            self.btn_analyze,
+            self.btn_recommend,
+            self.btn_history,
+        ]:
+            btn.setMinimumHeight(36)
+            btn_layout.addWidget(btn)
+
+        btn_layout.addStretch()
+        layout.addLayout(btn_layout)
 
 
 class DashboardInterface(NavInterface):
-    """看板界面"""
-    
+    """复合材料加工决策驾驶舱主页"""
+
+    recommendationTaskRequested = pyqtSignal(str)
+    warningTodoNavigateRequested = pyqtSignal(str)
+    statCardNavigateRequested = pyqtSignal(str, object)
+
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.setObjectName("DashboardInterface")
-        
-        # 异步任务管理
-        self.active_workers = []
-        
+        self.overview_manager = system_overview_linkage_manager
+        self.latest_payload = {}
+
         self.main_layout = QVBoxLayout(self.view)
-        self.main_layout.setContentsMargins(40, 30, 40, 30)
-        self.main_layout.setSpacing(30)
-        
-        # 标题
-        title_label = SubtitleLabel("系统概览")
-        setFont(title_label, 24)
-        self.main_layout.addWidget(title_label)
-        
-        # 统计卡片网格
-        self.create_stat_cards()
-        
-        # 详细信息卡片
-        self.create_detail_cards()
-        
-        # 定时刷新 - 但不立即启动
+        self.main_layout.setContentsMargins(32, 24, 32, 24)
+        self.main_layout.setSpacing(16)
+
+        self._build_header()
+        self._build_stat_cards()
+        self._build_data_chain_view()
+        self._build_warning_todo_center()
+        self._build_analysis_overview()
+        self._build_trend_and_summary()
+        self._build_status_and_activity()
+        self._build_recommendation_overview()
+        self._build_quick_actions()
+        self.main_layout.addStretch()
+
         self.refresh_timer = QTimer()
         self.refresh_timer.timeout.connect(self.refresh_data)
-    
-    def create_stat_cards(self):
-        """创建统计卡片"""
-        stats_layout = QHBoxLayout()
-        stats_layout.setSpacing(20)
-        
-        # 创建统计卡片
-        self.user_card = StatCard("总用户数", "0", FIF.PEOPLE, "#0078d4")
-        self.task_card = StatCard("总任务数", "0", FIF.CALENDAR, "#107c10")
-        self.pending_card = StatCard("待处理任务", "0", FIF.DATE_TIME, "#ffaa44")
-        self.sensor_card = StatCard("传感器数据", "0", FIF.IOT, "#8764b8")
-        
-        # 添加到布局
-        stats_layout.addWidget(self.user_card)
-        stats_layout.addWidget(self.task_card)
-        stats_layout.addWidget(self.pending_card)
-        stats_layout.addWidget(self.sensor_card)
-        stats_layout.addStretch()
-        
-        self.main_layout.addLayout(stats_layout)
-    
-    def create_detail_cards(self):
-        """创建详细信息卡片"""
-        detail_layout = QHBoxLayout()
-        detail_layout.setSpacing(20)
-        
-        # 任务状态卡片
-        self.task_status_card = TaskStatusCard()
-        detail_layout.addWidget(self.task_status_card)
-        
-        # 最近活动卡片
-        self.activity_card = RecentActivityCard()
-        detail_layout.addWidget(self.activity_card)
-        
-        detail_layout.addStretch()
-        
-        self.main_layout.addLayout(detail_layout)
-        
-        # 添加弹性空间
-        self.main_layout.addStretch()
-    
+
+    def _build_header(self):
+        title = SubtitleLabel("系统概览 · 复合材料加工智能决策驾驶舱")
+        setFont(title, 24)
+        subtitle = CaptionLabel("答辩展示视角：数据库入库 → 传感器分析 → 参数推荐 → 闭环验证")
+        subtitle.setStyleSheet("color:#6f6f6f;")
+
+        self.badge_chain = PushButton("数据链路完整")
+        self.badge_chain.setEnabled(False)
+        self.badge_chain.setStyleSheet("background:#e8f8ee;color:#1f7a3f;border:1px solid #cdeed6;")
+        self.badge_ai = PushButton("智能推荐引擎在线")
+        self.badge_ai.setEnabled(False)
+        self.badge_ai.setStyleSheet("background:#eef5ff;color:#3159c9;border:1px solid #dbe7ff;")
+
+        title_row = QHBoxLayout()
+        text_col = QVBoxLayout()
+        text_col.setSpacing(2)
+        text_col.addWidget(title)
+        text_col.addWidget(subtitle)
+
+        badge_row = QHBoxLayout()
+        badge_row.setSpacing(8)
+        badge_row.addWidget(self.badge_chain)
+        badge_row.addWidget(self.badge_ai)
+        badge_row.addStretch()
+        text_col.addLayout(badge_row)
+
+        title_row.addLayout(text_col)
+        title_row.addStretch()
+        self.main_layout.addLayout(title_row)
+
+    def _build_stat_cards(self):
+        stat_grid = QGridLayout()
+        stat_grid.setSpacing(12)
+
+        self.stat_cards = {
+            "users": StatCard("总用户数", "0", FIF.PEOPLE, "#0078d4"),
+            "tasks": StatCard("总任务数", "0", FIF.CALENDAR, "#107c10"),
+            "pending_recommend": StatCard("待推荐任务数", "0", FIF.DATE_TIME, "#ffaa44"),
+            "sensor": StatCard("传感器数据", "0", FIF.IOT, "#8764b8"),
+            "pending_analysis": StatCard("待分析数据数", "0", FIF.ALIGNMENT, "#008575"),
+            "alerts": StatCard("异常预警数", "0", FIF.WARNING, "#d13438"),
+            "recommend_today": StatCard("今日推荐次数", "0", FIF.ROBOT, "#5c2d91"),
+            "adoption": StatCard("推荐采纳率", "0", FIF.ACCEPT_MEDIUM, "#0f7b0f", "%"),
+        }
+
+        self.stat_cards["pending_recommend"].clicked.connect(
+            lambda: self._emit_stat_navigation("pending_recommend")
+        )
+        self.stat_cards["pending_analysis"].clicked.connect(
+            lambda: self._emit_stat_navigation("pending_analysis")
+        )
+
+        keys = list(self.stat_cards.keys())
+        for idx, key in enumerate(keys):
+            row, col = divmod(idx, 4)
+            stat_grid.addWidget(self.stat_cards[key], row, col)
+
+        self.main_layout.addLayout(stat_grid)
+
+    def _build_data_chain_view(self):
+        card = ShadowCard(self)
+        layout = QVBoxLayout(card)
+        layout.setContentsMargins(20, 16, 20, 16)
+        layout.setSpacing(8)
+
+        title = StrongBodyLabel("智能链路总览")
+        setFont(title, 15)
+        desc = CaptionLabel("突出数据库管理、传感器分析与参数推荐的一体化流程")
+        desc.setStyleSheet("color:#6f6f6f;")
+        layout.addWidget(title)
+        layout.addWidget(desc)
+
+        row = QHBoxLayout()
+        row.setSpacing(10)
+        self.chain_items = {}
+        configs = [
+            ("db", FIF.DOCUMENT, "数据库接入", "任务与传感数据同步入库", "#1f7a3f"),
+            ("analysis", FIF.SPEED_HIGH, "传感器分析", "特征提取与异常定位", "#0078d4"),
+            ("recommend", FIF.ROBOT, "参数推荐", "模型推荐与闭环验证", "#5c2d91"),
+        ]
+
+        for index, (key, icon, name, hint, color) in enumerate(configs):
+            block = QFrame(card)
+            block.setStyleSheet("background:#f7fbf8;border:1px solid #e6efe8;border-radius:10px;")
+            block_layout = QVBoxLayout(block)
+            block_layout.setContentsMargins(12, 10, 12, 10)
+            block_layout.setSpacing(4)
+
+            top = QHBoxLayout()
+            iw = IconWidget(icon, block)
+            iw.setFixedSize(18, 18)
+            iw.setStyleSheet(f"color:{color};")
+            name_label = StrongBodyLabel(name)
+            name_label.setStyleSheet(f"color:{color};")
+            top.addWidget(iw)
+            top.addWidget(name_label)
+            top.addStretch()
+
+            value = TitleLabel("0")
+            setFont(value, 24)
+            value.setStyleSheet(f"color:{color};")
+            hint_label = CaptionLabel(hint)
+            hint_label.setStyleSheet("color:#6f6f6f;")
+
+            progress = ProgressBar(block)
+            progress.setValue(0)
+            progress.setFixedHeight(5)
+
+            block_layout.addLayout(top)
+            block_layout.addWidget(value)
+            block_layout.addWidget(hint_label)
+            block_layout.addWidget(progress)
+
+            row.addWidget(block, 1)
+            if index < len(configs) - 1:
+                arrow = CaptionLabel("→")
+                arrow.setStyleSheet("color:#8aa198;font-size:20px;font-weight:700;")
+                row.addWidget(arrow)
+
+            self.chain_items[key] = {"value": value, "progress": progress}
+
+        layout.addLayout(row)
+        self.main_layout.addWidget(card)
+
+    def _build_warning_todo_center(self):
+        self.warning_todo_center = WarningTodoCenterWidget(self)
+        self.warning_todo_center.itemClicked.connect(self.warningTodoNavigateRequested.emit)
+        self.main_layout.addWidget(self.warning_todo_center)
+
+    def _build_analysis_overview(self):
+        row = QHBoxLayout()
+        row.setSpacing(14)
+
+        sensor_metrics = [
+            {"key": "coverage", "name": "数据覆盖率"},
+            {"key": "quality", "name": "有效信号占比"},
+            {"key": "alerts", "name": "异常定位完成率"},
+        ]
+        rec_metrics = [
+            {"key": "confidence", "name": "最近推荐置信度"},
+            {"key": "hit_rate", "name": "历史命中率"},
+            {"key": "closed_loop", "name": "闭环验证率"},
+        ]
+
+        self.sensor_overview = AnalysisOverviewCard("传感器分析概览", FIF.SPEED_HIGH, "#0078d4", sensor_metrics)
+        self.recommend_overview = AnalysisOverviewCard("参数推荐概览", FIF.ROBOT, "#5c2d91", rec_metrics)
+
+        row.addWidget(self.sensor_overview)
+        row.addWidget(self.recommend_overview)
+        self.main_layout.addLayout(row)
+
+    def _build_trend_and_summary(self):
+        row = QHBoxLayout()
+        row.setSpacing(14)
+
+        self.trend_card = ShadowCard(self)
+        trend_layout = QVBoxLayout(self.trend_card)
+        trend_layout.setContentsMargins(20, 18, 20, 18)
+        trend_layout.setSpacing(10)
+        trend_title = StrongBodyLabel("关键指标趋势")
+        setFont(trend_title, 15)
+        trend_layout.addWidget(trend_title)
+
+        self.trend_items = {}
+        for key, label_text, color in [
+            ("analysis_quality", "分析有效率", "#0078d4"),
+            ("recommend_confidence", "推荐置信度", "#5c2d91"),
+            ("closed_loop", "闭环验证率", "#107c10"),
+        ]:
+            text_row = QHBoxLayout()
+            name = BodyLabel(label_text)
+            value = StrongBodyLabel("0%")
+            value.setStyleSheet(f"color:{color};")
+            text_row.addWidget(name)
+            text_row.addStretch()
+            text_row.addWidget(value)
+
+            bar = ProgressBar(self.trend_card)
+            bar.setFixedHeight(7)
+            bar.setValue(0)
+
+            trend_layout.addLayout(text_row)
+            trend_layout.addWidget(bar)
+            self.trend_items[key] = (value, bar)
+
+        self.recommend_summary_card = ShadowCard(self)
+        summary_layout = QVBoxLayout(self.recommend_summary_card)
+        summary_layout.setContentsMargins(20, 18, 20, 18)
+        summary_layout.setSpacing(10)
+
+        summary_title = StrongBodyLabel("推荐摘要与答辩亮点")
+        setFont(summary_title, 15)
+        self.summary_task = BodyLabel("重点任务：-")
+        self.summary_conf = BodyLabel("置信度：-")
+        self.summary_effect = BodyLabel("预期效果：-")
+        self.summary_warning = CaptionLabel("当前暂无高优先级预警")
+        self.summary_warning.setStyleSheet("color:#d18400;background:#fff5db;padding:6px 10px;border-radius:8px;")
+
+        summary_layout.addWidget(summary_title)
+        summary_layout.addWidget(self.summary_task)
+        summary_layout.addWidget(self.summary_conf)
+        summary_layout.addWidget(self.summary_effect)
+        summary_layout.addWidget(self.summary_warning)
+        summary_layout.addStretch()
+
+        row.addWidget(self.trend_card, 3)
+        row.addWidget(self.recommend_summary_card, 2)
+        self.main_layout.addLayout(row)
+
+    def _build_status_and_activity(self):
+        row = QHBoxLayout()
+        row.setSpacing(14)
+
+        self.task_status_card = StatusDistributionCard()
+        self.activity_card = RecentActivityTimelineCard()
+
+        row.addWidget(self.task_status_card, 3)
+        row.addWidget(self.activity_card, 2)
+        self.main_layout.addLayout(row)
+
+    def _build_recommendation_overview(self):
+        self.recommendation_overview_widget = ParameterRecommendOverviewWidget(self)
+        self.recommendation_overview_widget.recordActivated.connect(self.recommendationTaskRequested.emit)
+        self.main_layout.addWidget(self.recommendation_overview_widget)
+
+    def _build_quick_actions(self):
+        self.quick_actions_card = QuickActionsCard()
+        self.main_layout.addWidget(self.quick_actions_card)
+
+    def _emit_stat_navigation(self, filter_key: str):
+        payload = self.latest_payload.get("filters", {})
+        target = payload.get(filter_key, {})
+        route = target.get("route", "")
+        spec = target.get("spec")
+        if route:
+            self.statCardNavigateRequested.emit(route, spec)
+
     def refresh_data(self):
-        """使用数据管理器刷新看板数据"""
-        try:
-            self.cancel_active_workers()
-            logger.debug("使用数据管理器刷新看板数据")
+        payload = self.overview_manager.load_dashboard_payload(use_mock=False)
+        if not payload:
+            payload = self.overview_manager.load_dashboard_payload(use_mock=True)
+        self.latest_payload = payload
+        self.apply_payload(payload)
 
-            worker1 = data_manager.get_data_async(
-                data_type='users',
-                success_callback=self.on_users_data_received,
-                error_callback=self.on_api_error
-            )
-            if worker1:
-                self.active_workers.append(worker1)
+    def apply_payload(self, payload):
+        payload = payload or {}
+        self.stat_cards["users"].update_value(payload.get("users", 0))
+        self.stat_cards["tasks"].update_value(payload.get("tasks", 0))
+        self.stat_cards["pending_recommend"].update_value(payload.get("pending_recommend", 0), "待进入参数推荐")
+        self.stat_cards["sensor"].update_value(payload.get("sensor", 0))
+        self.stat_cards["pending_analysis"].update_value(payload.get("pending_analysis", 0), "来自传感器待分析队列")
+        self.stat_cards["alerts"].update_value(payload.get("alerts", 0), "需人工复核")
+        self.stat_cards["recommend_today"].update_value(payload.get("recommend_today", 0), "来自统一推荐记录")
+        self.stat_cards["adoption"].update_value(payload.get("adoption", 0), "目标值 ≥ 75%")
 
-            worker2 = data_manager.get_data_async(
-                data_type='processing_tasks',
-                success_callback=self.on_tasks_data_received,
-                error_callback=self.on_api_error
-            )
-            if worker2:
-                self.active_workers.append(worker2)
+        self.warning_todo_center.set_data({
+            "pending_analysis": payload.get("pending_analysis", 0),
+            "alerts": payload.get("alerts", 0),
+            "pending_recommend": payload.get("pending_recommend", 0),
+            "unconfirmed_recommend": payload.get("unconfirmed_recommend", 0),
+            "tool_wear_over_threshold": payload.get("tool_wear_over_threshold", 0),
+        })
 
-            worker3 = data_manager.get_data_async(
-                data_type='sensor_data',
-                success_callback=self.on_sensor_data_received,
-                error_callback=self.on_api_error
-            )
-            if worker3:
-                self.active_workers.append(worker3)
+        self.task_status_card.update_status_counts(payload.get("task_status_counts", {}))
+        self.sensor_overview.update_metrics(payload.get("sensor_overview", {}))
+        self.recommend_overview.update_metrics(payload.get("recommend_overview", {}))
+        self.activity_card.update_activities(payload.get("activities", {}))
+        self.recommendation_overview_widget.set_records(payload.get("recommendation_records", []))
 
-        except Exception as e:
-            import traceback
-            error_msg = f"看板数据刷新失败: {str(e)}\n{traceback.format_exc()}"
-            logger.error(error_msg)
-            self.on_api_error(f"刷新失败: {e}")
-    
-    def on_users_data_received(self, users_data):
-        """处理用户数据"""
-        try:
-            if not self or not hasattr(self, 'user_card') or not self.user_card:
-                logger.warning("用户数据回调时界面已销毁")
-                return
-                
-            if users_data and 'count' in users_data:
-                self.user_card.update_value(users_data['count'])
-                logger.debug(f"用户数据更新: {users_data['count']}")
-        except Exception as e:
-            logger.error(f"处理用户数据时出错: {e}")
-    
-    def on_tasks_data_received(self, tasks_data):
-        """处理任务数据"""
-        try:
-            if not self or not hasattr(self, 'task_card') or not self.task_card:
-                logger.warning("任务数据回调时界面已销毁")
-                return
-                
-            if tasks_data:
-                total_tasks = tasks_data.get('count', 0)
-                self.task_card.update_value(total_tasks)
-                
-                # 统计各状态任务数量
-                tasks_list = tasks_data.get('results', [])
-                status_counts = {}
-                pending_count = 0
-                
-                for task in tasks_list:
-                    status = task.get('status', 'planned')
-                    status_counts[status] = status_counts.get(status, 0) + 1
-                    
-                    # 计算待处理任务（计划中+进行中）
-                    if status in ['planned', 'in_progress']:
-                        pending_count += 1
-                
-                if hasattr(self, 'pending_card') and self.pending_card:
-                    self.pending_card.update_value(pending_count)
-                if hasattr(self, 'task_status_card') and self.task_status_card:
-                    self.task_status_card.update_status_counts(status_counts)
-                
-                # 生成最近活动
-                if hasattr(self, 'activity_card') and self.activity_card:
-                    activities = self.generate_recent_activities(tasks_data)
-                    self.activity_card.update_activities(activities)
-                
-                logger.debug(f"任务数据更新: 总数={total_tasks}, 待处理={pending_count}")
-        except Exception as e:
-            logger.error(f"处理任务数据时出错: {e}")
-    
-    def on_sensor_data_received(self, sensor_data):
-        """处理传感器数据"""
-        try:
-            if not self or not hasattr(self, 'sensor_card') or not self.sensor_card:
-                logger.warning("传感器数据回调时界面已销毁")
-                return
-                
-            if sensor_data and 'count' in sensor_data:
-                self.sensor_card.update_value(sensor_data['count'])
-                logger.debug(f"传感器数据更新: {sensor_data['count']}")
-        except Exception as e:
-            logger.error(f"处理传感器数据时出错: {e}")
-    
-    def on_api_error(self, error_message):
-        """处理API错误"""
-        try:
-            logger.error(f"看板数据加载失败: {error_message}")
-        except Exception as e:
-            logger.error(f"处理API错误时出错: {e}")
-    
-    def generate_recent_activities(self, tasks_data):
-        """生成最近活动列表"""
-        activities = []
-        
-        if tasks_data and 'results' in tasks_data:
-            # 按更新时间排序，取最近的几条
-            tasks_list = sorted(
-                tasks_data['results'], 
-                key=lambda x: x.get('updated_at', ''), 
-                reverse=True
-            )
-            
-            for task in tasks_list[:5]:
-                activity = {
-                    'type': task.get('status', 'planned'),
-                    'description': f"任务 {task.get('task_code', 'N/A')} - {task.get('status_display', 'N/A')}",
-                    'time': task.get('updated_at', '')[:10] if task.get('updated_at') else ''
-                }
-                activities.append(activity)
-        
-        return activities
-    
+        self._update_chain(payload)
+        self._update_trend_and_summary(payload)
+
+    def _update_chain(self, payload):
+        tasks = int(payload.get("tasks", 0) or 0)
+        sensors = int(payload.get("sensor", 0) or 0)
+        recommend_today = int(payload.get("recommend_today", 0) or 0)
+        pending_analysis = int(payload.get("pending_analysis", 0) or 0)
+
+        db_ratio = min(100, int(tasks * 4)) if tasks else 0
+        analysis_ratio = max(0, min(100, 100 - int(pending_analysis * 100 / max(1, sensors))))
+        rec_ratio = min(100, int(float(payload.get("adoption", 0) or 0)))
+
+        self.chain_items["db"]["value"].setText(str(tasks))
+        self.chain_items["db"]["progress"].setValue(db_ratio)
+        self.chain_items["analysis"]["value"].setText(str(sensors))
+        self.chain_items["analysis"]["progress"].setValue(analysis_ratio)
+        self.chain_items["recommend"]["value"].setText(str(recommend_today))
+        self.chain_items["recommend"]["progress"].setValue(rec_ratio)
+
+    def _update_trend_and_summary(self, payload):
+        sensor_overview = payload.get("sensor_overview", {})
+        recommend_overview = payload.get("recommend_overview", {})
+
+        quality_ratio = int((sensor_overview.get("quality") or {}).get("ratio", 0))
+        conf_ratio = int((recommend_overview.get("confidence") or {}).get("ratio", 0))
+        closed_ratio = int((recommend_overview.get("closed_loop") or {}).get("ratio", 0))
+
+        self.trend_items["analysis_quality"][0].setText(f"{quality_ratio}%")
+        self.trend_items["analysis_quality"][1].setValue(quality_ratio)
+        self.trend_items["recommend_confidence"][0].setText(f"{conf_ratio}%")
+        self.trend_items["recommend_confidence"][1].setValue(conf_ratio)
+        self.trend_items["closed_loop"][0].setText(f"{closed_ratio}%")
+        self.trend_items["closed_loop"][1].setValue(closed_ratio)
+
+        records = payload.get("recommendation_records", [])
+        top_record = records[0] if records else {}
+        task_code = top_record.get("task_code", "暂无")
+        confidence = float(top_record.get("confidence", 0) or 0)
+        target_level = top_record.get("target_damage_level", "-")
+        self.summary_task.setText(f"重点任务：{task_code}")
+        self.summary_conf.setText(f"置信度：{confidence * 100:.1f}%  | 目标损伤等级：{target_level}")
+        self.summary_effect.setText(
+            f"预期效果：采纳率 {payload.get('adoption', 0)}% · 今日新增推荐 {payload.get('recommend_today', 0)} 次"
+        )
+
+        alerts = int(payload.get("alerts", 0) or 0)
+        if alerts > 0:
+            self.summary_warning.setText(f"预警提示：当前存在 {alerts} 条异常事件，建议优先复核传感器异常任务。")
+        else:
+            self.summary_warning.setText("当前暂无高优先级预警")
+
     def start_refresh_timer(self):
-        """启动定时刷新"""
         if not self.refresh_timer.isActive():
-            self.refresh_timer.start(30000)  # 每30秒刷新一次
-            logger.debug("看板定时刷新已启动")
-    
+            self.refresh_timer.start(30000)
+
     def stop_refresh_timer(self):
-        """停止定时刷新"""
         if self.refresh_timer.isActive():
             self.refresh_timer.stop()
-            logger.debug("看板定时刷新已停止")
-        
-        # 取消所有活跃的异步任务
-        self.cancel_active_workers()
-    
+
     def cancel_active_workers(self):
-        """取消所有活跃的异步工作线程"""
-        for worker in self.active_workers:
-            try:
-                if hasattr(worker, 'cancel'):
-                    worker.cancel()
-                if worker.isRunning():
-                    worker.quit()
-                    worker.wait(1000)  # 等待最多1秒
-            except Exception as e:
-                logger.warning(f"取消异步任务时出错: {e}")
-        
-        self.active_workers.clear()
-        logger.debug("已取消所有活跃的异步任务")
-    
+        return
+
     def closeEvent(self, event):
-        """界面关闭时的清理"""
+        self.stop_refresh_timer()
+        super().closeEvent(event)
+
+    def __del__(self):
         try:
             self.stop_refresh_timer()
-            self.cancel_active_workers()
-            logger.debug("看板界面已清理")
-        except Exception as e:
-            logger.error(f"看板界面清理时出错: {e}")
-        finally:
-            super().closeEvent(event)
-    
-    def __del__(self):
-        """析构函数清理"""
-        try:
-            if hasattr(self, 'refresh_timer') and self.refresh_timer:
-                self.refresh_timer.stop()
-            if hasattr(self, 'active_workers'):
-                self.cancel_active_workers()
-        except:
-            pass  # 析构时忽略所有异常
+        except Exception:
+            pass
 
     def on_activated(self):
-        """
-        当界面被激活时调用（例如，通过导航切换到此界面）。
-        主要负责自动加载数据。
-        """
-        logger.debug("DashboardInterface 被激活，开始加载数据")
         self.refresh_data()
 
     def on_deactivated(self):
-        """
-        当界面被切换离开时调用。
-        可以在此处进行一些清理工作，如取消正在进行的请求。
-        """
-        self.cancel_active_workers()
-        logger.debug("DashboardInterface 被切换离开，已取消所有活跃的数据加载请求")
- 
+        pass

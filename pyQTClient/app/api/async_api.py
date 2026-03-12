@@ -41,7 +41,14 @@ class AsyncApiWorker(QThread):
                 logger.debug(f"异步API调用在完成后被取消: {self.api_method.__name__}")
                 return
                 
-            logger.debug(f"异步API调用成功: {self.api_method.__name__}")
+            if self._is_result_failed(result):
+                logger.warning(f"异步API调用失败: {self.api_method.__name__}, result={result}")
+                if self.api_method.__name__ == 'login':
+                    error_message = result[1] if isinstance(result, tuple) and len(result) > 1 else "登录失败"
+                    self.error.emit(str(error_message))
+                    return
+            else:
+                logger.debug(f"异步API调用成功: {self.api_method.__name__}")
             self.finished.emit(result)
         except Exception as e:
             if self._is_cancelled:
@@ -52,6 +59,25 @@ class AsyncApiWorker(QThread):
             error_msg = f"异步API调用失败 {self.api_method.__name__}: {str(e)}\n{traceback.format_exc()}"
             logger.error(error_msg)
             self.error.emit(str(e))
+
+    @staticmethod
+    def _is_result_failed(result):
+        """根据约定返回值判断调用是否失败，避免失败被误记为成功。"""
+        if result is None:
+            return True
+
+        if isinstance(result, tuple) and result:
+            first_item = result[0]
+            if isinstance(first_item, bool):
+                return not first_item
+
+        if isinstance(result, dict):
+            if "ok" in result and isinstance(result["ok"], bool):
+                return not result["ok"]
+            if "success" in result and isinstance(result["success"], bool):
+                return not result["success"]
+
+        return False
     
     def cancel(self):
         """取消异步调用"""
@@ -87,6 +113,36 @@ class AsyncApiHelper:
         worker.start()
         return worker
     
+    @staticmethod
+    def ping_health_async(success_callback=None, error_callback=None):
+        """异步健康检查"""
+        api_client = get_api_client()
+        if not api_client:
+            if error_callback:
+                error_callback("API客户端不可用")
+            return None
+        return AsyncApiHelper.call_async(
+            api_client.ping_health,
+            success_callback,
+            error_callback
+        )
+
+    @staticmethod
+    def login_async(username, password, success_callback=None, error_callback=None):
+        """异步登录"""
+        api_client = get_api_client()
+        if not api_client:
+            if error_callback:
+                error_callback("API客户端不可用")
+            return None
+        return AsyncApiHelper.call_async(
+            api_client.login,
+            success_callback,
+            error_callback,
+            username,
+            password
+        )
+
     @staticmethod
     def get_sensor_data_async(success_callback=None, error_callback=None, params=None):
         """异步获取传感器数据"""

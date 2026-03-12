@@ -11,6 +11,7 @@ from qfluentwidgets import (TableWidget, PushButton, StrongBodyLabel, LineEdit, 
                             ScrollArea, TreeView, RoundMenu, ToolButton)
 
 from ..api.api_client import api_client
+from ..services.system_overview_linkage_manager import system_overview_linkage_manager
 from ..api.data_manager import interface_loader
 from .nav_interface import NavInterface
 import logging
@@ -278,6 +279,20 @@ class ProcessingTaskInterface(NavInterface):
         if self.is_loading and self.stackWidget.currentWidget() == self.task_list_widget:
             logger.debug("ProcessingTaskInterface 被切换离开，数据加载中")
             # 对于同步请求，无法取消，仅记录日志
+
+
+    def apply_dashboard_filter(self, filter_key: str):
+        """应用来自首页的联动筛选。"""
+        try:
+            raw = api_client.get_processing_tasks() or {}
+            records = raw.get("results", []) if isinstance(raw, dict) else []
+            if filter_key == "pending_recommend":
+                records = system_overview_linkage_manager.filter_pending_recommend_tasks(records)
+            self.on_data_received(records)
+            self.title_label.setText(f"加工任务管理（筛选：{filter_key}，{len(records)} 条）")
+        except Exception as e:
+            logger.error(f"应用首页筛选失败: {e}")
+            self.on_data_error(str(e))
 
     def show_task_detail(self, task_id: int):
         """ 切换到任务详情页 """

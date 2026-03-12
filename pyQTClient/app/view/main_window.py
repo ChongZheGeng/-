@@ -19,9 +19,11 @@ from .nav_interface import NavInterface
 from .dashboard_interface import DashboardInterface
 from .file_transfer_manager import FileTransferButton
 from .sensor_data_interface import SensorDataInterface
+from .sensor_processing_interface import SensorProcessingInterface
 from .setting_interface import SettingInterface
 from .task_group_interface import TaskGroupInterface
 from .processing_task_interface import ProcessingTaskInterface
+from .recommendation_interface import RecommendationInterface
 from .composite_material_interface import CompositeMaterialInterface
 from .tool_interface import ToolInterface
 from .user_interface import UserInterface
@@ -41,8 +43,10 @@ class MainWindow(FluentWindow):
         self.tool_interface = ToolInterface(self)
         self.composite_material_interface = CompositeMaterialInterface(self)
         self.processing_task_interface = ProcessingTaskInterface(self)
+        self.recommendation_interface = RecommendationInterface(self)
         self.task_group_interface = TaskGroupInterface(self)
         self.sensor_data_interface = SensorDataInterface(self)
+        self.sensor_processing_interface = SensorProcessingInterface(self)
         self.setting_interface = SettingInterface(self)
 
         # 根据用户权限决定是否添加用户管理界面
@@ -63,6 +67,9 @@ class MainWindow(FluentWindow):
         # connect signal to slot
         signalBus.micaEnableChanged.connect(self.setMicaEffectEnabled)
         self.setting_interface.logoutSignal.connect(self.logout)
+        self.dashboard_interface.recommendationTaskRequested.connect(self.open_recommendation_for_task)
+        self.dashboard_interface.warningTodoNavigateRequested.connect(self.open_by_warning_route)
+        self.dashboard_interface.statCardNavigateRequested.connect(self.open_by_stat_card_route)
 
         # 应用主窗口样式
         self._apply_main_window_style()
@@ -99,6 +106,10 @@ class MainWindow(FluentWindow):
 
         # add sensor data interface
         self.addSubInterface(self.sensor_data_interface, FIF.BOOK_SHELF, "传感器数据管理",
+                             position=NavigationItemPosition.SCROLL)
+        self.addSubInterface(self.sensor_processing_interface, FIF.IOT, "传感器数据处理",
+                             position=NavigationItemPosition.SCROLL)
+        self.addSubInterface(self.recommendation_interface, FIF.ROBOT, "参数推荐",
                              position=NavigationItemPosition.SCROLL)
 
         if self.user_interface:
@@ -149,6 +160,43 @@ class MainWindow(FluentWindow):
         # retry to enable mica effect
         if self.isMicaEffectEnabled():
             QTimer.singleShot(100, lambda: self.windowEffect.setMicaEffect(self.winId(), isDarkTheme()))
+
+
+    def open_recommendation_for_task(self, task_code):
+        """从首页推荐概览跳转到参数推荐页并打开对应任务。"""
+        if not task_code:
+            return
+        self.switchTo(self.recommendation_interface)
+        if hasattr(self.recommendation_interface, "open_task_from_dashboard"):
+            self.recommendation_interface.open_task_from_dashboard(task_code)
+
+
+    def open_by_stat_card_route(self, route_key: str, filter_spec):
+        """首页统计卡跳转并触发目标页面筛选。"""
+        mapping = {
+            "processing_task": self.processing_task_interface,
+            "sensor_data": self.sensor_data_interface,
+            "recommendation": self.recommendation_interface,
+        }
+        target = mapping.get(route_key)
+        if not target:
+            return
+
+        self.switchTo(target)
+        filter_key = getattr(filter_spec, "key", "") if filter_spec else ""
+        if filter_key and hasattr(target, "apply_dashboard_filter"):
+            target.apply_dashboard_filter(filter_key)
+
+    def open_by_warning_route(self, route_key: str):
+        """从首页预警与待办中心跳转到对应页面。"""
+        route_mapping = {
+            "sensor_processing": self.sensor_processing_interface,
+            "recommendation": self.recommendation_interface,
+            "tool": self.tool_interface,
+        }
+        target = route_mapping.get(route_key)
+        if target:
+            self.switchTo(target)
 
     def logout(self):
         """ 触发退出登录 """
@@ -208,4 +256,3 @@ class MainWindow(FluentWindow):
         # 更新前一个界面的引用
         self.previous_interface = current_widget
         logger.debug(f"已更新 previous_interface 为: {interface_name}")
-

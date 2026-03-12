@@ -8,6 +8,7 @@ from ..common.config import cfg, HELP_URL, REPO_URL, EXAMPLE_URL, FEEDBACK_URL
 from ..common.icon import Icon, FluentIconBase
 from ..components.link_card import LinkCardView
 from ..components.sample_card import SampleCardView
+from ..components.sensor_analysis_overview import SensorDataOverviewWidget
 from ..common.style_sheet import StyleSheet
 
 
@@ -120,7 +121,17 @@ class HomeInterface(ScrollArea):
         self.vBoxLayout.setContentsMargins(0, 0, 0, 36)
         self.vBoxLayout.setSpacing(40)
         self.vBoxLayout.addWidget(self.banner)
+
+        self.sensorOverviewWidget = SensorDataOverviewWidget(self.view)
+        self.sensorOverviewWidget.openAnalysisRequested.connect(self._openSensorAnalysisPage)
+        self.vBoxLayout.addWidget(self.sensorOverviewWidget)
+
         self.vBoxLayout.setAlignment(Qt.AlignTop)
+
+    def _openSensorAnalysisPage(self):
+        window = self.window()
+        if hasattr(window, 'switchTo') and hasattr(window, 'sensorAnalysisInterface'):
+            window.switchTo(window.sensorAnalysisInterface)
 
     def loadSamples(self):
         """ load samples """

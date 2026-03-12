@@ -15,7 +15,12 @@ from .views import (
     ProcessingQualityViewSet,
     ToolWearRecordViewSet,
     TaskGroupViewSet,
-    UserInfoView
+    UserInfoView,
+    health_api,
+    generate_damage_dataset_api,
+    train_damage_model_api,
+    predict_damage_api,
+    recommend_by_level_api,
 )
 
 # 创建路由器并注册视图集
@@ -39,6 +44,11 @@ router.register(r'task-groups', TaskGroupViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('health/', health_api, name='health'),
+    path('model/generate-damage-dataset/', generate_damage_dataset_api, name='generate_damage_dataset'),
+    path('model/train-damage-model/', train_damage_model_api, name='train_damage_model'),
+    path('model/predict-damage/', predict_damage_api, name='predict_damage'),
+    path('model/recommend-by-level/', recommend_by_level_api, name='recommend_by_level'),
     path('login/', LoginView.as_view(), name='api_login'),
     path('user-info/', UserInfoView.as_view(), name='user_info'),
-] 
+]

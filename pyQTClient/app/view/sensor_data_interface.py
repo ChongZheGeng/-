@@ -8,6 +8,7 @@ from qfluentwidgets import (TableWidget, PrimaryPushButton, MessageBox, InfoBar,
 from .nav_interface import NavInterface
 from ..api.api_client import api_client
 from ..api.data_manager import interface_loader
+from ..services.system_overview_linkage_manager import system_overview_linkage_manager
 
 # 设置logger
 logger = logging.getLogger(__name__)
@@ -17,6 +18,7 @@ from ..common.config import get_webdav_credentials
 import os
 from datetime import datetime
 from .components.sensor_data_component import SensorDataUploadDialog, SensorDataEditDialog
+from .components.sensor_analysis_dialog import SensorDataAnalysisDialog
 
 
 class SensorDataInterface(NavInterface):
@@ -26,6 +28,8 @@ class SensorDataInterface(NavInterface):
         super().__init__(parent=parent)
         self.setObjectName("SensorDataInterface")
         self.worker = None
+        self.current_records = []
+        self._is_active = False
 
         self.main_layout = QVBoxLayout(self.view)
         self.main_layout.setContentsMargins(40, 30, 40, 30)
@@ -45,6 +49,10 @@ class SensorDataInterface(NavInterface):
         self.add_button = PrimaryPushButton("上传数据文件")
         self.add_button.setIcon(FIF.ADD)
         title_layout.addWidget(self.add_button)
+
+        self.analyze_button = PushButton("打开处理页面")
+        self.analyze_button.setIcon(FIF.SEARCH)
+        title_layout.addWidget(self.analyze_button)
 
         self.main_layout.addLayout(title_layout)
 
@@ -68,6 +76,7 @@ class SensorDataInterface(NavInterface):
         # --- 信号连接 ---
         self.add_button.clicked.connect(self.upload_data_file)
         self.sync_button.clicked.connect(self.sync_files_with_database)
+        self.analyze_button.clicked.connect(self.open_processing_interface)
 
         # --- 移除初始化时的数据加载调用，改为在on_activated中加载 ---
 
@@ -125,6 +134,7 @@ class SensorDataInterface(NavInterface):
 
     def on_activated(self):
         """界面激活时的回调方法 - 按需加载数据并自动同步文件"""
+        self._is_active = True
         try:
             # 首先进行文件同步（静默执行）
             credentials = get_webdav_credentials()
@@ -159,6 +169,7 @@ class SensorDataInterface(NavInterface):
         当界面被切换离开时调用。
         可以在此处进行一些清理工作，如取消正在进行的请求。
         """
+        self._is_active = False
         if hasattr(self, 'worker') and self.worker:
             self.worker.cancel()
             logger.debug("SensorDataInterface 被切换离开，已取消数据加载请求")
@@ -192,7 +203,12 @@ class SensorDataInterface(NavInterface):
         """处理接收到的传感器数据（现在主要用于日志记录或额外操作）"""
         # 当使用了 column_mapping 自动填充时，表格填充已由 InterfaceDataLoader 自动处理
         # 这里只进行日志记录和任何需要的额外操作
+        if not self._is_active:
+            logger.debug("SensorDataInterface 已失活，忽略数据回调")
+            return
+
         if hasattr(self, 'column_mapping') and self.column_mapping:
+            self.current_records = response.get('results', []) if response else []
             total = response.get('count', 0) if response else 0
             logger.info(f"SensorDataInterface 成功接收并处理了 {total} 条传感器数据。")
             return
@@ -205,6 +221,62 @@ class SensorDataInterface(NavInterface):
         """处理传感器数据加载错误"""
         # InfoBar 错误提示已由 InterfaceDataLoader 自动处理
         logger.error(f"传感器数据加载失败: {error_message}")
+
+
+
+    def apply_dashboard_filter(self, filter_key: str):
+        """应用来自首页统计卡的筛选。"""
+        try:
+            response = api_client.get_sensor_data() or {}
+            records = response.get("results", []) if isinstance(response, dict) else []
+            if filter_key == "pending_analysis":
+                records = system_overview_linkage_manager.filter_pending_analysis_records(records)
+
+            # 重用列映射，快速刷新表格
+            fake_response = {"results": records, "count": len(records)}
+            interface_loader._prepare_table(self.table, self.column_mapping)
+            interface_loader._populate_table_automatically(self.table, self.column_mapping, fake_response)
+            self.current_records = records
+            InfoBar.success("筛选已应用", f"{filter_key}：{len(records)} 条", parent=self)
+        except Exception as e:
+            logger.error(f"应用首页筛选失败: {e}")
+            self.on_data_error(str(e))
+
+    def open_analysis_dialog(self):
+        row = self.table.currentRow()
+        if row < 0:
+            InfoBar.warning("提示", "请先选中一条传感器数据", parent=self)
+            return
+
+        if row >= len(self.current_records):
+            InfoBar.warning("提示", "未找到选中记录的原始数据，请刷新后重试", parent=self)
+            return
+
+        record = self.current_records[row]
+        dialog = SensorDataAnalysisDialog(sensor_data=record, parent=self.window())
+        dialog.exec()
+
+
+    def open_processing_interface(self):
+        row = self.table.currentRow()
+        if row < 0:
+            InfoBar.warning("提示", "请先选中一条传感器数据", parent=self)
+            return
+
+        if row >= len(self.current_records):
+            InfoBar.warning("提示", "未找到选中记录的原始数据，请刷新后重试", parent=self)
+            return
+
+        record = self.current_records[row]
+        main_window = self.window()
+
+        if not hasattr(main_window, "sensor_processing_interface"):
+            InfoBar.error("错误", "传感器处理页面不可用", parent=self)
+            return
+
+        processing_interface = main_window.sensor_processing_interface
+        processing_interface.set_current_record(record)
+        main_window.switchTo(processing_interface)
 
     def upload_data_file(self):
         """ 上传数据文件 """
