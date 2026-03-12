@@ -16,23 +16,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def get_fluent_icon(icon_names):
-    """按优先级安全获取 FluentIcon，避免枚举缺失导致崩溃"""
-    if not icon_names:
-        return FIF.INFO
-
-    first_name = icon_names[0]
-    for name in icon_names:
-        icon = getattr(FIF, name, None)
-        if icon is not None:
-            if name != first_name:
-                logger.warning(f"[dashboard] icon {first_name} not found, fallback to {name}")
-            return icon
-
-    logger.warning(f"[dashboard] icons {icon_names} not found, fallback to INFO")
-    return FIF.INFO
-
-
 class StatCard(CardWidget):
     """统计卡片组件"""
     
@@ -97,7 +80,7 @@ class TaskStatusCard(CardWidget):
         
         # 标题
         title_layout = QHBoxLayout()
-        icon_widget = IconWidget(get_fluent_icon(["CALENDAR", "DATE_TIME", "INFO"]), self)
+        icon_widget = IconWidget(FIF.CALENDAR, self)
         icon_widget.setFixedSize(24, 24)
         title_label = StrongBodyLabel("任务状态分布")
         setFont(title_label, 16)
@@ -175,7 +158,7 @@ class RecentActivityCard(CardWidget):
         
         # 标题
         title_layout = QHBoxLayout()
-        icon_widget = IconWidget(get_fluent_icon(["HISTORY", "INFO", "IMPORTANT"]), self)
+        icon_widget = IconWidget(FIF.HISTORY, self)
         icon_widget.setFixedSize(24, 24)
         title_label = StrongBodyLabel("最近活动")
         setFont(title_label, 16)
@@ -217,10 +200,7 @@ class RecentActivityCard(CardWidget):
             activity_layout.setSpacing(12)
             
             # 活动图标
-            if activity.get('type') == 'completed':
-                icon = get_fluent_icon(["ACCEPT", "COMPLETED", "INFO"])
-            else:
-                icon = get_fluent_icon(["EDIT", "INFO", "IMPORTANT"])
+            icon = FIF.ACCEPT if activity.get('type') == 'completed' else FIF.EDIT
             icon_widget = IconWidget(icon, self)
             icon_widget.setFixedSize(18, 18)
             
@@ -277,10 +257,10 @@ class DashboardInterface(NavInterface):
         stats_layout.setSpacing(20)
         
         # 创建统计卡片
-        self.user_card = StatCard("总用户数", "0", get_fluent_icon(["PEOPLE", "CONTACT", "INFO"]), "#0078d4")
-        self.task_card = StatCard("总任务数", "0", get_fluent_icon(["CALENDAR", "DATE_TIME", "INFO"]), "#107c10")
-        self.pending_card = StatCard("待处理任务", "0", get_fluent_icon(["WARNING", "IMPORTANT", "INFO"]), "#ffaa44")
-        self.sensor_card = StatCard("传感器数据", "0", get_fluent_icon(["IOT", "ROBOT", "INFO"]), "#8764b8")
+        self.user_card = StatCard("总用户数", "0", FIF.PEOPLE, "#0078d4")
+        self.task_card = StatCard("总任务数", "0", FIF.CALENDAR, "#107c10")
+        self.pending_card = StatCard("待处理任务", "0", FIF.DATE_TIME, "#ffaa44")
+        self.sensor_card = StatCard("传感器数据", "0", FIF.IOT, "#8764b8")
         
         # 添加到布局
         stats_layout.addWidget(self.user_card)

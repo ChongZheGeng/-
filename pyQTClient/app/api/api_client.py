@@ -43,12 +43,11 @@ class ApiClient:
         """ 调用新的JSON登录接口 """
         login_url = f"{API_BASE_URL}/login/"
         try:
+            # 首先获取CSRF令牌
+            self.session.get(API_BASE_URL)
+            
             # 发送登录请求
-            response = self.session.post(
-                login_url,
-                json={'username': username, 'password': password},
-                timeout=10
-            )
+            response = self.session.post(login_url, json={'username': username, 'password': password})
             
             if response.status_code == 200:
                 # 登录成功，保存CSRF令牌（如果有）
@@ -62,49 +61,12 @@ class ApiClient:
                 return True, "登录成功"
             
             # 从响应中获取更详细的错误信息
-            error_message = self._parse_error_message(response)
+            error_message = response.json().get('error', '未知错误')
             return False, error_message
 
-        except requests.exceptions.Timeout:
-            return False, "登录接口超时"
         except requests.exceptions.RequestException as e:
             print(f"API 登录错误: {e}")
             return False, f"网络错误，请检查后端服务是否运行。"
-
-    def clear_login_state(self):
-        """清理登录状态，避免半登录状态残留"""
-        self.current_user = None
-        self.csrf_token = None
-        config.set_admin_status(False)
-
-    def _parse_error_message(self, response):
-        """统一解析后端错误信息，优先展示可读提示"""
-        default_message = f"请求失败（HTTP {response.status_code}）"
-
-        try:
-            payload = response.json()
-        except ValueError:
-            payload = {}
-
-        if isinstance(payload, dict):
-            for key in ('detail', 'error', 'message'):
-                value = payload.get(key)
-                if isinstance(value, str) and value.strip():
-                    return value
-
-            # 兼容 DRF 字段错误格式，如 {'non_field_errors': ['...']}
-            for value in payload.values():
-                if isinstance(value, list) and value and isinstance(value[0], str):
-                    return value[0]
-
-        if response.status_code == 403:
-            return "访问被拒绝（可能是 CSRF token missing 或权限不足）"
-        if response.status_code == 400:
-            return "请求参数错误"
-        if response.status_code >= 500:
-            return "服务器内部错误，请稍后重试"
-
-        return default_message
 
     def _request(self, method, endpoint, **kwargs):
         """ 使用会话封装请求逻辑 """

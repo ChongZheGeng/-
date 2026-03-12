@@ -8,10 +8,6 @@ from django.contrib.auth import login, logout, get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
-import logging
-
-# 业务日志
-logger = logging.getLogger('process_data')
 
 from .models import (
     ProcessCategory,
@@ -77,34 +73,22 @@ class LoginView(views.APIView):
     接收用户名和密码，成功则登录并返回用户信息，失败则返回错误信息。
     """
     permission_classes = [permissions.AllowAny]  # 允许任何用户访问此视图
-    authentication_classes = []  # 桌面端 JSON 登录接口不强制 Session/CSRF
 
     def post(self, request, *args, **kwargs):
-        logger.info("[api/login] request received")
         username = request.data.get('username')
         password = request.data.get('password')
-
-        if not username or not password:
-            logger.warning("[api/login] missing username or password")
-            return Response(
-                {"error": "用户名或密码错误"},
-                status=status.HTTP_400_BAD_REQUEST
-            )
         
         from django.contrib.auth import authenticate
         user = authenticate(request, username=username, password=password)
         
         if user is not None:
             login(request, user)
-            logger.info(f"[api/login] login success: user={user.username}")
             return Response({
                 'id': user.id,
                 'username': user.username,
-                'email': user.email,
-                'is_superuser': user.is_superuser
+                'email': user.email
             }, status=status.HTTP_200_OK)
         else:
-            logger.warning(f"[api/login] login failed for username={username}")
             return Response(
                 {"error": "用户名或密码错误"}, 
                 status=status.HTTP_400_BAD_REQUEST
