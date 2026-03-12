@@ -141,7 +141,8 @@ class ApiClient:
                 return True, "登录成功"
 
             try:
-                error_message = response.json().get('error', '未知错误')
+                error_json = response.json()
+                error_message = error_json.get('error') or error_json.get('detail') or '未知错误'
             except ValueError:
                 error_message = (response.text or '未知错误')[:200]
 

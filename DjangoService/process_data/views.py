@@ -177,6 +177,7 @@ class LoginView(views.APIView):
     接收用户名和密码，成功则登录并返回用户信息，失败则返回错误信息。
     """
     permission_classes = [permissions.AllowAny]  # 允许任何用户访问此视图
+    authentication_classes = []  # 桌面客户端登录不依赖SessionAuthentication，避免触发CSRF校验
 
     def post(self, request, *args, **kwargs):
         request_start = time.perf_counter()
