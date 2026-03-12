@@ -86,6 +86,58 @@ def health_api(request):
     )
 
 
+@api_view(['POST'])
+@permission_classes([permissions.AllowAny])
+def recommend_api(request):
+    """最小可用参数推荐/预测接口。"""
+    data = request.data if isinstance(request.data, dict) else {}
+
+    objective = str(data.get('objective') or 'A_damage')
+    model_type = str(data.get('model_type') or 'quad')
+
+    try:
+        input_n = float(data.get('n'))
+        input_fz = float(data.get('fz'))
+    except (TypeError, ValueError):
+        return Response(
+            {
+                'success': False,
+                'error': '参数 n 和 fz 必须是合法数值',
+            },
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    # 基础规则预测：保证接口稳定可用，后续可替换为真实模型
+    # A_damage 对转速更敏感，F_damage 对进给更敏感
+    a_damage = max(0.0, 1.2e-4 * input_n + 8.0 * input_fz)
+    f_damage = max(0.0, 8.0e-5 * input_n + 12.0 * input_fz)
+
+    objective_key = objective if objective in {'A_damage', 'F_damage'} else 'A_damage'
+    predicted_value = a_damage if objective_key == 'A_damage' else f_damage
+
+    return Response(
+        {
+            'success': True,
+            'mode': 'prediction',
+            'objective': objective_key,
+            'model_type': model_type,
+            'input_n': input_n,
+            'input_fz': input_fz,
+            'predicted_value': predicted_value,
+            # 向前兼容已有前端展示结构
+            'prediction': {
+                'A_damage': a_damage,
+                'F_damage': f_damage,
+            },
+            'best': {
+                'n': input_n,
+                'fz': input_fz,
+            },
+        },
+        status=status.HTTP_200_OK,
+    )
+
+
 @method_decorator(csrf_exempt, name='dispatch')
 class LoginView(views.APIView):
     """
