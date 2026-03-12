@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QGra
 
 from qfluentwidgets import (CardWidget, SubtitleLabel, BodyLabel, StrongBodyLabel, 
                             IconWidget, FluentIcon as FIF, InfoBar, ProgressBar, 
-                            TitleLabel, CaptionLabel, setFont)
+                            TitleLabel, CaptionLabel, PushButton, setFont)
 
 from .nav_interface import NavInterface
 
@@ -46,9 +46,9 @@ def get_fluent_icon(icon_names):
 class StatCard(CardWidget):
     """统计卡片组件"""
     
-    def __init__(self, title, value, icon, color="#0078d4", parent=None):
+    def __init__(self, title, value, icon, description="", color="#0078d4", parent=None):
         super().__init__(parent)
-        self.setFixedSize(280, 140)  # 固定大小，更美观
+        self.setFixedSize(230, 158)
         
         layout = QVBoxLayout(self)
         layout.setContentsMargins(24, 20, 24, 20)
@@ -72,9 +72,14 @@ class StatCard(CardWidget):
         
         # 数值显示
         self.value_label = TitleLabel(str(value))
-        self.value_label.setStyleSheet(f"color: {color}; font-size: 32px; font-weight: bold;")
-        setFont(self.value_label, 32)
+        self.value_label.setStyleSheet(f"color: {color}; font-size: 30px; font-weight: bold;")
+        setFont(self.value_label, 30)
         layout.addWidget(self.value_label)
+
+        self.desc_label = CaptionLabel(description)
+        self.desc_label.setStyleSheet("color: #888;")
+        setFont(self.desc_label, 12)
+        layout.addWidget(self.desc_label)
         
         layout.addStretch()
         
@@ -222,6 +227,13 @@ class RecentActivityCard(CardWidget):
                 child.widget().deleteLater()
         
         # 添加新活动
+        if not activities:
+            empty_label = CaptionLabel("暂无最近活动")
+            empty_label.setStyleSheet("color: #999;")
+            setFont(empty_label, 12)
+            self.activity_layout.addWidget(empty_label)
+            return
+
         for activity in activities[:5]:  # 只显示最近5条
             activity_layout = QHBoxLayout()
             activity_layout.setSpacing(12)
@@ -249,6 +261,85 @@ class RecentActivityCard(CardWidget):
             self.activity_layout.addLayout(activity_layout)
 
 
+class ModuleCapabilityCard(CardWidget):
+    """系统能力小卡片"""
+
+    def __init__(self, title, description, status_text, icon, status_color="#0a805e", parent=None):
+        super().__init__(parent)
+        self.setFixedSize(390, 120)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(20, 16, 20, 16)
+        layout.setSpacing(8)
+
+        top_layout = QHBoxLayout()
+        icon_widget = IconWidget(icon, self)
+        icon_widget.setFixedSize(20, 20)
+        name_label = StrongBodyLabel(title)
+        setFont(name_label, 14)
+
+        status_label = CaptionLabel(status_text)
+        status_label.setStyleSheet(
+            f"background-color: {status_color}; color: white; border-radius: 8px; padding: 2px 8px;"
+        )
+
+        top_layout.addWidget(icon_widget)
+        top_layout.addWidget(name_label)
+        top_layout.addStretch()
+        top_layout.addWidget(status_label)
+
+        desc_label = CaptionLabel(description)
+        desc_label.setWordWrap(True)
+        desc_label.setStyleSheet("color: #666;")
+        setFont(desc_label, 12)
+
+        layout.addLayout(top_layout)
+        layout.addWidget(desc_label)
+
+
+class SummaryCard(CardWidget):
+    """摘要卡片（参数推荐/传感器分析）"""
+
+    def __init__(self, title, icon, highlight_lines, capability_lines, button_text, button_icon, click_callback, parent=None):
+        super().__init__(parent)
+        self.setFixedSize(400, 240)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(20, 16, 20, 16)
+        layout.setSpacing(8)
+
+        title_layout = QHBoxLayout()
+        icon_widget = IconWidget(icon, self)
+        icon_widget.setFixedSize(22, 22)
+        title_label = StrongBodyLabel(title)
+        setFont(title_label, 16)
+
+        title_layout.addWidget(icon_widget)
+        title_layout.addWidget(title_label)
+        title_layout.addStretch()
+        layout.addLayout(title_layout)
+
+        for line in highlight_lines:
+            label = BodyLabel(f"• {line}")
+            label.setWordWrap(True)
+            label.setStyleSheet("color: #333;")
+            setFont(label, 13)
+            layout.addWidget(label)
+
+        for line in capability_lines:
+            c_label = CaptionLabel(f"- {line}")
+            c_label.setWordWrap(True)
+            c_label.setStyleSheet("color: #666;")
+            setFont(c_label, 12)
+            layout.addWidget(c_label)
+
+        layout.addStretch()
+        action_button = PushButton(button_text)
+        action_button.setIcon(button_icon)
+        action_button.clicked.connect(click_callback)
+        layout.addWidget(action_button, alignment=Qt.AlignLeft)
+
+
 class DashboardInterface(NavInterface):
     """看板界面"""
     
@@ -261,15 +352,30 @@ class DashboardInterface(NavInterface):
         
         self.main_layout = QVBoxLayout(self.view)
         self.main_layout.setContentsMargins(40, 30, 40, 30)
-        self.main_layout.setSpacing(30)
+        self.main_layout.setSpacing(20)
         
         # 标题
         title_label = SubtitleLabel("系统概览")
         setFont(title_label, 24)
+        subtitle_label = BodyLabel("复合材料加工数据管理与智能分析平台")
+        subtitle_label.setStyleSheet("color: #666;")
+        setFont(subtitle_label, 14)
+        description_label = CaptionLabel("覆盖任务管理、刀具/构件数据管理、传感器数据处理与参数推荐决策，面向复合材料加工任务的数据管理与智能决策支持平台")
+        description_label.setStyleSheet("color: #888;")
+        description_label.setWordWrap(True)
+
         self.main_layout.addWidget(title_label)
+        self.main_layout.addWidget(subtitle_label)
+        self.main_layout.addWidget(description_label)
         
         # 统计卡片网格
         self.create_stat_cards()
+
+        # 系统能力概览
+        self.create_capability_cards()
+
+        # 智能分析摘要
+        self.create_intelligence_summary()
         
         # 详细信息卡片
         self.create_detail_cards()
@@ -284,24 +390,100 @@ class DashboardInterface(NavInterface):
         stats_layout.setSpacing(20)
         
         # 创建统计卡片
-        self.user_card = StatCard("总用户数", "0", get_fluent_icon(["PEOPLE", "CONTACT", "INFO"]), "#0078d4")
-        self.task_card = StatCard("总任务数", "0", get_fluent_icon(["CALENDAR", "DATE_TIME", "INFO"]), "#107c10")
-        self.pending_card = StatCard("待处理任务", "0", get_fluent_icon(["WARNING", "IMPORTANT", "INFO"]), "#ffaa44")
-        self.sensor_card = StatCard("传感器数据", "0", get_fluent_icon(["IOT", "ROBOT", "INFO"]), "#8764b8")
+        self.user_card = StatCard("总用户数", "0", get_fluent_icon(["PEOPLE", "CONTACT", "INFO"]), "当前平台可登录用户", "#0078d4")
+        self.task_card = StatCard("总任务数", "0", get_fluent_icon(["CALENDAR", "DATE_TIME", "INFO"]), "累计加工任务记录", "#107c10")
+        self.pending_card = StatCard("待处理任务", "0", get_fluent_icon(["IMPORTANT", "INFO", "CALENDAR"]), "计划中与进行中任务", "#ffaa44")
+        self.sensor_card = StatCard("传感器数据量", "0", get_fluent_icon(["IOT", "ROBOT", "INFO"]), "已入库传感器数据", "#8764b8")
+        self.recommendation_card = StatCard("参数推荐次数", "0", get_fluent_icon(["ROBOT", "INFO", "IOT"]), "智能推荐调用记录", "#0a805e")
+        self.analysis_card = StatCard("分析记录数", "0", get_fluent_icon(["BOOK_SHELF", "DOCUMENT", "INFO"]), "传感器分析处理记录", "#5c2d91")
         
         # 添加到布局
         stats_layout.addWidget(self.user_card)
         stats_layout.addWidget(self.task_card)
         stats_layout.addWidget(self.pending_card)
         stats_layout.addWidget(self.sensor_card)
-        stats_layout.addStretch()
+        stats_layout.addWidget(self.recommendation_card)
+        stats_layout.addWidget(self.analysis_card)
         
         self.main_layout.addLayout(stats_layout)
+
+    def create_capability_cards(self):
+        """创建系统能力概览区"""
+        capability_title = StrongBodyLabel("系统能力概览")
+        setFont(capability_title, 17)
+        self.main_layout.addWidget(capability_title)
+
+        capability_grid = QGridLayout()
+        capability_grid.setHorizontalSpacing(20)
+        capability_grid.setVerticalSpacing(16)
+
+        cards = [
+            ModuleCapabilityCard("任务管理", "支持加工任务全流程录入、状态跟踪与进度管理", "已启用", get_fluent_icon(["CALENDAR", "DATE_TIME", "INFO"])),
+            ModuleCapabilityCard("构件与刀具管理", "支持构件、刀具基础数据统一管理与关联查询", "已启用", get_fluent_icon(["DEVELOPER_TOOLS", "TILES", "INFO"])),
+            ModuleCapabilityCard("传感器数据处理", "支持波形查看、基础处理、特征提取与结果导出", "已集成", get_fluent_icon(["IOT", "ROBOT", "INFO"])),
+            ModuleCapabilityCard("参数推荐决策", "支持基于目标损伤等级的参数推荐与结果参考展示", "可用", get_fluent_icon(["ROBOT", "IOT", "INFO"]))
+        ]
+
+        for index, card in enumerate(cards):
+            capability_grid.addWidget(card, index // 2, index % 2)
+
+        self.main_layout.addLayout(capability_grid)
+
+    def create_intelligence_summary(self):
+        """创建智能分析摘要区"""
+        summary_title = StrongBodyLabel("智能分析摘要")
+        setFont(summary_title, 17)
+        self.main_layout.addWidget(summary_title)
+
+        summary_layout = QHBoxLayout()
+        summary_layout.setSpacing(20)
+
+        self.recommendation_summary_card = SummaryCard(
+            "参数推荐摘要",
+            get_fluent_icon(["ROBOT", "IOT", "INFO"]),
+            [
+                "最近一次推荐结果：暂无推荐记录",
+                "支持目标：低损伤 / 高效率 / 综合最优"
+            ],
+            [
+                "输入变量：材料、刀具、转速、每齿进给等",
+                "已集成推荐结果与参考样本展示"
+            ],
+            "进入参数推荐",
+            get_fluent_icon(["ROBOT", "IOT", "INFO"]),
+            self.goto_recommendation_page
+        )
+
+        self.sensor_summary_card = SummaryCard(
+            "传感器分析摘要",
+            get_fluent_icon(["IOT", "ROBOT", "INFO"]),
+            [
+                "最近处理记录：暂无分析记录",
+                "支持功能：波形显示、基础处理、特征提取、导出"
+            ],
+            [
+                "已集成传感器波形处理页面",
+                "支持分析结果导出与记录管理"
+            ],
+            "进入传感器处理",
+            get_fluent_icon(["IOT", "ROBOT", "INFO"]),
+            self.goto_sensor_processing_page
+        )
+
+        summary_layout.addWidget(self.recommendation_summary_card)
+        summary_layout.addWidget(self.sensor_summary_card)
+        summary_layout.addStretch()
+
+        self.main_layout.addLayout(summary_layout)
     
     def create_detail_cards(self):
         """创建详细信息卡片"""
         detail_layout = QHBoxLayout()
         detail_layout.setSpacing(20)
+
+        detail_title = StrongBodyLabel("运行状态与最近活动")
+        setFont(detail_title, 17)
+        self.main_layout.addWidget(detail_title)
         
         # 任务状态卡片
         self.task_status_card = TaskStatusCard()
@@ -400,6 +582,12 @@ class DashboardInterface(NavInterface):
                 if hasattr(self, 'activity_card') and self.activity_card:
                     activities = self.generate_recent_activities(tasks_data)
                     self.activity_card.update_activities(activities)
+
+                # 参数推荐次数 / 分析记录数（当前无后端统计，使用稳定 fallback）
+                if hasattr(self, 'recommendation_card'):
+                    self.recommendation_card.update_value(0)
+                if hasattr(self, 'analysis_card'):
+                    self.analysis_card.update_value(0)
                 
                 logger.debug(f"任务数据更新: 总数={total_tasks}, 待处理={pending_count}")
         except Exception as e:
@@ -424,6 +612,18 @@ class DashboardInterface(NavInterface):
             logger.error(f"看板数据加载失败: {error_message}")
         except Exception as e:
             logger.error(f"处理API错误时出错: {e}")
+
+    def goto_recommendation_page(self):
+        """跳转到参数推荐页面"""
+        main_window = self.window()
+        if hasattr(main_window, 'switchTo') and hasattr(main_window, 'recommendation_interface'):
+            main_window.switchTo(main_window.recommendation_interface)
+
+    def goto_sensor_processing_page(self):
+        """跳转到传感器处理页面"""
+        main_window = self.window()
+        if hasattr(main_window, 'switchTo') and hasattr(main_window, 'sensor_processing_interface'):
+            main_window.switchTo(main_window.sensor_processing_interface)
     
     def generate_recent_activities(self, tasks_data):
         """生成最近活动列表"""
